@@ -1,51 +1,54 @@
 #!/usr/bin/python
 
-import csv, sys, time
+import csv, redis, sys, time, uuid
 
-def output_file(ouput):
-    fo = open(ouput, 'w')
-    return fo
+def redis_server(server):
+    # connect to the redis server
+    try:
+        r_server = redis.Redis(server)
+    except:
+        print "Redis server failure"
+        sys.exit(0)
+    return r_server
 
-def process_csv(header, input, fo):
+def process_csv(input, r_server):
+    j = 0
     with open(input, 'rb') as csvfile:
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
-        if header == 1:
-            hrow = reader.next()
+        hrow = reader.next()
         for row in reader:
-            print row
-
-
-    print "header: ",hrow
+            r_uuid = str(uuid.uuid4())
+            i = 0
+            while i < len(hrow):
+                r_server.hset(r_uuid, hrow[i], row[i])
+                i += 1
+            #print "Added key: ",r_uuid
+            j += 1
+    print str(j), "keys added."
 
 def print_help():
-    print "\n-nh \tno header (default is first line is header)"
     print "-i \t<input file> (default is input.csv)"
-    print "-o \t<output file> (default is output.txt)"
+    print "-s \t<redis server> (default is localhost)"
     print "-h \thelp\n"
     sys.exit(0)
 
 def process_args(args):
     # default initialization
-    header = 1
     input = "input.csv"
-    output = "output.txt"
+    server = "localhost"
     
     # process args
     i = 0
     while i < len(args):
-        if args[i] == "-nh":
-            header = 0
-        elif args[i] == "-i":
+        if args[i] == "s":
             try:
-                input = args[i+1]
+                server = args[i+1]
                 i += 1
             except:
                 print_help()
-        elif args[i] == "-o":
+        elif args[i] == "-i":
             try:
-                output = args[i+1]
-                f = open(output, 'w')
-                f.close()
+                input = args[i+1]
                 i += 1
             except:
                 print_help()
@@ -57,7 +60,7 @@ def process_args(args):
         f.close()
     except:
         print_help()
-    return header, input, output
+    return input, server
 
 def get_args():
     args = []
@@ -68,7 +71,7 @@ def get_args():
 if __name__ == "__main__":
     start_time = time.time()
     args = get_args()
-    header, input, output = process_args(args)
-    fo = output_file(output)
-    process_csv(header, input, fo)
+    input, server = process_args(args)
+    r_server = redis_server(server)
+    process_csv(input, r_server)
     print "Took",time.time() - start_time,"seconds to complete."
