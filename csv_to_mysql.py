@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import csv, getpass, sys, time, uuid
+import csv, getpass, sys, time
 import MySQLdb as mdb
 
 def get_auth():
@@ -17,25 +17,43 @@ def mysql_server(server, user, pw, db):
         sys.exit(0)
     return m_server
 
-def process_csv(input, m_server):
+def process_csv(input, m_server, table):
     j = 0
     with open(input, 'rb') as csvfile:
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
         hrow = reader.next()
-        for row in reader:
-            m_uuid = str(uuid.uuid4())
+        with m_server:
+            cur = m_server.cursor()
+            create_table = "CREATE TABLE IF NOT EXISTS `"+table+"`(Id INT PRIMARY KEY AUTO_INCREMENT, " 
             i = 0
             while i < len(hrow):
-                # TODO insert into mysql table
+                create_table += "`"+hrow[i]+"` VARCHAR(200), "
                 i += 1
-            #print "Added key: ",m_uuid
-            j += 1
+            create_table = create_table[:-2]+")"
+            cur.execute(create_table)
+            for row in reader:
+                data = "INSERT INTO `"+table+"`("
+                i = 0
+                while i < len(hrow):
+                    data += "`"+hrow[i]+"`, " 
+                    i += 1
+                data = data[:-2]+") VALUES("
+                i = 0
+                while i < len(hrow):
+                    data += "\""+row[i]+"\", "
+                    i += 1
+                data = data[:-2]+")"
+                cur.execute(data)
+                j += 1
+    m_server.commit()
+    m_server.close()
     print str(j), "keys added."
 
 def print_help():
     print "-i \t<input file> (default is input.csv)"
     print "-s \t<mysql server> (default is localhost)"
     print "-d \t<database name> (default is test)"
+    print "-t \t<table name> (default is table1)"
     print "-h \thelp\n"
     sys.exit(0)
 
@@ -44,6 +62,7 @@ def process_args(args):
     input = "input.csv"
     server = "localhost"
     db = "test"
+    table = "table1"
     
     # process args
     i = 0
@@ -57,6 +76,12 @@ def process_args(args):
         elif args[i] == "-d":
             try:
                 db = args[i+1]
+                i += 1
+            except:
+                print_help()
+        elif args[i] == "-t":
+            try:
+                table = args[i+1]
                 i += 1
             except:
                 print_help()
@@ -74,7 +99,7 @@ def process_args(args):
         f.close()
     except:
         print_help()
-    return input, server, db
+    return input, server, db, table
 
 def get_args():
     args = []
@@ -85,8 +110,8 @@ def get_args():
 if __name__ == "__main__":
     start_time = time.time()
     args = get_args()
-    input, server, db = process_args(args)
+    input, server, db, table = process_args(args)
     user, pw = get_auth()
     m_server = mysql_server(server, user, pw, db)
-    process_csv(input, m_server)
+    process_csv(input, m_server, table)
     print "Took",time.time() - start_time,"seconds to complete."
