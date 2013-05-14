@@ -1,12 +1,11 @@
 #!/usr/bin/python
 
-import csv, sys, time, uuid
+import csv, getpass, sys, time, uuid
 import MySQLdb as mdb
 
 def get_auth():
-    user = input("Username:")
-    pw = input("Password:")
-    print user, pw
+    user = raw_input("Username:")
+    pw = getpass.getpass("Password:")
     return user, pw
 
 def mysql_server(server, user, pw, db):
@@ -49,13 +48,13 @@ def process_args(args):
     # process args
     i = 0
     while i < len(args):
-        if args[i] == "s":
+        if args[i] == "-s":
             try:
                 server = args[i+1]
                 i += 1
             except:
                 print_help()
-        elif args[i] == "d":
+        elif args[i] == "-d":
             try:
                 db = args[i+1]
                 i += 1

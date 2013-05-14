@@ -40,7 +40,7 @@ def process_args(args):
     # process args
     i = 0
     while i < len(args):
-        if args[i] == "s":
+        if args[i] == "-s":
             try:
                 server = args[i+1]
                 i += 1
