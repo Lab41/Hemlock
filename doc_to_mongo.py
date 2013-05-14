@@ -23,6 +23,12 @@ def process_doc(input, m_server, m_database, m_collection):
     j = 0
     k = 0
     for file in matches:
+        if len(docs) % 100 == 0 and len(docs) > 0:
+            m_collection.insert(docs)
+            print str(j), "total docs."
+            print str(k), "docs failed."
+            docs = []
+
         doc = open(file, 'r').read()
         try:
             doc = unicode(doc, "utf-8")
@@ -31,8 +37,9 @@ def process_doc(input, m_server, m_database, m_collection):
             j += 1
         except:
             k += 1
-    m_collection.insert(docs)
-    print str(j), "docs added."
+    if len(docs) > 0:
+        m_collection.insert(docs)
+    print str(j), "total docs."
     print str(k), "docs failed."
 
 def print_help():
