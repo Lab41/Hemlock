@@ -21,13 +21,19 @@ def process_doc(input, m_server, m_database, m_collection):
         for filename in fnmatch.filter(filenames, '*.txt'):
             matches.append(os.path.join(root, filename))
     j = 0
+    k = 0
     for file in matches:
         doc = open(file, 'r').read()
-        doc = {"doc": doc}
-        docs.append(doc)
-        j += 1
+        try:
+            doc = unicode(doc, "utf-8")
+            doc = {"doc": doc}
+            docs.append(doc)
+            j += 1
+        except:
+            k += 1
     m_collection.insert(docs)
     print str(j), "docs added."
+    print str(k), "docs failed."
 
 def print_help():
     print "-i \t<input path to files> (default is /mnt/)"
