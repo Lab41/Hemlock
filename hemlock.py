@@ -178,12 +178,14 @@ def process_action(action, var_d):
 
     x = [[]] # The empty row will have the header
 
-    for i in range(1,11):
-        x.append([i,i**2,i**3])
+    for key in var_d:
+        x.append([key[2:],var_d[key]])
 
     tab.add_rows(x)
-    tab.set_cols_align(['r','r','r'])
-    tab.header(['Number', 'Number Squared', 'Number Cubed'])
+    tab.set_cols_align(['c','c'])
+    tab.set_deco(tab.HEADER | tab.VLINES | tab.BORDER)
+    tab.set_chars(['-','|','+','-'])
+    tab.header(['Property', 'Value'])
     print tab.draw()
 
 if __name__ == "__main__":
