@@ -5,12 +5,16 @@ import sys, time
 HELP_COUNTER = 0
 
 def user_create(args, var_d):
+    # !! TODO need to flesh out the rest of the options
     arg_d = [
+        '--name',
+        '--email',
     ]
     return check_args(args, arg_d, var_d) 
 
 def user_delete(args, var_d):
     arg_d = [
+        '--uuid'
     ]
     return check_args(args, arg_d, var_d) 
 
@@ -21,16 +25,20 @@ def user_list(args, var_d):
 
 def user_get(args, var_d):
     arg_d = [
+        '--uuid'
     ]
     return check_args(args, arg_d, var_d) 
 
 def tenant_create(args, var_d):
+    # !! TODO need to flesh out the rest of the options
     arg_d = [
+        '--name'
     ]
     return check_args(args, arg_d, var_d) 
 
 def tenant_delete(args, var_d):
     arg_d = [
+        '--uuid'
     ]
     return check_args(args, arg_d, var_d) 
 
@@ -41,6 +49,7 @@ def tenant_list(args, var_d):
 
 def tenant_get(args, var_d):
     arg_d = [
+        '--uuid'
     ]
     return check_args(args, arg_d, var_d) 
 
@@ -51,10 +60,12 @@ def system_list(args, var_d):
 
 def system_get(args, var_d):
     arg_d = [
+        '--uuid'
     ]
     return check_args(args, arg_d, var_d) 
 
 def register_remote_system(args, var_d):
+    # !! TODO add map of operation vocabulary
     arg_d = [
         '--name',
         '--data_type',
@@ -69,6 +80,7 @@ def register_remote_system(args, var_d):
 
 def deregister_remote_system(args, var_d):
     arg_d = [
+        '--uuid'
     ]
     return check_args(args, arg_d, var_d) 
 
@@ -87,6 +99,7 @@ def register_local_system(args, var_d):
 
 def deregister_local_system(args, var_d):
     arg_d = [
+        '--uuid'
     ]
     return check_args(args, arg_d, var_d) 
 
@@ -118,6 +131,7 @@ def process_args(args):
     global HELP_COUNTER
     var_d = {}
 
+    # !! TODO add load data actions
     arg_actions = {
         'user-create' : user_create,
         'user-delete' : user_delete,
@@ -151,8 +165,15 @@ def get_args():
         args.append(arg)
     return args[1:]
 
+def process_action(action, var_d):
+    print action, var_d
+    # !! TODO save stuff to a db
+    # !! TODO do calls to and from couch
+    # !! TODO tie in with frontend stuff
+
 if __name__ == "__main__":
     start_time = time.time()
     args = get_args()
     var_d, action = process_args(args)
+    process_action(action, var_d)
     print "Took",time.time() - start_time,"seconds to complete."
