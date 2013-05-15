@@ -143,7 +143,7 @@ def process_args(args):
         HELP_COUNTER += 1
         print_help()
 
-    return var_d
+    return var_d, args[0]
 
 def get_args():
     args = []
@@ -154,5 +154,5 @@ def get_args():
 if __name__ == "__main__":
     start_time = time.time()
     args = get_args()
-    var_d = process_args(args)
+    var_d, action = process_args(args)
     print "Took",time.time() - start_time,"seconds to complete."
