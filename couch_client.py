@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import getpass, sys, time
+import getpass, json, sys, time, uuid
 from couchbase.client import Couchbase
 
 def get_auth():
@@ -23,6 +23,16 @@ def print_help():
     print "-h \thelp\n"
     sys.exit(0)
 
+def couch_operations(c_server, c_bucket):
+    try:
+        print c_bucket.get("357")[2]
+    except:
+        print "record not found in this bucket"
+    new_rec = { "test":"foo"}
+    id = str(uuid.uuid4())
+    print id
+    c_bucket.set(id, 0, 0, json.dumps(new_rec))
+    
 def process_args(args):
     # default initialization
     server = "localhost:8091"
@@ -60,5 +70,5 @@ if __name__ == "__main__":
     server, bucket = process_args(args)
     pw = get_auth()
     c_server, c_bucket = couch_server(server, bucket, pw)
-    #print c_bucket.get("357")[2]
+    couch_operations(c_server, c_bucket)
     print "Took",time.time() - start_time,"seconds to complete."
