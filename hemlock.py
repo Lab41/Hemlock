@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import getpass, sys, time
+import getpass, sys, time, uuid
 import MySQLdb as mdb
 import texttable as tt
 
@@ -23,7 +23,7 @@ def register_local_system(args, var_d):
         '--name'
         '--data_type',
         '--description',
-        '--tenant',
+        '--tenant_id',
         '--hostname',
         '--endpoint',
         '--poc_name',
@@ -37,7 +37,7 @@ def register_remote_system(args, var_d):
         '--name',
         '--data_type',
         '--description',
-        '--tenant',
+        '--tenant_id',
         '--hostname',
         '--port',
         '--remote_uri',
@@ -157,30 +157,30 @@ def print_help(action):
     if HELP_COUNTER >= 1:
         help_dict = {
             'deregister-local-system' : """
-            deregister-local-system (from a system, remove it from Hemlock)
-                --uuid (uuid of system)
-            """,
-            'deregister-remote-system' : """
             deregister-local-system (from Hemlock remove a system)
                 --uuid (uuid of system)
             """,
+            'deregister-remote-system' : """
+            deregister-remote-system (from a system remove it from Hemlock)
+                --uuid (uuid of system)
+            """,
             'register-local-system' : """
-            register-local-system (add a system from Hemlock)
+            register-local-system (from a system add it to Hemlock)
                 --name
                 --data_type
                 --description
-                --tenant
+                --tenant_id
                 --hostname
                 --endpoint
                 --poc_name
                 --poc_email
             """,
             'register-remote-system' : """
-            register-remote-system (from a system, add it to Hemlock)
+            register-remote-system (add a system from Hemlock)
                 --name
                 --data_type
                 --description
-                --tenant
+                --tenant_id
                 --hostname
                 --port
                 --remote_uri
@@ -319,19 +319,100 @@ def mysql_server(server, user, pw, db):
         sys.exit(0)
     return m_server
 
-def process_action(action, var_d):
-    print action, var_d
+def process_action(action, var_d, m_server):
     # !! TODO save stuff to a db
     # !! TODO do calls to and from couch
     # !! TODO tie in with frontend stuff
 
+    cur = m_server.cursor()
+    # ensure mysql tables exist
+    # !! TODO this needs to be fleshed out
+    user_table = "CREATE TABLE IF NOT EXISTS users(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), email VARCHAR(50), created DATETIME)"
+
+    system_table = "CREATE TABLE IF NOT EXISTS systems(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), data_type VARCHAR(50), description VARCHAR(200), tenant_id VARCHAR(36), endpoint VARCHAR(100), hostname VARCHAR(50), port VARCHAR(5), remote_uri VARCHAR(100), poc_name VARCHAR(50), poc_email VARCHAR(50), remote BOOL, created DATETIME, updated_data DATETIME)"
+    tenant_table = "CREATE TABLE IF NOT EXISTS tenants(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME)"
+
+    cur.execute(user_table)
+    cur.execute(system_table)
+    cur.execute(tenant_table)
+
+    # perform action with args against mysql table
+    uid = str(uuid.uuid4())
+    timestamp = time.strftime('%Y-%m-%d %H:%M:%S')
+    action_a = action.split("-")
+    data_action = ""
+    # used to ensure that the properties and values line up correctly
+    props = []
+    vals = []
+    for key in var_d:
+        props.append(key[2:])
+        vals.append(var_d[key])
+    props.append("uuid")
+    props.append("created")
+    vals.append(uid)
+    vals.append(timestamp)
+
+    if "system" in action_a:
+        # update to systems table
+        if "deregister" in action_a: 
+            # delete
+            # !! TODO
+            print
+        elif "register" in action_a:
+            # write
+            props.append("remote")
+            if "remote" in action_a:
+                vals.append("1")
+            else:
+                vals.append("0")
+            data_action = "INSERT INTO systems("
+            for prop in props:
+                data_action += prop+", "
+            data_action = data_action[:-2]+") VALUES("
+            for val in vals:
+                data_action += "\""+val+"\", "
+            data_action = data_action[:-2]+")"
+            
+        else:
+            # read only
+            # !! TODO
+            # list/get for systems
+            print
+        cur.execute(data_action)
+
+    else:
+        # update to tenants table
+        if "add" in action_a: 
+            # write
+            # !! TODO
+            print
+        elif "create" in action_a:
+            # write
+            # !! TODO
+            print
+        elif "delete" in action_a:
+            # delete
+            # !! TODO
+            print
+        else:
+            # read only
+            # !! TODO
+            # list/get for users and tenants
+            print
+        cur.execute(data_action)
+
+    m_server.commit()
+    m_server.close()
+    
     # !! TODO testing pretty printing tables
     tab = tt.Texttable()
 
     x = [[]] # The empty row will have the header
 
-    for key in var_d:
-        x.append([key[2:],var_d[key]])
+    i = 0
+    while i < len(props):
+        x.append([props[i],vals[i]])
+        i += 1
 
     tab.add_rows(x)
     tab.set_cols_align(['c','c'])
@@ -344,7 +425,7 @@ if __name__ == "__main__":
     start_time = time.time()
     args = get_args()
     var_d, action = process_args(args)
-    process_action(action, var_d)
     user, pw, db, server = get_auth()
     m_server = mysql_server(server, user, pw, db)
+    process_action(action, var_d, m_server)
     print "Took",time.time() - start_time,"seconds to complete."
