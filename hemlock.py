@@ -112,7 +112,10 @@ def check_args(args, arg_d, var_d):
         try:
             if args[i] in arg_d:
                 var_d[args[i]] = args[i+1]
-            arg_d.remove(args[i])
+                arg_d.remove(args[i])
+            else:
+                HELP_COUNTER += 1
+                i = len(args)
             i += 2
         except:
             HELP_COUNTER += 1
@@ -122,7 +125,7 @@ def check_args(args, arg_d, var_d):
 
 def print_help(action):
     global HELP_COUNTER
-    if HELP_COUNTER == 1:
+    if HELP_COUNTER >= 1:
         help_dict = {
             'deregister-local-system' : """
             deregister-local-system (from a system, remove it from Hemlock)
@@ -197,8 +200,8 @@ def print_help(action):
         if action in help_dict:
             print help_dict[action]
         else:
-            for action in help_dict:
-                print help_dict[action]
+            for key in sorted(help_dict.iterkeys()):
+                print help_dict[key]
         
         sys.exit()
 
@@ -225,6 +228,7 @@ def process_args(args):
     }
 
     # get action
+    action = ""
     try:
         action = args[0]
         arg_actions[action](args[1:], var_d)
