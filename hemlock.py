@@ -323,6 +323,7 @@ def process_action(action, var_d, m_server):
     # !! TODO save stuff to a db
     # !! TODO do calls to and from couch
     # !! TODO tie in with frontend stuff
+    # !! TODO try/except
 
     cur = m_server.cursor()
     # ensure mysql tables exist
@@ -372,12 +373,14 @@ def process_action(action, var_d, m_server):
             for val in vals:
                 data_action += "\""+val+"\", "
             data_action = data_action[:-2]+")"
-            
         else:
             # read only
             # !! TODO
             # list/get for systems
-            print
+            data_action = "SELECT * FROM systems"
+            if "get" in action_a:
+                data_action = data_action.replace("* ", "") + " WHERE uuid = '"+var_d['--uuid']+"'"
+            print data_action
         cur.execute(data_action)
 
     else:
@@ -386,10 +389,19 @@ def process_action(action, var_d, m_server):
             # write
             # !! TODO
             print
+
         elif "create" in action_a:
             # write
-            # !! TODO
-            print
+            if "user" in action_a:
+                data_action = "INSERT INTO users("
+            else: # tenant
+                data_action = "INSERT INTO tenants("
+            for prop in props:
+                data_action += prop+", "
+            data_action = data_action[:-2]+") VALUES("
+            for val in vals:
+                data_action += "\""+val+"\", "
+            data_action = data_action[:-2]+")"
         elif "delete" in action_a:
             # delete
             # !! TODO
@@ -401,6 +413,9 @@ def process_action(action, var_d, m_server):
             print
         cur.execute(data_action)
 
+    results = cur.fetchall()
+    print results
+
     m_server.commit()
     m_server.close()
     
@@ -409,10 +424,15 @@ def process_action(action, var_d, m_server):
 
     x = [[]] # The empty row will have the header
 
-    i = 0
-    while i < len(props):
-        x.append([props[i],vals[i]])
-        i += 1
+    if results:
+        i = 0
+        while i < len(props):
+            x.append([props[i],vals[i]])
+            i += 1
+    else:
+        for result in results:
+            # !! TODO cut up results tuple
+            print        
 
     tab.add_rows(x)
     tab.set_cols_align(['c','c'])
