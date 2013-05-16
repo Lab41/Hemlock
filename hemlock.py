@@ -45,6 +45,13 @@ def register_remote_system(args, var_d):
     ]
     return check_args(args, arg_d, var_d) 
 
+def system_add_tenant(args, var_d):
+    arg_d = [
+        '--uuid'
+        '--tenant_id'
+    ]
+    return check_args(args, arg_d, var_d) 
+
 def system_get(args, var_d):
     arg_d = [
         '--uuid'
@@ -53,6 +60,13 @@ def system_get(args, var_d):
 
 def system_list(args, var_d):
     arg_d = [
+    ]
+    return check_args(args, arg_d, var_d) 
+
+def system_remove_tenant(args, var_d):
+    arg_d = [
+        '--uuid'
+        '--tenant_id'
     ]
     return check_args(args, arg_d, var_d) 
 
@@ -172,12 +186,22 @@ def print_help(action):
                 --poc_name
                 --poc_email
             """,
+            'system-add-tenant' : """
+            system-add-tenant (add a tenant to a system)
+                --uuid (uuid of system)
+                --tenant_id (uuid of tenant)
+            """,
             'system-get' : """
             system-get (get a specific system)
                 --uuid (uuid of system)
             """,
             'system-list' : """
             system-list (list all systems)
+            """,
+            'system-remove-tenant' : """
+            system-remove-tenant (remove a tenant from a system)
+                --uuid (uuid of system)
+                --tenant_id (uuid of tenant)
             """,
             'tenant-create' : """
             tenant-create (create new tenant)
@@ -221,6 +245,7 @@ def print_help(action):
                 --tenant_id (uuid of tenant)
             """
         }
+        print "HEMLOCK"
         if action in help_dict:
             print help_dict[action]
         else:
@@ -239,8 +264,10 @@ def process_args(args):
         'deregister-remote-system' : deregister_remote_system,
         'register-local-system' : register_local_system,
         'register-remote-system' : register_remote_system,
+        'system-add-tenant' : system_add_tenant,
         'system-get' : system_get,
         'system-list' : system_list,
+        'system-remove-tenant' : system_remove_tenant,
         'tenant-create' : tenant_create,
         'tenant-delete' : tenant_delete,
         'tenant-get' : tenant_get,
