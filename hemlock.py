@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
-import sys, time
+import getpass, sys, time
+import MySQLdb as mdb
 import texttable as tt
 
 HELP_COUNTER = 0
@@ -298,6 +299,26 @@ def get_args():
         args.append(arg)
     return args[1:]
 
+def get_auth():
+    server = raw_input("MySQL Server (default is localhost):")
+    if server == "":
+        server = "localhost"
+    db = raw_input("MySQL DB (default is hemlock):")
+    if db == "":
+        db = "hemlock"
+    user = raw_input("Username:")
+    pw = getpass.getpass("Password:")
+    return user, pw, db, server
+
+def mysql_server(server, user, pw, db):
+    # connect to the mysql server
+    try:
+        m_server = mdb.connect(server, user, pw, db)
+    except:
+        print "MySQL server failure"
+        sys.exit(0)
+    return m_server
+
 def process_action(action, var_d):
     print action, var_d
     # !! TODO save stuff to a db
@@ -324,4 +345,6 @@ if __name__ == "__main__":
     args = get_args()
     var_d, action = process_args(args)
     process_action(action, var_d)
+    user, pw, db, server = get_auth()
+    m_server = mysql_server(server, user, pw, db)
     print "Took",time.time() - start_time,"seconds to complete."
