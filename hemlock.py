@@ -80,11 +80,18 @@ def tenant_list(args, var_d):
     ]
     return check_args(args, arg_d, var_d) 
 
+def user_add_tenant(args, var_d):
+    arg_d = [
+        '--uuid'
+        '--tenant_id'
+    ]
+    return check_args(args, arg_d, var_d) 
+
 def user_create(args, var_d):
     # !! TODO need to flesh out the rest of the options
     arg_d = [
         '--name',
-        '--email',
+        '--email'
     ]
     return check_args(args, arg_d, var_d) 
 
@@ -102,6 +109,13 @@ def user_get(args, var_d):
 
 def user_list(args, var_d):
     arg_d = [
+    ]
+    return check_args(args, arg_d, var_d) 
+
+def user_remove_tenant(args, var_d):
+    arg_d = [
+        '--uuid'
+        '--tenant_id'
     ]
     return check_args(args, arg_d, var_d) 
 
@@ -180,6 +194,11 @@ def print_help(action):
             'tenant-list' : """
             tenant-list (list all tenants)
             """,
+            'user-add-tenant' : """
+            user-add-tenant (add a tenant to a user)
+                --uuid (uuid of user)
+                --tenant_id (uuid of tenant)
+            """,
             'user-create' : """
             user-create (create new user)
                 --name (name of user)
@@ -196,6 +215,11 @@ def print_help(action):
             'user-list' : """
             user-list (list all users)
             """,
+            'user-remove-tenant' : """
+            user-remove-tenant (remove a tenant from a user)
+                --uuid (uuid of user)
+                --tenant_id (uuid of tenant)
+            """
         }
         if action in help_dict:
             print help_dict[action]
@@ -221,10 +245,12 @@ def process_args(args):
         'tenant-delete' : tenant_delete,
         'tenant-get' : tenant_get,
         'tenant-list' : tenant_list,
+        'user-add-tenant' : user_add_tenant,
         'user-create' : user_create,
         'user-delete' : user_delete,
         'user-get' : user_get,
-        'user-list' : user_list
+        'user-list' : user_list,
+        'user-remove-tenant' : user_remove_tenant
     }
 
     # get action
