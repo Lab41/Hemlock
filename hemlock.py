@@ -5,78 +5,9 @@ import texttable as tt
 
 HELP_COUNTER = 0
 
-def user_create(args, var_d):
-    # !! TODO need to flesh out the rest of the options
-    arg_d = [
-        '--name',
-        '--email',
-    ]
-    return check_args(args, arg_d, var_d) 
-
-def user_delete(args, var_d):
+def deregister_local_system(args, var_d):
     arg_d = [
         '--uuid'
-    ]
-    return check_args(args, arg_d, var_d) 
-
-def user_list(args, var_d):
-    arg_d = [
-    ]
-    return check_args(args, arg_d, var_d) 
-
-def user_get(args, var_d):
-    arg_d = [
-        '--uuid'
-    ]
-    return check_args(args, arg_d, var_d) 
-
-def tenant_create(args, var_d):
-    # !! TODO need to flesh out the rest of the options
-    arg_d = [
-        '--name'
-    ]
-    return check_args(args, arg_d, var_d) 
-
-def tenant_delete(args, var_d):
-    arg_d = [
-        '--uuid'
-    ]
-    return check_args(args, arg_d, var_d) 
-
-def tenant_list(args, var_d):
-    arg_d = [
-    ]
-    return check_args(args, arg_d, var_d) 
-
-def tenant_get(args, var_d):
-    arg_d = [
-        '--uuid'
-    ]
-    return check_args(args, arg_d, var_d) 
-
-def system_list(args, var_d):
-    arg_d = [
-    ]
-    return check_args(args, arg_d, var_d) 
-
-def system_get(args, var_d):
-    arg_d = [
-        '--uuid'
-    ]
-    return check_args(args, arg_d, var_d) 
-
-def register_remote_system(args, var_d):
-    # !! TODO add map of operation vocabulary
-    arg_d = [
-        '--name',
-        '--data_type',
-        '--description',
-        '--tenant',
-        '--hostname',
-        '--port',
-        '--remote_uri',
-        '--poc_name',
-        '--poc_email'
     ]
     return check_args(args, arg_d, var_d) 
 
@@ -99,9 +30,78 @@ def register_local_system(args, var_d):
     ]
     return check_args(args, arg_d, var_d) 
 
-def deregister_local_system(args, var_d):
+def register_remote_system(args, var_d):
+    # !! TODO add map of operation vocabulary
+    arg_d = [
+        '--name',
+        '--data_type',
+        '--description',
+        '--tenant',
+        '--hostname',
+        '--port',
+        '--remote_uri',
+        '--poc_name',
+        '--poc_email'
+    ]
+    return check_args(args, arg_d, var_d) 
+
+def system_get(args, var_d):
     arg_d = [
         '--uuid'
+    ]
+    return check_args(args, arg_d, var_d) 
+
+def system_list(args, var_d):
+    arg_d = [
+    ]
+    return check_args(args, arg_d, var_d) 
+
+def tenant_create(args, var_d):
+    # !! TODO need to flesh out the rest of the options
+    arg_d = [
+        '--name'
+    ]
+    return check_args(args, arg_d, var_d) 
+
+def tenant_delete(args, var_d):
+    arg_d = [
+        '--uuid'
+    ]
+    return check_args(args, arg_d, var_d) 
+
+def tenant_get(args, var_d):
+    arg_d = [
+        '--uuid'
+    ]
+    return check_args(args, arg_d, var_d) 
+
+def tenant_list(args, var_d):
+    arg_d = [
+    ]
+    return check_args(args, arg_d, var_d) 
+
+def user_create(args, var_d):
+    # !! TODO need to flesh out the rest of the options
+    arg_d = [
+        '--name',
+        '--email',
+    ]
+    return check_args(args, arg_d, var_d) 
+
+def user_delete(args, var_d):
+    arg_d = [
+        '--uuid'
+    ]
+    return check_args(args, arg_d, var_d) 
+
+def user_get(args, var_d):
+    arg_d = [
+        '--uuid'
+    ]
+    return check_args(args, arg_d, var_d) 
+
+def user_list(args, var_d):
+    arg_d = [
     ]
     return check_args(args, arg_d, var_d) 
 
@@ -116,18 +116,91 @@ def check_args(args, arg_d, var_d):
             i += 2
         except:
             HELP_COUNTER += 1
-            print_help()
     if arg_d:
         HELP_COUNTER += 1
-        print_help()
     return var_d
 
-def print_help():
+def print_help(action):
     global HELP_COUNTER
     if HELP_COUNTER == 1:
-        print "--name \tname of system"
-        print "--help \thelp\n"
-    sys.exit()
+        help_dict = {
+            'deregister-local-system' : """
+            deregister-local-system (from a system, remove it from Hemlock)
+                --uuid (uuid of system)
+            """,
+            'deregister-remote-system' : """
+            deregister-local-system (from Hemlock remove a system)
+                --uuid (uuid of system)
+            """,
+            'register-local-system' : """
+            register-local-system (add a system from Hemlock)
+                --name
+                --data_type
+                --description
+                --tenant
+                --hostname
+                --endpoint
+                --poc_name
+                --poc_email
+            """,
+            'register-remote-system' : """
+            register-remote-system (from a system, add it to Hemlock)
+                --name
+                --data_type
+                --description
+                --tenant
+                --hostname
+                --port
+                --remote_uri
+                --poc_name
+                --poc_email
+            """,
+            'system-get' : """
+            system-get (get a specific system)
+                --uuid (uuid of system)
+            """,
+            'system-list' : """
+            system-list (list all systems)
+            """,
+            'tenant-create' : """
+            tenant-create (create new tenant)
+                --name (name of tenant)
+            """,
+            'tenant-delete' : """
+            tenant-delete (delete tenant)
+                --uuid (uuid of tenant)
+            """,
+            'tenant-get' : """
+            tenant-get (get a specific tenant)
+                --uuid (uuid of tenant)
+            """,
+            'tenant-list' : """
+            tenant-list (list all tenants)
+            """,
+            'user-create' : """
+            user-create (create new user)
+                --name (name of user)
+                --email (email address of user)
+            """,
+            'user-delete' : """
+            user-delete (delete user)
+                --uuid (uuid of user)
+            """,
+            'user-get' : """
+            user-get (get a specific user)
+                --uuid (uuid of user)
+            """,
+            'user-list' : """
+            user-list (list all users)
+            """,
+        }
+        if action in help_dict:
+            print help_dict[action]
+        else:
+            for action in help_dict:
+                print help_dict[action]
+        
+        sys.exit()
 
 def process_args(args):
     global HELP_COUNTER
@@ -135,20 +208,20 @@ def process_args(args):
 
     # !! TODO add load data actions
     arg_actions = {
-        'user-create' : user_create,
-        'user-delete' : user_delete,
-        'user-list' : user_list,
-        'user-get' : user_get,
-        'tenant-create' : tenant_create,
-        'tenant-delete' : tenant_delete,
-        'tenant-list' : tenant_list,
-        'tenant-get' : tenant_get,
-        'system-list' : system_list,
-        'system-get' : system_get,
-        'register-remote-system' : register_remote_system,
+        'deregister-local-system' : deregister_local_system,
         'deregister-remote-system' : deregister_remote_system,
         'register-local-system' : register_local_system,
-        'deregister-local-system' : deregister_local_system
+        'register-remote-system' : register_remote_system,
+        'system-get' : system_get,
+        'system-list' : system_list,
+        'tenant-create' : tenant_create,
+        'tenant-delete' : tenant_delete,
+        'tenant-get' : tenant_get,
+        'tenant-list' : tenant_list,
+        'user-create' : user_create,
+        'user-delete' : user_delete,
+        'user-get' : user_get,
+        'user-list' : user_list
     }
 
     # get action
@@ -157,7 +230,8 @@ def process_args(args):
         arg_actions[action](args[1:], var_d)
     except:
         HELP_COUNTER += 1
-        print_help()
+
+    print_help(action)
 
     return var_d, args[0]
 
