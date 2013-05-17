@@ -379,7 +379,7 @@ def process_action(action, var_d, m_server):
             # list/get for systems
             data_action = "SELECT * FROM systems"
             if "get" in action_a:
-                data_action = data_action.replace("* ", "") + " WHERE uuid = '"+var_d['--uuid']+"'"
+                data_action += " WHERE uuid = '"+var_d['--uuid']+"'"
             print data_action
         cur.execute(data_action)
 
