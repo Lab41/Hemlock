@@ -166,26 +166,26 @@ def print_help(action):
             """,
             'register-local-system' : """
             register-local-system (from a system add it to Hemlock)
-                --name
-                --data_type
-                --description
-                --tenant_id
-                --hostname
-                --endpoint
-                --poc_name
-                --poc_email
+                --name (name of system)
+                --data_type (type of data stored in the system, i.e. csv, txt, doc, etc.)
+                --description (description of what the data source is)
+                --tenant_id (uuid of the tenant this system belongs in)
+                --hostname (hostname of the system)
+                --endpoint (endpoint of hemlock server, i.e. http://hemlock.server/)
+                --poc_name (point of contact name for this system)
+                --poc_email (point of contact email for this system)
             """,
             'register-remote-system' : """
             register-remote-system (add a system from Hemlock)
-                --name
-                --data_type
-                --description
-                --tenant_id
-                --hostname
-                --port
-                --remote_uri
-                --poc_name
-                --poc_email
+                --name (name of system)
+                --data_type (type of data stored in the system, i.e. csv, txt, doc, etc.)
+                --description (description of what the data source is)
+                --tenant_id (uuidof the tenant this system belongs in)
+                --hostname (hostname of the system)
+                --port (port that the system has open to allow hemlock to get data from it)
+                --remote_uri (uri of the system that hemlock and use to get data from, i.e. http://system.server:8080/my/data/feed/)
+                --poc_name (point of contact name for this system)
+                --poc_email (point of contact email for this system)
             """,
             'system-add-tenant' : """
             system-add-tenant (add a tenant to a system)
