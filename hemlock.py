@@ -466,7 +466,7 @@ def process_action(action, var_d, m_server):
     tab.set_cols_align(tab_align)
     tab.header(tab_header)
     
-    if "delete" not in action_a and "deregister" not in action_a:    
+    if "remove" not in action_a and "delete" not in action_a and "deregister" not in action_a:    
         print tab.draw()
 
 if __name__ == "__main__":
