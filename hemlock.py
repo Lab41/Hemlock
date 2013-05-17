@@ -3,6 +3,7 @@
 import getpass, os, sys, time, uuid
 import MySQLdb as mdb
 import texttable as tt
+from couchbase.client import Couchbase
 
 HELP_COUNTER = 0
 
@@ -480,6 +481,16 @@ def process_action(action, var_d, m_server):
     
     if "remove" not in action_a and "delete" not in action_a and "deregister" not in action_a:    
         print tab.draw()
+
+def couch_server(server, bucket, pw):
+    # connect to the couch server
+    try:
+        c_server = Couchbase(server, bucket, pw)
+        c_bucket = c_server[bucket]
+    except:
+        print "Couch server failure"
+        sys.exit(0)
+    return c_server, c_bucket
 
 if __name__ == "__main__":
     start_time = time.time()
