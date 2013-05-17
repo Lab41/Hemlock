@@ -368,8 +368,7 @@ def process_action(action, var_d, m_server):
         # update to systems table
         if "deregister" in action_a: 
             # delete
-            # !! TODO
-            print
+            data_action = "DELETE FROM systems WHERE uuid = '"+var_d['--uuid']+"'"
         elif "register" in action_a:
             # write
             props.append("remote")
@@ -392,17 +391,18 @@ def process_action(action, var_d, m_server):
         cur.execute(data_action)
 
     else:
-        # update to tenants table
+        # update to tenants/users tables
         if "add" in action_a: 
             # write
             # !! TODO
             print
+        elif "remove" in action_a:
+            # delete
+            # !! TODO
+            print
         elif "create" in action_a:
             # write
-            if "user" in action_a:
-                data_action = "INSERT INTO users("
-            else: # tenant
-                data_action = "INSERT INTO tenants("
+            data_action = "INSERT INTO "+action_a[0]+"s("
             for prop in props:
                 data_action += prop+", "
             data_action = data_action[:-2]+") VALUES("
@@ -411,17 +411,12 @@ def process_action(action, var_d, m_server):
             data_action = data_action[:-2]+")"
         elif "delete" in action_a:
             # delete
-            # !! TODO
-            print
+            data_action = "DELETE FROM "+action_a[0]+"s WHERE uuid = '"+var_d['--uuid']+"'"
         else:
             # read only
-            if "user" in action_a:
-                data_action = "SELECT * FROM users"
-            else:
-                data_action = "SELECT * FROM tenants"
+            data_action = "SELECT * FROM "+action_a[0]+"s"
             if "get" in action_a:
                 data_action += " WHERE uuid = '"+var_d['--uuid']+"'"
-            print
         cur.execute(data_action)
 
     results = cur.fetchall()
@@ -470,8 +465,9 @@ def process_action(action, var_d, m_server):
     tab.set_chars(['-','|','+','-'])
     tab.set_cols_align(tab_align)
     tab.header(tab_header)
-        
-    print tab.draw()
+    
+    if "delete" not in action_a and "deregister" not in action_a:    
+        print tab.draw()
 
 if __name__ == "__main__":
     start_time = time.time()
