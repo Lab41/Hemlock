@@ -424,6 +424,7 @@ def process_action(action, var_d, m_server):
     
     tab = tt.Texttable()
     x = [[]]
+    tab_header = ['Property', 'Value']
 
     if "get" not in action_a and "list" not in action_a:
         i = 0
@@ -432,24 +433,40 @@ def process_action(action, var_d, m_server):
             i += 1
     else:
         if results:
-            # !! TODO rework for result sets that have more than one item in them (for exmaple system-list)
-            vals = list(results[0])
-            data_action = "desc systems"
+            data_action = "desc "+action_a[0]+"s"
             cur.execute(data_action)
-            results = cur.fetchall()
-            i = 0
-            while i < len(results):
-                x.append([results[i][0],vals[i]])
-                i += 1
+            desc_results = cur.fetchall()
+            if len(results) == 1:
+                vals = list(results[0])
+                i = 0
+                while i < len(desc_results):
+                    x.append([desc_results[i][0],vals[i]])
+                    i += 1
+            else:
+                tab_header = ['Name', 'UUID']
+                i = 0
+                a = b = -1
+                while i < len(desc_results):
+                    if desc_results[i][0] == 'name':
+                        a = i
+                    if desc_results[i][0] == 'uuid':
+                        b = i 
+                    i += 1
+                i = 0
+                while i < len(results):
+                    x.append([results[i][a],results[i][b]])
+                    i += 1
         
     m_server.commit()
     m_server.close()
 
     tab.add_rows(x)
-    tab.set_cols_align(['c','c'])
+    tab_align = ['c','c']
     tab.set_deco(tab.HEADER | tab.VLINES | tab.BORDER)
     tab.set_chars(['-','|','+','-'])
-    tab.header(['Property', 'Value'])
+    tab.set_cols_align(tab_align)
+    tab.header(tab_header)
+        
     print tab.draw()
 
 if __name__ == "__main__":
