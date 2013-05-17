@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import getpass, sys, time, uuid
+import getpass, os, sys, time, uuid
 import MySQLdb as mdb
 import texttable as tt
 
@@ -300,14 +300,26 @@ def get_args():
     return args[1:]
 
 def get_auth():
-    server = raw_input("MySQL Server (default is localhost):")
-    if server == "":
-        server = "localhost"
-    db = raw_input("MySQL DB (default is hemlock):")
-    if db == "":
-        db = "hemlock"
-    user = raw_input("Username:")
-    pw = getpass.getpass("Password:")
+    try:
+        server = os.environ['HEMLOCK_MYSQL_SERVER']
+    except:
+        server = raw_input("MySQL Server (default is localhost):")
+        if server == "":
+            server = "localhost"
+    try:
+        db = os.environ['HEMLOCK_MYSQL_DB']
+    except:
+        db = raw_input("MySQL DB (default is hemlock):")
+        if db == "":
+            db = "hemlock"
+    try:
+        user = os.environ['HEMLOCK_MYSQL_USER']
+    except:
+        user = raw_input("Username:")
+    try:
+        pw = os.environ['HEMLOCK_MYSQL_PW']
+    except:
+        pw = getpass.getpass("Password:")
     return user, pw, db, server
 
 def mysql_server(server, user, pw, db):
