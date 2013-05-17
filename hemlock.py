@@ -324,6 +324,7 @@ def process_action(action, var_d, m_server):
     # !! TODO do calls to and from couch
     # !! TODO tie in with frontend stuff
     # !! TODO try/except
+    # !! TODO validate that uuids linked between users/systems/tenants exist/match-up correctly
 
     cur = m_server.cursor()
 
@@ -396,7 +397,6 @@ def process_action(action, var_d, m_server):
             # write
             # !! TODO
             print
-
         elif "create" in action_a:
             # write
             if "user" in action_a:
@@ -415,8 +415,12 @@ def process_action(action, var_d, m_server):
             print
         else:
             # read only
-            # !! TODO
-            # list/get for users and tenants
+            if "user" in action_a:
+                data_action = "SELECT * FROM users"
+            else:
+                data_action = "SELECT * FROM tenants"
+            if "get" in action_a:
+                data_action += " WHERE uuid = '"+var_d['--uuid']+"'"
             print
         cur.execute(data_action)
 
