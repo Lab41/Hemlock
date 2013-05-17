@@ -326,16 +326,26 @@ def process_action(action, var_d, m_server):
     # !! TODO try/except
 
     cur = m_server.cursor()
+
     # ensure mysql tables exist
+    cur.execute("show tables")
+    results = cur.fetchall()
+    tables = []
+    i = 0
+    while i < len(results):
+        tables.append(results[i][0])
+        i += 1
+
     # !! TODO this needs to be fleshed out
-    user_table = "CREATE TABLE IF NOT EXISTS users(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), email VARCHAR(50), created DATETIME)"
-
-    system_table = "CREATE TABLE IF NOT EXISTS systems(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), data_type VARCHAR(50), description VARCHAR(200), tenant_id VARCHAR(36), endpoint VARCHAR(100), hostname VARCHAR(50), port VARCHAR(5), remote_uri VARCHAR(100), poc_name VARCHAR(50), poc_email VARCHAR(50), remote BOOL, created DATETIME, updated_data DATETIME)"
-    tenant_table = "CREATE TABLE IF NOT EXISTS tenants(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME)"
-
-    cur.execute(user_table)
-    cur.execute(system_table)
-    cur.execute(tenant_table)
+    if "users" not in tables:
+        user_table = "CREATE TABLE IF NOT EXISTS users(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), email VARCHAR(50), created DATETIME)"
+        cur.execute(user_table)
+    if "systems" not in tables:
+        system_table = "CREATE TABLE IF NOT EXISTS systems(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), data_type VARCHAR(50), description VARCHAR(200), tenant_id VARCHAR(36), endpoint VARCHAR(100), hostname VARCHAR(50), port VARCHAR(5), remote_uri VARCHAR(100), poc_name VARCHAR(50), poc_email VARCHAR(50), remote BOOL, created DATETIME, updated_data DATETIME)"
+        cur.execute(system_table)
+    if "tenants" not in tables:
+        tenant_table = "CREATE TABLE IF NOT EXISTS tenants(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME)"
+        cur.execute(tenant_table)
 
     # perform action with args against mysql table
     uid = str(uuid.uuid4())
@@ -375,12 +385,9 @@ def process_action(action, var_d, m_server):
             data_action = data_action[:-2]+")"
         else:
             # read only
-            # !! TODO
-            # list/get for systems
             data_action = "SELECT * FROM systems"
             if "get" in action_a:
                 data_action += " WHERE uuid = '"+var_d['--uuid']+"'"
-            print data_action
         cur.execute(data_action)
 
     else:
@@ -414,25 +421,29 @@ def process_action(action, var_d, m_server):
         cur.execute(data_action)
 
     results = cur.fetchall()
-    print results
-
-    m_server.commit()
-    m_server.close()
     
-    # !! TODO testing pretty printing tables
     tab = tt.Texttable()
+    x = [[]]
 
-    x = [[]] # The empty row will have the header
-
-    if results:
+    if "get" not in action_a and "list" not in action_a:
         i = 0
         while i < len(props):
             x.append([props[i],vals[i]])
             i += 1
     else:
-        for result in results:
-            # !! TODO cut up results tuple
-            print        
+        if results:
+            # !! TODO rework for result sets that have more than one item in them (for exmaple system-list)
+            vals = list(results[0])
+            data_action = "desc systems"
+            cur.execute(data_action)
+            results = cur.fetchall()
+            i = 0
+            while i < len(results):
+                x.append([results[i][0],vals[i]])
+                i += 1
+        
+    m_server.commit()
+    m_server.close()
 
     tab.add_rows(x)
     tab.set_cols_align(['c','c'])
