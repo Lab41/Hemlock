@@ -321,7 +321,23 @@ def get_auth():
         pw = os.environ['HEMLOCK_MYSQL_PW']
     except:
         pw = getpass.getpass("Password:")
-    return user, pw, db, server
+    try:
+        c_server = os.environ['HEMLOCK_COUCHBASE_SERVER']
+    except:
+        c_server = raw_input("Couchbase Server (default is localhost):")
+        if c_server == "":
+            c_server = "localhost"
+    try:
+        bucket = os.environ['HEMLOCK_COUCHBASE_BUCKET']
+    except:
+        bucket = raw_input("Couchbase Bucket (default is hemlock):")
+        if bucket == "":
+            bucket = "hemlock"
+    try:
+        c_pw = os.environ['HEMLOCK_COUCHBASE_PW']
+    except:
+        c_pw = getpass.getpass("Password:")
+    return user, pw, db, server, c_server, bucket, c_pw
 
 def mysql_server(server, user, pw, db):
     # connect to the mysql server
@@ -496,7 +512,8 @@ if __name__ == "__main__":
     start_time = time.time()
     args = get_args()
     var_d, action = process_args(args)
-    user, pw, db, server = get_auth()
+    user, pw, db, server, c_server, bucket, c_pw = get_auth()
     m_server = mysql_server(server, user, pw, db)
     process_action(action, var_d, m_server)
+    c_server, c_bucket = couch_server(c_server, bucket, c_pw)
     print "Took",time.time() - start_time,"seconds to complete."
