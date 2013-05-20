@@ -47,12 +47,16 @@ def get_data(client_dict, c_server):
     cur = c_server.cursor()
 
     if "MYSQL_TABLE" in client_dict:
+        # modify this line if you want to be more fine-grained
+        # with what data is pulled from the table
         query = "SELECT * FROM "+client_dict['MYSQL_TABLE']
         query_list.append(query)
     else:
         cur.execute("SHOW TABLES")
         results = cur.fetchall()
         for result in results:
+            # modify this line if you want to be more fine-grained
+            # with what data is pulled from the tables
             query = "SELECT * FROM "+result[0]
             query_list.append(query)
 
