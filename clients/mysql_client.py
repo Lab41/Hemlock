@@ -10,15 +10,36 @@ SERVER_CREDS_FILE='hemlock_creds'
 
 def get_creds():
     client_dict = {}
-    f = open(CLIENT_CREDS_FILE, 'r')
-    for line in f:
-        # split each line on the first '='
-        line = line.split("=",1)
-        try:
-            client_dict[line[0]] = line[1].strip()
-        except:
-            print "Malformed Client Creds file."
-    return client_dict
+    server_dict = {}
+    try:
+        f = open(CLIENT_CREDS_FILE, 'r')
+        for line in f:
+            # split each line on the first '='
+            line = line.split("=",1)
+            try:
+                client_dict[line[0]] = line[1].strip()
+            except:
+                print "Malformed Client Creds file."
+                sys.exit(0)
+        f.close()
+    except:
+        print "Unable to open "+CLIENT_CREDS_FILE
+        sys.exit(0)
+    try:
+        f = open(SERVER_CREDS_FILE, 'r')
+        for line in f:
+            # split each line on the first '='
+            line = line.split("=",1)
+            try:
+                server_dict[line[0]] = line[1].strip()
+            except:
+                print "Malformed Server Creds file."
+                sys.exit(0)
+        f.close()
+    except:
+        print "Unable to open "+SERVER_CREDS_FILE
+        sys.exit(0)
+    return client_dict, server_dict
 
 def connect_client(client_dict):
     # connect to the mysql server
@@ -38,10 +59,10 @@ def connect_client(client_dict):
                                client_dict['MYSQL_DB'])
     except:
         print "Failure connecting to the client server"
+        sys.exit(0)
     return c_server
 
 def get_data(client_dict, c_server):
-    data = ""
     query_list = []
     data_list = []
     cur = c_server.cursor()
@@ -53,11 +74,11 @@ def get_data(client_dict, c_server):
         query_list.append(query)
     else:
         cur.execute("SHOW TABLES")
-        results = cur.fetchall()
-        for result in results:
+        tables = cur.fetchall()
+        for table in tables:
             # modify this line if you want to be more fine-grained
             # with what data is pulled from the tables
-            query = "SELECT * FROM "+result[0]
+            query = "SELECT * FROM "+table[0]
             query_list.append(query)
 
     print query_list
@@ -65,22 +86,38 @@ def get_data(client_dict, c_server):
         cur.execute(query)
         data_list.append(cur.fetchall())
 
-    # !! TODO
-    print data_list
-
     # mysql specific
     c_server.commit()
     c_server.close()
 
-    return data
+    return data_list, tables
 
 # !! TODO MOVE THIS PART BELOW OUT OF HERE
-def connect_server():
-    # !! TODO
-    return
+def connect_server(server_dict):
+    # connect to the hemlock server
+    # required fields in the server creds file are as follows:
+    #    HEMLOCK_SERVER
+    #    HEMLOCK_PW 
+    h_server = ""
+    try:
+        h_server = Couchbase(server_dict['HEMLOCK_SERVER'],
+                             "hemlock", 
+                             server_dict['HEMLOCK_PW'])
+    except:
+        print "Failure connecting to the Hemlock server"
+        sys.exit(0)
+    return h_server
 
-def send_data():
+def send_data(data_list, tables):
     # !! TODO
+    j = 0
+    for table_data in data_list:
+        print tables[j][0]
+        i = 0
+        for record in table_data:
+            i += 1
+        print i,"records"
+        j += 1
     return
 
 def update_hemlock():
@@ -90,10 +127,10 @@ def update_hemlock():
 
 if __name__ == "__main__":
     start_time = time.time()
-    client_dict = get_creds()
+    client_dict, server_dict = get_creds()
     c_server = connect_client(client_dict)
-    data = get_data(client_dict, c_server)
-    connect_server()
-    send_data()
+    data_list, tables = get_data(client_dict, c_server)
+    h_server = connect_server(server_dict)
+    send_data(data_list, tables)
     update_hemlock()
     print "Took",time.time() - start_time,"seconds to complete."
