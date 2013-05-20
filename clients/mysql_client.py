@@ -65,6 +65,8 @@ def connect_client(client_dict):
 def get_data(client_dict, c_server):
     query_list = []
     data_list = []
+    desc_list = []
+    tables = ()
     cur = c_server.cursor()
 
     if "MYSQL_TABLE" in client_dict:
@@ -86,11 +88,19 @@ def get_data(client_dict, c_server):
         cur.execute(query)
         data_list.append(cur.fetchall())
 
+    if tables: 
+        for table in tables:
+            cur.execute("DESC "+table[0])
+            desc_list.append(cur.fetchall())
+    else:
+        cur.execute("DESC "+client_dict['MYSQL_TABLE'])
+        desc_list.append(cur.fetchall())
+        
     # mysql specific
     c_server.commit()
     c_server.close()
 
-    return data_list, tables
+    return data_list, tables, desc_list
 
 # !! TODO MOVE THIS PART BELOW OUT OF HERE
 def connect_server(server_dict):
@@ -99,23 +109,30 @@ def connect_server(server_dict):
     #    HEMLOCK_SERVER
     #    HEMLOCK_PW 
     h_server = ""
+    bucket = "hemlock"
     try:
         h_server = Couchbase(server_dict['HEMLOCK_SERVER'],
-                             "hemlock", 
+                             bucket, 
                              server_dict['HEMLOCK_PW'])
+        h_bucket = h_server[bucket]
     except:
         print "Failure connecting to the Hemlock server"
         sys.exit(0)
-    return h_server
+    return h_server, h_bucket
 
-def send_data(data_list, tables):
+def send_data(data_list, desc_list, tables, h_server, h_bucket, client_dict):
     # !! TODO
     j = 0
     for table_data in data_list:
-        print tables[j][0]
+        if tables:
+            print tables[j][0]
+        else:
+            print client_dict['MYSQL_TABLE']
         i = 0
         for record in table_data:
+            a = json.dumps(record)
             i += 1
+        print a
         print i,"records"
         j += 1
     return
@@ -129,8 +146,8 @@ if __name__ == "__main__":
     start_time = time.time()
     client_dict, server_dict = get_creds()
     c_server = connect_client(client_dict)
-    data_list, tables = get_data(client_dict, c_server)
-    h_server = connect_server(server_dict)
-    send_data(data_list, tables)
+    data_list, tables, desc_list = get_data(client_dict, c_server)
+    h_server, h_bucket = connect_server(server_dict)
+    send_data(data_list, desc_list, tables, h_server, h_bucket, client_dict)
     update_hemlock()
     print "Took",time.time() - start_time,"seconds to complete."
