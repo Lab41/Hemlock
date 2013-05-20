@@ -42,16 +42,27 @@ def connect_client(client_dict):
 
 def get_data(client_dict, c_server):
     data = ""
+    query_list = []
+    data_list = []
     cur = c_server.cursor()
 
     if "MYSQL_TABLE" in client_dict:
-        print "table"
-        # !! TODO
+        query = "SELECT * FROM "+client_dict['MYSQL_TABLE']
+        query_list.append(query)
     else:
         cur.execute("SHOW TABLES")
         results = cur.fetchall()
-        print results
-        # !! TODO
+        for result in results:
+            query = "SELECT * FROM "+result[0]
+            query_list.append(query)
+
+    print query_list
+    for query in query_list:
+        cur.execute(query)
+        data_list.append(cur.fetchall())
+
+    # !! TODO
+    print data_list
 
     # mysql specific
     c_server.commit()
