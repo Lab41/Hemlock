@@ -121,7 +121,6 @@ def connect_server(server_dict):
     return h_server, h_bucket
 
 def send_data(data_list, desc_list, tables, h_server, h_bucket, client_dict):
-    # !! TODO
     j_dict = {}
     j = 0
     for table_data in data_list:
@@ -129,10 +128,12 @@ def send_data(data_list, desc_list, tables, h_server, h_bucket, client_dict):
             print tables[j][0]
         else:
             print client_dict['MYSQL_TABLE']
+        print desc_list[j]
         i = 0
         for record in table_data:
             j_dict = {}
             k = 0
+            # !! TODO change to a hash of the contents - sort the dictionary first, perhaps?
             uid = str(uuid.uuid4())
             j_dict['hemlock-uuid'] = uid
             while k < len(record):
