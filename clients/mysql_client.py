@@ -122,6 +122,7 @@ def connect_server(server_dict):
 
 def send_data(data_list, desc_list, tables, h_server, h_bucket, client_dict):
     # !! TODO
+    j_dict = {}
     j = 0
     for table_data in data_list:
         if tables:
@@ -130,9 +131,21 @@ def send_data(data_list, desc_list, tables, h_server, h_bucket, client_dict):
             print client_dict['MYSQL_TABLE']
         i = 0
         for record in table_data:
-            a = json.dumps(record)
+            j_dict = {}
+            k = 0
+            uid = str(uuid.uuid4())
+            j_dict['hemlock-uuid'] = uid
+            while k < len(record):
+                try:
+                    j_dict[desc_list[0][k][0]] = record[k]
+                except:
+                    print k
+                    print desc_list
+                    print record
+                k += 1
+            h_bucket.set(uid, 0, 0, json.dumps(j_dict))
             i += 1
-        print a
+        print j_dict
         print i,"records"
         j += 1
     return
