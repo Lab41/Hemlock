@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import json, sys, time, uuid
+import hashlib, json, sys, time
 from couchbase.client import Couchbase
 
 import MySQLdb as mdb
@@ -97,8 +97,11 @@ def get_data(client_dict, c_server):
         desc_list.append(cur.fetchall())
         
     # mysql specific
-    c_server.commit()
-    c_server.close()
+    try:
+        c_server.commit()
+        c_server.close()
+    except:
+        print "Failed to close MySQL connection."
 
     return data_list, tables, desc_list
 
@@ -111,9 +114,9 @@ def connect_server(server_dict):
     h_server = ""
     bucket = "hemlock"
     try:
-        h_server = Couchbase(server_dict['HEMLOCK_SERVER'],
+        h_server = Couchbase(server_dict['HEMLOCK_COUCH_SERVER'],
                              bucket, 
-                             server_dict['HEMLOCK_PW'])
+                             server_dict['HEMLOCK_COUCH_PW'])
         h_bucket = h_server[bucket]
     except:
         print "Failure connecting to the Hemlock server"
@@ -133,30 +136,69 @@ def send_data(data_list, desc_list, tables, h_server, h_bucket, client_dict):
         for record in table_data:
             j_dict = {}
             k = 0
-            # !! TODO change to a hash of the contents - sort the dictionary first, perhaps?
-            uid = str(uuid.uuid4())
-            j_dict['hemlock-uuid'] = uid
             while k < len(record):
                 j_dict[desc_list[j][k][0]] = record[k]
                 k += 1
-            h_bucket.set(uid, 0, 0, json.dumps(j_dict))
+            uid = hashlib.sha1(repr(sorted(j_dict.items())))
+            h_bucket.set(uid.hexdigest(), 0, 0, json.dumps(j_dict))
             i += 1
         print j_dict
         print i,"records"
         j += 1
     return
 
-def update_hemlock():
+def update_hemlock(client_uuid, server_dict):
     # update mysql record to say when data was last updated for this system
-    # !! TODO
+    try:
+        h_server = mdb.connect(server_dict['HEMLOCK_MYSQL_SERVER'],
+                               server_dict['HEMLOCK_MYSQL_USERNAME'],
+                               server_dict['HEMLOCK_MYSQL_PW'],
+                               "hemlock")
+        cur = h_server.cursor()
+        query = "UPDATE systems SET updated_data='"+time.strftime('%Y-%m-%d %H:%M:%S')+"' WHERE uuid='"+client_uuid+"'"
+        cur.execute(query)
+        h_server.commit()
+        h_server.close()
+    except:
+        print "Failure connecting to the Hemlock server"
+        sys.exit(0)
+
     return
+
+def print_help():
+    print "--uuid \t<uuid of system> (use 'system-list' on the Hemlock server)"
+    print "-h \thelp\n"
+    sys.exit(0)
+
+def process_args(args):
+    # process args
+    i = 0
+    while i < len(args):
+        if args[i] == "--uuid":
+            try:
+                client_uuid = args[i+1]
+                i += 1
+            except:
+                print_help()
+        else:
+            print_help()
+        i += 1
+    return client_uuid
+   
+def get_args():
+    args = []
+    for arg in sys.argv:
+        args.append(arg)
+    return args[1:]
 
 if __name__ == "__main__":
     start_time = time.time()
+    args = get_args()
+    client_uuid = process_args(args)
     client_dict, server_dict = get_creds()
     c_server = connect_client(client_dict)
     data_list, tables, desc_list = get_data(client_dict, c_server)
     h_server, h_bucket = connect_server(server_dict)
     send_data(data_list, desc_list, tables, h_server, h_bucket, client_dict)
-    update_hemlock()
+    update_hemlock(client_uuid, server_dict)
     print "Took",time.time() - start_time,"seconds to complete."
