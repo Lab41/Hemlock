@@ -127,6 +127,7 @@ def send_data(data_list, desc_list, tables, h_server, h_bucket, client_dict):
     for table_data in data_list:
         if tables:
             print tables[j][0]
+            print desc_list[0]
         else:
             print client_dict['MYSQL_TABLE']
         i = 0
@@ -136,12 +137,7 @@ def send_data(data_list, desc_list, tables, h_server, h_bucket, client_dict):
             uid = str(uuid.uuid4())
             j_dict['hemlock-uuid'] = uid
             while k < len(record):
-                try:
-                    j_dict[desc_list[0][k][0]] = record[k]
-                except:
-                    print k
-                    print desc_list
-                    print record
+                j_dict[desc_list[j][k][0]] = record[k]
                 k += 1
             h_bucket.set(uid, 0, 0, json.dumps(j_dict))
             i += 1
