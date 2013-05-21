@@ -127,7 +127,6 @@ def send_data(data_list, desc_list, tables, h_server, h_bucket, client_dict):
     for table_data in data_list:
         if tables:
             print tables[j][0]
-            print desc_list[0]
         else:
             print client_dict['MYSQL_TABLE']
         i = 0
