@@ -51,6 +51,7 @@ def connect_client(client_dict):
     #    REST_AUTH_TYPE
     #    REST_TOKEN_FIELD
     #    REST_DATA_TYPE
+    #    REST_AUTH_FIELD
     #    REST_PW_FIELD
     #    REST_PW
     auth_url = client_dict['REST_AUTH_URL']
@@ -72,13 +73,35 @@ def connect_client(client_dict):
     return auth_token
 
 def get_data(client_dict, auth_token):
-    data_list = [[[]]]
-    desc_list = [[[]]]
+    data_list = [[]]
+    desc_list = []
 
-    # !! TODO
-    
     data_url = client_dict['REST_DATA_URL']
-    #data_params = 
+    data_params = {client_dict['REST_AUTH_FIELD']:auth_token}
+    r = ""
+    try:
+        if client_dict['REST_DATA_TYPE'] == 'get':
+            r = requests.get(data_url, params=data_params)
+        elif client_dict['REST_DATA_TYPE'] == 'post':
+            r = requests.post(data_url, params=data_params)
+        else:
+            print "Unknown or unsupported REST_AUTH_TYPE."
+            sys.exit(0) 
+        req = json.loads(r.text)
+        i = 0
+        while i < len(req):
+            j = 0
+            data_list[0].append([])
+            desc_list.append([])
+            record = req[i]
+            for key in record:
+                data_list[0][i].append(record[key])
+                desc_list[i].append([key])
+                j += 1
+            i += 1
+    except:
+        print "Unable to get data from the server."
+        sys.exit(0)
 
     return data_list, desc_list
 
