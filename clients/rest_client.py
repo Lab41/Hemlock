@@ -77,6 +77,9 @@ def get_data(client_dict, auth_token):
 
     # !! TODO
     
+    data_url = client_dict['REST_DATA_URL']
+    #data_params = 
+
     return data_list, desc_list
 
 # !! TODO MOVE THIS PART BELOW OUT OF HERE
