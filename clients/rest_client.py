@@ -72,7 +72,7 @@ def connect_client(client_dict):
         sys.exit(0)
     return auth_token
 
-def get_data(client_dict, auth_token):
+def get_data(client_dict, auth_token, h_server, h_bucket):
     data_list = [[]]
     desc_list = []
 
@@ -98,12 +98,19 @@ def get_data(client_dict, auth_token):
                 data_list[0][i].append(record[key])
                 desc_list[i].append([key])
                 j += 1
+            if len(data_list) % 1000 == 0:
+                send_data(data_list, desc_list, h_server, h_bucket, client_dict)
+                data_list = [[]]
+                desc_list = []
+
             i += 1
     except:
         print "Unable to get data from the server."
         sys.exit(0)
 
-    return data_list, desc_list
+    if desc_list:
+        send_data(data_list, desc_list, h_server, h_bucket, client_dict)
+    return
 
 # !! TODO MOVE THIS PART BELOW OUT OF HERE
 def connect_server(server_dict):
@@ -194,8 +201,7 @@ if __name__ == "__main__":
     client_uuid = process_args(args)
     client_dict, server_dict = get_creds()
     auth_token = connect_client(client_dict)
-    data_list, desc_list = get_data(client_dict, auth_token)
     h_server, h_bucket = connect_server(server_dict)
-    send_data(data_list, desc_list, h_server, h_bucket, client_dict)
+    get_data(client_dict, auth_token, h_server, h_bucket)
     update_hemlock(client_uuid, server_dict)
     print "Took",time.time() - start_time,"seconds to complete."
