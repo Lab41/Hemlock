@@ -173,6 +173,8 @@ def print_help():
 def process_args(args):
     # process args
     i = 0
+    if not args:
+        print_help()
     while i < len(args):
         if args[i] == "--uuid":
             try:
