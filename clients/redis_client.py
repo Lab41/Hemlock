@@ -1,12 +1,11 @@
 #!/usr/bin/python
 
-import hashlib, json, sys, time
+import hashlib, json, redis, sys, time
 from couchbase.client import Couchbase
-from pymongo import MongoClient
 
 import MySQLdb as mdb
 
-CLIENT_CREDS_FILE='mongo_client_creds'
+CLIENT_CREDS_FILE='redis_client_creds'
 SERVER_CREDS_FILE='hemlock_creds'
 
 def get_creds():
@@ -43,40 +42,55 @@ def get_creds():
     return client_dict, server_dict
 
 def connect_client(client_dict):
-    # connect to the mongo server
+    # connect to the redis server
     # required fields in the client creds file are as follows:
-    #    MONGO_SERVER
-    #    MONGO_PORT
-    #    MONGO_DB
-    #    MONGO_COLLECTION
+    #    REDIS_SERVER
     c_server = ""
     try:
-        c_server = MongoClient(client_dict['MONGO_SERVER'],
-                               int(client_dict['MONGO_PORT']))
-        c_database = c_server[client_dict['MONGO_DB']]
-        c_collection = c_database[client_dict['MONGO_COLLECTION']]
+        c_server = redis.Redis(client_dict['REDIS_SERVER'])
     except:
         print "Failure connecting to the client server"
         sys.exit(0)
-    return c_server, c_database, c_collection
+    return c_server
 
-def get_data(client_dict, c_server, c_database, c_collection, h_server, h_bucket):
+def get_data(client_dict, c_server, h_server, h_bucket):
     data_list = [[]]
     desc_list = []
 
+    keys = c_server.keys('*')
+
     i = 0
-    for record in c_collection.find():
-        data_list[0].append([])
-        desc_list.append([])
-        for key in record:
-            data_list[0][i].append(str(record[key]))
-            desc_list[i].append([str(key)])
-        if len(data_list[0]) % 1000 == 0:
-            send_data(data_list, desc_list, h_server, h_bucket, client_dict)
-            data_list = [[]]
-            desc_list = []
-            i = -1
-        i += 1
+    for key in keys:
+        key_type = c_server.type(key)
+        if key_type == "hash":
+            data_list[0].append([])
+            desc_list.append([])
+            record_dict = c_server.hgetall(key)
+            for k in record_dict:
+                data_list[0][i].append(str(record_dict[k]))
+                desc_list[i].append([str(k)])
+            if len(data_list[0]) % 10000 == 0:
+                send_data(data_list, desc_list, h_server, h_bucket, client_dict)
+                data_list = [[]]
+                desc_list = []
+                i = -1
+            i += 1
+        elif key_type == "string":
+            # !! TODO
+            print "Unsupported object type."
+        elif key_type == "list":
+            # !! TODO
+            print "Unsupported object type."
+        elif key_type == "set":
+            # !! TODO
+            print "Unsupported object type."
+        elif key_type == "zset":
+            # !! TODO
+            print "Unsupported object type."
+        else:
+            # ignore - shouldn't ever get here
+            print "Key doesn't exist."
+
     if desc_list:
         send_data(data_list, desc_list, h_server, h_bucket, client_dict)
     return
@@ -170,8 +184,8 @@ if __name__ == "__main__":
     args = get_args()
     client_uuid = process_args(args)
     client_dict, server_dict = get_creds()
-    c_server, c_database, c_collection = connect_client(client_dict)
+    c_server = connect_client(client_dict)
     h_server, h_bucket = connect_server(server_dict)
-    get_data(client_dict, c_server, c_database, c_collection, h_server, h_bucket)
+    get_data(client_dict, c_server, h_server, h_bucket)
     update_hemlock(client_uuid, server_dict)
     print "Took",time.time() - start_time,"seconds to complete."

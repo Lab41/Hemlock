@@ -98,10 +98,11 @@ def get_data(client_dict, auth_token, h_server, h_bucket):
                 data_list[0][i].append(record[key])
                 desc_list[i].append([key])
                 j += 1
-            if len(data_list) % 1000 == 0:
+            if len(data_list[0]) % 1000 == 0:
                 send_data(data_list, desc_list, h_server, h_bucket, client_dict)
                 data_list = [[]]
                 desc_list = []
+                i = -1
 
             i += 1
     except:
