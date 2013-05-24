@@ -373,20 +373,27 @@ def process_action(action, var_d, m_server):
         i += 1
 
     if "tenants" not in tables:
-        tenant_table = "CREATE TABLE IF NOT EXISTS tenants(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, index (uuid)) ENGINE = INNODB"
+        tenant_table = "CREATE TABLE IF NOT EXISTS tenants(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
         cur.execute(tenant_table)
     if "users" not in tables:
-        user_table = "CREATE TABLE IF NOT EXISTS users(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), username VARCHAR(50), password VARBINARY(200), email VARCHAR(50), created DATETIME, tenant_id VARCHAR(36), CONSTRAINT fku_tenants FOREIGN KEY (tenant_id) REFERENCES tenants(uuid)) ENGINE = INNODB"
+        user_table = "CREATE TABLE IF NOT EXISTS users(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), username VARCHAR(50), password VARBINARY(200), email VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
         cur.execute(user_table)
     if "systems" not in tables:
-        system_table = "CREATE TABLE IF NOT EXISTS systems(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), data_type VARCHAR(50), description VARCHAR(200), tenant_id VARCHAR(36), endpoint VARCHAR(100), hostname VARCHAR(50), port VARCHAR(5), remote_uri VARCHAR(100), poc_name VARCHAR(50), poc_email VARCHAR(50), remote BOOL, created DATETIME, updated_data DATETIME, CONSTRAINT fks_tenants FOREIGN KEY (tenant_id) REFERENCES tenants(uuid)) ENGINE = INNODB"
+        system_table = "CREATE TABLE IF NOT EXISTS systems(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), data_type VARCHAR(50), description VARCHAR(200), endpoint VARCHAR(100), hostname VARCHAR(50), port VARCHAR(5), remote_uri VARCHAR(100), poc_name VARCHAR(50), poc_email VARCHAR(50), remote BOOL, created DATETIME, updated_data DATETIME, INDEX (uuid)) ENGINE = INNODB"
         cur.execute(system_table)
+    if "users_tenants" not in tables:
+        users_tenants_table = "CREATE TABLE IF NOT EXISTS users_tenants(user_id VARCHAR(36), tenant_id VARCHAR(36), INDEX (user_id), CONSTRAINT fkut_tenants FOREIGN KEY (tenant_id) REFERENCES tenants(uuid), CONSTRAINT fkut_users FOREIGN KEY (user_id) REFERENCES users(uuid)) ENGINE = INNODB" 
+        cur.execute(users_tenants_table)
+    if "systems_tenants" not in tables:
+        systems_tenants_table = "CREATE TABLE IF NOT EXISTS systems_tenants(system_id VARCHAR(36), tenant_id VARCHAR(36), INDEX (system_id), CONSTRAINT fkst_tenants FOREIGN KEY (tenant_id) REFERENCES tenants(uuid), CONSTRAINT fkst_systems FOREIGN KEY (system_id) REFERENCES systems(uuid)) ENGINE = INNODB" 
+        cur.execute(systems_tenants_table)
 
     # perform action with args against mysql table
     uid = str(uuid.uuid4())
     timestamp = time.strftime('%Y-%m-%d %H:%M:%S')
     action_a = action.split("-")
     data_action = ""
+    data_action2 = ""
     # used to ensure that the properties and values line up correctly
     props = []
     vals = []
@@ -415,11 +422,26 @@ def process_action(action, var_d, m_server):
             else:
                 vals.append("0")
             data_action = "INSERT INTO systems("
+            data_action2 = "INSERT INTO systems_tenants("
+            i = 0
+            k = -1
             for prop in props:
-                data_action += prop+", "
+                if prop == "tenant_id":
+                    data_action2 += prop+", system_id) VALUES("
+                    k = i
+                else:
+                    data_action += prop+", "
+                i += 1
             data_action = data_action[:-2]+") VALUES("
+            i = 0
             for val in vals:
-                data_action += "\""+val+"\", "
+                if k == i:
+                    data_action2 += "\""+val+"\", \""+uid+"\")" 
+                else:
+                    data_action += "\""+val+"\", "
+                i += 1
+            if k == -1:
+                data_action2 = ""
             data_action = data_action[:-2]+")"
         else:
             # read only
@@ -427,6 +449,8 @@ def process_action(action, var_d, m_server):
             if "get" in action_a:
                 data_action += " WHERE uuid = '"+var_d['--uuid']+"'"
         cur.execute(data_action)
+        if data_action2:
+            cur.execute(data_action2)
 
     else:
         # update to tenants/users tables
@@ -441,21 +465,31 @@ def process_action(action, var_d, m_server):
         elif "create" in action_a:
             # write
             data_action = "INSERT INTO "+action_a[0]+"s("
+            data_action2 = "INSERT INTO "+action_a[0]+"s_tenants("
             i = 0
             j = -1
+            k = -1
             for prop in props:
-                data_action += prop+", "
                 if prop == "password":
                     j = i
+                if prop == "tenant_id":
+                    data_action2 += prop+", user_id) VALUES("
+                    k = i
+                else:
+                    data_action += prop+", "
                 i += 1
             data_action = data_action[:-2]+") VALUES("
             i = 0
             for val in vals:
                 if j == i:
                     data_action += "AES_ENCRYPT(\""+val+"\", \""+aes_key+"\"), "
+                elif k == i:
+                    data_action2 += "\""+val+"\", \""+uid+"\")" 
                 else:
                     data_action += "\""+val+"\", "
                 i += 1
+            if k == -1:
+                data_action2 = ""
             data_action = data_action[:-2]+")"
         elif "delete" in action_a:
             # delete
@@ -466,6 +500,8 @@ def process_action(action, var_d, m_server):
             if "get" in action_a:
                 data_action += " WHERE uuid = '"+var_d['--uuid']+"'"
         cur.execute(data_action)
+        if data_action2:
+            cur.execute(data_action2)
 
     results = cur.fetchall()
     
