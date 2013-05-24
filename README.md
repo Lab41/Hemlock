@@ -73,7 +73,9 @@ HEMLOCK
 
             user-create (create new user)
                 --name (name of user)
+                --username (username to login with)
                 --email (email address of user)
+                --tenant_id (uuid of tenant)
             
 
             user-delete (delete user)
