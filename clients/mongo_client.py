@@ -60,7 +60,7 @@ def connect_client(client_dict):
         sys.exit(0)
     return c_server, c_database, c_collection
 
-def get_data(client_dict, c_server, c_database, c_collection, h_server, h_bucket):
+def get_data(client_dict, c_server, c_database, c_collection, h_server, h_bucket, client_uuid):
     data_list = [[]]
     desc_list = []
 
@@ -72,13 +72,13 @@ def get_data(client_dict, c_server, c_database, c_collection, h_server, h_bucket
             data_list[0][i].append(str(record[key]))
             desc_list[i].append([str(key)])
         if len(data_list[0]) % 1000 == 0:
-            send_data(data_list, desc_list, h_server, h_bucket, client_dict)
+            send_data(data_list, desc_list, h_server, h_bucket, client_dict, client_uuid)
             data_list = [[]]
             desc_list = []
             i = -1
         i += 1
     if desc_list:
-        send_data(data_list, desc_list, h_server, h_bucket, client_dict)
+        send_data(data_list, desc_list, h_server, h_bucket, client_dict, client_uuid)
     return
 
 # !! TODO MOVE THIS PART BELOW OUT OF HERE
@@ -112,6 +112,7 @@ def send_data(data_list, desc_list, h_server, h_bucket, client_dict):
                 j_dict[desc_list[j][k][0]] = record[k]
                 k += 1
             uid = hashlib.sha1(repr(sorted(j_dict.items())))
+            j_dict['hemlock-system'] = client_uuid
             h_bucket.set(uid.hexdigest(), 0, 0, json.dumps(j_dict))
             i += 1
         print j_dict
@@ -172,6 +173,6 @@ if __name__ == "__main__":
     client_dict, server_dict = get_creds()
     c_server, c_database, c_collection = connect_client(client_dict)
     h_server, h_bucket = connect_server(server_dict)
-    get_data(client_dict, c_server, c_database, c_collection, h_server, h_bucket)
+    get_data(client_dict, c_server, c_database, c_collection, h_server, h_bucket, client_uuid)
     update_hemlock(client_uuid, server_dict)
     print "Took",time.time() - start_time,"seconds to complete."
