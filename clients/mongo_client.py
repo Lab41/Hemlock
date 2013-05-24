@@ -99,7 +99,7 @@ def connect_server(server_dict):
         sys.exit(0)
     return h_server, h_bucket
 
-def send_data(data_list, desc_list, h_server, h_bucket, client_dict):
+def send_data(data_list, desc_list, h_server, h_bucket, client_dict, client_uuid):
     j_dict = {}
     j = 0
     for table_data in data_list:
