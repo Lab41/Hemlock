@@ -273,16 +273,20 @@ def process_args(args):
         'system-get' : system_get,
         'system-list' : system_list,
         'system-remove-tenant' : system_remove_tenant,
+        'system-tenants-list' : system_tenant_list
         'tenant-create' : tenant_create,
         'tenant-delete' : tenant_delete,
         'tenant-get' : tenant_get,
         'tenant-list' : tenant_list,
+        'tenant-systems-list' : tenant_systems_list,
+        'tenant-users-list' : tenant_users_list,
         'user-add-tenant' : user_add_tenant,
         'user-create' : user_create,
         'user-delete' : user_delete,
         'user-get' : user_get,
         'user-list' : user_list,
-        'user-remove-tenant' : user_remove_tenant
+        'user-remove-tenant' : user_remove_tenant,
+        'user-tenants-list' : user_tenants_list
     }
 
     # get action
@@ -414,6 +418,7 @@ def process_action(action, var_d, m_server):
         if "deregister" in action_a: 
             # delete
             data_action = "DELETE FROM systems WHERE uuid = '"+var_d['--uuid']+"'"
+            # !! TODO delete from systems_tenants
         elif "register" in action_a:
             # write
             props.append("remote")
@@ -494,6 +499,7 @@ def process_action(action, var_d, m_server):
         elif "delete" in action_a:
             # delete
             data_action = "DELETE FROM "+action_a[0]+"s WHERE uuid = '"+var_d['--uuid']+"'"
+            # !! TODO delete from users_tenants
         else:
             # read only
             data_action = "SELECT * FROM "+action_a[0]+"s"
