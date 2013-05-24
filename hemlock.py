@@ -104,10 +104,11 @@ def user_add_tenant(args, var_d):
     return check_args(args, arg_d, var_d) 
 
 def user_create(args, var_d):
-    # !! TODO need to flesh out the rest of the options
     arg_d = [
         '--name',
-        '--email'
+        '--username',
+        '--email',
+        '--tenant_id'
     ]
     return check_args(args, arg_d, var_d) 
 
@@ -228,7 +229,9 @@ def print_help(action):
             'user-create' : """
             user-create (create new user)
                 --name (name of user)
+                --username (username to login with)
                 --email (email address of user)
+                --tenant_id (uuid of tenant)
             """,
             'user-delete' : """
             user-delete (delete user)
@@ -355,6 +358,9 @@ def process_action(action, var_d, m_server):
     # !! TODO try/except
     # !! TODO validate that uuids linked between users/systems/tenants exist/match-up correctly
 
+    # !! TODO FIX THIS!!!!!!
+    aes_key = "test"
+
     cur = m_server.cursor()
 
     # ensure mysql tables exist
@@ -366,16 +372,15 @@ def process_action(action, var_d, m_server):
         tables.append(results[i][0])
         i += 1
 
-    # !! TODO this needs to be fleshed out
+    if "tenants" not in tables:
+        tenant_table = "CREATE TABLE IF NOT EXISTS tenants(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, index (uuid)) ENGINE = INNODB"
+        cur.execute(tenant_table)
     if "users" not in tables:
-        user_table = "CREATE TABLE IF NOT EXISTS users(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), email VARCHAR(50), created DATETIME)"
+        user_table = "CREATE TABLE IF NOT EXISTS users(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), username VARCHAR(50), password VARBINARY(200), email VARCHAR(50), created DATETIME, tenant_id VARCHAR(36), CONSTRAINT fku_tenants FOREIGN KEY (tenant_id) REFERENCES tenants(uuid)) ENGINE = INNODB"
         cur.execute(user_table)
     if "systems" not in tables:
-        system_table = "CREATE TABLE IF NOT EXISTS systems(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), data_type VARCHAR(50), description VARCHAR(200), tenant_id VARCHAR(36), endpoint VARCHAR(100), hostname VARCHAR(50), port VARCHAR(5), remote_uri VARCHAR(100), poc_name VARCHAR(50), poc_email VARCHAR(50), remote BOOL, created DATETIME, updated_data DATETIME)"
+        system_table = "CREATE TABLE IF NOT EXISTS systems(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), data_type VARCHAR(50), description VARCHAR(200), tenant_id VARCHAR(36), endpoint VARCHAR(100), hostname VARCHAR(50), port VARCHAR(5), remote_uri VARCHAR(100), poc_name VARCHAR(50), poc_email VARCHAR(50), remote BOOL, created DATETIME, updated_data DATETIME, CONSTRAINT fks_tenants FOREIGN KEY (tenant_id) REFERENCES tenants(uuid)) ENGINE = INNODB"
         cur.execute(system_table)
-    if "tenants" not in tables:
-        tenant_table = "CREATE TABLE IF NOT EXISTS tenants(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME)"
-        cur.execute(tenant_table)
 
     # perform action with args against mysql table
     uid = str(uuid.uuid4())
@@ -388,6 +393,10 @@ def process_action(action, var_d, m_server):
     for key in var_d:
         props.append(key[2:])
         vals.append(var_d[key])
+    if "user" in action_a and "create" in action_a:
+        props.append("password")
+        pw = getpass.getpass("Password:")
+        vals.append(pw)
     props.append("uuid")
     props.append("created")
     vals.append(uid)
@@ -432,11 +441,21 @@ def process_action(action, var_d, m_server):
         elif "create" in action_a:
             # write
             data_action = "INSERT INTO "+action_a[0]+"s("
+            i = 0
+            j = -1
             for prop in props:
                 data_action += prop+", "
+                if prop == "password":
+                    j = i
+                i += 1
             data_action = data_action[:-2]+") VALUES("
+            i = 0
             for val in vals:
-                data_action += "\""+val+"\", "
+                if j == i:
+                    data_action += "AES_ENCRYPT(\""+val+"\", \""+aes_key+"\"), "
+                else:
+                    data_action += "\""+val+"\", "
+                i += 1
             data_action = data_action[:-2]+")"
         elif "delete" in action_a:
             # delete
