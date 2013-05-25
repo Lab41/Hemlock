@@ -457,8 +457,8 @@ def process_action(action, var_d, m_server):
         # update to systems table
         if "deregister" in action_a: 
             # delete
-            data_action = "DELETE FROM systems WHERE uuid = '"+var_d['--uuid']+"'"
-            # !! TODO delete from systems_tenants
+            data_action = "DELETE FROM systems_tenants WHERE system_id = '"+var_d['--uuid']+"'"
+            data_action2 = "DELETE FROM systems WHERE uuid = '"+var_d['--uuid']+"'"
         elif "register" in action_a:
             # write
             props.append("remote")
@@ -488,6 +488,14 @@ def process_action(action, var_d, m_server):
             if k == -1:
                 data_action2 = ""
             data_action = data_action[:-2]+")"
+        elif "add" in action_a:
+            # write
+            # !! TODO
+            print
+        elif "remove" in action_a:
+            # delete
+            # !! TODO
+            print
         else:
             # read only
             if "tenants" in action_a:
@@ -541,8 +549,8 @@ def process_action(action, var_d, m_server):
             data_action = data_action[:-2]+")"
         elif "delete" in action_a:
             # delete
-            data_action = "DELETE FROM "+action_a[0]+"s WHERE uuid = '"+var_d['--uuid']+"'"
-            # !! TODO delete from users_tenants
+            data_action = "DELETE FROM "+action_a[0]+"s_tenants WHERE "+action_a[0]+"_id = '"+var_d['--uuid']+"'"
+            data_action2 = "DELETE FROM "+action_a[0]+"s WHERE uuid = '"+var_d['--uuid']+"'"
         else:
             # read only
             if "tenants" in action_a:
