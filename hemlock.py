@@ -79,7 +79,6 @@ def system_tenants_list(args, var_d):
     return check_args(args, arg_d, var_d) 
 
 def tenant_create(args, var_d):
-    # !! TODO need to flesh out the rest of the options
     arg_d = [
         '--name'
     ]
@@ -396,11 +395,8 @@ def mysql_server(server, user, pw, db):
     return m_server
 
 def process_action(action, var_d, m_server):
-    # !! TODO save stuff to a db
-    # !! TODO do calls to and from couch
     # !! TODO tie in with frontend stuff
     # !! TODO try/except
-    # !! TODO validate that uuids linked between users/systems/tenants exist/match-up correctly
 
     # !! TODO FIX THIS!!!!!!
     aes_key = "test"
@@ -494,8 +490,8 @@ def process_action(action, var_d, m_server):
             print
         elif "remove" in action_a:
             # delete
-            # !! TODO
-            print
+            # !! TODO only do this if it's not the last one
+            data_action = "DELETE FROM systems_tenants WHERE system_id = '"+var_d['--uuid']+"' and tenant_id = '"+var_d['--tenant_id']+"'"
         else:
             # read only
             if "tenants" in action_a:
@@ -516,8 +512,8 @@ def process_action(action, var_d, m_server):
             print
         elif "remove" in action_a:
             # delete
-            # !! TODO
-            print
+            # !! TODO only do this if it's not the last one
+            data_action = "DELETE FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"' and tenant_id = '"+var_d['--tenant_id']+"'"
         elif "create" in action_a:
             # write
             data_action = "INSERT INTO "+action_a[0]+"s("
@@ -641,5 +637,5 @@ if __name__ == "__main__":
     user, pw, db, server, c_server, bucket, c_pw = get_auth()
     m_server = mysql_server(server, user, pw, db)
     process_action(action, var_d, m_server)
-    c_server, c_bucket = couch_server(c_server, bucket, c_pw)
+    #c_server, c_bucket = couch_server(c_server, bucket, c_pw)
     print "Took",time.time() - start_time,"seconds to complete."
