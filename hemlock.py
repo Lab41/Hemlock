@@ -72,6 +72,12 @@ def system_remove_tenant(args, var_d):
     ]
     return check_args(args, arg_d, var_d) 
 
+def system_tenants_list(args, var_d):
+    arg_d = [
+        '--uuid'
+    ]
+    return check_args(args, arg_d, var_d) 
+
 def tenant_create(args, var_d):
     # !! TODO need to flesh out the rest of the options
     arg_d = [
@@ -93,6 +99,18 @@ def tenant_get(args, var_d):
 
 def tenant_list(args, var_d):
     arg_d = [
+    ]
+    return check_args(args, arg_d, var_d) 
+
+def tenant_systems_list(args, var_d):
+    arg_d = [
+        '--uuid'
+    ]
+    return check_args(args, arg_d, var_d) 
+
+def tenant_users_list(args, var_d):
+    arg_d = [
+        '--uuid'
     ]
     return check_args(args, arg_d, var_d) 
 
@@ -133,6 +151,12 @@ def user_remove_tenant(args, var_d):
     arg_d = [
         '--uuid'
         '--tenant_id'
+    ]
+    return check_args(args, arg_d, var_d) 
+
+def user_tenants_list(args, var_d):
+    arg_d = [
+        '--uuid'
     ]
     return check_args(args, arg_d, var_d) 
 
@@ -206,6 +230,10 @@ def print_help(action):
                 --uuid (uuid of system)
                 --tenant_id (uuid of tenant)
             """,
+            'system-tenants-list' : """
+            system-tenants-list (list tenants a system belongs to)
+                --uuid (uuid of system)
+            """,
             'tenant-create' : """
             tenant-create (create new tenant)
                 --name (name of tenant)
@@ -220,6 +248,14 @@ def print_help(action):
             """,
             'tenant-list' : """
             tenant-list (list all tenants)
+            """,
+            'tenant-systems-list' : """
+            tenant-systems-list (list systems in a tenant)
+                --uuid (uuid of tenant)
+            """,
+            'tenant-users-list' : """
+            tenant-users-list (list users in a tenant)
+                --uuid (uuid of tenant)
             """,
             'user-add-tenant' : """
             user-add-tenant (add a tenant to a user)
@@ -248,6 +284,10 @@ def print_help(action):
             user-remove-tenant (remove a tenant from a user)
                 --uuid (uuid of user)
                 --tenant_id (uuid of tenant)
+            """,
+            'user-tenants-list' : """
+            user-tenants-list (list tenants a user belongs to)
+                --uuid (uuid of user)
             """
         }
         print "HEMLOCK"
@@ -273,7 +313,7 @@ def process_args(args):
         'system-get' : system_get,
         'system-list' : system_list,
         'system-remove-tenant' : system_remove_tenant,
-        'system-tenants-list' : system_tenant_list
+        'system-tenants-list' : system_tenants_list,
         'tenant-create' : tenant_create,
         'tenant-delete' : tenant_delete,
         'tenant-get' : tenant_get,
@@ -450,9 +490,12 @@ def process_action(action, var_d, m_server):
             data_action = data_action[:-2]+")"
         else:
             # read only
-            data_action = "SELECT * FROM systems"
-            if "get" in action_a:
-                data_action += " WHERE uuid = '"+var_d['--uuid']+"'"
+            if "tenants" in action_a:
+                data_action = "SELECT * FROM systems_tenants WHERE system_id = '"+var_d['--uuid']+"'"
+            else:
+                data_action = "SELECT * FROM systems"
+                if "get" in action_a:
+                    data_action += " WHERE uuid = '"+var_d['--uuid']+"'"
         cur.execute(data_action)
         if data_action2:
             cur.execute(data_action2)
@@ -502,9 +545,16 @@ def process_action(action, var_d, m_server):
             # !! TODO delete from users_tenants
         else:
             # read only
-            data_action = "SELECT * FROM "+action_a[0]+"s"
-            if "get" in action_a:
-                data_action += " WHERE uuid = '"+var_d['--uuid']+"'"
+            if "tenants" in action_a:
+                data_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"'"
+            elif "users" in action_a:
+                data_action = "SELECT * FROM users_tenants WHERE tenant_id = '"+var_d['--uuid']+"'"
+            elif "systems" in action_a:
+                data_action = "SELECT * FROM systems_tenants WHERE tenant_id = '"+var_d['--uuid']+"'"
+            else:
+                data_action = "SELECT * FROM "+action_a[0]+"s"
+                if "get" in action_a:
+                    data_action += " WHERE uuid = '"+var_d['--uuid']+"'"
         cur.execute(data_action)
         if data_action2:
             cur.execute(data_action2)
@@ -522,7 +572,14 @@ def process_action(action, var_d, m_server):
             i += 1
     else:
         if results:
-            data_action = "desc "+action_a[0]+"s"
+            if "tenants" in action_a:
+                data_action = "desc "+action_a[0]+"s_tenants"
+            elif "users" in action_a:
+                data_action = "desc "+action_a[1]+"_tenants"
+            elif "systems" in action_a:
+                data_action = "desc "+action_a[1]+"_tenants"
+            else:
+                data_action = "desc "+action_a[0]+"s"
             cur.execute(data_action)
             desc_results = cur.fetchall()
             if len(results) == 1:
