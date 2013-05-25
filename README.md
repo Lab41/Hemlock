@@ -51,6 +51,10 @@ HEMLOCK
                 --tenant_id (uuid of tenant)
             
 
+            system-tenants-list (list tenants a system belongs to)
+                --uuid (uuid of system)
+            
+
             tenant-create (create new tenant)
                 --name (name of tenant)
             
@@ -64,6 +68,14 @@ HEMLOCK
             
 
             tenant-list (list all tenants)
+            
+
+            tenant-systems-list (list systems in a tenant)
+                --uuid (uuid of tenant)
+            
+
+            tenant-users-list (list users in a tenant)
+                --uuid (uuid of tenant)
             
 
             user-add-tenant (add a tenant to a user)
@@ -93,3 +105,6 @@ HEMLOCK
                 --uuid (uuid of user)
                 --tenant_id (uuid of tenant)
             
+
+            user-tenants-list (list tenants a user belongs to)
+                --uuid (uuid of user)
