@@ -141,6 +141,7 @@ def send_data(data_list, desc_list, tables, h_server, h_bucket, client_dict, cli
                 k += 1
             uid = hashlib.sha1(repr(sorted(j_dict.items())))
             j_dict['hemlock-system'] = client_uuid
+            j_dict['hemlock-date'] = time.strftime('%Y-%m-%d %H:%M:%S')
             h_bucket.set(uid.hexdigest(), 0, 0, json.dumps(j_dict))
             i += 1
         print j_dict

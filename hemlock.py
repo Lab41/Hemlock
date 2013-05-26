@@ -49,7 +49,7 @@ def register_remote_system(args, var_d):
 
 def system_add_tenant(args, var_d):
     arg_d = [
-        '--uuid'
+        '--uuid',
         '--tenant_id'
     ]
     return check_args(args, arg_d, var_d) 
@@ -67,7 +67,7 @@ def system_list(args, var_d):
 
 def system_remove_tenant(args, var_d):
     arg_d = [
-        '--uuid'
+        '--uuid',
         '--tenant_id'
     ]
     return check_args(args, arg_d, var_d) 
@@ -115,7 +115,7 @@ def tenant_users_list(args, var_d):
 
 def user_add_tenant(args, var_d):
     arg_d = [
-        '--uuid'
+        '--uuid',
         '--tenant_id'
     ]
     return check_args(args, arg_d, var_d) 
@@ -148,7 +148,7 @@ def user_list(args, var_d):
 
 def user_remove_tenant(args, var_d):
     arg_d = [
-        '--uuid'
+        '--uuid',
         '--tenant_id'
     ]
     return check_args(args, arg_d, var_d) 
@@ -444,10 +444,11 @@ def process_action(action, var_d, m_server):
         props.append("password")
         pw = getpass.getpass("Password:")
         vals.append(pw)
-    props.append("uuid")
-    props.append("created")
-    vals.append(uid)
-    vals.append(timestamp)
+    if "add" not in action_a:
+        props.append("uuid")
+        props.append("created")
+        vals.append(uid)
+        vals.append(timestamp)
 
     if "system" in action_a:
         # update to systems table
@@ -486,7 +487,7 @@ def process_action(action, var_d, m_server):
             data_action = data_action[:-2]+")"
         elif "add" in action_a:
             # write
-            # !! TODO
+            data_action = "INSERT INTO systems_tenants(system_id, tenant_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--tenant_id']+"\")"
             print
         elif "remove" in action_a:
             # delete
@@ -508,7 +509,7 @@ def process_action(action, var_d, m_server):
         # update to tenants/users tables
         if "add" in action_a: 
             # write
-            # !! TODO
+            data_action = "INSERT INTO users_tenants(user_id, tenant_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--tenant_id']+"\")"
             print
         elif "remove" in action_a:
             # delete
@@ -590,22 +591,40 @@ def process_action(action, var_d, m_server):
                 vals = list(results[0])
                 i = 0
                 while i < len(desc_results):
-                    x.append([desc_results[i][0],vals[i]])
+                    if desc_results[i][0] != "password":
+                        x.append([desc_results[i][0],vals[i]])
                     i += 1
             else:
-                tab_header = ['Name', 'UUID']
-                i = 0
-                a = b = -1
-                while i < len(desc_results):
-                    if desc_results[i][0] == 'name':
-                        a = i
-                    if desc_results[i][0] == 'uuid':
-                        b = i 
-                    i += 1
-                i = 0
-                while i < len(results):
-                    x.append([results[i][a],results[i][b]])
-                    i += 1
+                if "tenants" in action_a or "users" in action_a or "systems" in action_a:
+                    # !! TODO change this when it is showing users-tenants or systems-tenants
+                    tab_header = ['Name', 'UUID']
+                    i = 0
+                    a = b = -1
+                    while i < len(desc_results):
+                        print desc_results[i][0]
+                        if desc_results[i][0] == 'name':
+                            a = i
+                        if desc_results[i][0] == 'uuid':
+                            b = i 
+                        i += 1
+                    i = 0
+                    while i < len(results):
+                        x.append([results[i][a],results[i][b]])
+                        i += 1
+                else:
+                    tab_header = ['Name', 'UUID']
+                    i = 0
+                    a = b = -1
+                    while i < len(desc_results):
+                        if desc_results[i][0] == 'name':
+                            a = i
+                        if desc_results[i][0] == 'uuid':
+                            b = i 
+                        i += 1
+                    i = 0
+                    while i < len(results):
+                        x.append([results[i][a],results[i][b]])
+                        i += 1
         
     m_server.commit()
     m_server.close()
