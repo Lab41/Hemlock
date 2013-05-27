@@ -569,7 +569,8 @@ def process_action(action, var_d, m_server):
     tab = tt.Texttable()
     x = [[]]
     tab_header = ['Property', 'Value']
-
+    tab_align = ['c','c']
+    
     if "get" not in action_a and "list" not in action_a:
         i = 0
         while i < len(props):
@@ -595,21 +596,47 @@ def process_action(action, var_d, m_server):
                         x.append([desc_results[i][0],vals[i]])
                     i += 1
             else:
-                if "tenants" in action_a or "users" in action_a or "systems" in action_a:
-                    # !! TODO change this when it is showing users-tenants or systems-tenants
-                    tab_header = ['Name', 'UUID']
+                if "tenants" in action_a:
+                    tab_header = ['Tenant ID']
+                    tab_align = ['c']
                     i = 0
-                    a = b = -1
+                    a = -1
                     while i < len(desc_results):
                         print desc_results[i][0]
-                        if desc_results[i][0] == 'name':
+                        if desc_results[i][0] == 'tenant_id':
                             a = i
-                        if desc_results[i][0] == 'uuid':
-                            b = i 
                         i += 1
                     i = 0
                     while i < len(results):
-                        x.append([results[i][a],results[i][b]])
+                        x.append([results[i][a]])
+                        i += 1
+                elif "users" in action_a:
+                    tab_header = ['User ID']
+                    tab_align = ['c']
+                    i = 0
+                    a = -1
+                    while i < len(desc_results):
+                        print desc_results[i][0]
+                        if desc_results[i][0] == 'user_id':
+                            a = i
+                        i += 1
+                    i = 0
+                    while i < len(results):
+                        x.append([results[i][a]])
+                        i += 1
+                elif "systems" in action_a:
+                    tab_header = ['System ID']
+                    tab_align = ['c']
+                    i = 0
+                    a = -1
+                    while i < len(desc_results):
+                        print desc_results[i][0]
+                        if desc_results[i][0] == 'system_id':
+                            a = i
+                        i += 1
+                    i = 0
+                    while i < len(results):
+                        x.append([results[i][a]])
                         i += 1
                 else:
                     tab_header = ['Name', 'UUID']
@@ -630,7 +657,7 @@ def process_action(action, var_d, m_server):
     m_server.close()
 
     tab.add_rows(x)
-    tab_align = ['c','c']
+    # !! TODO if "tenants" in 
     tab.set_deco(tab.HEADER | tab.VLINES | tab.BORDER)
     tab.set_chars(['-','|','+','-'])
     tab.set_cols_align(tab_align)
