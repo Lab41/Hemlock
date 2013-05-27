@@ -492,6 +492,7 @@ def process_action(action, var_d, m_server):
         elif "remove" in action_a:
             # delete
             # !! TODO only do this if it's not the last one
+            #         do a select on the below query, if tuple is of size one, then don't do this:
             data_action = "DELETE FROM systems_tenants WHERE system_id = '"+var_d['--uuid']+"' and tenant_id = '"+var_d['--tenant_id']+"'"
         else:
             # read only
@@ -514,6 +515,7 @@ def process_action(action, var_d, m_server):
         elif "remove" in action_a:
             # delete
             # !! TODO only do this if it's not the last one
+            #         do a select on the below query, if tuple is of size one, then don't do this:
             data_action = "DELETE FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"' and tenant_id = '"+var_d['--tenant_id']+"'"
         elif "create" in action_a:
             # write
@@ -657,7 +659,6 @@ def process_action(action, var_d, m_server):
     m_server.close()
 
     tab.add_rows(x)
-    # !! TODO if "tenants" in 
     tab.set_deco(tab.HEADER | tab.VLINES | tab.BORDER)
     tab.set_chars(['-','|','+','-'])
     tab.set_cols_align(tab_align)
