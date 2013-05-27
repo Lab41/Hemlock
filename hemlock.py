@@ -491,9 +491,14 @@ def process_action(action, var_d, m_server):
             print
         elif "remove" in action_a:
             # delete
-            # !! TODO only do this if it's not the last one
-            #         do a select on the below query, if tuple is of size one, then don't do this:
-            data_action = "DELETE FROM systems_tenants WHERE system_id = '"+var_d['--uuid']+"' and tenant_id = '"+var_d['--tenant_id']+"'"
+            remove_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"'"
+            cur.execute(remove_action)
+            remove_results = cur.fetchall()
+            if len(remove_results) > 1:
+                data_action = "DELETE FROM systems_tenants WHERE system_id = '"+var_d['--uuid']+"' and tenant_id = '"+var_d['--tenant_id']+"'"
+            else:
+                print "You can not remove the last tenant from a system."
+                sys.exit(0)
         else:
             # read only
             if "tenants" in action_a:
@@ -514,9 +519,14 @@ def process_action(action, var_d, m_server):
             print
         elif "remove" in action_a:
             # delete
-            # !! TODO only do this if it's not the last one
-            #         do a select on the below query, if tuple is of size one, then don't do this:
-            data_action = "DELETE FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"' and tenant_id = '"+var_d['--tenant_id']+"'"
+            remove_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"'"
+            cur.execute(remove_action)
+            remove_results = cur.fetchall()
+            if len(remove_results) > 1:
+                data_action = "DELETE FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"' and tenant_id = '"+var_d['--tenant_id']+"'"
+            else:
+                print "You can not remove the last tenant from a user."
+                sys.exit(0)
         elif "create" in action_a:
             # write
             data_action = "INSERT INTO "+action_a[0]+"s("
