@@ -34,6 +34,7 @@ def register_local_system(args, var_d):
 
 def register_remote_system(args, var_d):
     # !! TODO add map of operation vocabulary
+    #         is this needed?
     arg_d = [
         '--name',
         '--data_type',
@@ -303,6 +304,7 @@ def process_args(args):
     var_d = {}
 
     # !! TODO add load data actions
+    #         is this needed?
     arg_actions = {
         'deregister-local-system' : deregister_local_system,
         'deregister-remote-system' : deregister_remote_system,
