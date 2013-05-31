@@ -11,9 +11,10 @@ def process_files(input):
     for file in matches:
         print file
         print magic.from_file(file, mime=True)
-        # !! TODO if file is text/doc
+        # !! TODO if file is text
         # !! TODO if file is csv/xls
-        # !! TODO if file has text
+        # !! TODO if file is xml
+        # !! TODO if file has text - doc, html, etc.
         # !! TODO open file
         i += 1
     print i,"documents."
