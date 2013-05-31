@@ -1,19 +1,20 @@
 #!/usr/bin/python
 
-import fnmatch, os, sys, time, uuid
+import fnmatch, magic, os, sys, time, uuid
 
 def process_files(input):
     matches = []
     for root, dirnames, filenames in os.walk(input):
-        for filename in fnmatch.filter(filenames, '*.txt'):
+        for filename in fnmatch.filter(filenames, '*.*'):
             matches.append(os.path.join(root, filename))
     i = 0
     for file in matches:
+        print file
+        print magic.from_file(file, mime=True)
         # !! TODO if file is text/doc
         # !! TODO if file is csv/xls
         # !! TODO if file has text
         # !! TODO open file
-        print file
         i += 1
     print i,"documents."
 
