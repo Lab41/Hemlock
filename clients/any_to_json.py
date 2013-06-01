@@ -2,6 +2,7 @@
 
 import base64, fnmatch, json, magic, os, sys, time, uuid
 from couchbase.client import Couchbase
+import MySQLdb as mdb
 
 # process pdfs
 from pdfminer.pdfinterp import PDFResourceManager, process_pdf
@@ -44,13 +45,13 @@ def process_files(input):
     i = 0
     j_dict = []
     for file in matches:
-        print file
+        #print file
         file_mime = magic.from_file(file, mime=True)
         f = open(file, 'rb')
         try:
             # if file is text
             j_str = json.dumps( { "payload": f.read() } )
-            print "worked, text"
+            #print "worked, text"
         except:
             # !! TODO if file is csv/xls
             # !! TODO if file is xml
@@ -69,7 +70,7 @@ def process_files(input):
                 else:
                     b64_text = base64.b64encode(f.read())
                     j_str = json.dumps( { "payload": b64_text } )
-                    print "failed, binary"
+                    #print "failed, binary"
                 j_dict.append(j_str)
         f.close()
         i += 1
