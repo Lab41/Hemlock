@@ -56,24 +56,24 @@ def process_files(input):
             # !! TODO if file is xml
             # !! TODO if file is json
             # !! TODO if file is pdf
-            if "pdf" in file_mime:
-                try:
-                    text = convert_pdf(file)
-                    j_str = json.dumps( { "payload" : text } )
-                except:
+            if file_mime:
+                if "pdf" in file_mime:
+                    try:
+                        text = convert_pdf(file)
+                        j_str = json.dumps( { "payload" : text } )
+                    except:
+                        b64_text = base64.b64encode(f.read())
+                        j_str = json.dumps( { "payload": b64_text } )
+                
+                # !! TODO if file has text - doc, etc.
+                else:
                     b64_text = base64.b64encode(f.read())
                     j_str = json.dumps( { "payload": b64_text } )
-                
-            # !! TODO if file has text - doc, etc.
-            else:
-                b64_text = base64.b64encode(f.read())
-                j_str = json.dumps( { "payload": b64_text } )
-                print "failed, binary"
-        j_dict.append(j_str)
+                    print "failed, binary"
+                j_dict.append(j_str)
         f.close()
         i += 1
     print i,"documents."
-    print j_dict
 
 def convert_pdf(input):
     rsrcmgr = PDFResourceManager()
