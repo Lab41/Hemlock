@@ -74,10 +74,7 @@ def process_files(input):
         f.close()
         i += 1
     print i,"documents."
-<<<<<<< HEAD
-=======
     #print j_dict
->>>>>>> 76d1efd4b9898e5bf88910101b35b306d6fc0129
 
 def convert_pdf(input):
     rsrcmgr = PDFResourceManager()
