@@ -73,7 +73,7 @@ def process_files(input):
         f.close()
         i += 1
     print i,"documents."
-    print j_dict
+    #print j_dict
 
 def convert_pdf(input):
     rsrcmgr = PDFResourceManager()
@@ -149,6 +149,7 @@ def update_hemlock(client_uuid, server_dict):
     return
 
 def print_help():
+    print "--uuid \t<uuid of system> (use 'system-list' on the Hemlock server)"
     print "-i \t<input path to files> (default is /mnt/)"
     print "-h \thelp\n"
     sys.exit(0)
