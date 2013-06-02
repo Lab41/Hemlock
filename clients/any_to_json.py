@@ -45,19 +45,34 @@ def process_files(input):
     i = 0
     j_dict = []
     for file in matches:
-        #print file
         file_mime = magic.from_file(file, mime=True)
         f = open(file, 'rb')
         try:
-            # if file is text
             j_str = json.dumps( { "payload": f.read() } )
-            #print "worked, text"
+            if "csv" in file:
+                f.close()
+                try:
+                    with open(file, 'rb') as csvfile:
+                        reader = csv.reader(csvfile, delimiter=',', quotechar='"')
+                        hrow = reader.next()
+                except:
+                    print file, "csv failed"
+                f = open(file, 'rb')
         except:
             # !! TODO if file is csv/xls
             # !! TODO if file is xml
             # !! TODO if file is json
             # !! TODO if file is pdf
-            if file_mime:
+            if "csv" in file:
+                f.close()
+                try:
+                    with open(file, 'rb') as csvfile:
+                        reader = csv.reader(csvfile, delimiter=',', quotechar='"')
+                        hrow = reader.next()
+                except:
+                    print file, "csv failed"
+                f = open(file, 'rb')
+            elif file_mime:
                 if "pdf" in file_mime:
                     try:
                         text = convert_pdf(file)
@@ -65,7 +80,6 @@ def process_files(input):
                     except:
                         b64_text = base64.b64encode(f.read())
                         j_str = json.dumps( { "payload": b64_text } )
-                
                 # !! TODO if file has text - doc, etc.
                 else:
                     b64_text = base64.b64encode(f.read())
