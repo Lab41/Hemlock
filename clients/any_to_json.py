@@ -10,12 +10,19 @@ from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
 from cStringIO import StringIO
 
+# process xml
+import xmltodict
+
+# process powerpoint
+
 # process word
 
 # process excel
+import xlrd
 
 # process csv
 import csv
+
 
 SERVER_CREDS_FILE='hemlock_creds'
 
@@ -92,7 +99,6 @@ def process_files(input):
             # !! TODO if file is xls
             # !! TODO if file is xml
             # !! TODO if file is json
-            # !! TODO if file is pdf
             if file_mime:
                 if "pdf" in file_mime:
                     try:
