@@ -78,8 +78,6 @@ def process_files(input):
                             i += 1
                 except:
                     f = open(file, 'rb')
-                    print file, "csv failed"
-                    print "Unexpected error:", sys.exc_info()[0]
                     j_str = json.dumps( { "payload": f.read() } )
                     if len(j_list) > 1000:
                         # !! TODO call out send data
@@ -108,7 +106,10 @@ def process_files(input):
                         b64_text = base64.b64encode(f.read())
                         j_str = json.dumps( { "payload": b64_text } )
                 # !! TODO if file has text - doc, etc.
+                elif "text" in file_mime:
+                    j_str = json.dumps( { "payload": repr(f.read()) } )
                 else:
+                    print file, file_mime
                     b64_text = base64.b64encode(f.read())
                     j_str = json.dumps( { "payload": b64_text } )
                 i += 1
@@ -117,6 +118,8 @@ def process_files(input):
                     j_list = []
                 else:
                     j_list.append(j_str)
+            else:
+                print file, "no mimetype"
         f.close()
     print i,"documents."
 
