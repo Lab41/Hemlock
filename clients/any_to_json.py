@@ -43,36 +43,57 @@ def process_files(input):
         for filename in fnmatch.filter(filenames, '*.*'):
             matches.append(os.path.join(root, filename))
     i = 0
-    j_dict = []
+    j_list = []
     for file in matches:
         file_mime = magic.from_file(file, mime=True)
         f = open(file, 'rb')
         try:
-            j_str = json.dumps( { "payload": f.read() } )
             if "csv" in file:
-                f.close()
                 try:
+                    f.close()
                     with open(file, 'rb') as csvfile:
                         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
                         hrow = reader.next()
+                        for row in reader:
+                            j = 0
+                            j_str = "{"
+                            while j < len(hrow):
+                                j_str += "\""+hrow[j]+"\":"
+                                j_str += "\""+ row[j]+"\","
+                                j += 1
+                            j_str = j_str[:-1]+"}"
+                            j_str = json.dumps(repr(j_str))
+                            if len(j_list) > 1000:
+                                # !! TODO call out send data
+                                j_list = []
+                            else:
+                                j_list.append(j_str)
+                            i += 1
                 except:
+                    f = open(file, 'rb')
                     print file, "csv failed"
-                f = open(file, 'rb')
+                    print "Unexpected error:", sys.exc_info()[0]
+                    j_str = json.dumps( { "payload": f.read() } )
+                    if len(j_list) > 1000:
+                        # !! TODO call out send data
+                        j_list = []
+                    else:
+                        j_list.append(j_str)
+                    i += 1
+            else:
+                j_str = json.dumps( { "payload": f.read() } )
+                if len(j_list) > 1000:
+                    # !! TODO call out send data
+                    j_list = []
+                else:
+                    j_list.append(j_str)
+                i += 1
         except:
-            # !! TODO if file is csv/xls
+            # !! TODO if file is xls
             # !! TODO if file is xml
             # !! TODO if file is json
             # !! TODO if file is pdf
-            if "csv" in file:
-                f.close()
-                try:
-                    with open(file, 'rb') as csvfile:
-                        reader = csv.reader(csvfile, delimiter=',', quotechar='"')
-                        hrow = reader.next()
-                except:
-                    print file, "csv failed"
-                f = open(file, 'rb')
-            elif file_mime:
+            if file_mime:
                 if "pdf" in file_mime:
                     try:
                         text = convert_pdf(file)
@@ -84,12 +105,14 @@ def process_files(input):
                 else:
                     b64_text = base64.b64encode(f.read())
                     j_str = json.dumps( { "payload": b64_text } )
-                    #print "failed, binary"
-                j_dict.append(j_str)
+                i += 1
+                if len(j_list) > 1000:
+                    # !! TODO call out send data
+                    j_list = []
+                else:
+                    j_list.append(j_str)
         f.close()
-        i += 1
     print i,"documents."
-    #print j_dict
 
 def convert_pdf(input):
     rsrcmgr = PDFResourceManager()
