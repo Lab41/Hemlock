@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import base64, fnmatch, json, magic, os, sys, time, uuid
+import base64, fnmatch, json, hashlib, magic, os, sys, time, uuid
 from couchbase.client import Couchbase
 import MySQLdb as mdb
 
@@ -44,7 +44,7 @@ def get_creds():
         sys.exit(0)
     return server_dict
 
-def process_files(input):
+def process_files(input, client_uuid, h_bucket):
     matches = []
     for root, dirnames, filenames in os.walk(input):
         for filename in fnmatch.filter(filenames, '*.*'):
@@ -69,18 +69,19 @@ def process_files(input):
                                 j_str += "\""+ row[j]+"\","
                                 j += 1
                             j_str = j_str[:-1]+"}"
-                            j_str = json.dumps(repr(j_str))
-                            if len(j_list) > 1000:
-                                # !! TODO call out send data
-                                j_list = []
-                            else:
-                                j_list.append(j_str)
-                            i += 1
+                            if j_str != "}":
+                                j_str = json.dumps(repr(j_str))
+                                if len(j_list) > 1000:
+                                    send_data(j_list, h_bucket, client_uuid)
+                                    j_list = []
+                                else:
+                                    j_list.append(j_str)
+                                i += 1
                 except:
                     f = open(file, 'rb')
                     j_str = json.dumps( { "payload": f.read() } )
                     if len(j_list) > 1000:
-                        # !! TODO call out send data
+                        send_data(j_list, h_bucket, client_uuid)
                         j_list = []
                     else:
                         j_list.append(j_str)
@@ -100,23 +101,32 @@ def process_files(input):
                             else:
                                 row = sh.row_values(rownum)
                                 k = 0
+                                header2 = []
                                 while k < len(header): 
-                                    j_str += "\""+unicode(header[k])+"\":\""+unicode(row[k])+"\","
+                                    if header[k] != "":
+                                        if header[k] in header2:
+                                            j_str += "\""+unicode(header[k])+str(k)+"\":\""+unicode(row[k])+"\","
+                                        else:
+                                            j_str += "\""+unicode(header[k])+"\":\""+unicode(row[k])+"\","
+                                        header2.append(header[k])
+                                    else:
+                                        j_str += "\"empty-"+str(k)+"\":\""+unicode(row[k])+"\","
                                     k += 1
                             j += 1
                             j_str = j_str[:-1]+"}"
-                            j_str = json.dumps(j_str)
-                            if len(j_list) > 1000:
-                                # !! TODO call out send data
-                                j_list = []
-                            else:
-                                j_list.append(j_str)
-                            i += 1
+                            if j_str != "}":
+                                j_str = json.dumps(j_str)
+                                if len(j_list) > 1000:
+                                    send_data(j_list, h_bucket, client_uuid)
+                                    j_list = []
+                                else:
+                                    j_list.append(j_str)
+                                i += 1
                 except:
                     b64_text = base64.b64encode(f.read())
                     j_str = json.dumps( { "payload": b64_text } )
                     if len(j_list) > 1000:
-                        # !! TODO call out send data
+                        send_data(j_list, h_bucket, client_uuid)
                         j_list = []
                     else:
                         j_list.append(j_str)
@@ -124,7 +134,7 @@ def process_files(input):
             else:
                 j_str = json.dumps( { "payload": f.read() } )
                 if len(j_list) > 1000:
-                    # !! TODO call out send data
+                    send_data(j_list, h_bucket, client_uuid)
                     j_list = []
                 else:
                     j_list.append(j_str)
@@ -150,13 +160,15 @@ def process_files(input):
                     j_str = json.dumps( { "payload": b64_text } )
                 i += 1
                 if len(j_list) > 1000:
-                    # !! TODO call out send data
+                    send_data(j_list, h_bucket, client_uuid)
                     j_list = []
                 else:
                     j_list.append(j_str)
             else:
                 print file, "no mimetype"
         f.close()
+    if j_list:
+        send_data(j_list, h_bucket, client_uuid)
     print i,"documents."
 
 def convert_pdf(input):
@@ -193,25 +205,15 @@ def connect_server(server_dict):
     return h_server, h_bucket
 
 # !! TODO this needs to be updated
-def send_data(data_list, desc_list, h_server, h_bucket, client_dict, client_uuid):
-    j_dict = {}
-    j = 0
-    for table_data in data_list:
-        i = 0
-        for record in table_data:
-            j_dict = {}
-            k = 0
-            while k < len(record):
-                j_dict[desc_list[j][k][0]] = record[k]
-                k += 1
-            uid = hashlib.sha1(repr(sorted(j_dict.items())))
-            j_dict['hemlock-system'] = client_uuid
-            j_dict['hemlock-date'] = time.strftime('%Y-%m-%d %H:%M:%S')
-            h_bucket.set(uid.hexdigest(), 0, 0, json.dumps(j_dict))
-            i += 1
-        print j_dict
-        print i,"records"
-        j += 1
+def send_data(j_list, h_bucket, client_uuid):
+    for record in j_list:
+        uid = hashlib.sha1(repr(record))
+        while record[0] == '"' or record[0] == "'":
+            record = record.decode('unicode-escape')[1:-1]
+        record = record[:-1]+",\"hemlock-system\":\""+client_uuid+"\","
+        record += "\"hemlock-date\":\""+time.strftime('%Y-%m-%d %H:%M:%S')+"\"}"
+        record = record.encode('ascii', 'ignore')
+        h_bucket.set(uid.hexdigest(), 0, 0, record)
     return
 
 def update_hemlock(client_uuid, server_dict):
@@ -276,6 +278,6 @@ if __name__ == "__main__":
     input, client_uuid = process_args(args)
     server_dict = get_creds()
     h_server, h_bucket = connect_server(server_dict)
-    process_files(input)
+    process_files(input, client_uuid, h_bucket)
     update_hemlock(client_uuid, server_dict)
     print "Took",time.time() - start_time,"seconds to complete."
