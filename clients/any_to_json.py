@@ -46,6 +46,7 @@ def get_creds():
 
 def process_files(input, client_uuid, h_bucket):
     matches = []
+    errors = 0
     for root, dirnames, filenames in os.walk(input):
         for filename in fnmatch.filter(filenames, '*.*'):
             matches.append(os.path.join(root, filename))
@@ -72,7 +73,7 @@ def process_files(input, client_uuid, h_bucket):
                             if j_str != "}":
                                 j_str = json.dumps(repr(j_str))
                                 if len(j_list) > 1000:
-                                    send_data(j_list, h_bucket, client_uuid)
+                                    errors = send_data(j_list, h_bucket, client_uuid, errors)
                                     j_list = []
                                 else:
                                     j_list.append(j_str)
@@ -81,7 +82,7 @@ def process_files(input, client_uuid, h_bucket):
                     f = open(file, 'rb')
                     j_str = json.dumps( { "payload": f.read() } )
                     if len(j_list) > 1000:
-                        send_data(j_list, h_bucket, client_uuid)
+                        errors = send_data(j_list, h_bucket, client_uuid, errors)
                         j_list = []
                     else:
                         j_list.append(j_str)
@@ -117,7 +118,7 @@ def process_files(input, client_uuid, h_bucket):
                             if j_str != "}":
                                 j_str = json.dumps(j_str)
                                 if len(j_list) > 1000:
-                                    send_data(j_list, h_bucket, client_uuid)
+                                    errors = send_data(j_list, h_bucket, client_uuid, errors)
                                     j_list = []
                                 else:
                                     j_list.append(j_str)
@@ -126,7 +127,7 @@ def process_files(input, client_uuid, h_bucket):
                     b64_text = base64.b64encode(f.read())
                     j_str = json.dumps( { "payload": b64_text } )
                     if len(j_list) > 1000:
-                        send_data(j_list, h_bucket, client_uuid)
+                        errors = send_data(j_list, h_bucket, client_uuid, errors)
                         j_list = []
                     else:
                         j_list.append(j_str)
@@ -134,7 +135,7 @@ def process_files(input, client_uuid, h_bucket):
             else:
                 j_str = json.dumps( { "payload": f.read() } )
                 if len(j_list) > 1000:
-                    send_data(j_list, h_bucket, client_uuid)
+                    errors = send_data(j_list, h_bucket, client_uuid, errors)
                     j_list = []
                 else:
                     j_list.append(j_str)
@@ -160,7 +161,7 @@ def process_files(input, client_uuid, h_bucket):
                     j_str = json.dumps( { "payload": b64_text } )
                 i += 1
                 if len(j_list) > 1000:
-                    send_data(j_list, h_bucket, client_uuid)
+                    errors = send_data(j_list, h_bucket, client_uuid, errors)
                     j_list = []
                 else:
                     j_list.append(j_str)
@@ -168,7 +169,8 @@ def process_files(input, client_uuid, h_bucket):
                 print file, "no mimetype"
         f.close()
     if j_list:
-        send_data(j_list, h_bucket, client_uuid)
+        errors = send_data(j_list, h_bucket, client_uuid, errors)
+    print errors,"errors."
     print i,"documents."
 
 def convert_pdf(input):
@@ -205,7 +207,7 @@ def connect_server(server_dict):
     return h_server, h_bucket
 
 # !! TODO this needs to be updated
-def send_data(j_list, h_bucket, client_uuid):
+def send_data(j_list, h_bucket, client_uuidi, errors):
     for record in j_list:
         uid = hashlib.sha1(repr(record))
         while record[0] == '"' or record[0] == "'":
@@ -213,8 +215,12 @@ def send_data(j_list, h_bucket, client_uuid):
         record = record[:-1]+",\"hemlock-system\":\""+client_uuid+"\","
         record += "\"hemlock-date\":\""+time.strftime('%Y-%m-%d %H:%M:%S')+"\"}"
         record = record.encode('ascii', 'ignore')
-        h_bucket.set(uid.hexdigest(), 0, 0, record)
-    return
+        try:
+            h_bucket.set(uid.hexdigest(), 0, 0, record)
+        except:
+            errors += 1
+            print "couldn't insert record"
+    return errors
 
 def update_hemlock(client_uuid, server_dict):
     # update mysql record to say when data was last updated for this system
