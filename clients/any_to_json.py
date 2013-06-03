@@ -85,6 +85,42 @@ def process_files(input):
                     else:
                         j_list.append(j_str)
                     i += 1
+            elif "xls" in file:
+                try:
+                    wb = xlrd.open_workbook(file)
+                    wb_sn = wb.sheet_names()
+                    for sn in wb_sn:
+                        sh = wb.sheet_by_name(sn)
+                        j = 0
+                        header = []
+                        for rownum in xrange(sh.nrows):
+                            j_str = "{"
+                            if j == 0:
+                                header = sh.row_values(rownum)
+                            else:
+                                row = sh.row_values(rownum)
+                                k = 0
+                                while k < len(header): 
+                                    j_str += "\""+unicode(header[k])+"\":\""+unicode(row[k])+"\","
+                                    k += 1
+                            j += 1
+                            j_str = j_str[:-1]+"}"
+                            j_str = json.dumps(j_str)
+                            if len(j_list) > 1000:
+                                # !! TODO call out send data
+                                j_list = []
+                            else:
+                                j_list.append(j_str)
+                            i += 1
+                except:
+                    b64_text = base64.b64encode(f.read())
+                    j_str = json.dumps( { "payload": b64_text } )
+                    if len(j_list) > 1000:
+                        # !! TODO call out send data
+                        j_list = []
+                    else:
+                        j_list.append(j_str)
+                    i += 1
             else:
                 j_str = json.dumps( { "payload": f.read() } )
                 if len(j_list) > 1000:
@@ -94,9 +130,10 @@ def process_files(input):
                     j_list.append(j_str)
                 i += 1
         except:
-            # !! TODO if file is xls
             # !! TODO if file is xml
             # !! TODO if file is json
+            # !! TODO if file is doc
+            # !! TODO if file is ppt
             if file_mime:
                 if "pdf" in file_mime:
                     try:
@@ -105,11 +142,10 @@ def process_files(input):
                     except:
                         b64_text = base64.b64encode(f.read())
                         j_str = json.dumps( { "payload": b64_text } )
-                # !! TODO if file has text - doc, etc.
                 elif "text" in file_mime:
                     j_str = json.dumps( { "payload": repr(f.read()) } )
                 else:
-                    print file, file_mime
+                    #print file, file_mime
                     b64_text = base64.b64encode(f.read())
                     j_str = json.dumps( { "payload": b64_text } )
                 i += 1
