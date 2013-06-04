@@ -122,6 +122,7 @@ def user_add_tenant(args, var_d):
     return check_args(args, arg_d, var_d) 
 
 def user_create(args, var_d):
+    # !! TODO add role
     arg_d = [
         '--name',
         '--username',

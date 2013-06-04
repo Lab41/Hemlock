@@ -209,17 +209,20 @@ def connect_server(server_dict):
 # !! TODO this needs to be updated
 def send_data(j_list, h_bucket, client_uuidi, errors):
     for record in j_list:
-        uid = hashlib.sha1(repr(record))
-        while record[0] == '"' or record[0] == "'":
-            record = record.decode('unicode-escape')[1:-1]
-        record = record[:-1]+",\"hemlock-system\":\""+client_uuid+"\","
-        record += "\"hemlock-date\":\""+time.strftime('%Y-%m-%d %H:%M:%S')+"\"}"
-        record = record.encode('ascii', 'ignore')
-        try:
-            h_bucket.set(uid.hexdigest(), 0, 0, record)
-        except:
-            errors += 1
-            print "couldn't insert record"
+        if len(record) < 21000000:
+            uid = hashlib.sha1(repr(record))
+            while record[0] == '"' or record[0] == "'":
+                record = record.decode('unicode-escape')[1:-1]
+            record = record[:-1]+",\"hemlock-system\":\""+client_uuid+"\","
+            record += "\"hemlock-date\":\""+time.strftime('%Y-%m-%d %H:%M:%S')+"\"}"
+            record = record.encode('ascii', 'ignore')
+            try:
+                h_bucket.set(uid.hexdigest(), 0, 0, record)
+            except:
+                errors += 1
+                print "couldn't insert record"
+        else:
+            print "file was too big, didn't insert"
     return errors
 
 def update_hemlock(client_uuid, server_dict):
