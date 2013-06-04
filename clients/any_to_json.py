@@ -222,6 +222,7 @@ def send_data(j_list, h_bucket, client_uuidi, errors):
                 errors += 1
                 print "couldn't insert record"
         else:
+            errors += 1
             print "file was too big, didn't insert"
     return errors
 
