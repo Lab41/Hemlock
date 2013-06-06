@@ -155,6 +155,41 @@ def process_files(input, client_uuid, h_bucket):
                         j_str = json.dumps( { "payload": b64_text } )
                 elif "text" in file_mime:
                     j_str = json.dumps( { "payload": repr(f.read()) } )
+                elif "pcap" in file_mime:
+                    try:
+                        u = str(uuid.uuid4())
+                        cmd = "tshark -r "+file+" -T text -V > "+u
+                        junk = os.popen(cmd).read()
+                        g = open(u, 'rb')
+                        a = []
+                        b = {}
+                        for line in g:
+                            if line == "\n":
+                                # a frame
+                                for element in a:
+                                    try:
+                                        e_list = element.split(":",1)
+                                        b[e_list[0].strip()] = e_list[1].strip()
+                                    except:
+                                        # ignore junk
+                                        junk = element
+                                j_str = json.dumps(b)
+                                a = []
+                                b = {}
+                                if len(j_list) > 1000:
+                                    errors = send_data(j_list, h_bucket, client_uuid, errors)
+                                    j_list = []
+                                else:
+                                    j_list.append(j_str)
+                            a.append(line)
+                        g.close()
+                        # !! TODO delete the tshark converted file
+                    except:
+                        # !! TODO if g file handler was already opened but not closed
+                        print sys.exc_info()[0]
+                        print "need tshark installed to process pcap files"
+                        b64_text = base64.b64encode(f.read())
+                        j_str = json.dumps( { "payload": b64_text } )
                 else:
                     #print file, file_mime
                     b64_text = base64.b64encode(f.read())
