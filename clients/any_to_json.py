@@ -183,9 +183,13 @@ def process_files(input, client_uuid, h_bucket):
                                     j_list.append(j_str)
                             a.append(line)
                         g.close()
-                        # !! TODO delete the tshark converted file
+                        cmd = "rm -rf "+u
+                        junk = os.popen(cmd).read()
                     except:
-                        # !! TODO if g file handler was already opened but not closed
+                        if g:
+                            g.close()
+                            cmd = "rm -rf "+u
+                            junk = os.popen(cmd).read()
                         print sys.exc_info()[0]
                         print "need tshark installed to process pcap files"
                         b64_text = base64.b64encode(f.read())
