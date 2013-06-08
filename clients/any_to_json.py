@@ -325,6 +325,7 @@ if __name__ == "__main__":
     start_time = time.time()
     args = get_args()
     input, client_uuid = process_args(args)
+    # !! TODO verify that client_uuid exists as a system
     server_dict = get_creds()
     h_server, h_bucket = connect_server(server_dict)
     process_files(input, client_uuid, h_bucket)
