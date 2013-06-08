@@ -348,6 +348,6 @@ if __name__ == "__main__":
     server_dict = get_creds()
     h_server, h_bucket = connect_server(server_dict)
     verify_system(client_uuid)
-    #process_files(input, client_uuid, h_bucket)
-    #update_hemlock(client_uuid, server_dict)
+    process_files(input, client_uuid, h_bucket)
+    update_hemlock(client_uuid, server_dict)
     print "Took",time.time() - start_time,"seconds to complete."
