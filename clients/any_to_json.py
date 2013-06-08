@@ -44,6 +44,26 @@ def get_creds():
         sys.exit(0)
     return server_dict
 
+def verify_system(client_uuid):
+    try:
+        h_server = mdb.connect(server_dict['HEMLOCK_MYSQL_SERVER'],
+                               server_dict['HEMLOCK_MYSQL_USERNAME'],
+                               server_dict['HEMLOCK_MYSQL_PW'],
+                               "hemlock")
+        cur = h_server.cursor()
+        query = "SELECT * from systems WHERE uuid='"+client_uuid+"'"
+        a = cur.execute(query)
+        if a == 0:
+            print client_uuid,"is not a valid system."
+            sys.exit(0)
+        h_server.commit()
+        h_server.close()
+    except:
+        print "Failure connecting to the Hemlock server"
+        sys.exit(0)
+
+    return
+
 def process_files(input, client_uuid, h_bucket):
     matches = []
     errors = 0
@@ -325,9 +345,9 @@ if __name__ == "__main__":
     start_time = time.time()
     args = get_args()
     input, client_uuid = process_args(args)
-    # !! TODO verify that client_uuid exists as a system
     server_dict = get_creds()
     h_server, h_bucket = connect_server(server_dict)
-    process_files(input, client_uuid, h_bucket)
-    update_hemlock(client_uuid, server_dict)
+    verify_system(client_uuid)
+    #process_files(input, client_uuid, h_bucket)
+    #update_hemlock(client_uuid, server_dict)
     print "Took",time.time() - start_time,"seconds to complete."

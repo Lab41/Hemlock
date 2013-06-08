@@ -42,6 +42,26 @@ def get_creds():
         sys.exit(0)
     return client_dict, server_dict
 
+def verify_system(client_uuid):
+    try:
+        h_server = mdb.connect(server_dict['HEMLOCK_MYSQL_SERVER'],
+                               server_dict['HEMLOCK_MYSQL_USERNAME'],
+                               server_dict['HEMLOCK_MYSQL_PW'],
+                               "hemlock")
+        cur = h_server.cursor()
+        query = "SELECT * from systems WHERE uuid='"+client_uuid+"'"
+        a = cur.execute(query)
+        if a == 0:
+            print client_uuid,"is not a valid system."
+            sys.exit(0)
+        h_server.commit()
+        h_server.close()
+    except:
+        print "Failure connecting to the Hemlock server"
+        sys.exit(0)
+
+    return
+
 def connect_client(client_dict):
     # connect to the mongo server
     # required fields in the client creds file are as follows:
@@ -174,6 +194,7 @@ if __name__ == "__main__":
     client_dict, server_dict = get_creds()
     c_server, c_database, c_collection = connect_client(client_dict)
     h_server, h_bucket = connect_server(server_dict)
+    verify_system(client_uuid)
     get_data(client_dict, c_server, c_database, c_collection, h_server, h_bucket, client_uuid)
     update_hemlock(client_uuid, server_dict)
     print "Took",time.time() - start_time,"seconds to complete."
