@@ -48,6 +48,23 @@ def register_remote_system(args, var_d):
     ]
     return check_args(args, arg_d, var_d) 
 
+def role_create(args, var_d):
+    arg_d = [
+        '--name'
+    ]
+    return check_args(args, arg_d, var_d) 
+
+def role_list(args, var_d):
+    arg_d = [
+    ]
+    return check_args(args, arg_d, var_d) 
+
+def role_delete(args, var_d):
+    arg_d = [
+        '--uuid'
+    ]
+    return check_args(args, arg_d, var_d) 
+
 def system_add_tenant(args, var_d):
     arg_d = [
         '--uuid',
@@ -114,6 +131,13 @@ def tenant_users_list(args, var_d):
     ]
     return check_args(args, arg_d, var_d) 
 
+def user_add_role(args, var_d):
+    arg_d = [
+        '--uuid',
+        '--role_id'
+    ]
+    return check_args(args, arg_d, var_d) 
+
 def user_add_tenant(args, var_d):
     arg_d = [
         '--uuid',
@@ -145,6 +169,13 @@ def user_get(args, var_d):
 
 def user_list(args, var_d):
     arg_d = [
+    ]
+    return check_args(args, arg_d, var_d) 
+
+def user_remove_role(args, var_d):
+    arg_d = [
+        '--uuid',
+        '--role_id'
     ]
     return check_args(args, arg_d, var_d) 
 
@@ -214,6 +245,17 @@ def print_help(action):
                 --poc_name (point of contact name for this system)
                 --poc_email (point of contact email for this system)
             """,
+            'role-create' : """
+            role-create (create new role)
+                --name (name of role)
+            """,
+            'role-delete' : """
+            role-delete (delete role)
+                --uuid (uuid of role)
+            """,
+            'role-list' : """
+            role-list (list all roles)
+            """,
             'system-add-tenant' : """
             system-add-tenant (add a tenant to a system)
                 --uuid (uuid of system)
@@ -258,6 +300,11 @@ def print_help(action):
             tenant-users-list (list users in a tenant)
                 --uuid (uuid of tenant)
             """,
+            'user-add-role' : """
+            user-add-role (add a role to a user)
+                --uuid (uuid of user)
+                --role_id (uuid of role)
+            """,
             'user-add-tenant' : """
             user-add-tenant (add a tenant to a user)
                 --uuid (uuid of user)
@@ -280,6 +327,11 @@ def print_help(action):
             """,
             'user-list' : """
             user-list (list all users)
+            """,
+            'user-remove-role' : """
+            user-remove-role (remove a role from a user)
+                --uuid (uuid of user)
+                --tenant_id (uuid of role)
             """,
             'user-remove-tenant' : """
             user-remove-tenant (remove a tenant from a user)
@@ -311,6 +363,9 @@ def process_args(args):
         'deregister-remote-system' : deregister_remote_system,
         'register-local-system' : register_local_system,
         'register-remote-system' : register_remote_system,
+        'role-create' : role_create,
+        'role-delete' : role_delete,
+        'role-list' : role_list,
         'system-add-tenant' : system_add_tenant,
         'system-get' : system_get,
         'system-list' : system_list,
@@ -322,11 +377,13 @@ def process_args(args):
         'tenant-list' : tenant_list,
         'tenant-systems-list' : tenant_systems_list,
         'tenant-users-list' : tenant_users_list,
+        'user-add-role' : user_add_role,
         'user-add-tenant' : user_add_tenant,
         'user-create' : user_create,
         'user-delete' : user_delete,
         'user-get' : user_get,
         'user-list' : user_list,
+        'user-remove-role' : user_remove_role,
         'user-remove-tenant' : user_remove_tenant,
         'user-tenants-list' : user_tenants_list
     }
