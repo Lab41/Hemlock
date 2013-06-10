@@ -157,7 +157,7 @@ def user_create(args, var_d):
         '--name',
         '--username',
         '--email',
-        '--role_id'
+        '--role_id',
         '--tenant_id'
     ]
     return check_args(args, arg_d, var_d) 
