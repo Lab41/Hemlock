@@ -629,13 +629,12 @@ def process_action(action, var_d, m_server):
         elif "create" in action_a:
             # write
             data_action = "INSERT INTO "+action_a[0]+"s("
-            if "tenants" in action_a:
-                data_action2 = "INSERT INTO "+action_a[0]+"s_tenants("
-            else: # roles
-                data_action2 = "INSERT INTO "+action_a[0]+"s_roles("
+            data_action2 = "INSERT INTO "+action_a[0]+"s_tenants("
+            data_action3 = "INSERT INTO "+action_a[0]+"s_roles("
             i = 0
             j = -1
             k = -1
+            l = -1
             for prop in props:
                 if prop == "password":
                     j = i
@@ -643,8 +642,8 @@ def process_action(action, var_d, m_server):
                     data_action2 += prop+", user_id) VALUES("
                     k = i
                 if prop == "role_id":
-                    data_action2 += prop+", user_id) VALUES("
-                    k = i
+                    data_action3 += prop+", user_id) VALUES("
+                    l = i
                 else:
                     data_action += prop+", "
                 i += 1
@@ -655,11 +654,15 @@ def process_action(action, var_d, m_server):
                     data_action += "AES_ENCRYPT(\""+val+"\", \""+aes_key+"\"), "
                 elif k == i:
                     data_action2 += "\""+val+"\", \""+uid+"\")" 
+                elif l == i:
+                    data_action3 += "\""+val+"\", \""+uid+"\")" 
                 else:
                     data_action += "\""+val+"\", "
                 i += 1
             if k == -1:
                 data_action2 = ""
+            if l == -1:
+                data_action3 = ""
             data_action = data_action[:-2]+")"
         elif "delete" in action_a:
             # delete
@@ -682,6 +685,7 @@ def process_action(action, var_d, m_server):
                 data_action = "SELECT * FROM "+action_a[0]+"s"
                 if "get" in action_a:
                     data_action += " WHERE uuid = '"+var_d['--uuid']+"'"
+        print data_action
         cur.execute(data_action)
         if data_action2:
             cur.execute(data_action2)
