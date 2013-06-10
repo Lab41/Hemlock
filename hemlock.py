@@ -269,6 +269,10 @@ def print_help(action):
             'role-list' : """
             role-list (list all roles)
             """,
+            'role-users-list' : """
+            role-users-list (list users a role belongs to)
+                --uuid (uuid of role)
+            """,
             'system-add-tenant' : """
             system-add-tenant (add a tenant to a system)
                 --uuid (uuid of system)
@@ -384,6 +388,7 @@ def process_args(args):
         'role-create' : role_create,
         'role-delete' : role_delete,
         'role-list' : role_list,
+        'role-users-list' : role_users_list,
         'system-add-tenant' : system_add_tenant,
         'system-get' : system_get,
         'system-list' : system_list,
