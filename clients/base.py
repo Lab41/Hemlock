@@ -75,11 +75,10 @@ def connect_server(server_dict):
         sys.exit(0)
     return h_server
 
-def send_data(data_list, desc_list, h_server, h_bucket, client_dict, client_uuid):
+def send_data(data_list, desc_list, h_server, client_dict, client_uuid):
     j_dict = {}
     j = 0
     for table_data in data_list:
-        print desc_list[j]
         i = 0
         for record in table_data:
             j_dict = {}
@@ -90,7 +89,8 @@ def send_data(data_list, desc_list, h_server, h_bucket, client_dict, client_uuid
             uid = hashlib.sha1(repr(sorted(j_dict.items())))
             j_dict['hemlock-system'] = client_uuid
             j_dict['hemlock-date'] = time.strftime('%Y-%m-%d %H:%M:%S')
-            h_bucket.set(uid.hexdigest(), 0, 0, json.dumps(j_dict))
+            # !! TODO consider doing multiple set
+            h_server.set(uid.hexdigest(), json.dumps(j_dict))
             i += 1
         print j_dict
         print i,"records"
@@ -112,7 +112,6 @@ def update_hemlock(client_uuid, server_dict):
     except:
         print "Failure connecting to the Hemlock server"
         sys.exit(0)
-
     return
 
 def print_help():
@@ -149,8 +148,8 @@ if __name__ == "__main__":
     client_uuid = process_args(args)
     client_dict, server_dict = get_creds()
     c_server = connect_client(client_dict)
-    h_server, h_bucket = connect_server(server_dict)
+    h_server = connect_server(server_dict)
     verify_system(client_uuid)
-    get_data(client_dict, c_server, h_server, h_bucket, client_uuid)
+    get_data(client_dict, c_server, h_server, client_uuid)
     update_hemlock(client_uuid, server_dict)
     print "Took",time.time() - start_time,"seconds to complete."

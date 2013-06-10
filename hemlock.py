@@ -151,6 +151,7 @@ def user_create(args, var_d):
         '--name',
         '--username',
         '--email',
+        '--role_id'
         '--tenant_id'
     ]
     return check_args(args, arg_d, var_d) 
@@ -183,6 +184,12 @@ def user_remove_tenant(args, var_d):
     arg_d = [
         '--uuid',
         '--tenant_id'
+    ]
+    return check_args(args, arg_d, var_d) 
+
+def user_roles_list(args, var_d):
+    arg_d = [
+        '--uuid'
     ]
     return check_args(args, arg_d, var_d) 
 
@@ -315,6 +322,7 @@ def print_help(action):
                 --name (name of user)
                 --username (username to login with)
                 --email (email address of user)
+                --role_id (uuid of role)
                 --tenant_id (uuid of tenant)
             """,
             'user-delete' : """
@@ -337,6 +345,10 @@ def print_help(action):
             user-remove-tenant (remove a tenant from a user)
                 --uuid (uuid of user)
                 --tenant_id (uuid of tenant)
+            """,
+            'user-roles-list' : """
+            user-roles-list (list roles a user belongs to)
+                --uuid (uuid of user)
             """,
             'user-tenants-list' : """
             user-tenants-list (list tenants a user belongs to)
@@ -385,6 +397,7 @@ def process_args(args):
         'user-list' : user_list,
         'user-remove-role' : user_remove_role,
         'user-remove-tenant' : user_remove_tenant,
+        'user-roles-list' : user_roles_list,
         'user-tenants-list' : user_tenants_list
     }
 
@@ -578,26 +591,37 @@ def process_action(action, var_d, m_server):
             cur.execute(data_action2)
 
     else:
-        # update to tenants/users tables
-        # !! TODO update for roles
+        # update to roles/tenants/users tables
         if "add" in action_a: 
             # write
-            data_action = "INSERT INTO users_tenants(user_id, tenant_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--tenant_id']+"\")"
+            if "tenant" in action_a:
+                data_action = "INSERT INTO users_tenants(user_id, tenant_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--tenant_id']+"\")"
+            else: # roles
+                data_action = "INSERT INTO users_roles(user_id, role_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--role_id']+"\")"
             print
         elif "remove" in action_a:
             # delete
-            remove_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"'"
+            if "tenant" in action_a:
+                remove_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"'"
+            else: # roles
+                remove_action = "SELECT * FROM users_roles WHERE user_id = '"+var_d['--uuid']+"'"
             cur.execute(remove_action)
             remove_results = cur.fetchall()
             if len(remove_results) > 1:
-                data_action = "DELETE FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"' and tenant_id = '"+var_d['--tenant_id']+"'"
+                if "tenant" in action_a:
+                    data_action = "DELETE FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"' and tenant_id = '"+var_d['--tenant_id']+"'"
+                else: # roles
+                    data_action = "DELETE FROM users_roles WHERE user_id = '"+var_d['--uuid']+"' and role_id = '"+var_d['--role_id']+"'"
             else:
-                print "You can not remove the last tenant from a user."
+                print "You can not remove the last tenant or role from a user."
                 sys.exit(0)
         elif "create" in action_a:
             # write
             data_action = "INSERT INTO "+action_a[0]+"s("
-            data_action2 = "INSERT INTO "+action_a[0]+"s_tenants("
+            if "tenants" in action_a:
+                data_action2 = "INSERT INTO "+action_a[0]+"s_tenants("
+            else: # roles
+                data_action2 = "INSERT INTO "+action_a[0]+"s_roles("
             i = 0
             j = -1
             k = -1
@@ -605,6 +629,9 @@ def process_action(action, var_d, m_server):
                 if prop == "password":
                     j = i
                 if prop == "tenant_id":
+                    data_action2 += prop+", user_id) VALUES("
+                    k = i
+                if prop == "role_id":
                     data_action2 += prop+", user_id) VALUES("
                     k = i
                 else:
@@ -625,11 +652,16 @@ def process_action(action, var_d, m_server):
             data_action = data_action[:-2]+")"
         elif "delete" in action_a:
             # delete
-            data_action = "DELETE FROM "+action_a[0]+"s_tenants WHERE "+action_a[0]+"_id = '"+var_d['--uuid']+"'"
+            if "tenants" in action_a:
+                data_action = "DELETE FROM "+action_a[0]+"s_tenants WHERE "+action_a[0]+"_id = '"+var_d['--uuid']+"'"
+            else: # roles
+                data_action = "DELETE FROM "+action_a[0]+"s_roles WHERE "+action_a[0]+"_id = '"+var_d['--uuid']+"'"
             data_action2 = "DELETE FROM "+action_a[0]+"s WHERE uuid = '"+var_d['--uuid']+"'"
         else:
             # read only
-            if "tenants" in action_a:
+            if "roles" in action_a:
+                data_action = "SELECT * FROM users_roles WHERE user_id = '"+var_d['--uuid']+"'"
+            elif "tenants" in action_a:
                 data_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"'"
             elif "users" in action_a:
                 data_action = "SELECT * FROM users_tenants WHERE tenant_id = '"+var_d['--uuid']+"'"
@@ -657,7 +689,9 @@ def process_action(action, var_d, m_server):
             i += 1
     else:
         if results:
-            if "tenants" in action_a:
+            if "roles" in action_a:
+                data_action = "desc users_roles"
+            elif "tenants" in action_a:
                 data_action = "desc "+action_a[0]+"s_tenants"
             elif "users" in action_a:
                 data_action = "desc "+action_a[1]+"_tenants"
@@ -675,7 +709,21 @@ def process_action(action, var_d, m_server):
                         x.append([desc_results[i][0],vals[i]])
                     i += 1
             else:
-                if "tenants" in action_a:
+                if "roles" in action_a:
+                    tab_header = ['Role ID']
+                    tab_align = ['c']
+                    i = 0
+                    a = -1
+                    while i < len(desc_results):
+                        print desc_results[i][0]
+                        if desc_results[i][0] == 'role_id':
+                            a = i
+                        i += 1
+                    i = 0
+                    while i < len(results):
+                        x.append([results[i][a]])
+                        i += 1
+                elif "tenants" in action_a:
                     tab_header = ['Tenant ID']
                     tab_align = ['c']
                     i = 0
