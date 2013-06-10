@@ -54,12 +54,18 @@ def role_create(args, var_d):
     ]
     return check_args(args, arg_d, var_d) 
 
+def role_delete(args, var_d):
+    arg_d = [
+        '--uuid'
+    ]
+    return check_args(args, arg_d, var_d) 
+
 def role_list(args, var_d):
     arg_d = [
     ]
     return check_args(args, arg_d, var_d) 
 
-def role_delete(args, var_d):
+def role_users_list(args, var_d):
     arg_d = [
         '--uuid'
     ]
@@ -694,7 +700,10 @@ def process_action(action, var_d, m_server):
             elif "tenants" in action_a:
                 data_action = "desc "+action_a[0]+"s_tenants"
             elif "users" in action_a:
-                data_action = "desc "+action_a[1]+"_tenants"
+                if "tenant" in action_a:
+                    data_action = "desc "+action_a[1]+"_tenants"
+                else: # role
+                    data_action = "desc "+action_a[1]+"_roles"
             elif "systems" in action_a:
                 data_action = "desc "+action_a[1]+"_tenants"
             else:
