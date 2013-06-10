@@ -45,6 +45,10 @@ HEMLOCK
             role-list (list all roles)
             
 
+            role-users-list (list users a role belongs to)
+                --uuid (uuid of role)
+            
+
             system-add-tenant (add a tenant to a system)
                 --uuid (uuid of system)
                 --tenant_id (uuid of tenant)
