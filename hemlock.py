@@ -472,6 +472,9 @@ def process_action(action, var_d, m_server):
         tables.append(results[i][0])
         i += 1
 
+    if "roles" not in tables:
+        role_table = "CREATE TABLE IF NOT EXISTS roles(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
+        cur.execute(role_table)
     if "tenants" not in tables:
         tenant_table = "CREATE TABLE IF NOT EXISTS tenants(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
         cur.execute(tenant_table)
@@ -481,6 +484,9 @@ def process_action(action, var_d, m_server):
     if "systems" not in tables:
         system_table = "CREATE TABLE IF NOT EXISTS systems(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), data_type VARCHAR(50), description VARCHAR(200), endpoint VARCHAR(100), hostname VARCHAR(50), port VARCHAR(5), remote_uri VARCHAR(100), poc_name VARCHAR(50), poc_email VARCHAR(50), remote BOOL, created DATETIME, updated_data DATETIME, INDEX (uuid)) ENGINE = INNODB"
         cur.execute(system_table)
+    if "users_roles" not in tables:
+        users_roles_table = "CREATE TABLE IF NOT EXISTS users_roles(user_id VARCHAR(36), role_id VARCHAR(36), INDEX (user_id), CONSTRAINT fkur_roles FOREIGN KEY (role_id) REFERENCES tenants(uuid), CONSTRAINT fkur_users FOREIGN KEY (user_id) REFERENCES users(uuid)) ENGINE = INNODB" 
+        cur.execute(users_roles_table)
     if "users_tenants" not in tables:
         users_tenants_table = "CREATE TABLE IF NOT EXISTS users_tenants(user_id VARCHAR(36), tenant_id VARCHAR(36), INDEX (user_id), CONSTRAINT fkut_tenants FOREIGN KEY (tenant_id) REFERENCES tenants(uuid), CONSTRAINT fkut_users FOREIGN KEY (user_id) REFERENCES users(uuid)) ENGINE = INNODB" 
         cur.execute(users_tenants_table)
@@ -573,6 +579,7 @@ def process_action(action, var_d, m_server):
 
     else:
         # update to tenants/users tables
+        # !! TODO update for roles
         if "add" in action_a: 
             # write
             data_action = "INSERT INTO users_tenants(user_id, tenant_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--tenant_id']+"\")"

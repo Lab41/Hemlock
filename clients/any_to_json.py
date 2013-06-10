@@ -73,6 +73,7 @@ def process_files(input, client_uuid, h_bucket):
     i = 0
     j_list = []
     for file in matches:
+        print file
         file_mime = magic.from_file(file, mime=True)
         f = open(file, 'rb')
         try:
