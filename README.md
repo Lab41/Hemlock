@@ -103,6 +103,7 @@ HEMLOCK
                 --name (name of user)
                 --username (username to login with)
                 --email (email address of user)
+                --role_id (uuid of role)
                 --tenant_id (uuid of tenant)
             
 
@@ -127,6 +128,9 @@ HEMLOCK
                 --tenant_id (uuid of tenant)
             
 
-            user-tenants-list (list tenants a user belongs to)
+            user-roles-list (list roles a user belongs to)
                 --uuid (uuid of user)
             
+
+            user-tenants-list (list tenants a user belongs to)
+                --uuid (uuid of user)
