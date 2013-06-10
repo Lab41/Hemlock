@@ -34,6 +34,17 @@ HEMLOCK
                 --poc_email (point of contact email for this system)
             
 
+            role-create (create new role)
+                --name (name of role)
+            
+
+            role-delete (delete role)
+                --uuid (uuid of role)
+            
+
+            role-list (list all roles)
+            
+
             system-add-tenant (add a tenant to a system)
                 --uuid (uuid of system)
                 --tenant_id (uuid of tenant)
@@ -78,6 +89,11 @@ HEMLOCK
                 --uuid (uuid of tenant)
             
 
+            user-add-role (add a role to a user)
+                --uuid (uuid of user)
+                --role_id (uuid of role)
+            
+
             user-add-tenant (add a tenant to a user)
                 --uuid (uuid of user)
                 --tenant_id (uuid of tenant)
@@ -101,6 +117,11 @@ HEMLOCK
             user-list (list all users)
             
 
+            user-remove-role (remove a role from a user)
+                --uuid (uuid of user)
+                --tenant_id (uuid of role)
+            
+
             user-remove-tenant (remove a tenant from a user)
                 --uuid (uuid of user)
                 --tenant_id (uuid of tenant)
@@ -108,3 +129,4 @@ HEMLOCK
 
             user-tenants-list (list tenants a user belongs to)
                 --uuid (uuid of user)
+            
