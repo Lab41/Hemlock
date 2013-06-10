@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+from couchbase import Couchbase
 import MySQLdb as mdb
 
 CLIENT_CREDS_FILE='redis_client_creds'
@@ -66,14 +67,13 @@ def connect_server(server_dict):
     h_server = ""
     bucket = "hemlock"
     try:
-        h_server = Couchbase(server_dict['HEMLOCK_COUCH_SERVER'],
+        h_server = Couchbase.connect(server_dict['HEMLOCK_COUCH_SERVER'],
                              bucket,
                              server_dict['HEMLOCK_COUCH_PW'])
-        h_bucket = h_server[bucket]
     except:
         print "Failure connecting to the Hemlock server"
         sys.exit(0)
-    return h_server, h_bucket
+    return h_server
 
 def send_data(data_list, desc_list, h_server, h_bucket, client_dict, client_uuid):
     j_dict = {}
