@@ -524,6 +524,7 @@ def process_action(action, var_d, m_server):
     action_a = action.split("-")
     data_action = ""
     data_action2 = ""
+    data_action3 = ""
     # used to ensure that the properties and values line up correctly
     props = []
     vals = []
@@ -668,7 +669,7 @@ def process_action(action, var_d, m_server):
             # delete
             if "tenants" in action_a:
                 data_action = "DELETE FROM "+action_a[0]+"s_tenants WHERE "+action_a[0]+"_id = '"+var_d['--uuid']+"'"
-            else: # roles
+            elif "roles" in action_a:
                 data_action = "DELETE FROM "+action_a[0]+"s_roles WHERE "+action_a[0]+"_id = '"+var_d['--uuid']+"'"
             data_action2 = "DELETE FROM "+action_a[0]+"s WHERE uuid = '"+var_d['--uuid']+"'"
         else:
