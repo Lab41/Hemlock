@@ -686,7 +686,8 @@ def process_action(action, var_d, m_server):
                 data_action = "SELECT * FROM "+action_a[0]+"s"
                 if "get" in action_a:
                     data_action += " WHERE uuid = '"+var_d['--uuid']+"'"
-        cur.execute(data_action)
+        if data_action:
+            cur.execute(data_action)
         if data_action2:
             cur.execute(data_action2)
         if data_action3:
