@@ -3,7 +3,7 @@
 import sys
 import MySQLdb as mdb
 
-class Mysql:
+class HMysql:
     def connect_client(self, client_dict):
         # connect to the mysql server
         # required fields in the client creds file are as follows:
@@ -64,4 +64,4 @@ class Mysql:
         except:
             print "Failed to close MySQL connection."
 
-        return data_list, tables, desc_list
+        return data_list, desc_list

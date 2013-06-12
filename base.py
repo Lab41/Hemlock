@@ -6,8 +6,8 @@ import MySQLdb as mdb
 SERVER_CREDS_FILE='hemlock_creds'
 
 def client_import(client):
-    exec "import clients."+client
-    str = "clients."+client+"."+client.title()+"()"
+    exec "import clients.h"+client
+    str = "clients.h"+client+".H"+client.title()+"()"
     c_inst = eval(str)
     return client+'_creds', c_inst
 
@@ -163,7 +163,7 @@ if __name__ == "__main__":
     c_server = c_inst.connect_client(client_dict)
     h_server = connect_server(server_dict)
     verify_system(client_uuid)
-    data_list, tables, desc_list = c_inst.get_data(client_dict, c_server)
+    data_list, desc_list = c_inst.get_data(client_dict, c_server)
     send_data(data_list, desc_list, h_server, client_dict, client_uuid)
     update_hemlock(client_uuid, server_dict)
     print "Took",time.time() - start_time,"seconds to complete."

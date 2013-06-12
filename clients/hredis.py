@@ -2,8 +2,8 @@
 
 import redis, sys
 
-class Redis:
-    def connect_client(client_dict):
+class HRedis:
+    def connect_client(self, client_dict):
         # connect to the redis server
         # required fields in the client creds file are as follows:
         #    REDIS_SERVER
@@ -15,7 +15,7 @@ class Redis:
             sys.exit(0)
         return c_server
 
-    def get_data(client_dict, c_server, h_server, h_bucket, client_uuid):
+    def get_data(self, client_dict, c_server):
         data_list = [[]]
         desc_list = []
 
@@ -31,11 +31,6 @@ class Redis:
                 for k in record_dict:
                     data_list[0][i].append(str(record_dict[k]))
                     desc_list[i].append([str(k)])
-                if len(data_list[0]) % 10000 == 0:
-                    send_data(data_list, desc_list, h_server, h_bucket, client_dict, client_uuid)
-                    data_list = [[]]
-                    desc_list = []
-                    i = -1
                 i += 1
             elif key_type == "string":
                 # !! TODO
@@ -53,6 +48,4 @@ class Redis:
                 # ignore - shouldn't ever get here
                 print "Key doesn't exist."
 
-        if desc_list:
-            send_data(data_list, desc_list, h_server, h_bucket, client_dict, client_uuid)
-        return
+        return data_list, desc_list
