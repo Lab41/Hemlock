@@ -1,17 +1,21 @@
 #!/usr/bin/python
 
-from clients.mysql_client import get_data
-from couchbase import Couchbase
+import couchbase, hashlib, sys, time
 import MySQLdb as mdb
 
-CLIENT_CREDS_FILE='redis_client_creds'
 SERVER_CREDS_FILE='hemlock_creds'
 
-def get_creds():
+def client_import(client):
+    exec "import clients."+client
+    str = "clients."+client+"."+client.title()+"()"
+    c_inst = eval(str)
+    return client+'_creds', c_inst
+
+def get_creds(CLIENT_CREDS_FILE):
     client_dict = {}
     server_dict = {}
     try:
-        f = open(CLIENT_CREDS_FILE, 'r')
+        f = open('clients/'+CLIENT_CREDS_FILE, 'r')
         for line in f:
             # split each line on the first '='
             line = line.split("=",1)
@@ -63,14 +67,14 @@ def verify_system(client_uuid):
 def connect_server(server_dict):
     # connect to the hemlock server
     # required fields in the server creds file are as follows:
-    #    HEMLOCK_SERVER
-    #    HEMLOCK_PW
+    #    HEMLOCK_COUCH_SERVER
+    #    HEMLOCK__COUCH_PW
     h_server = ""
-    bucket = "hemlock"
+    h_bucket = "hemlock"
     try:
-        h_server = Couchbase.connect(server_dict['HEMLOCK_COUCH_SERVER'],
-                             bucket,
-                             server_dict['HEMLOCK_COUCH_PW'])
+        h_server = couchbase.Couchbase.connect(host=server_dict['HEMLOCK_COUCH_SERVER'],
+                             bucket=h_bucket,
+                             password=server_dict['HEMLOCK_COUCH_PW'])
     except:
         print "Failure connecting to the Hemlock server"
         sys.exit(0)
@@ -91,7 +95,7 @@ def send_data(data_list, desc_list, h_server, client_dict, client_uuid):
             j_dict['hemlock-system'] = client_uuid
             j_dict['hemlock-date'] = time.strftime('%Y-%m-%d %H:%M:%S')
             # !! TODO consider doing multiple set
-            h_server.set(uid.hexdigest(), json.dumps(j_dict))
+            h_server.set(uid.hexdigest(), j_dict, format=couchbase.FMT_JSON)
             i += 1
         print j_dict
         print i,"records"
@@ -117,6 +121,7 @@ def update_hemlock(client_uuid, server_dict):
 
 def print_help():
     print "--uuid \t<uuid of system> (use 'system-list' on the Hemlock server)"
+    print "--client \t <name of client> (client file must exist in the clients folder)"
     print "-h \thelp\n"
     sys.exit(0)
 
@@ -132,10 +137,16 @@ def process_args(args):
                 i += 1
             except:
                 print_help()
+        elif args[i] == "--client":
+            try:
+                client = args[i+1]
+                i += 1
+            except:
+                print_help()
         else:
             print_help()
         i += 1
-    return client_uuid
+    return client_uuid, client
 
 def get_args():
     args = []
@@ -146,10 +157,13 @@ def get_args():
 if __name__ == "__main__":
     start_time = time.time()
     args = get_args()
-    client_uuid = process_args(args)
-    client_dict, server_dict = get_creds()
-    c_server = connect_client(client_dict)
+    client_uuid, client = process_args(args)
+    CLIENT_CREDS_FILE, c_inst = client_import(client)
+    client_dict, server_dict = get_creds(CLIENT_CREDS_FILE)
+    c_server = c_inst.connect_client(client_dict)
     h_server = connect_server(server_dict)
     verify_system(client_uuid)
+    data_list, tables, desc_list = c_inst.get_data(client_dict, c_server)
+    send_data(data_list, desc_list, h_server, client_dict, client_uuid)
     update_hemlock(client_uuid, server_dict)
     print "Took",time.time() - start_time,"seconds to complete."
