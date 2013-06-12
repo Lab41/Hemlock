@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+from clients.mysql_client import get_data
 from couchbase import Couchbase
 import MySQLdb as mdb
 
@@ -150,6 +151,5 @@ if __name__ == "__main__":
     c_server = connect_client(client_dict)
     h_server = connect_server(server_dict)
     verify_system(client_uuid)
-    get_data(client_dict, c_server, h_server, client_uuid)
     update_hemlock(client_uuid, server_dict)
     print "Took",time.time() - start_time,"seconds to complete."

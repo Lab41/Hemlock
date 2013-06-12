@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import hashlib, json, sys, time
-from couchbase.client import Couchbase
+from couchbase import Couchbase
 
 import MySQLdb as mdb
 
