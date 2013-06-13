@@ -130,6 +130,9 @@ def print_help():
 
 def process_args(args):
     # process args
+    splits = -1
+    client = None
+    client_uuid = None
     i = 0
     if not args:
         print_help()
@@ -146,10 +149,19 @@ def process_args(args):
                 i += 1
             except:
                 print_help()
+        elif args[i] == "--splits":
+            try:
+                splits = args[i+1]
+                i += 1
+            except:
+                splits = -1
         else:
             print_help()
         i += 1
-    return client_uuid, client
+    if not client or not client_uuid:
+        print_help()
+
+    return client_uuid, client, splits
 
 def get_args():
     args = []
@@ -160,13 +172,15 @@ def get_args():
 if __name__ == "__main__":
     start_time = time.time()
     args = get_args()
-    client_uuid, client = process_args(args)
+    client_uuid, client, splits = process_args(args)
     CLIENT_CREDS_FILE, c_inst = client_import(client)
     client_dict, server_dict = get_creds(CLIENT_CREDS_FILE)
     c_server = c_inst.connect_client(client_dict)
     h_server = connect_server(server_dict)
     verify_system(client_uuid)
+    # !! TODO use splits here
     data_list, desc_list = c_inst.get_data(client_dict, c_server)
     send_data(data_list, desc_list, h_server, client_dict, client_uuid)
+
     update_hemlock(client_uuid, server_dict)
     print "Took",time.time() - start_time,"seconds to complete."
