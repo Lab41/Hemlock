@@ -579,7 +579,6 @@ def process_action(action, var_d, m_server):
         elif "add" in action_a:
             # write
             data_action = "INSERT INTO systems_tenants(system_id, tenant_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--tenant_id']+"\")"
-            print
         elif "remove" in action_a:
             # delete
             remove_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"'"
@@ -610,7 +609,6 @@ def process_action(action, var_d, m_server):
                 data_action = "INSERT INTO users_tenants(user_id, tenant_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--tenant_id']+"\")"
             else: # roles
                 data_action = "INSERT INTO users_roles(user_id, role_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--role_id']+"\")"
-            print
         elif "remove" in action_a:
             # delete
             if "tenant" in action_a:
@@ -739,7 +737,6 @@ def process_action(action, var_d, m_server):
                     i = 0
                     a = -1
                     while i < len(desc_results):
-                        print desc_results[i][0]
                         if desc_results[i][0] == 'role_id':
                             a = i
                         i += 1
@@ -753,7 +750,6 @@ def process_action(action, var_d, m_server):
                     i = 0
                     a = -1
                     while i < len(desc_results):
-                        print desc_results[i][0]
                         if desc_results[i][0] == 'tenant_id':
                             a = i
                         i += 1
@@ -767,7 +763,6 @@ def process_action(action, var_d, m_server):
                     i = 0
                     a = -1
                     while i < len(desc_results):
-                        print desc_results[i][0]
                         if desc_results[i][0] == 'user_id':
                             a = i
                         i += 1
@@ -781,7 +776,6 @@ def process_action(action, var_d, m_server):
                     i = 0
                     a = -1
                     while i < len(desc_results):
-                        print desc_results[i][0]
                         if desc_results[i][0] == 'system_id':
                             a = i
                         i += 1
