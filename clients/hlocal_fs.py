@@ -1,8 +1,6 @@
 #!/usr/bin/python
 
 import base64, fnmatch, json, hashlib, magic, os, sys, time, uuid
-from couchbase.client import Couchbase
-import MySQLdb as mdb
 
 # process pdfs
 from pdfminer.pdfinterp import PDFResourceManager, process_pdf
@@ -22,47 +20,6 @@ import xlrd
 
 # process csv
 import csv
-
-
-SERVER_CREDS_FILE='hemlock_creds'
-
-def get_creds():
-    server_dict = {}
-    try:
-        f = open(SERVER_CREDS_FILE, 'r')
-        for line in f:
-            # split each line on the first '='
-            line = line.split("=",1)
-            try:
-                server_dict[line[0]] = line[1].strip()
-            except:
-                print "Malformed Server Creds file."
-                sys.exit(0)
-        f.close()
-    except:
-        print "Unable to open "+SERVER_CREDS_FILE
-        sys.exit(0)
-    return server_dict
-
-def verify_system(client_uuid):
-    try:
-        h_server = mdb.connect(server_dict['HEMLOCK_MYSQL_SERVER'],
-                               server_dict['HEMLOCK_MYSQL_USERNAME'],
-                               server_dict['HEMLOCK_MYSQL_PW'],
-                               "hemlock")
-        cur = h_server.cursor()
-        query = "SELECT * from systems WHERE uuid='"+client_uuid+"'"
-        a = cur.execute(query)
-        if a == 0:
-            print client_uuid,"is not a valid system."
-            sys.exit(0)
-        h_server.commit()
-        h_server.close()
-    except:
-        print "Failure connecting to the Hemlock server"
-        sys.exit(0)
-
-    return
 
 def process_files(input, client_uuid, h_bucket):
     matches = []
@@ -285,30 +242,6 @@ def send_data(j_list, h_bucket, client_uuidi, errors):
             errors += 1
             print "file was too big, didn't insert"
     return errors
-
-def update_hemlock(client_uuid, server_dict):
-    # update mysql record to say when data was last updated for this system
-    try:
-        h_server = mdb.connect(server_dict['HEMLOCK_MYSQL_SERVER'],
-                               server_dict['HEMLOCK_MYSQL_USERNAME'],
-                               server_dict['HEMLOCK_MYSQL_PW'],
-                               "hemlock")
-        cur = h_server.cursor()
-        query = "UPDATE systems SET updated_data='"+time.strftime('%Y-%m-%d %H:%M:%S')+"' WHERE uuid='"+client_uuid+"'"
-        cur.execute(query)
-        h_server.commit()
-        h_server.close()
-    except:
-        print "Failure connecting to the Hemlock server"
-        sys.exit(0)
-
-    return
-
-def print_help():
-    print "--uuid \t<uuid of system> (use 'system-list' on the Hemlock server)"
-    print "-i \t<input path to files> (default is /mnt/)"
-    print "-h \thelp\n"
-    sys.exit(0)
 
 def process_args(args):
     if not args:
