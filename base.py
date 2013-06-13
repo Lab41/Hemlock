@@ -95,7 +95,10 @@ def send_data(data_list, desc_list, h_server, client_dict, client_uuid):
             j_dict['hemlock-system'] = client_uuid
             j_dict['hemlock-date'] = time.strftime('%Y-%m-%d %H:%M:%S')
             # !! TODO consider doing multiple set
-            h_server.set(uid.hexdigest(), j_dict, format=couchbase.FMT_JSON)
+            try:
+                h_server.set(uid.hexdigest(), j_dict, format=couchbase.FMT_JSON)
+            except:
+                print "Failed to send record."
             i += 1
         print j_dict
         print i,"records"
