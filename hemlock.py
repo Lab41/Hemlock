@@ -21,7 +21,7 @@ def deregister_remote_system(args, var_d):
 
 def register_local_system(args, var_d):
     arg_d = [
-        '--name'
+        '--name',
         '--data_type',
         '--description',
         '--tenant_id',
