@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import base
 
 import ast, base64, fnmatch, json, hashlib, magic, os, sys, time, uuid
 
