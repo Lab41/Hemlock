@@ -32,9 +32,21 @@ class Hlocal_fs:
         return input
 
     def get_data(self, client_dict, c_server):
+        data_list = [[]]
+        desc_list = []
+
         j_list = process_files(c_server)
+        i = 0
+        for record in j_list:
+            data_list[0].append([])
+            desc_list.append([])
+            for key in record:
+                data_list[0][i].append(str(record[key]))
+                desc_list[i].append([str(key)])
+            i += 1
+
         # !! TODO fixed empty dictionary
-        return j_list, {} 
+        return data_list, desc_list
 
     # !! TODO this needs to be updated
     def send_data(j_list, h_bucket, client_uuidi, errors):
@@ -211,4 +223,3 @@ class Hlocal_fs:
         str = retstr.getvalue()
         retstr.close()
         return str
-
