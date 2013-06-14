@@ -22,7 +22,7 @@ class HMongo:
             sys.exit(0)
         return c_collection
 
-    def get_data(self, client_dict, c_server):
+    def get_data(self, client_dict, c_server, h_server, client_uuid):
         data_list = [[]]
         desc_list = []
 

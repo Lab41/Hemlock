@@ -80,7 +80,7 @@ class Hemlock_Base():
             sys.exit(0)
         return h_server
 
-    def send_data(self, data_list, desc_list, h_server, client_dict, client_uuid):
+    def send_data(self, data_list, desc_list, h_server, client_uuid):
         j_dict = {}
         j = 0
         i = 0
@@ -181,8 +181,8 @@ if __name__ == "__main__":
     h_server = Hemlock_Base().connect_server(server_dict)
     Hemlock_Base().verify_system(client_uuid)
     # !! TODO use splits here
-    data_list, desc_list = c_inst.get_data(client_dict, c_server)
-    Hemlock_Base().send_data(data_list, desc_list, h_server, client_dict, client_uuid)
+    data_list, desc_list = c_inst.get_data(client_dict, c_server, h_server, client_uuid)
+    Hemlock_Base().send_data(data_list, desc_list, h_server, client_uuid)
 
     Hemlock_Base().update_hemlock(client_uuid, server_dict)
     print "Took",time.time() - start_time,"seconds to complete."

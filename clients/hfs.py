@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import base
+import hemlock_base
 
 import ast, base64, fnmatch, json, hashlib, magic, os, sys, time, uuid
 
@@ -32,11 +32,13 @@ class HFs:
             sys.exit(0)
         return input
 
-    def get_data(self, client_dict, c_server):
+    def get_data(self, client_dict, c_server, h_server, client_uuid):
+        self.process_files(c_server, h_server, client_uuid)
+        return [[]], []
+
+    def format_lists(j_list, h_server, client_uuid):
         data_list = [[]]
         desc_list = []
-
-        j_list = self.process_files(c_server)
         i = 0
         for record in j_list:
             data_list[0].append([])
@@ -49,29 +51,9 @@ class HFs:
                 data_list[0][i].append(str(record[key]))
                 desc_list[i].append([str(key)])
             i += 1
-
-        # !! TODO fixed empty dictionary
-        return data_list, desc_list
-
-    # !! TODO this needs to be updated
-    def send_data(j_list, h_bucket, client_uuidi, errors):
-        for record in j_list:
-            if len(record) < 21000000:
-                uid = hashlib.sha1(repr(record))
-                while record[0] == '"' or record[0] == "'":
-                    record = record.decode('unicode-escape')[1:-1]
-                record = record[:-1]+",\"hemlock-system\":\""+client_uuid+"\","
-                record += "\"hemlock-date\":\""+time.strftime('%Y-%m-%d %H:%M:%S')+"\"}"
-                record = record.encode('ascii', 'ignore')
-                try:
-                    h_bucket.set(uid.hexdigest(), 0, 0, record)
-                except:
-                    errors += 1
-                    print "couldn't insert record"
-            else:
-                errors += 1
-                print "file was too big, didn't insert"
-        return errors
+        # !! TODO call send_data from hemlock_base
+        h_inst = hemlock_base.Hemlock_Base()
+        return 
 
     def process_files(self, input):
         matches = []
@@ -103,11 +85,13 @@ class HFs:
                                 if j_str != "}":
                                     j_str = json.dumps(repr(j_str))
                                     j_list.append(j_str)
+                                    # !! TODO call format_lists, reset j_list
                                     i += 1
                     except:
                         f = open(file, 'rb')
                         j_str = json.dumps( { "payload": f.read() } )
                         j_list.append(j_str)
+                        # !! TODO call format_lists, reset j_list
                         i += 1
                 elif "xls" in file:
                     try:
@@ -140,15 +124,18 @@ class HFs:
                                 if j_str != "}":
                                     j_str = json.dumps(j_str)
                                     j_list.append(j_str)
+                                    # !! TODO call format_lists, reset j_list
                                     i += 1
                     except:
                         b64_text = base64.b64encode(f.read())
                         j_str = json.dumps( { "payload": b64_text } )
                         j_list.append(j_str)
+                        # !! TODO call format_lists, reset j_list
                         i += 1
                 else:
                     j_str = json.dumps( { "payload": f.read() } )
                     j_list.append(j_str)
+                    # !! TODO call format_lists, reset j_list
                     i += 1
             except:
                 # !! TODO if file is xml
@@ -187,6 +174,7 @@ class HFs:
                                     a = []
                                     b = {}
                                     j_list.append(j_str)
+                                    # !! TODO call format_lists, reset j_list
                                 a.append(line)
                             g.close()
                             cmd = "rm -rf "+u
@@ -206,6 +194,7 @@ class HFs:
                         j_str = json.dumps( { "payload": b64_text } )
                     i += 1
                     j_list.append(j_str)
+                    # !! TODO call format_lists, reset j_list
                 else:
                     print file, "no mimetype"
             f.close()
