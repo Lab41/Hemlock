@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import couchbase, hashlib, sys, time
+import ast, couchbase, hashlib, sys, time
 import MySQLdb as mdb
 
 SERVER_CREDS_FILE='hemlock_creds'
@@ -83,8 +83,9 @@ def connect_server(server_dict):
 def send_data(data_list, desc_list, h_server, client_dict, client_uuid):
     j_dict = {}
     j = 0
+    i = 0
+    e = 0
     for table_data in data_list:
-        i = 0
         for record in table_data:
             j_dict = {}
             k = 0
@@ -99,10 +100,11 @@ def send_data(data_list, desc_list, h_server, client_dict, client_uuid):
                 h_server.set(uid.hexdigest(), j_dict, format=couchbase.FMT_JSON)
             except:
                 print "Failed to send record."
+                e += 1
             i += 1
-        print j_dict
-        print i,"records"
         j += 1
+    print i,"records"
+    print e,"errors"
     return
 
 def update_hemlock(client_uuid, server_dict):

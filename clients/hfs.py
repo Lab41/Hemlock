@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import base64, fnmatch, json, hashlib, magic, os, sys, time, uuid
+import ast, base64, fnmatch, json, hashlib, magic, os, sys, time, uuid
 
 # process pdfs
 from pdfminer.pdfinterp import PDFResourceManager, process_pdf
@@ -21,7 +21,7 @@ import xlrd
 # process csv
 import csv
 
-class Hlocal_fs:
+class HFs:
     def connect_client(self, client_dict):
         input = "/mnt/"
         try:
@@ -35,11 +35,15 @@ class Hlocal_fs:
         data_list = [[]]
         desc_list = []
 
-        j_list = process_files(c_server)
+        j_list = self.process_files(c_server)
         i = 0
         for record in j_list:
             data_list[0].append([])
             desc_list.append([])
+            while record[0] == '"' or record[0] == "'":
+                record = record.decode('unicode-escape')[1:-1]
+            record = record.encode('ascii', 'ignore')
+            record = ast.literal_eval(record)
             for key in record:
                 data_list[0][i].append(str(record[key]))
                 desc_list[i].append([str(key)])
@@ -68,7 +72,7 @@ class Hlocal_fs:
                 print "file was too big, didn't insert"
         return errors
 
-    def process_files(input):
+    def process_files(self, input):
         matches = []
         errors = 0
         for root, dirnames, filenames in os.walk(input):
@@ -153,7 +157,7 @@ class Hlocal_fs:
                 if file_mime:
                     if "pdf" in file_mime:
                         try:
-                            text = convert_pdf(file)
+                            text = self.convert_pdf(file)
                             j_str = json.dumps( { "payload" : text } )
                         except:
                             b64_text = base64.b64encode(f.read())
@@ -208,7 +212,7 @@ class Hlocal_fs:
         print i,"documents."
         return j_list
 
-    def convert_pdf(input):
+    def convert_pdf(self, input):
         rsrcmgr = PDFResourceManager()
         retstr = StringIO()
         codec = 'utf-8'
