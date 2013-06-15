@@ -36,7 +36,7 @@ class HFs:
         self.process_files(c_server, h_server, client_uuid)
         return [[]], []
 
-    def format_lists(j_list, h_server, client_uuid):
+    def format_lists(self, j_list, h_server, client_uuid):
         data_list = [[]]
         desc_list = []
         i = 0
@@ -53,9 +53,10 @@ class HFs:
             i += 1
         # !! TODO call send_data from hemlock_base
         h_inst = hemlock_base.Hemlock_Base()
+        h_inst.send_data(data_list, desc_list, h_server, client_uuid)
         return 
 
-    def process_files(self, input):
+    def process_files(self, input, h_server, client_uuid):
         matches = []
         errors = 0
         for root, dirnames, filenames in os.walk(input):
@@ -85,13 +86,15 @@ class HFs:
                                 if j_str != "}":
                                     j_str = json.dumps(repr(j_str))
                                     j_list.append(j_str)
-                                    # !! TODO call format_lists, reset j_list
+                                    self.format_lists(j_list, h_server, client_uuid)
+                                    j_list = []
                                     i += 1
                     except:
                         f = open(file, 'rb')
                         j_str = json.dumps( { "payload": f.read() } )
                         j_list.append(j_str)
-                        # !! TODO call format_lists, reset j_list
+                        self.format_lists(j_list, h_server, client_uuid)
+                        j_list = []
                         i += 1
                 elif "xls" in file:
                     try:
@@ -124,18 +127,21 @@ class HFs:
                                 if j_str != "}":
                                     j_str = json.dumps(j_str)
                                     j_list.append(j_str)
-                                    # !! TODO call format_lists, reset j_list
+                                    self.format_lists(j_list, h_server, client_uuid)
+                                    j_list = []
                                     i += 1
                     except:
                         b64_text = base64.b64encode(f.read())
                         j_str = json.dumps( { "payload": b64_text } )
                         j_list.append(j_str)
-                        # !! TODO call format_lists, reset j_list
+                        self.format_lists(j_list, h_server, client_uuid)
+                        j_list = []
                         i += 1
                 else:
                     j_str = json.dumps( { "payload": f.read() } )
                     j_list.append(j_str)
-                    # !! TODO call format_lists, reset j_list
+                    self.format_lists(j_list, h_server, client_uuid)
+                    j_list = []
                     i += 1
             except:
                 # !! TODO if file is xml
@@ -174,7 +180,8 @@ class HFs:
                                     a = []
                                     b = {}
                                     j_list.append(j_str)
-                                    # !! TODO call format_lists, reset j_list
+                                    self.format_lists(j_list, h_server, client_uuid)
+                                    j_list = []
                                 a.append(line)
                             g.close()
                             cmd = "rm -rf "+u
@@ -194,13 +201,14 @@ class HFs:
                         j_str = json.dumps( { "payload": b64_text } )
                     i += 1
                     j_list.append(j_str)
-                    # !! TODO call format_lists, reset j_list
+                    self.format_lists(j_list, h_server, client_uuid)
+                    j_list = []
                 else:
                     print file, "no mimetype"
             f.close()
         print errors,"errors."
         print i,"documents."
-        return j_list
+        return
 
     def convert_pdf(self, input):
         rsrcmgr = PDFResourceManager()
