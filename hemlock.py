@@ -382,35 +382,35 @@ class Hemlock():
         # !! TODO add load data actions
         #         is this needed?
         arg_actions = {
-            'deregister-local-system' : deregister_local_system,
-            'deregister-remote-system' : deregister_remote_system,
-            'register-local-system' : register_local_system,
-            'register-remote-system' : register_remote_system,
-            'role-create' : role_create,
-            'role-delete' : role_delete,
-            'role-list' : role_list,
-            'role-users-list' : role_users_list,
-            'system-add-tenant' : system_add_tenant,
-            'system-get' : system_get,
-            'system-list' : system_list,
-            'system-remove-tenant' : system_remove_tenant,
-            'system-tenants-list' : system_tenants_list,
-            'tenant-create' : tenant_create,
-            'tenant-delete' : tenant_delete,
-            'tenant-get' : tenant_get,
-            'tenant-list' : tenant_list,
-            'tenant-systems-list' : tenant_systems_list,
-            'tenant-users-list' : tenant_users_list,
-            'user-add-role' : user_add_role,
-            'user-add-tenant' : user_add_tenant,
-            'user-create' : user_create,
-            'user-delete' : user_delete,
-            'user-get' : user_get,
-            'user-list' : user_list,
-            'user-remove-role' : user_remove_role,
-            'user-remove-tenant' : user_remove_tenant,
-            'user-roles-list' : user_roles_list,
-            'user-tenants-list' : user_tenants_list
+            'deregister-local-system' : self.deregister_local_system,
+            'deregister-remote-system' : self.deregister_remote_system,
+            'register-local-system' : self.register_local_system,
+            'register-remote-system' : self.register_remote_system,
+            'role-create' : self.role_create,
+            'role-delete' : self.role_delete,
+            'role-list' : self.role_list,
+            'role-users-list' : self.role_users_list,
+            'system-add-tenant' : self.system_add_tenant,
+            'system-get' : self.system_get,
+            'system-list' : self.system_list,
+            'system-remove-tenant' : self.system_remove_tenant,
+            'system-tenants-list' : self.system_tenants_list,
+            'tenant-create' : self.tenant_create,
+            'tenant-delete' : self.tenant_delete,
+            'tenant-get' : self.tenant_get,
+            'tenant-list' : self.tenant_list,
+            'tenant-systems-list' : self.tenant_systems_list,
+            'tenant-users-list' : self.tenant_users_list,
+            'user-add-role' : self.user_add_role,
+            'user-add-tenant' : self.user_add_tenant,
+            'user-create' : self.user_create,
+            'user-delete' : self.user_delete,
+            'user-get' : self.user_get,
+            'user-list' : self.user_list,
+            'user-remove-role' : self.user_remove_role,
+            'user-remove-tenant' : self.user_remove_tenant,
+            'user-roles-list' : self.user_roles_list,
+            'user-tenants-list' : self.user_tenants_list
         }
 
         # get action
@@ -421,7 +421,7 @@ class Hemlock():
         except:
             HELP_COUNTER += 1
 
-        print_help(action)
+        self.print_help(action)
 
         return var_d, args[0]
 
