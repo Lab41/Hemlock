@@ -101,8 +101,8 @@ class TestClass:
     def process_user_list(self):
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
-        x = a.process_action("user-list", {}, m_server)
-        return x
+        x, error = a.process_action("user-list", {}, m_server)
+        return x, error
 
     def process_user_remove_role(self):
         a = hemlock.Hemlock()
@@ -132,6 +132,16 @@ class TestClass:
     # call tests
     def test_connect_mysql(self):
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        cur = m_server.cursor()
+        cur.execute("DROP TABLE IF EXISTS users_tenants")
+        cur.execute("DROP TABLE IF EXISTS users_roles")
+        cur.execute("DROP TABLE IF EXISTS systems_tenants")
+        cur.execute("DROP TABLE IF EXISTS users")
+        cur.execute("DROP TABLE IF EXISTS tenants")
+        cur.execute("DROP TABLE IF EXISTS systems")
+        cur.execute("DROP TABLE IF EXISTS roles")
+        m_server.commit()
+        m_server.close()
         assert 1
 
     def test_process_deregister_local_system(self):
@@ -207,7 +217,8 @@ class TestClass:
         assert self.func(3) == 5
 
     def test_process_user_list(self):
-        x = self.process_user_list()
+        x, error = self.process_user_list()
+        assert error == 0
         # !! TODO - handle case with nothing, one, and more than one
         print "TODO",x
         assert 0
