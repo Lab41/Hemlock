@@ -481,9 +481,6 @@ class Hemlock():
 
     def process_action(self, action, var_d, m_server):
         error = 0
-        print action
-        print var_d
-        print m_server
         # !! TODO tie in with frontend stuff
         # !! TODO try/except
 

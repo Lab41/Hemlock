@@ -28,6 +28,8 @@ class TestClass:
 
     def process_role_list(self):
         a = hemlock.Hemlock()
+        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        x, error = a.process_action("role-list", {}, m_server)
         return
 
     def process_role_users_list(self):
@@ -44,6 +46,8 @@ class TestClass:
 
     def process_system_list(self):
         a = hemlock.Hemlock()
+        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        x, error = a.process_action("system-list", {}, m_server)
         return
 
     def process_system_remove_tenant(self):
@@ -68,6 +72,8 @@ class TestClass:
 
     def process_tenant_list(self):
         a = hemlock.Hemlock()
+        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        x, error = a.process_action("tenant-list", {}, m_server)
         return
 
     def process_tenant_systems_list(self):
@@ -163,7 +169,11 @@ class TestClass:
         assert self.func(3) == 5
 
     def test_process_role_list(self):
-        assert self.func(3) == 5
+        x, error = self.process_user_list()
+        assert error == 0
+        # !! TODO - handle case with nothing, one, and more than one
+        print "TODO",x
+        assert 0
 
     def test_process_role_users_list(self):
         assert self.func(3) == 5
@@ -175,7 +185,11 @@ class TestClass:
         assert self.func(3) == 5
 
     def test_process_system_list(self):
-        assert self.func(3) == 5
+        x, error = self.process_user_list()
+        assert error == 0
+        # !! TODO - handle case with nothing, one, and more than one
+        print "TODO",x
+        assert 0
 
     def test_process_system_remove_tenant(self):
         assert self.func(3) == 5
@@ -193,7 +207,11 @@ class TestClass:
         assert self.func(3) == 5
 
     def test_process_tenant_list(self):
-        assert self.func(3) == 5
+        x, error = self.process_user_list()
+        assert error == 0
+        # !! TODO - handle case with nothing, one, and more than one
+        print "TODO",x
+        assert 0
 
     def test_process_tenant_systems_list(self):
         assert self.func(3) == 5
