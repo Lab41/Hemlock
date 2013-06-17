@@ -12,13 +12,13 @@ class Hemlock():
         arg_d = [
             '--uuid'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def deregister_remote_system(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def register_local_system(self, args, var_d):
         arg_d = [
@@ -31,7 +31,7 @@ class Hemlock():
             '--poc_name',
             '--poc_email'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def register_remote_system(self, args, var_d):
         # !! TODO add map of operation vocabulary
@@ -47,110 +47,110 @@ class Hemlock():
             '--poc_name',
             '--poc_email'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def role_create(self, args, var_d):
         arg_d = [
             '--name'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def role_delete(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def role_list(self, args, var_d):
         arg_d = [
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def role_users_list(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def system_add_tenant(self, args, var_d):
         arg_d = [
             '--uuid',
             '--tenant_id'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def system_get(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def system_list(self, args, var_d):
         arg_d = [
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def system_remove_tenant(self, args, var_d):
         arg_d = [
             '--uuid',
             '--tenant_id'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def system_tenants_list(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def tenant_create(self, args, var_d):
         arg_d = [
             '--name'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def tenant_delete(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def tenant_get(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def tenant_list(self, args, var_d):
         arg_d = [
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def tenant_systems_list(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def tenant_users_list(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def user_add_role(self, args, var_d):
         arg_d = [
             '--uuid',
             '--role_id'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def user_add_tenant(self, args, var_d):
         arg_d = [
             '--uuid',
             '--tenant_id'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def user_create(self, args, var_d):
         # !! TODO add role
@@ -161,50 +161,50 @@ class Hemlock():
             '--role_id',
             '--tenant_id'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def user_delete(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def user_get(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def user_list(self, args, var_d):
         arg_d = [
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def user_remove_role(self, args, var_d):
         arg_d = [
             '--uuid',
             '--role_id'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def user_remove_tenant(self, args, var_d):
         arg_d = [
             '--uuid',
             '--tenant_id'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def user_roles_list(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def user_tenants_list(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d) 
 
     def check_args(self, args, arg_d, var_d):
         global HELP_COUNTER
@@ -417,7 +417,7 @@ class Hemlock():
         action = ""
         try:
             action = args[0]
-            arg_actions[action](args[1:], var_d)
+            var_d = arg_actions[action](args[1:], var_d)
         except:
             HELP_COUNTER += 1
 
