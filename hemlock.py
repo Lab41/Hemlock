@@ -480,6 +480,9 @@ class Hemlock():
         return m_server
 
     def process_action(self, action, var_d, m_server):
+        print action
+        print var_d
+        print m_server
         # !! TODO tie in with frontend stuff
         # !! TODO try/except
 
@@ -696,6 +699,7 @@ class Hemlock():
                 print "not valid"
 
         results = cur.fetchall()
+        desc_results = ""
     
         tab = tt.Texttable()
         x = [[]]
@@ -810,6 +814,7 @@ class Hemlock():
     
         if "remove" not in action_a and "delete" not in action_a and "deregister" not in action_a:    
             print tab.draw()
+        return x
 
 if __name__ == "__main__":
     start_time = time.time()
@@ -817,5 +822,5 @@ if __name__ == "__main__":
     var_d, action = Hemlock().process_args(args)
     user, pw, db, server, c_server, bucket, c_pw = Hemlock().get_auth()
     m_server = Hemlock().mysql_server(server, user, pw, db)
-    Hemlock().process_action(action, var_d, m_server)
+    results, desc_results = Hemlock().process_action(action, var_d, m_server)
     print "Took",time.time() - start_time,"seconds to complete."
