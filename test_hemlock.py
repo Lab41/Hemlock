@@ -43,12 +43,13 @@ class TestClass:
         return x, y, error
 
     def process_register_local_system(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
         # !! TODO need to first create a tenant, get the uuid, then deregister that uuid
-        x, error = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
-        x, error = a.process_action("register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':'asdf', '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server)
+        b, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
+        x, error2 = a.process_action("register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':'asdf', '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server)
         cur = m_server.cursor()
         str = "select * from systems where uuid = '"+x[2][1]+"'"
         cur.execute(str)
@@ -56,6 +57,7 @@ class TestClass:
         return x, y, error
 
     def process_register_remote_system(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -69,6 +71,7 @@ class TestClass:
         return x, y, error
 
     def process_role_list(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         x, error = a.process_action("role-list", {}, m_server)
@@ -79,6 +82,7 @@ class TestClass:
         return x, error
 
     def process_tenant_list(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         x, error = a.process_action("tenant-list", {}, m_server)
@@ -89,6 +93,7 @@ class TestClass:
         return x, error
 
     def process_user_list(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         x, error = a.process_action("user-list", {}, m_server)
@@ -103,6 +108,7 @@ class TestClass:
         return x, error
 
     def process_system_list(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         x, error = a.process_action("system-list", {}, m_server)
@@ -115,6 +121,7 @@ class TestClass:
         return x, error
 
     def process_role_users_list(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -130,6 +137,7 @@ class TestClass:
         return x, error
 
     def process_system_tenants_list(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -143,6 +151,7 @@ class TestClass:
         return x, error
 
     def process_tenant_systems_list(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -156,6 +165,7 @@ class TestClass:
         return x, error
 
     def process_tenant_users_list(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -171,6 +181,7 @@ class TestClass:
         return x, error
 
     def process_user_roles_list(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -185,6 +196,7 @@ class TestClass:
         return x, error
 
     def process_user_tenants_list(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -199,6 +211,7 @@ class TestClass:
         return x, error
 
     def process_deregister_local_system(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -209,6 +222,7 @@ class TestClass:
         return x, error
 
     def process_deregister_remote_system(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -219,6 +233,7 @@ class TestClass:
         return x, error
 
     def process_role_delete(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -228,6 +243,7 @@ class TestClass:
         return x, error
 
     def process_system_add_tenant(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -238,6 +254,7 @@ class TestClass:
         return x, error
 
     def process_system_get(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -248,6 +265,7 @@ class TestClass:
         return x, error
 
     def process_system_remove_tenant(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -258,6 +276,7 @@ class TestClass:
         return x, error
 
     def process_tenant_delete(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -266,6 +285,7 @@ class TestClass:
         return x, error
 
     def process_tenant_get(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -275,6 +295,7 @@ class TestClass:
         return x, error
 
     def process_user_add_role(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -286,6 +307,7 @@ class TestClass:
         return x, error
 
     def process_user_add_tenant(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -297,6 +319,7 @@ class TestClass:
         return x, error
 
     def process_user_delete(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -308,6 +331,7 @@ class TestClass:
         return x, error
 
     def process_user_get(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -319,6 +343,7 @@ class TestClass:
         return x, error
 
     def process_user_remove_role(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -330,6 +355,7 @@ class TestClass:
         return x, error
 
     def process_user_remove_tenant(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
@@ -390,168 +416,141 @@ class TestClass:
         assert len(y)
 
     def test_process_register_local_system(self):
-        #x, y, error = self.process_register_local_system()
-        #assert error == 0
-        #print "TODO",x
-        #print y
-        assert 1
+        x, y, error = self.process_register_local_system()
+        for err in error:
+            assert err == 0
 
     def test_process_register_remote_system(self):
-        #x, error = self.process_register_remote_system()
-        #assert error == 0
-        #print "TODO",x
-        assert 1
+        x, y, error = self.process_register_remote_system()
+        for err in error:
+            assert err == 0
 
     def test_process_role_list(self):
-        #x, error = self.process_role_list()
-        #assert error == 0
+        x, y, error = self.process_role_list()
         # !! TODO - handle case with nothing, one, and more than one
-        #print "TODO",x
-        assert 1
+        for err in error:
+            assert err == 0
 
     def test_process_tenant_list(self):
-        #x, error = self.process_tenant_list()
-        #assert error == 0
+        x, y, error = self.process_tenant_list()
         # !! TODO - handle case with nothing, one, and more than one
-        #print "TODO",x
-        assert 1
+        for err in error:
+            assert err == 0
 
     def test_process_system_list(self):
-        #x, error = self.process_system_list()
-        #assert error == 0
+        x, y, error = self.process_system_list()
         # !! TODO - handle case with nothing, one, and more than one
-        #print "TODO",x
-        assert 1
+        for err in error:
+            assert err == 0
 
     def test_process_user_list(self):
-        #x, error = self.process_user_list()
-        #assert error == 0
+        x, y, error = self.process_user_list()
         # !! TODO - handle case with nothing, one, and more than one
-        #print "TODO",x
-        assert 1
+        for err in error:
+            assert err == 0
 
     def test_process_tenant_systems_list(self):
-        #x, error = self.process_tenant_systems_list()
-        #assert error == 0
+        x, y, error = self.process_tenant_systems_list()
         # !! TODO - handle case with nothing, one, and more than one
-        #print "TODO",x
-        assert 1
+        for err in error:
+            assert err == 0
 
     def test_process_tenant_users_list(self):
-        #x, error = self.process_tenant_users_list()
-        #assert error == 0
+        x, y, error = self.process_tenant_users_list()
         # !! TODO - handle case with nothing, one, and more than one
-        #print "TODO",x
-        assert 1
+        for err in error:
+            assert err == 0
 
     def test_process_system_tenants_list(self):
-        #x, error = self.process_system_tenants_list()
-        #assert error == 0
+        x, y, error = self.process_system_tenants_list()
         # !! TODO - handle case with nothing, one, and more than one
-        #print "TODO",x
-        assert 1
+        for err in error:
+            assert err == 0
 
     def test_process_role_users_list(self):
-        #x, error = self.process_role_users_list()
-        #assert error == 0
+        x, y, error = self.process_role_users_list()
         # !! TODO - handle case with nothing, one, and more than one
-        #print "TODO",x
-        assert 1
+        for err in error:
+            assert err == 0
 
     def test_process_user_roles_list(self):
-        #x, error = self.process_user_roles_list()
-        #assert error == 0
+        x, y, error = self.process_user_roles_list()
         # !! TODO - handle case with nothing, one, and more than one
-        #print "TODO",x
-        assert 1
+        for err in error:
+            assert err == 0
 
     def test_process_user_tenants_list(self):
-        #x, error = self.process_user_tenants_list()
-        #assert error == 0
+        x, y, error = self.process_user_tenants_list()
         # !! TODO - handle case with nothing, one, and more than one
-        #print "TODO",x
-        assert 1
+        for err in error:
+            assert err == 0
 
     def test_process_deregister_local_system(self):
-        #x, error = self.process_deregister_local_system()
-        #assert error == 0
-        #print "TODO",x
-        assert 1
+        x, y, error = self.process_deregister_local_system()
+        for err in error:
+            assert err == 0
 
     def test_process_deregister_remote_system(self):
-        #x, error = self.process_deregister_remote_system()
-        #assert error == 0
-        #print "TODO",x
-        assert 1
+        x, y, error = self.process_deregister_remote_system()
+        for err in error:
+            assert err == 0
 
     def test_process_role_delete(self):
-        #x, error = self.process_role_delete()
-        #assert error == 0
-        #print "TODO",x
-        assert 1
+        x, y, error = self.process_role_delete()
+        for err in error:
+            assert err == 0
 
     def test_process_system_add_tenant(self):
-        #x, error = self.process_system_add_tenant()
-        #assert error == 0
-        #print "TODO",x
-        assert 1
+        x, y, error = self.process_system_add_tenant()
+        for err in error:
+            assert err == 0
 
     def test_process_system_get(self):
-        #x, error = self.process_system_get()
-        #assert error == 0
-        #print "TODO",x
-        assert 1
+        x, y, error = self.process_system_get()
+        for err in error:
+            assert err == 0
 
     def test_process_system_remove_tenant(self):
-        #x, error = self.process_system_remove_tenant()
-        #assert error == 0
-        #print "TODO",x
-        assert 1
+        x, y, error = self.process_system_remove_tenant()
+        for err in error:
+            assert err == 0
 
     def test_process_tenant_delete(self):
-        #x, error = self.process_tenant_delete()
-        #assert error == 0
-        #print "TODO",x
-        assert 1
+        x, y, error = self.process_tenant_delete()
+        for err in error:
+            assert err == 0
 
     def test_process_tenant_get(self):
-        #x, error = self.process_tenant_get()
-        #assert error == 0
-        #print "TODO",x
-        assert 1
+        x, y, error = self.process_tenant_get()
+        for err in error:
+            assert err == 0
 
     def test_process_user_add_role(self):
-        #x, error = self.process_user_add_role()
-        #assert error == 0
-        #print "TODO",x
-        assert 1
+        x, y, error = self.process_user_add_role()
+        for err in error:
+            assert err == 0
 
     def test_process_user_add_tenant(self):
-        #x, error = self.process_user_add_tenant()
-        #assert error == 0
-        #print "TODO",x
-        assert 1
+        x, y, error = self.process_user_add_tenant()
+        for err in error:
+            assert err == 0
 
     def test_process_user_delete(self):
-        #x, error = self.process_user_delete()
-        #assert error == 0
-        #print "TODO",x
-        assert 1
+        x, y, error = self.process_user_delete()
+        for err in error:
+            assert err == 0
 
     def test_process_user_get(self):
-        #x, error = self.process_user_get()
-        #assert error == 0
-        #print "TODO",x
-        assert 1
+        x, y, error = self.process_user_get()
+        for err in error:
+            assert err == 0
 
     def test_process_user_remove_role(self):
-        #x, error = self.process_user_remove_role()
-        #assert error == 0
-        #print "TODO",x
-        assert 1
+        x, y, error = self.process_user_remove_role()
+        for err in error:
+            assert err == 0
 
     def test_process_user_remove_tenant(self):
-        #x, error = self.process_user_remove_tenant()
-        #assert error == 0
-        #print "TODO",x
-        assert 1
+        x, y, error = self.process_user_remove_tenant()
+        for err in error:
+            assert err == 0
