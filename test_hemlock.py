@@ -22,14 +22,16 @@ class TestClass:
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
-        x, error = a.process_action("register-local-system", {}, m_server)
+        # !! TODO need to first create a tenant, get the uuid, then deregister that uuid
+        x, error = a.process_action("register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':'asdf', '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server)
         return x, error
 
     def process_register_remote_system(self):
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
-        x, error = a.process_action("register-remote-system", {}, m_server)
+        # !! TODO need to first create a tenant, get the uuid, then deregister that uuid
+        x, error = a.process_action("register-remote-system", {'--name':'remote-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':'asdf', '--hostname':'hostname1', '--port':'80', '--remote_uri':'http://remote.uri/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server)
         return x, error
 
     def process_role_create(self):
@@ -162,7 +164,8 @@ class TestClass:
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
         # !! TODO need to properly fill {}
-        x, error = a.process_action("user-create", {}, m_server)
+        # !! TODO need to first create a role and tenant, get the uuids, then use those uuids
+        x, error = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':'asdf', '--tenant_id':'asdf'}, m_server)
         return x, error
 
     def process_user_delete(self):
@@ -419,14 +422,14 @@ class TestClass:
         assert 1
 
     def test_process_user_remove_role(self):
-        x, error = self.process_remove_role()
+        x, error = self.process_user_remove_role()
         assert error == 0
         # !! TODO - handle case with nothing, one, and more than one
         print "TODO",x
         assert 1
 
     def test_process_user_remove_tenant(self):
-        x, error = self.process_remove_tenant()
+        x, error = self.process_user_remove_tenant()
         assert error == 0
         # !! TODO - handle case with nothing, one, and more than one
         print "TODO",x
