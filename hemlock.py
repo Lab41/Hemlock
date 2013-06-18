@@ -801,8 +801,6 @@ class Hemlock():
                             x.append([results[i][a],results[i][b]])
                             i += 1
         
-        m_server.commit()
-        m_server.close()
 
         tab.add_rows(x)
         tab.set_deco(tab.HEADER | tab.VLINES | tab.BORDER)
@@ -821,4 +819,6 @@ if __name__ == "__main__":
     user, pw, db, server, c_server, bucket, c_pw = Hemlock().get_auth()
     m_server = Hemlock().mysql_server(server, user, pw, db)
     x, error = Hemlock().process_action(action, var_d, m_server)
+    m_server.commit()
+    m_server.close()
     print "Took",time.time() - start_time,"seconds to complete."

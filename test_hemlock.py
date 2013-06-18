@@ -1,28 +1,46 @@
-import hemlock
+import hemlock, re
 import MySQLdb as mdb
 
 class TestClass:
     def process_role_create(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
-        x, error = a.process_action("role-create", {'--name':'role1'}, m_server)
-        return x, error
+        x, error1 = a.process_action("role-create", {'--name':'role1'}, m_server)
+        error.append(error1)
+        cur = m_server.cursor()
+        str = "select * from roles where uuid = '"+x[2][1]+"'"
+        cur.execute(str)
+        y = cur.fetchall()
+        return x, y, error
 
     def process_tenant_create(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
-        x, error = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
-        return x, error
+        x, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
+        error.append(error1)
+        cur = m_server.cursor()
+        str = "select * from tenants where uuid = '"+x[2][1]+"'"
+        cur.execute(str)
+        y = cur.fetchall()
+        return x, y, error
 
     def process_user_create(self):
+        error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
-        # !! TODO need to properly fill {}
-        # !! TODO need to first create a role and tenant, get the uuids, then use those uuids
-        x, error = a.process_action("role-create", {'--name':'role1'}, m_server)
-        x, error = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
-        x, error = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':'asdf', '--tenant_id':'asdf'}, m_server)
-        return x, error
+        b, error1 = a.process_action("role-create", {'--name':'role1'}, m_server)
+        error.append(error1)
+        c, error2 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
+        error.append(error2)
+        x, error3 = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':c[2][1]}, m_server)
+        error.append(error3)
+        cur = m_server.cursor()
+        str = "select * from users where uuid = '"+x[7][1]+"'"
+        cur.execute(str)
+        y = cur.fetchall()
+        return x, y, error
 
     def process_register_local_system(self):
         a = hemlock.Hemlock()
@@ -31,7 +49,11 @@ class TestClass:
         # !! TODO need to first create a tenant, get the uuid, then deregister that uuid
         x, error = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         x, error = a.process_action("register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':'asdf', '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server)
-        return x, error
+        cur = m_server.cursor()
+        str = "select * from systems where uuid = '"+x[2][1]+"'"
+        cur.execute(str)
+        y = cur.fetchall()
+        return x, y, error
 
     def process_register_remote_system(self):
         a = hemlock.Hemlock()
@@ -40,7 +62,11 @@ class TestClass:
         # !! TODO need to first create a tenant, get the uuid, then deregister that uuid
         x, error = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         x, error = a.process_action("register-remote-system", {'--name':'remote-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':'asdf', '--hostname':'hostname1', '--port':'80', '--remote_uri':'http://remote.uri/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server)
-        return x, error
+        cur = m_server.cursor()
+        str = "select * from systems where uuid = '"+x[2][1]+"'"
+        cur.execute(str)
+        y = cur.fetchall()
+        return x, y, error
 
     def process_role_list(self):
         a = hemlock.Hemlock()
@@ -335,204 +361,197 @@ class TestClass:
         assert 1
 
     def test_process_role_create(self):
-        x, error = self.process_role_create()
-        assert error == 0
-        # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
-        assert 1
+        x, y, error = self.process_role_create()
+        for err in error:
+            assert err == 0
+        assert x[1][1] == 'role1'
+        a = re.match('[0-f]{8}-[0-f]{4}-[0-f]{4}-[0-f]{4}-[0-f]{12}',x[2][1])
+        assert a
+        assert len(y)
 
     def test_process_tenant_create(self):
-        x, error = self.process_tenant_create()
-        assert error == 0
-        # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
-        assert 0 
+        x, y, error = self.process_tenant_create()
+        for err in error:
+            assert err == 0
+        assert x[1][1] == 'tenant1'
+        a = re.match('[0-f]{8}-[0-f]{4}-[0-f]{4}-[0-f]{4}-[0-f]{12}',x[2][1])
+        assert a
+        assert len(y)
 
     def test_process_user_create(self):
-        x, error = self.process_user_create()
-        assert error == 0
-        # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
-        assert 1
+        x, y, error = self.process_user_create()
+        for err in error:
+            assert err == 0
+        assert x[1][1] == 'user1'
+        assert x[4][1] == 'username1'
+        assert x[5][1] == 'email@dot.com'
+        a = re.match('[0-f]{8}-[0-f]{4}-[0-f]{4}-[0-f]{4}-[0-f]{12}',x[7][1])
+        assert a
+        assert len(y)
 
     def test_process_register_local_system(self):
-        x, error = self.process_register_local_system()
-        assert error == 0
-        # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #x, y, error = self.process_register_local_system()
+        #assert error == 0
+        #print "TODO",x
+        #print y
         assert 1
 
     def test_process_register_remote_system(self):
-        x, error = self.process_register_remote_system()
-        assert error == 0
-        # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #x, error = self.process_register_remote_system()
+        #assert error == 0
+        #print "TODO",x
         assert 1
 
     def test_process_role_list(self):
-        x, error = self.process_role_list()
-        assert error == 0
+        #x, error = self.process_role_list()
+        #assert error == 0
         # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #print "TODO",x
         assert 1
 
     def test_process_tenant_list(self):
-        x, error = self.process_tenant_list()
-        assert error == 0
+        #x, error = self.process_tenant_list()
+        #assert error == 0
         # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #print "TODO",x
         assert 1
 
     def test_process_system_list(self):
-        x, error = self.process_system_list()
-        assert error == 0
+        #x, error = self.process_system_list()
+        #assert error == 0
         # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #print "TODO",x
         assert 1
 
     def test_process_user_list(self):
-        x, error = self.process_user_list()
-        assert error == 0
+        #x, error = self.process_user_list()
+        #assert error == 0
         # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #print "TODO",x
         assert 1
 
     def test_process_tenant_systems_list(self):
-        x, error = self.process_tenant_systems_list()
-        assert error == 0
+        #x, error = self.process_tenant_systems_list()
+        #assert error == 0
         # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #print "TODO",x
         assert 1
 
     def test_process_tenant_users_list(self):
-        x, error = self.process_tenant_users_list()
-        assert error == 0
+        #x, error = self.process_tenant_users_list()
+        #assert error == 0
         # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #print "TODO",x
         assert 1
 
     def test_process_system_tenants_list(self):
-        x, error = self.process_system_tenants_list()
-        assert error == 0
+        #x, error = self.process_system_tenants_list()
+        #assert error == 0
         # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #print "TODO",x
         assert 1
 
     def test_process_role_users_list(self):
-        x, error = self.process_role_users_list()
-        assert error == 0
+        #x, error = self.process_role_users_list()
+        #assert error == 0
         # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #print "TODO",x
         assert 1
 
     def test_process_user_roles_list(self):
-        x, error = self.process_user_roles_list()
-        assert error == 0
+        #x, error = self.process_user_roles_list()
+        #assert error == 0
         # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #print "TODO",x
         assert 1
 
     def test_process_user_tenants_list(self):
-        x, error = self.process_user_tenants_list()
-        assert error == 0
+        #x, error = self.process_user_tenants_list()
+        #assert error == 0
         # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #print "TODO",x
         assert 1
 
     def test_process_deregister_local_system(self):
-        x, error = self.process_deregister_local_system()
-        assert error == 0
-        # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #x, error = self.process_deregister_local_system()
+        #assert error == 0
+        #print "TODO",x
         assert 1
 
     def test_process_deregister_remote_system(self):
-        x, error = self.process_deregister_remote_system()
-        assert error == 0
-        # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #x, error = self.process_deregister_remote_system()
+        #assert error == 0
+        #print "TODO",x
         assert 1
 
     def test_process_role_delete(self):
-        x, error = self.process_role_delete()
-        assert error == 0
-        # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #x, error = self.process_role_delete()
+        #assert error == 0
+        #print "TODO",x
         assert 1
 
     def test_process_system_add_tenant(self):
-        x, error = self.process_system_add_tenant()
-        assert error == 0
-        # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #x, error = self.process_system_add_tenant()
+        #assert error == 0
+        #print "TODO",x
         assert 1
 
     def test_process_system_get(self):
-        x, error = self.process_system_get()
-        assert error == 0
-        # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #x, error = self.process_system_get()
+        #assert error == 0
+        #print "TODO",x
         assert 1
 
     def test_process_system_remove_tenant(self):
-        x, error = self.process_system_remove_tenant()
-        assert error == 0
-        # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #x, error = self.process_system_remove_tenant()
+        #assert error == 0
+        #print "TODO",x
         assert 1
 
     def test_process_tenant_delete(self):
-        x, error = self.process_tenant_delete()
-        assert error == 0
-        # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #x, error = self.process_tenant_delete()
+        #assert error == 0
+        #print "TODO",x
         assert 1
 
     def test_process_tenant_get(self):
-        x, error = self.process_tenant_get()
-        assert error == 0
-        # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #x, error = self.process_tenant_get()
+        #assert error == 0
+        #print "TODO",x
         assert 1
 
     def test_process_user_add_role(self):
-        x, error = self.process_user_add_role()
-        assert error == 0
-        # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #x, error = self.process_user_add_role()
+        #assert error == 0
+        #print "TODO",x
         assert 1
 
     def test_process_user_add_tenant(self):
-        x, error = self.process_user_add_tenant()
-        assert error == 0
-        # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #x, error = self.process_user_add_tenant()
+        #assert error == 0
+        #print "TODO",x
         assert 1
 
     def test_process_user_delete(self):
-        x, error = self.process_user_delete()
-        assert error == 0
-        # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #x, error = self.process_user_delete()
+        #assert error == 0
+        #print "TODO",x
         assert 1
 
     def test_process_user_get(self):
-        x, error = self.process_user_get()
-        assert error == 0
-        # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #x, error = self.process_user_get()
+        #assert error == 0
+        #print "TODO",x
         assert 1
 
     def test_process_user_remove_role(self):
-        x, error = self.process_user_remove_role()
-        assert error == 0
-        # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #x, error = self.process_user_remove_role()
+        #assert error == 0
+        #print "TODO",x
         assert 1
 
     def test_process_user_remove_tenant(self):
-        x, error = self.process_user_remove_tenant()
-        assert error == 0
-        # !! TODO - handle case with nothing, one, and more than one
-        print "TODO",x
+        #x, error = self.process_user_remove_tenant()
+        #assert error == 0
+        #print "TODO",x
         assert 1
