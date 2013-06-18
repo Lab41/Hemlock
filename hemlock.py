@@ -153,7 +153,6 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d) 
 
     def user_create(self, args, var_d):
-        # !! TODO add role
         arg_d = [
             '--name',
             '--username',
