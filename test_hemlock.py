@@ -426,7 +426,6 @@ class TestClass:
         error.append(error2)
         d, error3 = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server)
         error.append(error3)
-        print d[7][1]
         x, error4 = a.process_action("user-delete", {'--uuid':d[7][1]}, m_server)
         error.append(error4)
         # !! TODO fix what is returned
@@ -683,7 +682,6 @@ class TestClass:
 
     def test_process_user_delete(self):
         x, error = self.process_user_delete()
-        print error
         for err in error:
             assert err == 0
 
