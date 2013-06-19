@@ -426,6 +426,7 @@ class TestClass:
         error.append(error2)
         d, error3 = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server)
         error.append(error3)
+        print d[7][1]
         x, error4 = a.process_action("user-delete", {'--uuid':d[7][1]}, m_server)
         error.append(error4)
         # !! TODO fix what is returned
@@ -570,132 +571,133 @@ class TestClass:
         assert a
         assert len(y)
 
-#    def test_process_role_list(self):
-#        x, y, error = self.process_role_list()
-#        # !! TODO - handle case with nothing, one, and more than one
-#        for err in error:
-#            assert err == 0
-#
-#    def test_process_tenant_list(self):
-#        x, y, error = self.process_tenant_list()
-#        # !! TODO - handle case with nothing, one, and more than one
-#        for err in error:
-#            assert err == 0
-#
-#    def test_process_system_list(self):
-#        x, y, error = self.process_system_list()
-#        # !! TODO - handle case with nothing, one, and more than one
-#        for err in error:
-#            assert err == 0
-#
-#    def test_process_user_list(self):
-#        x, y, error = self.process_user_list()
-#        # !! TODO - handle case with nothing, one, and more than one
-#        for err in error:
-#            assert err == 0
-#
-#    def test_process_tenant_systems_list(self):
-#        x, y, error = self.process_tenant_systems_list()
-#        # !! TODO - handle case with nothing, one, and more than one
-#        for err in error:
-#            assert err == 0
-#
-#    def test_process_tenant_users_list(self):
-#        x, y, error = self.process_tenant_users_list()
-#        # !! TODO - handle case with nothing, one, and more than one
-#        for err in error:
-#            assert err == 0
-#
-#    def test_process_system_tenants_list(self):
-#        x, y, error = self.process_system_tenants_list()
-#        # !! TODO - handle case with nothing, one, and more than one
-#        for err in error:
-#            assert err == 0
-#
-#    def test_process_role_users_list(self):
-#        x, y, error = self.process_role_users_list()
-#        # !! TODO - handle case with nothing, one, and more than one
-#        for err in error:
-#            assert err == 0
-#
-#    def test_process_user_roles_list(self):
-#        x, y, error = self.process_user_roles_list()
-#        # !! TODO - handle case with nothing, one, and more than one
-#        for err in error:
-#            assert err == 0
-#
-#    def test_process_user_tenants_list(self):
-#        x, y, error = self.process_user_tenants_list()
-#        # !! TODO - handle case with nothing, one, and more than one
-#        for err in error:
-#            assert err == 0
-#
-    def test_process_deregister_local_system(self):
-        x, y, error = self.process_deregister_local_system()
+    def test_process_role_list(self):
+        x, error = self.process_role_list()
+        # !! TODO - handle case with nothing, one, and more than one
         for err in error:
             assert err == 0
 
-#    def test_process_deregister_remote_system(self):
-#        x, y, error = self.process_deregister_remote_system()
-#        for err in error:
-#            assert err == 0
-#
-#    def test_process_role_delete(self):
-#        x, y, error = self.process_role_delete()
-#        for err in error:
-#            assert err == 0
-#
-#    def test_process_system_add_tenant(self):
-#        x, y, error = self.process_system_add_tenant()
-#        for err in error:
-#            assert err == 0
-#
-#    def test_process_system_get(self):
-#        x, y, error = self.process_system_get()
-#        for err in error:
-#            assert err == 0
-#
+    def test_process_tenant_list(self):
+        x, error = self.process_tenant_list()
+        # !! TODO - handle case with nothing, one, and more than one
+        for err in error:
+            assert err == 0
+
+    def test_process_system_list(self):
+        x, error = self.process_system_list()
+        # !! TODO - handle case with nothing, one, and more than one
+        for err in error:
+            assert err == 0
+
+    def test_process_user_list(self):
+        x, error = self.process_user_list()
+        # !! TODO - handle case with nothing, one, and more than one
+        for err in error:
+            assert err == 0
+
+    def test_process_tenant_systems_list(self):
+        x, error = self.process_tenant_systems_list()
+        # !! TODO - handle case with nothing, one, and more than one
+        for err in error:
+            assert err == 0
+
+    def test_process_tenant_users_list(self):
+        x, error = self.process_tenant_users_list()
+        # !! TODO - handle case with nothing, one, and more than one
+        for err in error:
+            assert err == 0
+
+    def test_process_system_tenants_list(self):
+        x, error = self.process_system_tenants_list()
+        # !! TODO - handle case with nothing, one, and more than one
+        for err in error:
+            assert err == 0
+
+    def test_process_role_users_list(self):
+        x, error = self.process_role_users_list()
+        # !! TODO - handle case with nothing, one, and more than one
+        for err in error:
+            assert err == 0
+
+    def test_process_user_roles_list(self):
+        x, error = self.process_user_roles_list()
+        # !! TODO - handle case with nothing, one, and more than one
+        for err in error:
+            assert err == 0
+
+    def test_process_user_tenants_list(self):
+        x, error = self.process_user_tenants_list()
+        # !! TODO - handle case with nothing, one, and more than one
+        for err in error:
+            assert err == 0
+
+    def test_process_deregister_local_system(self):
+        x, error = self.process_deregister_local_system()
+        for err in error:
+            assert err == 0
+
+    def test_process_deregister_remote_system(self):
+        x, error = self.process_deregister_remote_system()
+        for err in error:
+            assert err == 0
+
+    def test_process_role_delete(self):
+        x, error = self.process_role_delete()
+        for err in error:
+            assert err == 0
+
+    def test_process_system_add_tenant(self):
+        x, error = self.process_system_add_tenant()
+        for err in error:
+            assert err == 0
+
+    def test_process_system_get(self):
+        x, error = self.process_system_get()
+        for err in error:
+            assert err == 0
+
 #    def test_process_system_remove_tenant(self):
-#        x, y, error = self.process_system_remove_tenant()
+#        x, error = self.process_system_remove_tenant()
 #        for err in error:
 #            assert err == 0
-#
-#    def test_process_tenant_delete(self):
-#        x, y, error = self.process_tenant_delete()
-#        for err in error:
-#            assert err == 0
-#
-#    def test_process_tenant_get(self):
-#        x, y, error = self.process_tenant_get()
-#        for err in error:
-#            assert err == 0
-#
-#    def test_process_user_add_role(self):
-#        x, y, error = self.process_user_add_role()
-#        for err in error:
-#            assert err == 0
-#
-#    def test_process_user_add_tenant(self):
-#        x, y, error = self.process_user_add_tenant()
-#        for err in error:
-#            assert err == 0
-#
-#    def test_process_user_delete(self):
-#        x, y, error = self.process_user_delete()
-#        for err in error:
-#            assert err == 0
-#
-#    def test_process_user_get(self):
-#        x, y, error = self.process_user_get()
-#        for err in error:
-#            assert err == 0
-#
+
+    def test_process_tenant_delete(self):
+        x, error = self.process_tenant_delete()
+        for err in error:
+            assert err == 0
+
+    def test_process_tenant_get(self):
+        x, error = self.process_tenant_get()
+        for err in error:
+            assert err == 0
+
+    def test_process_user_add_role(self):
+        x, error = self.process_user_add_role()
+        for err in error:
+            assert err == 0
+
+    def test_process_user_add_tenant(self):
+        x, error = self.process_user_add_tenant()
+        for err in error:
+            assert err == 0
+
+    def test_process_user_delete(self):
+        x, error = self.process_user_delete()
+        print error
+        for err in error:
+            assert err == 0
+
+    def test_process_user_get(self):
+        x, error = self.process_user_get()
+        for err in error:
+            assert err == 0
+
 #    def test_process_user_remove_role(self):
-#        x, y, error = self.process_user_remove_role()
+#        x, error = self.process_user_remove_role()
 #        for err in error:
-#            assert err == 0
-#
+#           assert err == 0
+
 #    def test_process_user_remove_tenant(self):
-#        x, y, error = self.process_user_remove_tenant()
+#        x, error = self.process_user_remove_tenant()
 #        for err in error:
 #            assert err == 0
