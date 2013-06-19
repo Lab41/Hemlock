@@ -582,7 +582,7 @@ class Hemlock():
                 data_action = "INSERT INTO systems_tenants(system_id, tenant_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--tenant_id']+"\")"
             elif "remove" in action_a:
                 # delete
-                remove_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"'"
+                remove_action = "SELECT * FROM systems_tenants WHERE system_id = '"+var_d['--uuid']+"'"
                 cur.execute(remove_action)
                 remove_results = cur.fetchall()
                 if len(remove_results) > 1:

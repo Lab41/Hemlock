@@ -349,8 +349,8 @@ class TestClass:
         error.append(error1)
         c, error2 = a.process_action("register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server)
         error.append(error2)
-        d, error3 = a.process_action("system-remove-tenant", {'--uuid':c[9][1], '--tenant_id':b[2][1]}, m_server)
-        error.append(error3)
+        #d, error3 = a.process_action("system-remove-tenant", {'--uuid':c[9][1], '--tenant_id':b[2][1]}, m_server)
+        #error.append(error3)
         e, error4 = a.process_action("tenant-create", {'--name':'tenant2'}, m_server)
         error.append(error4)
         f, error5 = a.process_action("system-add-tenant", {'--uuid':c[9][1], '--tenant_id':e[2][1]}, m_server)
@@ -456,13 +456,13 @@ class TestClass:
         error.append(error2)
         d, error3 = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server)
         error.append(error3)
-        e, error4 = a.process_action("user-remove-role", {'--uuid':d[7][1], 'rold_id':c[2][1]}, m_server)
-        error.append(error4)
+        #e, error4 = a.process_action("user-remove-role", {'--uuid':d[7][1], '--role_id':c[2][1]}, m_server)
+        #error.append(error4)
         f, error5 = a.process_action("role-create", {'--name':'role2'}, m_server)
         error.append(error5)
         g, error6 = a.process_action("user-add-role", {'--uuid':d[7][1], '--role_id':f[2][1]}, m_server)
         error.append(error6)
-        x, error7 = a.process_action("user-remove-role", {'--uuid':d[7][1], 'rold_id':f[2][1]}, m_server)
+        x, error7 = a.process_action("user-remove-role", {'--uuid':d[7][1], '--role_id':f[2][1]}, m_server)
         error.append(error7)
         # !! TODO fix what is returned
         return x, error
@@ -477,8 +477,8 @@ class TestClass:
         error.append(error2)
         d, error3 = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':c[2][1]}, m_server)
         error.append(error3)
-        e, error4 = a.process_action("user-remove-tenant", {'--uuid':d[7][1], '--tenant_id':c[2][1]}, m_server)
-        error.append(error4)
+        #e, error4 = a.process_action("user-remove-tenant", {'--uuid':d[7][1], '--tenant_id':c[2][1]}, m_server)
+        #error.append(error4)
         f, error5 = a.process_action("tenant-create", {'--name':'tenant2'}, m_server)
         error.append(error5)
         g, error6 = a.process_action("user-add-tenant", {'--uuid':d[7][1], '--tenant_id':f[2][1]}, m_server)
@@ -655,10 +655,10 @@ class TestClass:
         for err in error:
             assert err == 0
 
-#    def test_process_system_remove_tenant(self):
-#        x, error = self.process_system_remove_tenant()
-#        for err in error:
-#            assert err == 0
+    def test_process_system_remove_tenant(self):
+        x, error = self.process_system_remove_tenant()
+        for err in error:
+            assert err == 0
 
     def test_process_tenant_delete(self):
         x, error = self.process_tenant_delete()
@@ -690,12 +690,12 @@ class TestClass:
         for err in error:
             assert err == 0
 
-#    def test_process_user_remove_role(self):
-#        x, error = self.process_user_remove_role()
-#        for err in error:
-#           assert err == 0
+    def test_process_user_remove_role(self):
+        x, error = self.process_user_remove_role()
+        for err in error:
+           assert err == 0
 
-#    def test_process_user_remove_tenant(self):
-#        x, error = self.process_user_remove_tenant()
-#        for err in error:
-#            assert err == 0
+    def test_process_user_remove_tenant(self):
+        x, error = self.process_user_remove_tenant()
+        for err in error:
+            assert err == 0
