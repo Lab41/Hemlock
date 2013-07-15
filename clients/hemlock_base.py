@@ -86,6 +86,7 @@ class Hemlock_Base():
         i = 0
         e = 0
         for table_data in data_list:
+            t_dict = {}
             for record in table_data:
                 j_dict = {}
                 k = 0
@@ -95,13 +96,26 @@ class Hemlock_Base():
                 uid = hashlib.sha1(repr(sorted(j_dict.items())))
                 j_dict['hemlock-system'] = client_uuid
                 j_dict['hemlock-date'] = time.strftime('%Y-%m-%d %H:%M:%S')
-                # !! TODO consider doing multiple set
-                try:
-                    h_server.set(uid.hexdigest(), j_dict, format=couchbase.FMT_JSON)
-                except:
-                    print "Failed to send record."
-                    e += 1
+                t_dict[uid.hexdigest()] = j_dict
+                # requires couchbase 1.0 client
+                if len(t_dict) > 250000:
+                    try:
+                        h_server.set_multi(t_dict, format=couchbase.FMT_JSON)
+                    except:
+                        print "Failure."
+                    t_dict = {}
+                #try:
+                #    h_server.set(uid.hexdigest(), j_dict, format=couchbase.FMT_JSON)
+                #except:
+                #    print "Failed to send record."
+                #    e += 1
                 i += 1
+            # requires couchbase 1.0 client
+            if t_dict:
+                try:
+                    h_server.set_multi(t_dict, format=couchbase.FMT_JSON)
+                except:
+                    print "Failure."
             j += 1
         print i,"records"
         print e,"errors"
