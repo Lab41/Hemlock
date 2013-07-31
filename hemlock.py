@@ -3,10 +3,10 @@
 import getpass, os, sys, time, uuid
 import MySQLdb as mdb
 import texttable as tt
-from couchbase.client import Couchbase
+from couchbase import Couchbase
 
-HELP_COUNTER = 0
-
+HELP_COUNTER = 0           
+                
 class Hemlock():
     def deregister_local_system(self, args, var_d):
         arg_d = [
@@ -534,7 +534,7 @@ class Hemlock():
             vals.append(var_d[key])
         if "user" in action_a and "create" in action_a:
             props.append("password")
-            pw = getpass.getpass("Password:")
+            pw = getpass.getpass("User Password:")
             vals.append(pw)
         if "add" not in action_a:
             props.append("uuid")
@@ -726,7 +726,8 @@ class Hemlock():
                     data_action = "desc "+action_a[0]+"s"
                 cur.execute(data_action)
                 desc_results = cur.fetchall()
-                if len(results) == 1:
+
+                if len(results) == 1 and "list" not in action_a:
                     vals = list(results[0])
                     i = 0
                     while i < len(desc_results):
