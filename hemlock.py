@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import hemlock_options_parser
 import getpass, os, sys, time, uuid
 import MySQLdb as mdb
 import texttable as tt
@@ -424,50 +425,75 @@ class Hemlock():
 
         return var_d, args[0]
 
-    def get_args(self):
-        args = []
-        for arg in sys.argv:
-            args.append(arg)
-        return args[1:]
-
+    # use OptionParser to parse command-line switches for authentication variables
+    # return variables in options array, as well as leftover args that don't have switches
+    def parse_auth(self):  
+        parser = hemlock_options_parser.PassThroughOptionParser()
+        parser.add_option("-s", "--server-mysql", action="store", dest="server",help="MySQL Server") #, default="localhost"
+        parser.add_option("-d", "--database", action="store", dest="db", help="MySQL DB")
+        parser.add_option("-u", "--username", action="store", dest="user", help="Username")
+        parser.add_option("-p", "--password", action="store", dest="pw", help="Password")
+        parser.add_option("-c", "--couchbase-server", action="store", dest="c_server", help="Couchbase Server")
+        parser.add_option("-b", "--couchbase-bucket", action="store", dest="bucket", help="Couchbase Bucket")
+        parser.add_option("-w", "--couchbase-password", action="store", dest="c_pw", help="Couchbase Password")
+        return parser.parse_args()
+    
     def get_auth(self):
+        # extract command-line switches
+        (options, args_leftover) = Hemlock().parse_auth()
+
+        # use environment variables and CLI as fallbacks for unspecified variables
         try:
-            server = os.environ['HEMLOCK_MYSQL_SERVER']
+            if options.server == None:
+                options.server = os.environ['HEMLOCK_MYSQL_SERVER']
         except:
-            server = raw_input("MySQL Server (default is localhost):")
-            if server == "":
-                server = "localhost"
+            options.server = raw_input("MySQL Server (default is localhost):")
+            if options.server == "":
+                options.server = "localhost"
+                
         try:
-            db = os.environ['HEMLOCK_MYSQL_DB']
+            if options.db == None:
+                options.db = os.environ['HEMLOCK_MYSQL_DB']
         except:
-            db = raw_input("MySQL DB (default is hemlock):")
-            if db == "":
-                db = "hemlock"
+            options.db = raw_input("MySQL DB (default is hemlock):")
+            if options.db == "":
+                options.db = "hemlock"
+                
         try:
-            user = os.environ['HEMLOCK_MYSQL_USER']
+            if options.user == None:
+                options.user = os.environ['HEMLOCK_MYSQL_USER']
         except:
-            user = raw_input("Username:")
+            options.user = raw_input("Username:")
+            
         try:
-            pw = os.environ['HEMLOCK_MYSQL_PW']
+            if options.pw == None:
+                options.pw = os.environ['HEMLOCK_MYSQL_PW']
         except:
-            pw = getpass.getpass("Password:")
+            options.pw = getpass.getpass("MySQL Password:")
+            
         try:
-            c_server = os.environ['HEMLOCK_COUCHBASE_SERVER']
+            if options.c_server == None:
+                options.c_server = os.environ['HEMLOCK_COUCHBASE_SERVER']
         except:
-            c_server = raw_input("Couchbase Server (default is localhost):")
-            if c_server == "":
-                c_server = "localhost"
+            options.c_server = raw_input("Couchbase Server (default is localhost):")
+            if options.c_server == "":
+                options.c_server = "localhost"
+                
         try:
-            bucket = os.environ['HEMLOCK_COUCHBASE_BUCKET']
+            if options.bucket == None:
+                options.bucket = os.environ['HEMLOCK_COUCHBASE_BUCKET']
         except:
-            bucket = raw_input("Couchbase Bucket (default is hemlock):")
-            if bucket == "":
-                bucket = "hemlock"
+            options.bucket = raw_input("Couchbase Bucket (default is hemlock):")
+            if options.bucket == "":
+                options.bucket = "hemlock"
+                
         try:
-            c_pw = os.environ['HEMLOCK_COUCHBASE_PW']
+            if options.c_pw == None:
+                options.c_pw = os.environ['HEMLOCK_COUCHBASE_PW']
         except:
-            c_pw = getpass.getpass("Password:")
-        return user, pw, db, server, c_server, bucket, c_pw
+            options.c_pw = getpass.getpass("Couchbase Password:")
+        
+        return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.bucket, options.c_pw
 
     def mysql_server(self, server, user, pw, db):
         # connect to the mysql server
@@ -814,10 +840,9 @@ class Hemlock():
         return x, error
 
 if __name__ == "__main__":
-    start_time = time.time()
-    args = Hemlock().get_args()
+    start_time = time.time()   
+    args, user, pw, db, server, c_server, bucket, c_pw = Hemlock().get_auth()
     var_d, action = Hemlock().process_args(args)
-    user, pw, db, server, c_server, bucket, c_pw = Hemlock().get_auth()
     m_server = Hemlock().mysql_server(server, user, pw, db)
     x, error = Hemlock().process_action(action, var_d, m_server)
     m_server.commit()
