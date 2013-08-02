@@ -442,8 +442,8 @@ class Hemlock():
         parser = hemlock_options_parser.PassThroughOptionParser()
         parser.add_option("-s", "--server-mysql", action="store", dest="server",help="MySQL Server") #, default="localhost"
         parser.add_option("-d", "--database", action="store", dest="db", help="MySQL DB")
-        parser.add_option("-u", "--username", action="store", dest="user", help="Username")
-        parser.add_option("-p", "--password", action="store", dest="pw", help="Password")
+        parser.add_option("-u", "--mysql-username", action="store", dest="user", help="MySQL Username")
+        parser.add_option("-p", "--mysql-password", action="store", dest="pw", help="MySQL Password")
         parser.add_option("-c", "--couchbase-server", action="store", dest="c_server", help="Couchbase Server")
         parser.add_option("-b", "--couchbase-bucket", action="store", dest="bucket", help="Couchbase Bucket")
         parser.add_option("-w", "--couchbase-password", action="store", dest="c_pw", help="Couchbase Password")
