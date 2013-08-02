@@ -62,6 +62,12 @@ class Hemlock():
         ]
         return self.check_args(args, arg_d, var_d) 
 
+    def role_get(self, args, var_d):
+        arg_d = [
+            '--uuid'
+        ]
+        return self.check_args(args, arg_d, var_d) 
+
     def role_list(self, args, var_d):
         arg_d = [
         ]
@@ -267,6 +273,10 @@ class Hemlock():
             role-delete (delete role)
                 --uuid (uuid of role)
             """,
+            'role-get' : """
+            role-get (get a specific role)
+                --uuid (uuid of role)
+            """,
             'role-list' : """
             role-list (list all roles)
             """,
@@ -388,6 +398,7 @@ class Hemlock():
             'register-remote-system' : self.register_remote_system,
             'role-create' : self.role_create,
             'role-delete' : self.role_delete,
+            'role-get' : self.role_get,
             'role-list' : self.role_list,
             'role-users-list' : self.role_users_list,
             'system-add-tenant' : self.system_add_tenant,
