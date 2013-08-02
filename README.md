@@ -42,6 +42,10 @@ HEMLOCK
                 --uuid (uuid of role)
             
 
+            role-get (get a specific role)
+                --uuid (uuid of role)
+            
+
             role-list (list all roles)
             
 

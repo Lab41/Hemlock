@@ -195,7 +195,11 @@ if __name__ == "__main__":
     h_server = Hemlock_Base().connect_server(server_dict)
     Hemlock_Base().verify_system(client_uuid)
     # !! TODO use splits here
-    data_list, desc_list = c_inst.get_data(client_dict, c_server, h_server, client_uuid)
+    if type(c_server) == SocketType:
+        # !! TODO take this socket and spawn out workers
+        a = ""
+    else:
+        data_list, desc_list = c_inst.get_data(client_dict, c_server, h_server, client_uuid)
     Hemlock_Base().send_data(data_list, desc_list, h_server, client_uuid)
 
     Hemlock_Base().update_hemlock(client_uuid, server_dict)
