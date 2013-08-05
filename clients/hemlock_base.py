@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import ast, couchbase, hashlib, sys, time
+import ast, couchbase, hashlib, multiprocessing, sys, time
 import MySQLdb as mdb
 
 SERVER_CREDS_FILE='../hemlock_creds'
@@ -138,6 +138,19 @@ class Hemlock_Base():
             sys.exit(0)
         return
 
+    # !! TODO
+    def stream_workers(c_server):
+        jobs = []
+        while True:
+            connection, address = c_server.accept()
+            # !! TODO what should the target be?
+            p = multiprocessing.Process(target=worker, args=(connection, address, ))
+            jobs.append(p)
+            p.start()
+            #Hemlock_Base().send_data(data_list, desc_list, h_server, client_uuid)
+
+            #Hemlock_Base().update_hemlock(client_uuid, server_dict)
+
     def print_help(self):
         print "--uuid \t<uuid of system> (use 'system-list' on the Hemlock server)"
         print "--client \t <name of client> (client file must exist in the clients folder)"
@@ -198,6 +211,8 @@ if __name__ == "__main__":
     if type(c_server) == SocketType:
         # !! TODO take this socket and spawn out workers
         a = ""
+        # !! TODO can't call get_data, because the worker returns values
+        #c_inst.get_data(client_dict, c_server, h_server, client_uuid)
     else:
         data_list, desc_list = c_inst.get_data(client_dict, c_server, h_server, client_uuid)
     Hemlock_Base().send_data(data_list, desc_list, h_server, client_uuid)
