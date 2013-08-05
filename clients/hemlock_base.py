@@ -164,20 +164,20 @@ class Hemlock_Base():
         client_uuid = None
         i = 0
         if not args:
-            print_help()
+            self.print_help()
         while i < len(args):
             if args[i] == "--uuid":
                 try:
                     client_uuid = args[i+1]
                     i += 1
                 except:
-                    print_help()
+                    self.print_help()
             elif args[i] == "--client":
                 try:
                     client = args[i+1]
                     i += 1
                 except:
-                    print_help()
+                    self.print_help()
             elif args[i] == "--splits":
                 try:
                     splits = args[i+1]
@@ -185,10 +185,10 @@ class Hemlock_Base():
                 except:
                     splits = -1
             else:
-                print_help()
+                self.print_help()
             i += 1
         if not client or not client_uuid:
-            print_help()
+            self.print_help()
 
         return client_uuid, client, splits
 
