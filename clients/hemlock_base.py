@@ -2,6 +2,7 @@
 
 import ast, couchbase, hashlib, multiprocessing, sys, time
 import MySQLdb as mdb
+from socket import *
 
 SERVER_CREDS_FILE='../hemlock_creds'
 
@@ -139,16 +140,18 @@ class Hemlock_Base():
         return
 
     # !! TODO
-    def stream_workers(c_server):
+    def stream_workers(self, c_server, c_inst):
         jobs = []
         while True:
             connection, address = c_server.accept()
             # !! TODO what should the target be?
-            p = multiprocessing.Process(target=worker, args=(connection, address, ))
+            w_queue = multiprocessing.Queue()
+            p = multiprocessing.Process(target=c_inst.worker, args=(connection, address, w_queue, ))
             jobs.append(p)
             p.start()
+            print w_queue.get()
+            p.join()
             #Hemlock_Base().send_data(data_list, desc_list, h_server, client_uuid)
-
             #Hemlock_Base().update_hemlock(client_uuid, server_dict)
 
     def print_help(self):
@@ -200,22 +203,24 @@ class Hemlock_Base():
 
 if __name__ == "__main__":
     start_time = time.time()
-    args = Hemlock_Base().get_args()
-    client_uuid, client, splits = Hemlock_Base().process_args(args)
-    CLIENT_CREDS_FILE, c_inst = Hemlock_Base().client_import(client)
-    client_dict, server_dict = Hemlock_Base().get_creds(CLIENT_CREDS_FILE)
+    hemlock = Hemlock_Base()
+    args = hemlock.get_args()
+    client_uuid, client, splits = hemlock.process_args(args)
+    CLIENT_CREDS_FILE, c_inst = hemlock.client_import(client)
+    client_dict, server_dict = hemlock.get_creds(CLIENT_CREDS_FILE)
     c_server = c_inst.connect_client(client_dict)
-    h_server = Hemlock_Base().connect_server(server_dict)
-    Hemlock_Base().verify_system(client_uuid)
+    h_server = hemlock.connect_server(server_dict)
+    hemlock.verify_system(client_uuid)
     # !! TODO use splits here
     if type(c_server) == SocketType:
         # !! TODO take this socket and spawn out workers
         a = ""
+        hemlock.stream_workers(c_server, c_inst)
         # !! TODO can't call get_data, because the worker returns values
         #c_inst.get_data(client_dict, c_server, h_server, client_uuid)
     else:
         data_list, desc_list = c_inst.get_data(client_dict, c_server, h_server, client_uuid)
-    Hemlock_Base().send_data(data_list, desc_list, h_server, client_uuid)
+    hemlock.send_data(data_list, desc_list, h_server, client_uuid)
 
-    Hemlock_Base().update_hemlock(client_uuid, server_dict)
+    hemlock.update_hemlock(client_uuid, server_dict)
     print "Took",time.time() - start_time,"seconds to complete."

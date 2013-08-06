@@ -6,9 +6,11 @@ from socket import *
 class HOdd:
     def connect_client(self, client_dict):
         c_server = ""
+        host = client_dict['HOST']
+        port = int(client_dict['PORT'])
         try:
             sockobj = socket(AF_INET, SOCK_STREAM)
-            sockobj.bind(client_dict['HOST'], int(client_dict['PORT']))
+            sockobj.bind((host, port))
             sockobj.listen(2)
             c_server = sockobj
         except:
@@ -16,7 +18,7 @@ class HOdd:
             sys.exit(0)
         return c_server
 
-    def worker(connection, address):
+    def worker(self, connection, address, w_queue):
         data_list = [[]]
         desc_list = []
         print 'Server connected by', address
