@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import multiprocessing, sys
+import sys
 from socket import *
 
 class HOdd:
@@ -26,20 +26,12 @@ class HOdd:
             data = connection.recv(1024)
             if not data: break
             print address, "got data:", data
-            #connection.send(data)
+            connection.send(data)
+        print 'Server disconnected by', address
         connection.close()
+        w_queue.put("hi")
 
         #data_list[0][i].append(str(record_dict[k]))
         #desc_list[i].append([str(k)])
 
-        return data_list, desc_list
-
-    def get_data(self, client_dict, c_server, h_server, client_uuid):
-        jobs = []
-        while True:
-            connection, address = c_server.accept()
-            p = multiprocessing.Process(target=worker, args=(connection, address, ))
-            jobs.append(p)
-            p.start()
-
-            # !! TODO check if connection was closed, then return results
+        #return data_list, desc_list

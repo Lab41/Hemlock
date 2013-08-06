@@ -139,18 +139,15 @@ class Hemlock_Base():
             sys.exit(0)
         return
 
-    # !! TODO
     def stream_workers(self, c_server, c_inst):
         jobs = []
         while True:
             connection, address = c_server.accept()
-            # !! TODO what should the target be?
             w_queue = multiprocessing.Queue()
             p = multiprocessing.Process(target=c_inst.worker, args=(connection, address, w_queue, ))
             jobs.append(p)
             p.start()
             print w_queue.get()
-            p.join()
             #Hemlock_Base().send_data(data_list, desc_list, h_server, client_uuid)
             #Hemlock_Base().update_hemlock(client_uuid, server_dict)
 
@@ -211,13 +208,8 @@ if __name__ == "__main__":
     c_server = c_inst.connect_client(client_dict)
     h_server = hemlock.connect_server(server_dict)
     hemlock.verify_system(client_uuid)
-    # !! TODO use splits here
     if type(c_server) == SocketType:
-        # !! TODO take this socket and spawn out workers
-        a = ""
         hemlock.stream_workers(c_server, c_inst)
-        # !! TODO can't call get_data, because the worker returns values
-        #c_inst.get_data(client_dict, c_server, h_server, client_uuid)
     else:
         data_list, desc_list = c_inst.get_data(client_dict, c_server, h_server, client_uuid)
     hemlock.send_data(data_list, desc_list, h_server, client_uuid)
