@@ -1,10 +1,17 @@
 #!/usr/bin/python
 
-import ast, couchbase, hashlib, multiprocessing, sys, time
+import ast, couchbase, hashlib, sys, time
 import MySQLdb as mdb
+from multiprocessing import Pool
 from socket import *
 
 SERVER_CREDS_FILE='../hemlock_creds'
+
+# has to be outside the class, since instance objects can't be pickled
+def call_worker():
+    connection, address = c_server.accept()
+    d, data_list = c_inst.worker(connection, address)
+    return d, data_list
 
 class Hemlock_Base():
     def client_import(self, client):
@@ -139,17 +146,18 @@ class Hemlock_Base():
             sys.exit(0)
         return
 
-    def stream_workers(self, c_server, c_inst):
-        jobs = []
-        while True:
-            connection, address = c_server.accept()
-            w_queue = multiprocessing.Queue()
-            p = multiprocessing.Process(target=c_inst.worker, args=(connection, address, w_queue, ))
-            jobs.append(p)
-            p.start()
-            print w_queue.get()
-            #Hemlock_Base().send_data(data_list, desc_list, h_server, client_uuid)
-            #Hemlock_Base().update_hemlock(client_uuid, server_dict)
+    def stream_callback(self, data):
+        print data
+
+    def stream_workers(self):
+        objects= [0] * 10
+        pool = Pool(processes=4)
+        for obj in objects:
+            pool.apply_async(call_worker, callback=self.stream_callback) 
+        pool.close()
+        pool.join()
+        #    #Hemlock_Base().send_data(data_list, desc_list, h_server, client_uuid)
+        #    #Hemlock_Base().update_hemlock(client_uuid, server_dict)
 
     def print_help(self):
         print "--uuid \t<uuid of system> (use 'system-list' on the Hemlock server)"
@@ -205,14 +213,16 @@ if __name__ == "__main__":
     client_uuid, client, splits = hemlock.process_args(args)
     CLIENT_CREDS_FILE, c_inst = hemlock.client_import(client)
     client_dict, server_dict = hemlock.get_creds(CLIENT_CREDS_FILE)
+    global c_server
     c_server = c_inst.connect_client(client_dict)
+    data_list = []
+    desc_list = []
+    if not client.startswith("stream"):
+        data_list, desc_list = c_inst.get_data(client_dict, c_server, h_server, client_uuid)
+    else:
+        hemlock.stream_workers()
     h_server = hemlock.connect_server(server_dict)
     hemlock.verify_system(client_uuid)
-    if type(c_server) == SocketType:
-        hemlock.stream_workers(c_server, c_inst)
-    else:
-        data_list, desc_list = c_inst.get_data(client_dict, c_server, h_server, client_uuid)
     hemlock.send_data(data_list, desc_list, h_server, client_uuid)
-
     hemlock.update_hemlock(client_uuid, server_dict)
     print "Took",time.time() - start_time,"seconds to complete."

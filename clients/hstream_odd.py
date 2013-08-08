@@ -3,7 +3,7 @@
 import sys
 from socket import *
 
-class HOdd:
+class HStream_Odd:
     def connect_client(self, client_dict):
         c_server = ""
         host = client_dict['HOST']
@@ -18,18 +18,22 @@ class HOdd:
             sys.exit(0)
         return c_server
 
-    def worker(self, connection, address, w_queue):
+    def worker(self, connection, address):
         data_list = [[]]
         desc_list = []
-        print 'Server connected by', address
+        print connection, address
+        print "start"
+        d = ""
         while True:
             data = connection.recv(1024)
             if not data: break
             print address, "got data:", data
-            connection.send(data)
+            d += data
         print 'Server disconnected by', address
         connection.close()
-        w_queue.put("hi")
+
+        print "end"
+        return "did " + d, data_list
 
         #data_list[0][i].append(str(record_dict[k]))
         #desc_list[i].append([str(k)])
