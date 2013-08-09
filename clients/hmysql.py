@@ -39,7 +39,6 @@ class HMysql:
             query_list.append(query)
         else:
             cur.execute("SHOW TABLES")
-            # !! TODO research fetchmany
             tables = cur.fetchall()
             for table in tables:
                 # modify this line if you want to be more fine-grained
@@ -49,6 +48,8 @@ class HMysql:
 
         for query in query_list:
             cur.execute(query)
+            # !! TODO research fetchmany
+            # !! TODO also break up data_list for memory constraints
             data_list.append(cur.fetchall())
 
         if tables: 
