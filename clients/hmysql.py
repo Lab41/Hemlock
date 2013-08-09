@@ -39,6 +39,7 @@ class HMysql:
             query_list.append(query)
         else:
             cur.execute("SHOW TABLES")
+            # !! TODO research fetchmany
             tables = cur.fetchall()
             for table in tables:
                 # modify this line if you want to be more fine-grained
