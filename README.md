@@ -52,7 +52,7 @@ MongoDB    | mongo     | pymongo
 Redis      | redis     | redis
 Local FileSystem | fs  | magic, pdfminer, xmltodict
 RESTful API | rest     | 
-Streams (**experimental**)   | stream_odd |
+Streams ( **experimental** )   | stream_odd |
 
 
 Adding a new data source type
