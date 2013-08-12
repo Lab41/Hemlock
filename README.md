@@ -52,7 +52,7 @@ Credential files
     HEMLOCK_COUCH_SERVER=192.168.1.20
     HEMLOCK_COUCH_PW=pass
     ```
-2. Create credential files for each client you intend to use ([examples](https://github.com/Lab41/Hemlock/clients/).
+2. Create credential files for each client you intend to use ([examples](https://github.com/Lab41/Hemlock/tree/master/clients/)).
 
 
 Currently supported data sources
@@ -138,7 +138,7 @@ Usage examples
     ```bash
     python hemlock.py tenant-list
     ```
-- [Connecting to a client](https://github.com/Lab41/Hemlock/clients/)
+- [Connecting to a client](https://github.com/Lab41/Hemlock/tree/master/clients/)
 - [Full CLI API list](https://github.com/Lab41/Hemlock/blob/master/docs/CLI.md)
 
 
