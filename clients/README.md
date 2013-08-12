@@ -23,11 +23,11 @@ Client usage examples
     ```bash
     python hemlock.py register-local-system --name System1 \
                                             --data_type csv \
-                                            --description "description"
-                                            --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
-                                            --hostname system1.fqdn
-                                            --endpoint http://hemlock.server/
-                                            --poc_name user1
+                                            --description "description" \
+                                            --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6 \
+                                            --hostname system1.fqdn \
+                                            --endpoint http://hemlock.server/ \
+                                            --poc_name user1 \
                                             --poc_email user1@email.com
     ```
 
@@ -53,11 +53,11 @@ Client usage examples
     ```bash
     python hemlock.py register-local-system --name System1 \
                                             --data_type csv \
-                                            --description "description"
-                                            --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
-                                            --hostname system1.fqdn
-                                            --endpoint http://hemlock.server/
-                                            --poc_name user1
+                                            --description "description" \
+                                            --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6 \
+                                            --hostname system1.fqdn \
+                                            --endpoint http://hemlock.server/ \
+                                            --poc_name user1 \
                                             --poc_email user1@email.com
     ```
 
