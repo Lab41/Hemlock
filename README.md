@@ -93,14 +93,17 @@ Usage examples
 ==============
 
 - Create a tenant
+
     ```bash
     python hemlock.py tenant-create --name Project1
     ```
 - Create a tenant
+
     ```bash
     python hemlock.py role-create --name User
     ```
 - Create a user
+
     ```bash
     python hemlock.py user-create --name User1 \
                                   --username Username1 \
@@ -109,6 +112,7 @@ Usage examples
                                   --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
     ```
 - Register a local system
+
     ```bash
     python hemlock.py register-local-system --name System1 \
                                             --data_type csv \
@@ -120,14 +124,17 @@ Usage examples
                                             --poc_email user1@email.com
     ```
 - List registered systems
+
     ```bash
     python hemlock.py system-list
     ```
 - List created users
+
     ```bash
     python hemlock.py user-list
     ```
 - Lists created tenants
+
     ```bash
     python hemlock.py tenant-list
     ```
