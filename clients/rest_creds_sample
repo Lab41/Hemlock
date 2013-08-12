@@ -1,0 +1,10 @@
+REST_AUTH_URL=http://192.168.1.35/api/users/sign_in
+REST_DATA_URL=http://192.168.1.35/data/mydata.json
+REST_USERNAME_FIELD=email
+REST_USERNAME=
+REST_AUTH_TYPE=post
+REST_TOKEN_FIELD=authentication_token
+REST_AUTH_FIELD=auth_token
+REST_DATA_TYPE=get
+REST_PW_FIELD=password
+REST_PW=
