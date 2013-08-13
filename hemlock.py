@@ -6,20 +6,20 @@ import MySQLdb as mdb
 import texttable as tt
 from couchbase import Couchbase
 
-HELP_COUNTER = 0           
-                
+HELP_COUNTER = 0
+
 class Hemlock():
     def deregister_local_system(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def deregister_remote_system(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def register_local_system(self, args, var_d):
         arg_d = [
@@ -32,7 +32,7 @@ class Hemlock():
             '--poc_name',
             '--poc_email'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def register_remote_system(self, args, var_d):
         # !! TODO add map of operation vocabulary
@@ -48,116 +48,116 @@ class Hemlock():
             '--poc_name',
             '--poc_email'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def role_create(self, args, var_d):
         arg_d = [
             '--name'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def role_delete(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def role_get(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def role_list(self, args, var_d):
         arg_d = [
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def role_users_list(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def system_add_tenant(self, args, var_d):
         arg_d = [
             '--uuid',
             '--tenant_id'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def system_get(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def system_list(self, args, var_d):
         arg_d = [
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def system_remove_tenant(self, args, var_d):
         arg_d = [
             '--uuid',
             '--tenant_id'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def system_tenants_list(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def tenant_create(self, args, var_d):
         arg_d = [
             '--name'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def tenant_delete(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def tenant_get(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def tenant_list(self, args, var_d):
         arg_d = [
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def tenant_systems_list(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def tenant_users_list(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def user_add_role(self, args, var_d):
         arg_d = [
             '--uuid',
             '--role_id'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def user_add_tenant(self, args, var_d):
         arg_d = [
             '--uuid',
             '--tenant_id'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def user_create(self, args, var_d):
         arg_d = [
@@ -167,50 +167,50 @@ class Hemlock():
             '--role_id',
             '--tenant_id'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def user_delete(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def user_get(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def user_list(self, args, var_d):
         arg_d = [
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def user_remove_role(self, args, var_d):
         arg_d = [
             '--uuid',
             '--role_id'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def user_remove_tenant(self, args, var_d):
         arg_d = [
             '--uuid',
             '--tenant_id'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def user_roles_list(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def user_tenants_list(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
-        return self.check_args(args, arg_d, var_d) 
+        return self.check_args(args, arg_d, var_d)
 
     def check_args(self, args, arg_d, var_d):
         global HELP_COUNTER
@@ -382,7 +382,7 @@ class Hemlock():
             else:
                 for key in sorted(help_dict.iterkeys()):
                     print help_dict[key]
-        
+
             sys.exit()
 
     def process_args(self, args):
@@ -448,7 +448,7 @@ class Hemlock():
         parser.add_option("-b", "--couchbase-bucket", action="store", dest="bucket", help="Couchbase Bucket")
         parser.add_option("-w", "--couchbase-password", action="store", dest="c_pw", help="Couchbase Password")
         return parser.parse_args()
-    
+
     def get_auth(self):
         # extract command-line switches
         (options, args_leftover) = Hemlock().parse_auth()
@@ -461,7 +461,7 @@ class Hemlock():
             options.server = raw_input("MySQL Server (default is localhost):")
             if options.server == "":
                 options.server = "localhost"
-                
+
         try:
             if options.db == None:
                 options.db = os.environ['HEMLOCK_MYSQL_DB']
@@ -469,19 +469,19 @@ class Hemlock():
             options.db = raw_input("MySQL DB (default is hemlock):")
             if options.db == "":
                 options.db = "hemlock"
-                
+
         try:
             if options.user == None:
                 options.user = os.environ['HEMLOCK_MYSQL_USER']
         except:
             options.user = raw_input("Username:")
-            
+
         try:
             if options.pw == None:
                 options.pw = os.environ['HEMLOCK_MYSQL_PW']
         except:
             options.pw = getpass.getpass("MySQL Password:")
-            
+
         try:
             if options.c_server == None:
                 options.c_server = os.environ['HEMLOCK_COUCHBASE_SERVER']
@@ -489,7 +489,7 @@ class Hemlock():
             options.c_server = raw_input("Couchbase Server (default is localhost):")
             if options.c_server == "":
                 options.c_server = "localhost"
-                
+
         try:
             if options.bucket == None:
                 options.bucket = os.environ['HEMLOCK_COUCHBASE_BUCKET']
@@ -497,13 +497,13 @@ class Hemlock():
             options.bucket = raw_input("Couchbase Bucket (default is hemlock):")
             if options.bucket == "":
                 options.bucket = "hemlock"
-                
+
         try:
             if options.c_pw == None:
                 options.c_pw = os.environ['HEMLOCK_COUCHBASE_PW']
         except:
             options.c_pw = getpass.getpass("Couchbase Password:")
-        
+
         return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.bucket, options.c_pw
 
     def mysql_server(self, server, user, pw, db):
@@ -547,13 +547,13 @@ class Hemlock():
             system_table = "CREATE TABLE IF NOT EXISTS systems(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), data_type VARCHAR(50), description VARCHAR(200), endpoint VARCHAR(100), hostname VARCHAR(50), port VARCHAR(5), remote_uri VARCHAR(100), poc_name VARCHAR(50), poc_email VARCHAR(50), remote BOOL, created DATETIME, updated_data DATETIME, INDEX (uuid)) ENGINE = INNODB"
             cur.execute(system_table)
         if "users_roles" not in tables:
-            users_roles_table = "CREATE TABLE IF NOT EXISTS users_roles(user_id VARCHAR(36), role_id VARCHAR(36), INDEX (user_id), CONSTRAINT fkur_roles FOREIGN KEY (role_id) REFERENCES roles(uuid), CONSTRAINT fkur_users FOREIGN KEY (user_id) REFERENCES users(uuid) ON DELETE CASCADE) ENGINE = INNODB" 
+            users_roles_table = "CREATE TABLE IF NOT EXISTS users_roles(user_id VARCHAR(36), role_id VARCHAR(36), INDEX (user_id), CONSTRAINT fkur_roles FOREIGN KEY (role_id) REFERENCES roles(uuid), CONSTRAINT fkur_users FOREIGN KEY (user_id) REFERENCES users(uuid) ON DELETE CASCADE) ENGINE = INNODB"
             cur.execute(users_roles_table)
         if "users_tenants" not in tables:
-            users_tenants_table = "CREATE TABLE IF NOT EXISTS users_tenants(user_id VARCHAR(36), tenant_id VARCHAR(36), INDEX (user_id), CONSTRAINT fkut_tenants FOREIGN KEY (tenant_id) REFERENCES tenants(uuid), CONSTRAINT fkut_users FOREIGN KEY (user_id) REFERENCES users(uuid) ON DELETE CASCADE) ENGINE = INNODB" 
+            users_tenants_table = "CREATE TABLE IF NOT EXISTS users_tenants(user_id VARCHAR(36), tenant_id VARCHAR(36), INDEX (user_id), CONSTRAINT fkut_tenants FOREIGN KEY (tenant_id) REFERENCES tenants(uuid), CONSTRAINT fkut_users FOREIGN KEY (user_id) REFERENCES users(uuid) ON DELETE CASCADE) ENGINE = INNODB"
             cur.execute(users_tenants_table)
         if "systems_tenants" not in tables:
-            systems_tenants_table = "CREATE TABLE IF NOT EXISTS systems_tenants(system_id VARCHAR(36), tenant_id VARCHAR(36), INDEX (system_id), CONSTRAINT fkst_tenants FOREIGN KEY (tenant_id) REFERENCES tenants(uuid), CONSTRAINT fkst_systems FOREIGN KEY (system_id) REFERENCES systems(uuid) ON DELETE CASCADE) ENGINE = INNODB" 
+            systems_tenants_table = "CREATE TABLE IF NOT EXISTS systems_tenants(system_id VARCHAR(36), tenant_id VARCHAR(36), INDEX (system_id), CONSTRAINT fkst_tenants FOREIGN KEY (tenant_id) REFERENCES tenants(uuid), CONSTRAINT fkst_systems FOREIGN KEY (system_id) REFERENCES systems(uuid) ON DELETE CASCADE) ENGINE = INNODB"
             cur.execute(systems_tenants_table)
 
         # perform action with args against mysql table
@@ -581,7 +581,7 @@ class Hemlock():
 
         if "system" in action_a:
             # update to systems table
-            if "deregister" in action_a: 
+            if "deregister" in action_a:
                 # delete
                 data_action = "DELETE FROM systems_tenants WHERE system_id = '"+var_d['--uuid']+"'"
                 data_action2 = "DELETE FROM systems WHERE uuid = '"+var_d['--uuid']+"'"
@@ -607,7 +607,7 @@ class Hemlock():
                 i = 0
                 for val in vals:
                     if k == i:
-                        data_action2 += "\""+val+"\", \""+uid+"\")" 
+                        data_action2 += "\""+val+"\", \""+uid+"\")"
                     else:
                         data_action += "\""+val+"\", "
                     i += 1
@@ -690,9 +690,9 @@ class Hemlock():
                     if j == i:
                         data_action += "AES_ENCRYPT(\""+val+"\", \""+aes_key+"\"), "
                     elif k == i:
-                        data_action2 += "\""+val+"\", \""+uid+"\")" 
+                        data_action2 += "\""+val+"\", \""+uid+"\")"
                     elif l == i:
-                        data_action3 += "\""+val+"\", \""+uid+"\")" 
+                        data_action3 += "\""+val+"\", \""+uid+"\")"
                     else:
                         data_action += "\""+val+"\", "
                     i += 1
@@ -735,12 +735,12 @@ class Hemlock():
 
         results = cur.fetchall()
         desc_results = ""
-    
+
         tab = tt.Texttable()
         x = [[]]
         tab_header = ['Property', 'Value']
         tab_align = ['c','c']
-    
+
         if "get" not in action_a and "list" not in action_a:
             i = 0
             while i < len(props):
@@ -838,20 +838,20 @@ class Hemlock():
                         while i < len(results):
                             x.append([results[i][a],results[i][b]])
                             i += 1
-        
+
 
         tab.add_rows(x)
         tab.set_deco(tab.HEADER | tab.VLINES | tab.BORDER)
         tab.set_chars(['-','|','+','-'])
         tab.set_cols_align(tab_align)
         tab.header(tab_header)
-    
-        if "remove" not in action_a and "delete" not in action_a and "deregister" not in action_a:    
+
+        if "remove" not in action_a and "delete" not in action_a and "deregister" not in action_a:
             print tab.draw()
         return x, error
 
 if __name__ == "__main__":
-    start_time = time.time()   
+    start_time = time.time()
     args, user, pw, db, server, c_server, bucket, c_pw = Hemlock().get_auth()
     var_d, action = Hemlock().process_args(args)
     m_server = Hemlock().mysql_server(server, user, pw, db)
