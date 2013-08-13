@@ -51,7 +51,6 @@ class HFs:
                 data_list[0][i].append(str(record[key]))
                 desc_list[i].append([str(key)])
             i += 1
-        # !! TODO call send_data from hemlock_base
         h_inst = hemlock_base.Hemlock_Base()
         h_inst.send_data(data_list, desc_list, h_server, client_uuid)
         return 

@@ -12,13 +12,13 @@ class HMysql:
         #    MYSQL_USERNAME
         #    MYSQL_PW 
         # optional:
-        #    MYSQL_TABLE (if not specified it will try all tables 
+        #    MYSQL_TABLE (if not specified it will try all tables
         #                 the credentials has access to)
         c_server = ""
         try:
-            c_server = mdb.connect(client_dict['MYSQL_SERVER'], 
-                                   client_dict['MYSQL_USERNAME'], 
-                                   client_dict['MYSQL_PW'], 
+            c_server = mdb.connect(client_dict['MYSQL_SERVER'],
+                                   client_dict['MYSQL_USERNAME'],
+                                   client_dict['MYSQL_PW'],
                                    client_dict['MYSQL_DB'])
         except:
             print "Failure connecting to the client server"
@@ -48,9 +48,11 @@ class HMysql:
 
         for query in query_list:
             cur.execute(query)
-            # !! TODO research fetchmany
-            # !! TODO also break up data_list for memory constraints
-            data_list.append(cur.fetchall())
+            while result:
+                result = cur.fetchmany(1000)
+                # !! TODO break up data_list, and desc_list with each break for
+                #         memory constraints
+                data_list.append(result)
 
         if tables: 
             for table in tables:
@@ -59,7 +61,7 @@ class HMysql:
         else:
             cur.execute("DESC "+client_dict['MYSQL_TABLE'])
             desc_list.append(cur.fetchall())
-        
+
         try:
             c_server.commit()
             c_server.close()

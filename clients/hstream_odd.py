@@ -5,6 +5,10 @@ from socket import *
 
 class HStream_Odd:
     def connect_client(self, client_dict):
+        # connect to the stream server
+        # required fields in the client creds file are as follows:
+        #    HOST
+        #    PORT
         c_server = ""
         host = client_dict['HOST']
         port = int(client_dict['PORT'])
@@ -35,6 +39,7 @@ class HStream_Odd:
         print "end"
         return "did " + d, data_list
 
+        # !! TODO actually store data in arrays
         #data_list[0][i].append(str(record_dict[k]))
         #desc_list[i].append([str(k)])
 
