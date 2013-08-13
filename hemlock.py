@@ -712,10 +712,14 @@ class Hemlock():
                 # read only
                 if "roles" in action_a:
                     data_action = "SELECT * FROM users_roles WHERE user_id = '"+var_d['--uuid']+"'"
-                elif "tenants" in action_a:
+                elif "tenants" in action_a and "user" in action_a:
                     data_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"'"
-                elif "users" in action_a:
+                elif "tenants" in action_a and "system" in action_a:
+                    data_action = "SELECT * FROM systems_tenants WHERE tenant_id = '"+var_d['--uuid']+"'"
+                elif "users" in action_a and "tenant" in action_a:
                     data_action = "SELECT * FROM users_tenants WHERE tenant_id = '"+var_d['--uuid']+"'"
+                elif "users" in action_a and "role" in action_a:
+                    data_action = "SELECT * FROM users_roles WHERE user_id = '"+var_d['--uuid']+"'"
                 elif "systems" in action_a:
                     data_action = "SELECT * FROM systems_tenants WHERE tenant_id = '"+var_d['--uuid']+"'"
                 else:
@@ -838,7 +842,6 @@ class Hemlock():
                         while i < len(results):
                             x.append([results[i][a],results[i][b]])
                             i += 1
-
 
         tab.add_rows(x)
         tab.set_deco(tab.HEADER | tab.VLINES | tab.BORDER)

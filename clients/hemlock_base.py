@@ -217,7 +217,6 @@ if __name__ == "__main__":
     c_server = c_inst.connect_client(client_dict)
     data_list = []
     desc_list = []
-    # !! TODO verify that connect_server with stream_worker doesn't break
     h_server = hemlock.connect_server(server_dict)
     if not client.startswith("stream"):
         data_list, desc_list = c_inst.get_data(client_dict, c_server, h_server, client_uuid)
