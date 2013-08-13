@@ -97,7 +97,7 @@ Usage examples
     ```bash
     python hemlock.py tenant-create --name Project1
     ```
-- Create a tenant
+- Create a role
 
     ```bash
     python hemlock.py role-create --name User
