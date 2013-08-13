@@ -48,6 +48,7 @@ class HMysql:
 
         for query in query_list:
             cur.execute(query)
+            result = 1
             while result:
                 result = cur.fetchmany(1000)
                 # !! TODO break up data_list, and desc_list with each break for
