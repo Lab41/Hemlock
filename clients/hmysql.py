@@ -49,11 +49,13 @@ class HMysql:
         for query in query_list:
             cur.execute(query)
             result = 1
+            r_tup = ()
             while result:
                 result = cur.fetchmany(1000)
+                r_tup += result
                 # !! TODO break up data_list, and desc_list with each break for
                 #         memory constraints
-                data_list.append(result)
+            data_list.append(r_tup)
 
         if tables: 
             for table in tables:
