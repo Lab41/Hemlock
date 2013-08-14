@@ -145,7 +145,7 @@ Usage examples
 Related repositories
 ====================
 
-[Hemlock-REST](https://github.com/Lab41/Hemlock-REST/)
+[Hemlock-REST](https://lab41.github.io/Hemlock-REST/)
 
 Tests
 =====
