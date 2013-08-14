@@ -12,3 +12,6 @@ script: pytest
 branches:
   except:
   - gh-pages
+notifications:
+  email:
+    - charliel@lab41.org
