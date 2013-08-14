@@ -6,7 +6,7 @@ layer that eliminates the need to understand underlying data topologies but
 still preserving the requirements of each data source such as access control,
 performance, and formats.
 
-![Hemlock L](docs/images/overview_hemlock.png "Hemlock")
+![Hemlock L](https://github.com/Lab41/Hemlock/blob/master/docs/images/overview_hemlock.png "Hemlock")
 
 Install instructions
 ====================
