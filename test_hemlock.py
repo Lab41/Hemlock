@@ -5,7 +5,7 @@ class TestClass:
     def process_role_create(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         x, error1 = a.process_action("role-create", {'--name':'role1'}, m_server)
         error.append(error1)
         cur = m_server.cursor()
@@ -17,7 +17,7 @@ class TestClass:
     def process_tenant_create(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         x, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error1)
         cur = m_server.cursor()
@@ -29,7 +29,7 @@ class TestClass:
     def process_user_create(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("role-create", {'--name':'role1'}, m_server)
         error.append(error1)
         c, error2 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
@@ -45,7 +45,7 @@ class TestClass:
     def process_register_local_system(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error1)
         x, error2 = a.process_action("register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server)
@@ -59,7 +59,7 @@ class TestClass:
     def process_register_remote_system(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error1)
         x, error2 = a.process_action("register-remote-system", {'--name':'remote-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--port':'80', '--remote_uri':'http://remote.uri/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server)
@@ -73,7 +73,7 @@ class TestClass:
     def process_role_list(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("role-list", {}, m_server)
         error.append(error1)
         c, error2 = a.process_action("role-create", {'--name':'role1'}, m_server)
@@ -90,7 +90,7 @@ class TestClass:
     def process_tenant_list(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("tenant-list", {}, m_server)
         error.append(error1)
         c, error2 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
@@ -107,7 +107,7 @@ class TestClass:
     def process_user_list(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("user-list", {}, m_server)
         error.append(error1)
         c, error2 = a.process_action("role-create", {'--name':'role1'}, m_server)
@@ -132,7 +132,7 @@ class TestClass:
     def process_system_list(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("system-list", {}, m_server)
         error.append(error1)
         c, error2 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
@@ -153,7 +153,7 @@ class TestClass:
     def process_role_users_list(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("role-create", {'--name':'role1'}, m_server)
         error.append(error1)
         c, error2 = a.process_action("role-users-list", {'--uuid':b[2][1]}, m_server)
@@ -176,7 +176,7 @@ class TestClass:
     def process_system_tenants_list(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error1)
         c, error2 = a.process_action("register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server)
@@ -195,7 +195,7 @@ class TestClass:
     def process_tenant_systems_list(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error1)
         c, error2 = a.process_action("tenant-systems-list", {'--uuid':b[2][1]}, m_server)
@@ -214,7 +214,7 @@ class TestClass:
     def process_tenant_users_list(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error1)
         c, error2 = a.process_action("tenant-users-list", {'--uuid':b[2][1]}, m_server)
@@ -237,7 +237,7 @@ class TestClass:
     def process_user_roles_list(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error1)
         c, error2 = a.process_action("role-create", {'--name':'role1'}, m_server)
@@ -258,7 +258,7 @@ class TestClass:
     def process_user_tenants_list(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error1)
         c, error2 = a.process_action("role-create", {'--name':'role1'}, m_server)
@@ -279,7 +279,7 @@ class TestClass:
     def process_deregister_local_system(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error1)
         c, error2 = a.process_action("register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server)
@@ -292,7 +292,7 @@ class TestClass:
     def process_deregister_remote_system(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error1)
         c, error2 = a.process_action("register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server)
@@ -305,7 +305,7 @@ class TestClass:
     def process_role_delete(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("role-create", {'--name':'role1'}, m_server)
         error.append(error1)
         x, error2 = a.process_action("role-delete", {'--uuid':b[2][1]}, m_server)
@@ -316,7 +316,7 @@ class TestClass:
     def process_system_add_tenant(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error1)
         c, error2 = a.process_action("register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server)
@@ -331,7 +331,7 @@ class TestClass:
     def process_system_get(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error1)
         c, error2 = a.process_action("register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server)
@@ -344,7 +344,7 @@ class TestClass:
     def process_system_remove_tenant(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error1)
         c, error2 = a.process_action("register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server)
@@ -363,7 +363,7 @@ class TestClass:
     def process_tenant_delete(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error1)
         x, error2 = a.process_action("tenant-delete", {'--uuid':b[2][1]}, m_server)
@@ -374,7 +374,7 @@ class TestClass:
     def process_tenant_get(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error1)
         x, error2 = a.process_action("tenant-get", {'--uuid':b[2][1]}, m_server)
@@ -385,7 +385,7 @@ class TestClass:
     def process_user_add_role(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error1)
         c, error2 = a.process_action("role-create", {'--name':'role1'}, m_server)
@@ -402,7 +402,7 @@ class TestClass:
     def process_user_add_tenant(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("role-create", {'--name':'role1'}, m_server)
         error.append(error1)
         c, error2 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
@@ -419,7 +419,7 @@ class TestClass:
     def process_user_delete(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error1)
         c, error2 = a.process_action("role-create", {'--name':'role1'}, m_server)
@@ -434,7 +434,7 @@ class TestClass:
     def process_user_get(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error1)
         c, error2 = a.process_action("role-create", {'--name':'role1'}, m_server)
@@ -449,7 +449,7 @@ class TestClass:
     def process_user_remove_role(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error1)
         c, error2 = a.process_action("role-create", {'--name':'role1'}, m_server)
@@ -470,7 +470,7 @@ class TestClass:
     def process_user_remove_tenant(self):
         error = []
         a = hemlock.Hemlock()
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action("role-create", {'--name':'role1'}, m_server)
         error.append(error1)
         c, error2 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
@@ -495,7 +495,7 @@ class TestClass:
 
     # call tests
     def test_connect_mysql(self):
-        m_server = self.connect_mysql("localhost", "testUser", "password", "test_hemlock")
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
         cur = m_server.cursor()
         cur.execute("DROP TABLE IF EXISTS users_tenants")
         cur.execute("DROP TABLE IF EXISTS users_roles")
