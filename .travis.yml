@@ -9,6 +9,7 @@ install:
   - pip install MySQL-python --use-mirrors
   - pip install texttable --use-mirrors
   - pip install couchbase --use-mirrors
+  - pip install pytest --use-mirrors
 script: pytest
 branches:
   except:
