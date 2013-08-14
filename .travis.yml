@@ -1,0 +1,14 @@
+language: python
+python:
+  - "2.7"
+before_install:
+  - source ./scripts/ci/setup_env.sh
+  - sudo apt-get update -qq
+install: 
+  - pip install MySQLdb --use-mirrors
+  - pip install texttable --use-mirrors
+  - pip install couchbase --use-mirrors
+script: pytest
+branches:
+  except:
+  - gh-pages
