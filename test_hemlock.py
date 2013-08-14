@@ -34,6 +34,7 @@ class TestClass:
         error.append(error1)
         c, error2 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error2)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
         x, error3 = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':c[2][1]}, m_server)
         error.append(error3)
         cur = m_server.cursor()
@@ -114,6 +115,7 @@ class TestClass:
         error.append(error2)
         d, error3 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error3)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
         e, error4 = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':d[2][1]}, m_server)
         error.append(error4)
         f, error5 = a.process_action("user-list", {}, m_server)
@@ -122,6 +124,7 @@ class TestClass:
         error.append(error6)
         h, error7 = a.process_action("tenant-create", {'--name':'tenant2'}, m_server)
         error.append(error7)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
         i, error8 = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':g[2][1], '--tenant_id':h[2][1]}, m_server)
         error.append(error8)
         x, error9 = a.process_action("user-list", {}, m_server)
@@ -160,12 +163,14 @@ class TestClass:
         error.append(error2)
         d, error3 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error3)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
         e, error4 = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':d[2][1]}, m_server)
         error.append(error4)
         f, error5 = a.process_action("role-users-list", {'--uuid':b[2][1]}, m_server)
         error.append(error5)
         g, error6 = a.process_action("tenant-create", {'--name':'tenant2'}, m_server)
         error.append(error6)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
         h, error7 = a.process_action("user-create", {'--name':'user2', '--username':'username2', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':g[2][1]}, m_server)
         error.append(error7)
         x, error8 = a.process_action("role-users-list", {'--uuid':b[2][1]}, m_server)
@@ -221,12 +226,14 @@ class TestClass:
         error.append(error2)
         d, error3 = a.process_action("role-create", {'--name':'role1'}, m_server)
         error.append(error3)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
         e, error4 = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':d[2][1], '--tenant_id':b[2][1]}, m_server)
         error.append(error4)
         f, error5 = a.process_action("tenant-users-list", {'--uuid':b[2][1]}, m_server)
         error.append(error5)
         g, error6 = a.process_action("role-create", {'--name':'role2'}, m_server)
         error.append(error6)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
         h, error7 = a.process_action("user-create", {'--name':'user2', '--username':'username2', '--email':'email@dot.com', '--role_id':g[2][1], '--tenant_id':b[2][1]}, m_server)
         error.append(error7)
         x, error8 = a.process_action("tenant-users-list", {'--uuid':b[2][1]}, m_server)
@@ -242,6 +249,7 @@ class TestClass:
         error.append(error1)
         c, error2 = a.process_action("role-create", {'--name':'role1'}, m_server)
         error.append(error2)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
         d, error3 = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server)
         error.append(error3)
         e, error4 = a.process_action("user-roles-list", {'--uuid':d[7][1]}, m_server)
@@ -263,6 +271,7 @@ class TestClass:
         error.append(error1)
         c, error2 = a.process_action("role-create", {'--name':'role1'}, m_server)
         error.append(error2)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
         d, error3 = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server)
         error.append(error3)
         e, error4 = a.process_action("user-tenants-list", {'--uuid':d[7][1]}, m_server)
@@ -390,6 +399,7 @@ class TestClass:
         error.append(error1)
         c, error2 = a.process_action("role-create", {'--name':'role1'}, m_server)
         error.append(error2)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
         d, error3 = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server)
         error.append(error3)
         e, error4 = a.process_action("role-create", {'--name':'role2'}, m_server)
@@ -407,6 +417,7 @@ class TestClass:
         error.append(error1)
         c, error2 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error2)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
         d, error3 = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':c[2][1]}, m_server)
         error.append(error3)
         e, error4 = a.process_action("tenant-create", {'--name':'tenant2'}, m_server)
@@ -424,6 +435,7 @@ class TestClass:
         error.append(error1)
         c, error2 = a.process_action("role-create", {'--name':'role1'}, m_server)
         error.append(error2)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
         d, error3 = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server)
         error.append(error3)
         x, error4 = a.process_action("user-delete", {'--uuid':d[7][1]}, m_server)
@@ -439,6 +451,7 @@ class TestClass:
         error.append(error1)
         c, error2 = a.process_action("role-create", {'--name':'role1'}, m_server)
         error.append(error2)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
         d, error3 = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server)
         error.append(error3)
         x, error4 = a.process_action("user-get", {'--uuid':d[7][1]}, m_server)
@@ -454,6 +467,7 @@ class TestClass:
         error.append(error1)
         c, error2 = a.process_action("role-create", {'--name':'role1'}, m_server)
         error.append(error2)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
         d, error3 = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server)
         error.append(error3)
         #e, error4 = a.process_action("user-remove-role", {'--uuid':d[7][1], '--role_id':c[2][1]}, m_server)
@@ -475,6 +489,7 @@ class TestClass:
         error.append(error1)
         c, error2 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
         error.append(error2)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
         d, error3 = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':c[2][1]}, m_server)
         error.append(error3)
         #e, error4 = a.process_action("user-remove-tenant", {'--uuid':d[7][1], '--tenant_id':c[2][1]}, m_server)
