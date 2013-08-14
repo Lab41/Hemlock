@@ -152,6 +152,12 @@ Tests
 
 The tests for this project use [py.test](http://pytest.org/latest/)
 
+Travis CI Status
+================
+
+[![Build Status](https://travis-ci.org/Lab41/Hemlock.png?branch=master)](https://travis-ci.org/Lab41/Hemlock)
+
+
 Contributing to Hemlock
 =======================
 
