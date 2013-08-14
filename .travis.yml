@@ -2,6 +2,7 @@ language: python
 python:
   - "2.7"
 before_install:
+  - mysql -e 'create database hemlock_test;'
   - source ./scripts/ci/setup_env.sh
   - sudo apt-get update -qq
 install: 
