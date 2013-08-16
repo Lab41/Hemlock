@@ -2,6 +2,7 @@
 
 import sys
 import MySQLdb as mdb
+import MySQLdb.cursors
 
 class HMysql:
     def connect_client(self, client_dict):
@@ -20,7 +21,7 @@ class HMysql:
                                    client_dict['MYSQL_USERNAME'],
                                    client_dict['MYSQL_PW'],
                                    client_dict['MYSQL_DB'],
-                                   cursorclass = mdb.cursors.SSCursor)
+                                   cursorclass = MySQLdb.cursors.SSCursor)
         except:
             print "Failure connecting to the client server"
             sys.exit(0)
