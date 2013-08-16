@@ -38,7 +38,7 @@ class HMysql:
             query = "SELECT * FROM "+client_dict['MYSQL_TABLE']
             query_list.append(query)
         else:
-            cur.execute("SHOW FULL TABLES WHERE Table_type = "BASE TABLE")
+            cur.execute("SHOW FULL TABLES WHERE Table_type = \"BASE TABLE\"")
             tables = cur.fetchall()
             for table in tables:
                 # modify this line if you want to be more fine-grained
