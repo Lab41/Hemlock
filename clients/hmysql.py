@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import hemlock_base
 import sys
 import MySQLdb as mdb
 import MySQLdb.cursors
@@ -28,6 +29,7 @@ class HMysql:
         return c_server
 
     def get_data(self, client_dict, c_server, h_server, client_uuid):
+        h_inst = hemlock_base.Hemlock_Base()
         query_list = []
         data_list = []
         desc_list = []
@@ -49,23 +51,17 @@ class HMysql:
                 query_list.append(query)
 
         for query in query_list:
+            table = query.split("FROM ")
+            cur.execute("DESC "+table[1])
+            desc_list.append(cur.fetchall())
             cur.execute(query)
             result = 1
-            r_tup = ()
             while result:
                 result = cur.fetchmany(1000)
-                r_tup += result
-                # !! TODO break up data_list, and desc_list with each break for
-                #         memory constraints
-            data_list.append(r_tup)
-
-        if tables: 
-            for table in tables:
-                cur.execute("DESC "+table[0])
-                desc_list.append(cur.fetchall())
-        else:
-            cur.execute("DESC "+client_dict['MYSQL_TABLE'])
-            desc_list.append(cur.fetchall())
+                data_list.append(result)
+                h_inst.send_data(data_list, desc_list, h_server, client_uuid)
+                data_list = []
+            desc_list = []
 
         try:
             c_server.commit()
