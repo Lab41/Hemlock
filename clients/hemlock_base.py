@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import ast, couchbase, hashlib, sys, time
+import ast, couchbase, datetime, hashlib, sys, time
 import MySQLdb as mdb
 from multiprocessing import Pool
 from socket import *
@@ -99,7 +99,10 @@ class Hemlock_Base():
                 j_dict = {}
                 k = 0
                 while k < len(record):
-                    j_dict[desc_list[j][k][0]] = record[k]
+                    rec = record[k]
+                    if type(rec) == datetime.datetime:
+                        rec = str(rec)
+                    j_dict[desc_list[j][k][0]] = rec
                     k += 1
                 uid = hashlib.sha1(repr(sorted(j_dict.items())))
                 j_dict['hemlock-system'] = client_uuid
