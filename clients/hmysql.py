@@ -19,7 +19,8 @@ class HMysql:
             c_server = mdb.connect(client_dict['MYSQL_SERVER'],
                                    client_dict['MYSQL_USERNAME'],
                                    client_dict['MYSQL_PW'],
-                                   client_dict['MYSQL_DB'])
+                                   client_dict['MYSQL_DB'],
+                                   cursorclass = mdb.cursors.SSCursor)
         except:
             print "Failure connecting to the client server"
             sys.exit(0)
