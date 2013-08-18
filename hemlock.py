@@ -21,6 +21,11 @@ class Hemlock():
         ]
         return self.check_args(args, arg_d, var_d)
 
+    def list_all(self, args, var_d):
+        arg_d = [
+        ]
+        return self.check_args(args, arg_d, var_d)
+
     def register_local_system(self, args, var_d):
         arg_d = [
             '--name',
@@ -242,6 +247,9 @@ class Hemlock():
             deregister-remote-system (from a system remove it from Hemlock)
                 --uuid (uuid of system)
             """,
+            'list-all' : """
+            list-all (list everything)
+            """,
             'register-local-system' : """
             register-local-system (from a system add it to Hemlock)
                 --name (name of system)
@@ -394,6 +402,7 @@ class Hemlock():
         arg_actions = {
             'deregister-local-system' : self.deregister_local_system,
             'deregister-remote-system' : self.deregister_remote_system,
+            'list-all' : self.list_all,
             'register-local-system' : self.register_local_system,
             'register-remote-system' : self.register_remote_system,
             'role-create' : self.role_create,
@@ -517,7 +526,6 @@ class Hemlock():
 
     def process_action(self, action, var_d, m_server):
         error = 0
-        # !! TODO tie in with frontend stuff
         # !! TODO try/except
 
         # !! TODO FIX THIS!!!!!!
@@ -722,6 +730,8 @@ class Hemlock():
                     data_action = "SELECT * FROM users_roles WHERE role_id = '"+var_d['--uuid']+"'"
                 elif "systems" in action_a:
                     data_action = "SELECT * FROM systems_tenants WHERE tenant_id = '"+var_d['--uuid']+"'"
+                elif "all" in action_a:
+                    # !! TODO list-all query
                 else:
                     data_action = "SELECT * FROM "+action_a[0]+"s"
                     if "get" in action_a:
