@@ -731,6 +731,7 @@ class Hemlock():
                 elif "systems" in action_a:
                     data_action = "SELECT * FROM systems_tenants WHERE tenant_id = '"+var_d['--uuid']+"'"
                 elif "all" in action_a:
+                    data_action = ""
                     # !! TODO list-all query
                 else:
                     data_action = "SELECT * FROM "+action_a[0]+"s"
