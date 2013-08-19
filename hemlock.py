@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import hemlock_options_parser
-import getpass, os, sys, time, uuid
+import getpass, json, os, sys, time, uuid
 import MySQLdb as mdb
 import texttable as tt
 from couchbase import Couchbase
@@ -731,8 +731,138 @@ class Hemlock():
                 elif "systems" in action_a:
                     data_action = "SELECT * FROM systems_tenants WHERE tenant_id = '"+var_d['--uuid']+"'"
                 elif "all" in action_a:
+                    # since this one returns all data and 
+                    # descriptions in one payload, it will 
+                    # be structured as a json object for 
+                    # ease of consumability
+                    # 
+                    # example:
+                    # 
+                    # {
+                    #    "users_tenants": [
+                    #        {
+                    #            "tenant_id": "602d5b58-cce9-4040-91dd-a2b2f0e954af",
+                    #            "user_id": "c8e6cbcc-c657-4de9-a02a-c8121f1a11a1"
+                    #        },
+                    #        {
+                    #            "tenant_id": "602d5b58-cce9-4040-91dd-a2b2f0e954af",
+                    #            "user_id": "91e7c621-ba88-4f2c-a78e-8f6a8a79105c"
+                    #        }
+                    #    ],
+                    #    "users": [
+                    #        {
+                    #            "username": "lkberj",
+                    #            "name": "asdf",
+                    #            "created": "2013-08-13 23:29:29",
+                    #            "id": "1",
+                    #            "email": "asdlkfj@aldskfj.com",
+                    #            "uuid": "c8e6cbcc-c657-4de9-a02a-c8121f1a11a1"
+                    #        },
+                    #        {
+                    #            "username": "lkberj",
+                    #            "name": "asdf",
+                    #            "created": "2013-08-13 23:44:47",
+                    #            "id": "2",
+                    #            "email": "asdlkfj@aldskfj.com",
+                    #            "uuid": "91e7c621-ba88-4f2c-a78e-8f6a8a79105c"
+                    #        }
+                    #    ],
+                    #    "roles": [
+                    #        {
+                    #            "created": "2013-08-13 23:25:12",
+                    #            "id": "1",
+                    #            "name": "role1",
+                    #            "uuid": "e39d6ac4-dfc7-46de-b048-7ff4884d3018"
+                    #        },
+                    #        {
+                    #            "created": "2013-08-13 23:44:19",
+                    #            "id": "2",
+                    #            "name": "role2",
+                    #            "uuid": "c7eb6f3b-9277-46e7-89e3-f3d59ab7e561"
+                    #        }
+                    #    ],
+                    #    "users_roles": [
+                    #        {
+                    #            "user_id": "c8e6cbcc-c657-4de9-a02a-c8121f1a11a1",
+                    #            "role_id": "e39d6ac4-dfc7-46de-b048-7ff4884d3018"
+                    #        },
+                    #        {
+                    #            "user_id": "91e7c621-ba88-4f2c-a78e-8f6a8a79105c",
+                    #            "role_id": "c7eb6f3b-9277-46e7-89e3-f3d59ab7e561"
+                    #        }
+                    #    ],
+                    #    "systems": [
+                    #        {
+                    #            "endpoint": "None",
+                    #            "poc_email": "asdf@alkdfj.com",
+                    #            "description": "desc",
+                    #            "data_type": "data",
+                    #            "created": "2013-08-13 23:27:03",
+                    #            "hostname": "asdf",
+                    #            "poc_name": "foo bar",
+                    #            "uuid": "4991f644-e94d-472e-8526-c7f08a656735",
+                    #            "port": "123",
+                    #            "remote": "1",
+                    #            "remote_uri": "http://localhost/",
+                    #            "updated_data": "2013-08-16 21:16:01",
+                    #            "id": "1",
+                    #            "name": "system4"
+                    #        }
+                    #    ],
+                    #    "tenants": [
+                    #        {
+                    #            "created": "2013-08-13 23:25:06",
+                    #            "id": "1",
+                    #            "name": "tenant1",
+                    #            "uuid": "602d5b58-cce9-4040-91dd-a2b2f0e954af"
+                    #        },
+                    #        {
+                    #            "created": "2013-08-13 23:46:50",
+                    #            "id": "2",
+                    #            "name": "tenant2",
+                    #            "uuid": "b92c03bc-ab3f-4994-8148-5d5eb3e7cc65"
+                    #        }
+                    #    ],
+                    #    "systems_tenants": [
+                    #        {
+                    #            "tenant_id": "602d5b58-cce9-4040-91dd-a2b2f0e954af",
+                    #            "system_id": "4991f644-e94d-472e-8526-c7f08a656735"
+                    #        }
+                    #    ]
+                    # }
+                    #
+                    data_dict = {}
+
+                    # get all tables
+                    data_action = "show tables"
+                    cur.execute(data_action)
+                    results = cur.fetchall()
+                    tables =  [x[0] for x in results]
+
+                    # for each table, get data and field names
+                    for table in tables:
+                        table_array = []
+                        # get field names of each table
+                        data_action = "DESC "+table
+                        cur.execute(data_action)
+                        results = cur.fetchall()
+                        # get data from each table
+                        data_action = "SELECT * FROM "+table
+                        cur.execute(data_action)
+                        results2 = cur.fetchall()
+                        # match up field names and data into a dictionary
+                        for entry in results2:
+                            item_dict = {}
+                            for field, item in zip([x[0] for x in results], entry):
+                                # do not return user's passwords
+                                if field != "password":
+                                    item_dict[field] = str(item)
+                            table_array.append(item_dict)
+                        data_dict[table] = table_array
+                    # this print will get consumed by CLI and REST APIs
+                    print json.dumps(data_dict)
+                    # reset data_action so that nothing extra is fetched
                     data_action = ""
-                    # !! TODO list-all query
                 else:
                     data_action = "SELECT * FROM "+action_a[0]+"s"
                     if "get" in action_a:
@@ -860,7 +990,7 @@ class Hemlock():
         tab.set_cols_align(tab_align)
         tab.header(tab_header)
 
-        if "remove" not in action_a and "delete" not in action_a and "deregister" not in action_a:
+        if "remove" not in action_a and "delete" not in action_a and "deregister" not in action_a and "all" not in action_a:
             print tab.draw()
         return x, error
 
