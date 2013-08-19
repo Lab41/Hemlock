@@ -1,0 +1,12 @@
+include AUTHORS
+include *.md *.txt
+recursive-include docs *.md *.png
+recursive-include hemlock *.md
+include hemlock/hemlock_creds_source_sample
+include hemlock/hemlock_creds_sample
+include hemlock/clients/fs_creds_sample
+include hemlock/clients/mongo_creds_sample
+include hemlock/clients/mysql_creds_sample
+include hemlock/clients/redis_creds_sample
+include hemlock/clients/rest_creds_sample
+include hemlock/clients/stream_odd_creds_sample
