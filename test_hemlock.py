@@ -153,6 +153,26 @@ class TestClass:
         # !! TODO fix what is returned
         return x, error
 
+    def process_list_all(self):
+        error = []
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
+        b, error1 = a.process_action("list-all", {}, m_server)
+        error.append(error1)
+        c, error2 = a.process_action("role-create", {'--name':'role1'}, m_server)
+        error.append(error2)
+        d, error3 = a.process_action("tenant-create", {'--name':'tenant1'}, m_server)
+        error.append(error3)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
+        e, error4 = a.process_action("user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':d[2][1]}, m_server)
+        error.append(error4)
+        f, error5 = a.process_action("tenant-create", {'--name':'tenant2'}, m_server)
+        error.append(error5)
+        x, error6 = a.process_action("register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':f[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server)
+        error.append(error6)
+        # !! TODO fix what is returned
+        return x, error
+
     def process_role_users_list(self):
         error = []
         a = hemlock.Hemlock()
@@ -712,5 +732,10 @@ class TestClass:
 
     def test_process_user_remove_tenant(self):
         x, error = self.process_user_remove_tenant()
+        for err in error:
+            assert err == 0
+
+    def test_process_list_all(self):
+        x, error = self.process_list_all()
         for err in error:
             assert err == 0
