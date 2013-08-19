@@ -12,6 +12,9 @@ Install instructions
 ====================
 
 ```bash
+sudo pip install hemlock
+
+Or build from source:
 git clone https://github.com/Lab41/Hemlock.git
 ```
 
