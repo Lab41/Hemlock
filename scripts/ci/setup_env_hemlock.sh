@@ -6,13 +6,16 @@ wget -O- http://packages.couchbase.com/ubuntu/couchbase.key | sudo apt-key add -
 sudo apt-get update -qq
 
 # install libcouchbase
-sudo apt-get install libcouchbase2 libcouchbase-dev
+sudo apt-get install -y libcouchbase2 libcouchbase-dev
 
 # install python couchbase client
 sudo pip install couchbase --upgrade
 
 # install mysql-python connector
-sudo apt-get install python-mysqldb
+sudo apt-get install -y python-mysqldb
+
+# install libssl
+sudo apt-get install -y libssl0.9.8
 
 # install Couchbase Server
 sudo wget http://packages.couchbase.com/releases/2.0.0/couchbase-server-enterprise_x86_64_2.0.0.deb
