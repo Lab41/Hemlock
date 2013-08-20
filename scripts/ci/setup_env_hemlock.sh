@@ -5,6 +5,12 @@ sudo wget -O/etc/apt/sources.list.d/couchbase.list http://packages.couchbase.com
 wget -O- http://packages.couchbase.com/ubuntu/couchbase.key | sudo apt-key add - 
 sudo apt-get update -qq
 
+# install gcc
+sudo apt-get install -y gcc
+
+# install python dev tools
+sudo apt-get install -y python-dev
+
 # install libcouchbase
 sudo apt-get install -y libcouchbase2 libcouchbase-dev
 
