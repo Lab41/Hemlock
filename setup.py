@@ -15,6 +15,15 @@
 #   limitations under the License.
 
 from setuptools import setup
+from setuptools.command.install import install
+import os
+
+class MyInstall(install):
+
+    def run(self):
+        install.run(self)
+        print "Installing libcouchbase..."
+        os.system('sudo /usr/local/bin/setup_env.sh')
 
 setup(
     name='hemlock',
@@ -28,6 +37,7 @@ setup(
     license='LICENSE.txt',
     long_description=open('README.md').read(),
     keywords='hemlock metadata cache heterogeneous'.split(),
+    cmdclass={'install': MyInstall},
     classifiers=[
         'Programming Language :: Python',
         'Operating System :: POSIX :: Linux',
@@ -38,8 +48,6 @@ setup(
         ('', ['LICENSE.txt'])
     ],
     install_requires=[
-        'MySQL-python',
-        'couchbase',
         'texttable'
     ]
 )

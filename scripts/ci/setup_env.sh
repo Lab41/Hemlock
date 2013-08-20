@@ -10,3 +10,6 @@ sudo apt-get install libcouchbase2 libcouchbase-dev
 
 # install python couchbase client
 sudo pip install couchbase --upgrade
+
+# install mysql-python connector
+sudo apt-get install python-mysqldb
