@@ -23,7 +23,7 @@ class MyInstall(install):
     def run(self):
         install.run(self)
         print "Installing libcouchbase..."
-        os.system('sudo /usr/local/bin/setup_env.sh')
+        os.system('sudo /usr/local/bin/setup_env_hemlock.sh')
 
 setup(
     name='hemlock',
