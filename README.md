@@ -149,7 +149,8 @@ Usage examples
 Related repositories
 ====================
 
-[Hemlock-REST](https://lab41.github.io/Hemlock-REST/)
+[Hemlock-REST](http://lab41.github.io/Hemlock-REST/)
+[Hemlock-Frontend](http://lab41.github.io/Hemlock-Frontend/)
 
 Tests
 =====
