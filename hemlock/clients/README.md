@@ -21,19 +21,19 @@ Client usage examples
 
     Register the new system, if you haven't already:
     ```bash
-    python hemlock.py register-local-system --name System1 \
-                                            --data_type csv \
-                                            --description "description" \
-                                            --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6 \
-                                            --hostname system1.fqdn \
-                                            --endpoint http://hemlock.server/ \
-                                            --poc_name user1 \
-                                            --poc_email user1@email.com
+    hemlock register-local-system --name System1 \
+                                  --data_type csv \
+                                  --description "description" \
+                                  --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6 \
+                                  --hostname system1.fqdn \
+                                  --endpoint http://hemlock.server/ \
+                                  --poc_name user1 \
+                                  --poc_email user1@email.com
     ```
 
     If your system is already registered, grab its UUID:
     ```bash
-    python hemlock.py system-list
+    hemlock system-list
     ```
 
     Start grabbing data (can be run either locally or remotely)
@@ -51,19 +51,19 @@ Client usage examples
 
     Register the new system, if you haven't already:
     ```bash
-    python hemlock.py register-local-system --name System1 \
-                                            --data_type csv \
-                                            --description "description" \
-                                            --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6 \
-                                            --hostname system1.fqdn \
-                                            --endpoint http://hemlock.server/ \
-                                            --poc_name user1 \
-                                            --poc_email user1@email.com
+    hemlock register-local-system --name System1 \
+                                  --data_type csv \
+                                  --description "description" \
+                                  --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6 \
+                                  --hostname system1.fqdn \
+                                  --endpoint http://hemlock.server/ \
+                                  --poc_name user1 \
+                                  --poc_email user1@email.com
     ```
 
     If your system is already registered, grab its UUID:
     ```bash
-    python hemlock.py system-list
+    hemlock system-list
     ```
 
     Start grabbing data (can be run either locally or remotely)
