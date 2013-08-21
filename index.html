@@ -87,7 +87,7 @@ systems.</p>
 <span class="nv">HEMLOCK_COUCH_PW</span><span class="o">=</span>pass
 </pre></div>
 </li>
-<li><p>Create credential files for each client you intend to use (<a href="https://github.com/Lab41/Hemlock/tree/master/clients/">examples</a>).</p></li>
+<li><p>Create credential files for each client you intend to use (<a href="https://github.com/Lab41/Hemlock/tree/master/hemlock/clients/">examples</a>).</p></li>
 </ol><h1>
 <a name="currently-supported-data-sources" class="anchor" href="#currently-supported-data-sources"><span class="octicon octicon-link"></span></a>Currently supported data sources</h1>
 
@@ -156,64 +156,65 @@ classes will need two methods defined: <code>connect_client</code> and <code>get
 <li>
 <p>Create a tenant</p>
 
-<div class="highlight"><pre>python hemlock.py tenant-create --name Project1
+<div class="highlight"><pre>hemlock tenant-create --name Project1
 </pre></div>
 </li>
 <li>
 <p>Create a role</p>
 
-<div class="highlight"><pre>python hemlock.py role-create --name User
+<div class="highlight"><pre>hemlock role-create --name User
 </pre></div>
 </li>
 <li>
 <p>Create a user</p>
 
-<div class="highlight"><pre>python hemlock.py user-create --name User1 <span class="se">\</span>
-                              --username Username1 <span class="se">\</span>
-                              --email user1@email.com <span class="se">\</span>
-                              --rold_id 42ba73f9-0ab6-4a50-908c-1585955754f4 <span class="se">\</span>
-                              --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
+<div class="highlight"><pre>hemlock user-create --name User1 <span class="se">\</span>
+                    --username Username1 <span class="se">\</span>
+                    --email user1@email.com <span class="se">\</span>
+                    --rold_id 42ba73f9-0ab6-4a50-908c-1585955754f4 <span class="se">\</span>
+                    --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
 </pre></div>
 </li>
 <li>
 <p>Register a local system</p>
 
-<div class="highlight"><pre>python hemlock.py register-local-system --name System1 <span class="se">\</span>
-                                        --data_type csv <span class="se">\</span>
-                                        --description <span class="s2">"description"</span> <span class="se">\</span>
-                                        --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6 <span class="se">\</span>
-                                        --hostname system1.fqdn <span class="se">\</span>
-                                        --endpoint http://hemlock.server/ <span class="se">\</span>
-                                        --poc_name user1 <span class="se">\</span>
-                                        --poc_email user1@email.com
+<div class="highlight"><pre>hemlock register-local-system --name System1 <span class="se">\</span>
+                              --data_type csv <span class="se">\</span>
+                              --description <span class="s2">"description"</span> <span class="se">\</span>
+                              --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6 <span class="se">\</span>
+                              --hostname system1.fqdn <span class="se">\</span>
+                              --endpoint http://hemlock.server/ <span class="se">\</span>
+                              --poc_name user1 <span class="se">\</span>
+                              --poc_email user1@email.com
 </pre></div>
 </li>
 <li>
 <p>List registered systems</p>
 
-<div class="highlight"><pre>python hemlock.py system-list
+<div class="highlight"><pre>hemlock system-list
 </pre></div>
 </li>
 <li>
 <p>List created users</p>
 
-<div class="highlight"><pre>python hemlock.py user-list
+<div class="highlight"><pre>hemlock user-list
 </pre></div>
 </li>
 <li>
 <p>Lists created tenants</p>
 
-<div class="highlight"><pre>python hemlock.py tenant-list
+<div class="highlight"><pre>hemlock tenant-list
 </pre></div>
 </li>
-<li><p><a href="https://github.com/Lab41/Hemlock/tree/master/clients/">Connecting to a client</a></p></li>
+<li><p><a href="https://github.com/Lab41/Hemlock/tree/master/hemlock/clients/">Connecting to a client</a></p></li>
 <li><p><a href="https://github.com/Lab41/Hemlock/blob/master/docs/CLI.md">Full CLI API list</a></p></li>
 </ul><h1>
 <a name="related-repositories" class="anchor" href="#related-repositories"><span class="octicon octicon-link"></span></a>Related repositories</h1>
 
-<p><a href="https://lab41.github.io/Hemlock-REST/">Hemlock-REST</a></p>
-
-<h1>
+<ul>
+<li><a href="http://lab41.github.io/Hemlock-REST/">Hemlock-REST</a></li>
+<li><a href="http://lab41.github.io/Hemlock-Frontend/">Hemlock-Frontend</a></li>
+</ul><h1>
 <a name="tests" class="anchor" href="#tests"><span class="octicon octicon-link"></span></a>Tests</h1>
 
 <p>The tests for this project use <a href="http://pytest.org/latest/">py.test</a></p>
