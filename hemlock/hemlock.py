@@ -18,11 +18,61 @@ import hemlock_options_parser
 import getpass, json, os, sys, time, uuid
 import MySQLdb as mdb
 import texttable as tt
+from clients.hemlock_base import Hemlock_Base
 from couchbase import Couchbase
 
 HELP_COUNTER = 0
 
 class Hemlock():
+    # !! TODO
+    #    client_get
+    #    client_list
+    #    client_purge
+    #    client_run
+    #    client_schedule
+    #    client_store
+    #    schedule_get
+    #    schedule_list
+    def client_get(self, args, var_d):
+        # !! TODO
+        arg_d = [
+            '--uuid'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def client_list(self, args, var_d):
+        # !! TODO
+        arg_d = [
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def client_purge(self, args, var_d):
+        # !! TODO
+        arg_d = [
+            '--uuid'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def client_run(self, args, var_d):
+        # !! TODO
+        arg_d = [
+            '--uuid'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def client_schedule(self, args, var_d):
+        # !! TODO
+        arg_d = [
+            '--uuid'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def client_store(self, args, var_d):
+        # !! TODO
+        arg_d = [
+        ]
+        return self.check_args(args, arg_d, var_d)
+
     def deregister_local_system(self, args, var_d):
         arg_d = [
             '--uuid'
@@ -93,6 +143,20 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def role_users_list(self, args, var_d):
+        arg_d = [
+            '--uuid'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def schedule_get(self, args, var_d):
+        # !! TODO
+        arg_d = [
+            '--uuid'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def schedule_list(self, args, var_d):
+        # !! TODO
         arg_d = [
             '--uuid'
         ]
@@ -253,6 +317,29 @@ class Hemlock():
         global HELP_COUNTER
         if HELP_COUNTER >= 1:
             help_dict = {
+            'client-get' : """
+            client-get (get a specific client)
+                --uuid (uuid of client)
+            """,
+            'client-list' : """
+            client-list (list all clients)
+            """,
+            'client-purge' : """
+            client-purge (purge a specific client)
+                --uuid (uuid of client)
+            """,
+            'client-run' : """
+            client-run (run a specific client)
+                --uuid (uuid of client)
+            """,
+            'client-schedule' : """
+            client-schedule (schedule a specific client)
+                --uuid (uuid of client)
+            """,
+            'client-store' : """
+            client-store (store a specific client)
+                --uuid (uuid of client)
+            """,
             'deregister-local-system' : """
             deregister-local-system (from Hemlock remove a system)
                 --uuid (uuid of system)
@@ -305,6 +392,13 @@ class Hemlock():
             'role-users-list' : """
             role-users-list (list users a role belongs to)
                 --uuid (uuid of role)
+            """,
+            'schedule-get' : """
+            schedule-get (get a specific schedule)
+                --uuid (uuid of client)
+            """,
+            'schedule-list' : """
+            schedule-list (list all schedules)
             """,
             'system-add-tenant' : """
             system-add-tenant (add a tenant to a system)
@@ -414,6 +508,12 @@ class Hemlock():
         # !! TODO add load data actions
         #         is this needed?
         arg_actions = {
+            'client-get' : self.client_get,
+            'client-list' : self.client_list,
+            'client-purge' : self.client_purge,
+            'client-run' : self.client_run,
+            'client-schedule' : self.client_schedule,
+            'client-store' : self.client_store,
             'deregister-local-system' : self.deregister_local_system,
             'deregister-remote-system' : self.deregister_remote_system,
             'list-all' : self.list_all,
@@ -424,6 +524,8 @@ class Hemlock():
             'role-get' : self.role_get,
             'role-list' : self.role_list,
             'role-users-list' : self.role_users_list,
+            'schedule-get' : self.schedule_get,
+            'schedule-list' : self.schedule_list,
             'system-add-tenant' : self.system_add_tenant,
             'system-get' : self.system_get,
             'system-list' : self.system_list,
@@ -744,6 +846,12 @@ class Hemlock():
                     data_action = "SELECT * FROM users_roles WHERE role_id = '"+var_d['--uuid']+"'"
                 elif "systems" in action_a:
                     data_action = "SELECT * FROM systems_tenants WHERE tenant_id = '"+var_d['--uuid']+"'"
+                elif "client" in action_a:
+                    # !! TODO
+                    a = "junk"
+                elif "schedule" in action_a:
+                    # !! TODO
+                    a = "junk"
                 elif "all" in action_a:
                     # since this one returns all data and 
                     # descriptions in one payload, it will 
