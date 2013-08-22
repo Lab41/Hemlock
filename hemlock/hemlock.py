@@ -43,21 +43,37 @@ class Hemlock():
 
     def client_run(self, args, var_d):
         arg_d = [
+            # !! TODO these currently point to system_uuid and client type, 
+            #         needs to be changed to point to client_uuid from the 
+            #         client_store
             '--uuid',
-            '--client',
+            '--client_type'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def client_schedule(self, args, var_d):
         # !! TODO
+        #    consider having a way to activate schedules for clients,
+        #    perhaps one schedule to many clients, or many schedules
+        #    to one client (only one active)
         arg_d = [
-            '--uuid'
+            '--uuid',
+            '--name',
+            '--minute',
+            '--hour',
+            '--day_of_month',
+            '--month',
+            '--day_of_week'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def client_store(self, args, var_d):
         # !! TODO
         arg_d = [
+            '--name',
+            '--type',
+            '--system_id',
+            '--credential_file'
         ]
         return self.check_args(args, arg_d, var_d)
 
