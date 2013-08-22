@@ -34,6 +34,54 @@ Build a [Couchbase 2.0](http://www.couchbase.com/) cluster to store metadata and
 
 Build an [ElasticSearch 0.90.2](http://www.elasticsearch.org/) cluster to store the index of Couchbase.
 
+Add XDCR one-way replication from Couchbase to ElasticSearch using this [plugin](https://github.com/couchbaselabs/elasticsearch-transport-couchbase) (Note, grab version 1.1.0).
+
+Once the plugin is installed, be sure and update the couchbase_template.json under plugins/transport-couchbase/ to have the following:
+
+```json
+{
+    "template" : "*",
+    "order" : 10,
+    "mappings" : {
+        "couchbaseCheckpoint" : {
+            "_source" : {
+                "includes" : ["doc.*"]
+            },
+            "date_detection" : false,
+            "dynamic_templates": [
+                {
+                    "store_no_index": {
+                        "match": "*",
+                        "mapping": {
+                            "store" : "no",
+                            "index" : "no",
+                            "include_in_all" : false
+                        }
+                    }
+                }
+            ]
+        },
+        "_default_" : {
+            "_source" : {
+                "includes" : ["meta.*"]
+            },
+            "date_detection" : false,
+            "properties" : {
+                "meta" : {
+                    "type" : "object",
+                    "include_in_all" : false
+                }
+            }
+        }
+    }
+}
+```
+
+Once that is added, start up ElasticSearch with ``bin/elasticsearch`` and then perform the following the first time:
+
+```bash
+curl -XPUT http://localhost:9200/_template/couchbase -d @plugins/transport-couchbase/couchbase_template.json
+```
 
 Installing
 ----------
