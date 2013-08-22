@@ -68,7 +68,6 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def client_store(self, args, var_d):
-        # !! TODO
         arg_d = [
             '--name',
             '--type',
@@ -659,17 +658,15 @@ class Hemlock():
             tables.append(results[i][0])
             i += 1
 
-        #if "clients" not in tables:
-            # !! TODO
-            #client_table = "CREATE TABLE IF NOT EXISTS clients(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
-            #cur.execute(client_table)
+        if "clients" not in tables:
+            client_table = "CREATE TABLE IF NOT EXISTS clients(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), type VARCHAR(50), credentials BLOB, created DATETIME, INDEX (uuid)) ENGINE = INNODB"
+            cur.execute(client_table)
         if "roles" not in tables:
             role_table = "CREATE TABLE IF NOT EXISTS roles(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
             cur.execute(role_table)
-        #if "schedules" not in tables:
-            # !! TODO
-            #schedule_table = "CREATE TABLE IF NOT EXISTS schedules(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
-            #cur.execute(schedule_table)
+        if "schedules" not in tables:
+            schedule_table = "CREATE TABLE IF NOT EXISTS schedules(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), minute VARCHAR(10), hour VARCHAR(10), day_of_month VARCHAR(10), month VARCHAR(10), day_of_week VARCHAR(10), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
+            cur.execute(schedule_table)
         if "tenants" not in tables:
             tenant_table = "CREATE TABLE IF NOT EXISTS tenants(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
             cur.execute(tenant_table)
@@ -688,6 +685,12 @@ class Hemlock():
         if "systems_tenants" not in tables:
             systems_tenants_table = "CREATE TABLE IF NOT EXISTS systems_tenants(system_id VARCHAR(36), tenant_id VARCHAR(36), INDEX (system_id), CONSTRAINT fkst_tenants FOREIGN KEY (tenant_id) REFERENCES tenants(uuid), CONSTRAINT fkst_systems FOREIGN KEY (system_id) REFERENCES systems(uuid) ON DELETE CASCADE) ENGINE = INNODB"
             cur.execute(systems_tenants_table)
+        if "schedules_clients" not in tables:
+            schedules_clients_table = "CREATE TABLE IF NOT EXISTS schedules_clients(schedule_id VARCHAR(36), client_id VARCHAR(36), INDEX (schedule_id), CONSTRAINT fksc_clients FOREIGN KEY (client_id) REFERENCES clients(uuid), CONSTRAINT fksc_schedules FOREIGN KEY (schedule_id) REFERENCES schedules(uuid) ON DELETE CASCADE) ENGINE = INNODB"
+            cur.execute(schedules_clients_table)
+        if "systems_clients" not in tables:
+            systems_clients_table = "CREATE TABLE IF NOT EXISTS systems_clients(system_id VARCHAR(36), client_id VARCHAR(36), INDEX (system_id), CONSTRAINT fksyc_clients FOREIGN KEY (client_id) REFERENCES clients(uuid), CONSTRAINT fksyc_systems FOREIGN KEY (system_id) REFERENCES systems(uuid) ON DELETE CASCADE) ENGINE = INNODB"
+            cur.execute(systems_clients_table)
 
         # perform action with args against mysql table
         uid = str(uuid.uuid4())
