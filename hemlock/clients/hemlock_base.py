@@ -67,7 +67,7 @@ class Hemlock_Base():
             sys.exit(0)
         return client_dict, server_dict
 
-    def verify_system(self, client_uuid):
+    def verify_system(self, client_uuid, server_dict):
         try:
             h_server = mdb.connect(server_dict['HEMLOCK_MYSQL_SERVER'],
                                    server_dict['HEMLOCK_MYSQL_USERNAME'],
@@ -235,11 +235,11 @@ if __name__ == "__main__":
     data_list = []
     desc_list = []
     h_server = hemlock.connect_server(server_dict)
+    hemlock.verify_system(client_uuid, server_dict)
     if not client.startswith("stream"):
         data_list, desc_list = c_inst.get_data(client_dict, c_server, h_server, client_uuid)
     else:
         hemlock.stream_workers()
-    hemlock.verify_system(client_uuid)
     hemlock.send_data(data_list, desc_list, h_server, client_uuid)
     hemlock.update_hemlock(client_uuid, server_dict)
     print "Took",time.time() - start_time,"seconds to complete."

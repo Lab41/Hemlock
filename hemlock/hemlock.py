@@ -24,39 +24,27 @@ from couchbase import Couchbase
 HELP_COUNTER = 0
 
 class Hemlock():
-    # !! TODO
-    #    client_get
-    #    client_list
-    #    client_purge
-    #    client_run
-    #    client_schedule
-    #    client_store
-    #    schedule_get
-    #    schedule_list
     def client_get(self, args, var_d):
-        # !! TODO
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def client_list(self, args, var_d):
-        # !! TODO
         arg_d = [
         ]
         return self.check_args(args, arg_d, var_d)
 
     def client_purge(self, args, var_d):
-        # !! TODO
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def client_run(self, args, var_d):
-        # !! TODO
         arg_d = [
-            '--uuid'
+            '--uuid',
+            '--client',
         ]
         return self.check_args(args, arg_d, var_d)
 
@@ -149,16 +137,13 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def schedule_get(self, args, var_d):
-        # !! TODO
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def schedule_list(self, args, var_d):
-        # !! TODO
         arg_d = [
-            '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
@@ -658,9 +643,17 @@ class Hemlock():
             tables.append(results[i][0])
             i += 1
 
+        #if "clients" not in tables:
+            # !! TODO
+            #client_table = "CREATE TABLE IF NOT EXISTS clients(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
+            #cur.execute(client_table)
         if "roles" not in tables:
             role_table = "CREATE TABLE IF NOT EXISTS roles(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
             cur.execute(role_table)
+        #if "schedules" not in tables:
+            # !! TODO
+            #schedule_table = "CREATE TABLE IF NOT EXISTS schedules(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
+            #cur.execute(schedule_table)
         if "tenants" not in tables:
             tenant_table = "CREATE TABLE IF NOT EXISTS tenants(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
             cur.execute(tenant_table)
@@ -847,11 +840,37 @@ class Hemlock():
                 elif "systems" in action_a:
                     data_action = "SELECT * FROM systems_tenants WHERE tenant_id = '"+var_d['--uuid']+"'"
                 elif "client" in action_a:
-                    # !! TODO
-                    a = "junk"
+                    if "get" in action_a:
+                        print "TODO"
+                    elif "list" in action_a:
+                        print "TODO"
+                    elif "purge" in action_a:
+                        print "TODO"
+                    elif "run" in action_a:
+                        hemlock_base = Hemlock_Base()
+                        client_uuid, client, splits = hemlock_base.process_args(args[1:])
+                        CLIENT_CREDS_FILE, c_inst = hemlock_base.client_import(client)
+                        client_dict, server_dict = hemlock_base.get_creds(CLIENT_CREDS_FILE)
+                        c_server = c_inst.connect_client(client_dict)
+                        data_list = []
+                        desc_list = []
+                        h_server = hemlock_base.connect_server(server_dict)
+                        hemlock_base.verify_system(client_uuid, server_dict)
+                        if not client.startswith("stream"):
+                            data_list, desc_list = c_inst.get_data(client_dict, c_server, h_server, client_uuid)
+                        else:
+                            hemlock_base.stream_workers()
+                        hemlock_base.send_data(data_list, desc_list, h_server, client_uuid)
+                        hemlock_base.update_hemlock(client_uuid, server_dict)
+                    elif "schedule" in action_a:
+                        print "TODO"
+                    elif "store" in action_a:
+                        print "TODO"
                 elif "schedule" in action_a:
-                    # !! TODO
-                    a = "junk"
+                    if "get" in action_a:
+                        print "TODO"
+                    elif "list" in action_a:
+                        print "TODO"
                 elif "all" in action_a:
                     # since this one returns all data and 
                     # descriptions in one payload, it will 
@@ -1112,7 +1131,7 @@ class Hemlock():
         tab.set_cols_align(tab_align)
         tab.header(tab_header)
 
-        if "remove" not in action_a and "delete" not in action_a and "deregister" not in action_a and "all" not in action_a:
+        if "remove" not in action_a and "delete" not in action_a and "deregister" not in action_a and "all" not in action_a and "client" not in action_a and "schedule" not in action_a:
             print tab.draw()
         return x, error
 

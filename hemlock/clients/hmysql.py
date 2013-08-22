@@ -79,6 +79,7 @@ class HMysql:
 
         try:
             c_server.commit()
+            cur.close()
             c_server.close()
         except:
             print "Failed to close MySQL connection."
