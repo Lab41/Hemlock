@@ -30,9 +30,9 @@ Build a server running [MySQL](http://www.mysql.com/) to store user accounts, te
 systems.
 
 
-Build a [Couchbase](http://www.couchbase.com/) cluster to store metadata and data of registered systems.
+Build a [Couchbase 2.0](http://www.couchbase.com/) cluster to store metadata and data of registered systems.
 
-Build an [ElasticSearch](http://www.elasticsearch.org/) cluster to store the index of Couchbase.
+Build an [ElasticSearch 0.90.2](http://www.elasticsearch.org/) cluster to store the index of Couchbase.
 
 
 Installing
