@@ -60,9 +60,56 @@ git clone https://github.com/Lab41/Hemlock.git
 </ul><p>Build a server running <a href="http://www.mysql.com/">MySQL</a> to store user accounts, tenants, and registered 
 systems.</p>
 
-<p>Build a <a href="http://www.couchbase.com/">Couchbase</a> cluster to store metadata and data of registered systems.</p>
+<p>Build a <a href="http://www.couchbase.com/">Couchbase 2.0</a> cluster to store metadata and data of registered systems.</p>
 
-<p>Build an <a href="http://www.elasticsearch.org/">ElasticSearch</a> cluster to store the index of Couchbase.</p>
+<p>Build an <a href="http://www.elasticsearch.org/">ElasticSearch 0.90.2</a> cluster to store the index of Couchbase.</p>
+
+<p>Add XDCR one-way replication from Couchbase to ElasticSearch using this <a href="https://github.com/couchbaselabs/elasticsearch-transport-couchbase">plugin</a> (Note, grab version 1.1.0).</p>
+
+<p>Once the plugin is installed, be sure and update the couchbase_template.json under plugins/transport-couchbase/ to have the following:</p>
+
+<div class="highlight"><pre><span class="p">{</span>
+    <span class="nt">"template"</span> <span class="p">:</span> <span class="s2">"*"</span><span class="p">,</span>
+    <span class="nt">"order"</span> <span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="nt">"mappings"</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">"couchbaseCheckpoint"</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">"_source"</span> <span class="p">:</span> <span class="p">{</span>
+                <span class="nt">"includes"</span> <span class="p">:</span> <span class="p">[</span><span class="s2">"doc.*"</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="nt">"date_detection"</span> <span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nt">"dynamic_templates"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="nt">"store_no_index"</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="nt">"match"</span><span class="p">:</span> <span class="s2">"*"</span><span class="p">,</span>
+                        <span class="nt">"mapping"</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="nt">"store"</span> <span class="p">:</span> <span class="s2">"no"</span><span class="p">,</span>
+                            <span class="nt">"index"</span> <span class="p">:</span> <span class="s2">"no"</span><span class="p">,</span>
+                            <span class="nt">"include_in_all"</span> <span class="p">:</span> <span class="kc">false</span>
+                        <span class="p">}</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="nt">"_default_"</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">"_source"</span> <span class="p">:</span> <span class="p">{</span>
+                <span class="nt">"includes"</span> <span class="p">:</span> <span class="p">[</span><span class="s2">"meta.*"</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="nt">"date_detection"</span> <span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nt">"properties"</span> <span class="p">:</span> <span class="p">{</span>
+                <span class="nt">"meta"</span> <span class="p">:</span> <span class="p">{</span>
+                    <span class="nt">"type"</span> <span class="p">:</span> <span class="s2">"object"</span><span class="p">,</span>
+                    <span class="nt">"include_in_all"</span> <span class="p">:</span> <span class="kc">false</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Once that is added, start up ElasticSearch with <code>bin/elasticsearch</code> and then perform the following the first time:</p>
+
+<div class="highlight"><pre>curl -XPUT http://localhost:9200/_template/couchbase -d @plugins/transport-couchbase/couchbase_template.json
+</pre></div>
 
 <h2>
 <a name="installing" class="anchor" href="#installing"><span class="octicon octicon-link"></span></a>Installing</h2>
