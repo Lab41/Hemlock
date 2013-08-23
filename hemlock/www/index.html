@@ -15,19 +15,37 @@
       $("#vizbar").click(function(){
         graph.html( "<iframe src=\"/visualizations/bar.html\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\"></iframe>" )
       });
+      $("#vizbar2").click(function(){
+        graph.html( "<iframe src=\"/visualizations/bar.html\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\"></iframe>" )
+      });
       $("#vizarea").click(function(){
+        graph.html( "<iframe src=\"/visualizations/area.html\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\"></iframe>" )
+      });
+      $("#vizarea2").click(function(){
         graph.html( "<iframe src=\"/visualizations/area.html\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\"></iframe>" )
       });
       $("#vizcubism").click(function(){
         graph.html( "<iframe src=\"/visualizations/cubism.html\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\"></iframe>" )
       });
+      $("#vizcubism2").click(function(){
+        graph.html( "<iframe src=\"/visualizations/cubism.html\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\"></iframe>" )
+      });
       $("#vizheat").click(function(){
+        graph.html( "<iframe src=\"/visualizations/heat.html\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\"></iframe>" )
+      });
+      $("#vizheat2").click(function(){
         graph.html( "<iframe src=\"/visualizations/heat.html\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\"></iframe>" )
       });
       $("#vizpie").click(function(){
         graph.html( "<iframe src=\"/visualizations/pie.html\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\"></iframe>" )
       });
+      $("#vizpie2").click(function(){
+        graph.html( "<iframe src=\"/visualizations/pie.html\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\"></iframe>" )
+      });
       $("#vizscatter").click(function(){
+        graph.html( "<iframe src=\"/visualizations/scatter.html\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\"></iframe>" )
+      });
+      $("#vizscatter2").click(function(){
         graph.html( "<iframe src=\"/visualizations/scatter.html\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\"></iframe>" )
       });
     });
@@ -75,12 +93,12 @@
     <!-- visualizations panel  -->
     <div data-role="panel" id="vizpanel" class="jqm-nav-panel" data-position="right" data-display="overlay">
         <ul data-role="listview" data-inset="true" data-filter="true" data-theme="d" data-divider-theme="d"  data-icon="false" data-filter-placeholder="Search..." class="jqm-list">
-            <li><a id="vizbar" href="/">Bar Chart</a><img src="/static/img/bar.png"></li>
-            <li><a id="vizarea" href="/">Area Chart</a><img src="/static/img/area.png"></li>
-            <li><a id="vizcubism" href="/">Cubism</a><img src="/static/img/cubism.png"></li>
-            <li><a id="vizheat" href="/">Heat Map</a><img src="/static/img/heatmap.png"></li>
-            <li><a id="vizpie" href="/">Pie Chart</a><img src="/static/img/pie.png"></li>
-            <li><a id="vizscatter" href="/">Scatter Plot</a><img src="/static/img/scatter.png"></li>
+            <li><a id="vizbar" href="/">Bar Chart</a><img id="vizbar2" src="/static/img/bar.png"></li>
+            <li><a id="vizarea" href="/">Area Chart</a><img id="vizarea2" src="/static/img/area.png"></li>
+            <li><a id="vizcubism" href="/">Cubism</a><img id="vizcubism2" src="/static/img/cubism.png"></li>
+            <li><a id="vizheat" href="/">Heat Map</a><img id="vizheat2" src="/static/img/heatmap.png"></li>
+            <li><a id="vizpie" href="/">Pie Chart</a><img id="vizpie2" src="/static/img/pie.png"></li>
+            <li><a id="vizscatter" href="/">Scatter Plot</a><img id="vizscatter2" src="/static/img/scatter.png"></li>
         </ul>
     </div><!-- /visualizations panel -->
 
