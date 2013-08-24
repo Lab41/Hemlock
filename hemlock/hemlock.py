@@ -864,7 +864,10 @@ class Hemlock():
                     elif "list" in action_a:
                         data_action = "SELECT * FROM "+action_a[0]+"s"
                     elif "purge" in action_a:
-                        print "TODO"
+                        # delete clients
+                        data_action = "DELETE FROM schedules_clients WHERE client_id = '"+var_d['--uuid']+"'"
+                        data_action2 = "DELETE FROM systems_clients WHERE client_id = '"+var_d['--uuid']+"'"
+                        data_action3 = "DELETE FROM clients WHERE uuid = '"+var_d['--uuid']+"'"
                     elif "run" in action_a:
                         hemlock_base = Hemlock_Base()
                         client_uuid, client, splits = hemlock_base.process_args(args[1:])
@@ -885,6 +888,45 @@ class Hemlock():
                         print "TODO"
                     elif "store" in action_a:
                         print "TODO"
+
+                        # write
+                        #data_action = "INSERT INTO "+action_a[0]+"s("
+                        #data_action2 = "INSERT INTO "+action_a[0]+"s_tenants("
+                        #data_action3 = "INSERT INTO "+action_a[0]+"s_roles("
+                        #i = 0
+                        #j = -1
+                        #k = -1
+                        #l = -1
+                        #for prop in props:
+                        #    if prop == "password":
+                        #        j = i
+                        #    if prop == "tenant_id":
+                        #        data_action2 += prop+", user_id) VALUES("
+                        #        k = i
+                        #    elif prop == "role_id":
+                        #        data_action3 += prop+", user_id) VALUES("
+                        #        l = i
+                        #    else:
+                        #        data_action += prop+", "
+                        #    i += 1
+                        #data_action = data_action[:-2]+") VALUES("
+                        #i = 0
+                        #for val in vals:
+                        #    if j == i:
+                        #        data_action += "AES_ENCRYPT(\""+val+"\", \""+aes_key+"\"), "
+                        #    elif k == i:
+                        #        data_action2 += "\""+val+"\", \""+uid+"\")"
+                        #    elif l == i:
+                        #        data_action3 += "\""+val+"\", \""+uid+"\")"
+                        #    else:
+                        #        data_action += "\""+val+"\", "
+                        #    i += 1
+                        #if k == -1:
+                        #    data_action2 = ""
+                        #if l == -1:
+                        #    data_action3 = ""
+                        #data_action = data_action[:-2]+")"
+
                 elif "all" in action_a:
                     # since this one returns all data and 
                     # descriptions in one payload, it will 
