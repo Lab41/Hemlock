@@ -2,6 +2,7 @@ include AUTHORS
 include *.md *.txt
 recursive-include docs *.md *.png
 recursive-include hemlock *.md
+recursive-include hemlock/www *.ico *.html *.csv *.tsv *.css *.png *.js 
 include hemlock/hemlock_creds_source_sample
 include hemlock/hemlock_creds_sample
 include hemlock/clients/fs_creds_sample

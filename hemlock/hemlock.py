@@ -860,9 +860,9 @@ class Hemlock():
                     data_action = "SELECT * FROM systems_tenants WHERE tenant_id = '"+var_d['--uuid']+"'"
                 elif "client" in action_a:
                     if "get" in action_a:
-                        print "TODO"
+                        data_action = "SELECT * FROM "+action_a[0]+"s WHERE uuid = '"+var_d['--uuid']+"'"
                     elif "list" in action_a:
-                        print "TODO"
+                        data_action = "SELECT * FROM "+action_a[0]+"s"
                     elif "purge" in action_a:
                         print "TODO"
                     elif "run" in action_a:
@@ -884,11 +884,6 @@ class Hemlock():
                     elif "schedule" in action_a:
                         print "TODO"
                     elif "store" in action_a:
-                        print "TODO"
-                elif "schedule" in action_a:
-                    if "get" in action_a:
-                        print "TODO"
-                    elif "list" in action_a:
                         print "TODO"
                 elif "all" in action_a:
                     # since this one returns all data and 

@@ -27,12 +27,12 @@ class MyInstall(install):
 
 setup(
     name='hemlock',
-    version='0.1.0',
+    version='0.1.1',
     author=u'Charlie Lewis',
     author_email='charliel@lab41.org',
     description='Hemlock is a way of providing a common data access layer.',
     url='http://lab41.github.io/Hemlock',
-    packages=['hemlock', 'hemlock.clients', 'hemlock.load_scripts'],
+    packages=['hemlock', 'hemlock.clients', 'hemlock.load_scripts', 'hemlock.www'],
     scripts=['bin/hemlock', 'scripts/ci/setup_env_hemlock.sh'],
     license='LICENSE.txt',
     long_description=open('README.md').read(),
