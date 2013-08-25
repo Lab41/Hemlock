@@ -18,6 +18,70 @@ import hemlock, re
 import MySQLdb as mdb
 
 class TestClass:
+    def process_client_get(self):
+        error = []
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
+        # !! TODO
+        x = ""
+        return x, error
+
+    def process_client_list(self):
+        error = []
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
+        # !! TODO
+        x = ""
+        return x, error
+
+    def process_client_purge(self):
+        error = []
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
+        # !! TODO
+        x = ""
+        return x, error
+
+    def process_client_run(self):
+        error = []
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
+        # !! TODO
+        x = ""
+        return x, error
+
+    def process_client_schedule(self):
+        error = []
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
+        # !! TODO
+        x = ""
+        return x, error
+
+    def process_client_store(self):
+        error = []
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
+        # !! TODO
+        x = ""
+        return x, error
+
+    def process_schedule_get(self):
+        error = []
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
+        # !! TODO
+        x = ""
+        return x, error
+
+    def process_schedule_list(self):
+        error = []
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql("localhost", "travis", "", "hemlock_test")
+        # !! TODO
+        x = ""
+        return x, error
+
     def process_role_create(self):
         error = []
         a = hemlock.Hemlock()
@@ -753,5 +817,45 @@ class TestClass:
 
     def test_process_list_all(self):
         x, error = self.process_list_all()
+        for err in error:
+            assert err == 0
+
+    def test_process_client_get(self):
+        x, error = self.process_client_get()
+        for err in error:
+            assert err == 0
+
+    def test_process_client_list(self):
+        x, error = self.process_client_list()
+        for err in error:
+            assert err == 0
+
+    def test_process_client_purge(self):
+        x, error = self.process_client_purge()
+        for err in error:
+            assert err == 0
+
+    def test_process_client_run(self):
+        x, error = self.process_client_run()
+        for err in error:
+            assert err == 0
+
+    def test_process_client_schedule(self):
+        x, error = self.process_client_schedule()
+        for err in error:
+            assert err == 0
+
+    def test_process_client_store(self):
+        x, error = self.process_client_store()
+        for err in error:
+            assert err == 0
+
+    def test_process_schedule_get(self):
+        x, error = self.process_schedule_get()
+        for err in error:
+            assert err == 0
+
+    def test_process_schedule_list(self):
+        x, error = self.process_schedule_list()
         for err in error:
             assert err == 0
