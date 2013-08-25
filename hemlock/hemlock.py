@@ -47,7 +47,7 @@ class Hemlock():
             #         needs to be changed to point to client_uuid from the 
             #         client_store
             '--uuid',
-            '--client_type'
+            '--client'
         ]
         return self.check_args(args, arg_d, var_d)
 
@@ -331,6 +331,7 @@ class Hemlock():
             'client-run' : """
             client-run (run a specific client)
                 --uuid (uuid of client)
+                --client (type of client, i.e. mysql)
             """,
             'client-schedule' : """
             client-schedule (schedule a specific client)
@@ -860,15 +861,19 @@ class Hemlock():
                     data_action = "SELECT * FROM systems_tenants WHERE tenant_id = '"+var_d['--uuid']+"'"
                 elif "client" in action_a:
                     if "get" in action_a:
+                        # get a client
                         data_action = "SELECT * FROM "+action_a[0]+"s WHERE uuid = '"+var_d['--uuid']+"'"
                     elif "list" in action_a:
+                        # list clients
                         data_action = "SELECT * FROM "+action_a[0]+"s"
+                    # purge, run, schedule, and store are not read only
                     elif "purge" in action_a:
                         # delete clients
                         data_action = "DELETE FROM schedules_clients WHERE client_id = '"+var_d['--uuid']+"'"
                         data_action2 = "DELETE FROM systems_clients WHERE client_id = '"+var_d['--uuid']+"'"
                         data_action3 = "DELETE FROM clients WHERE uuid = '"+var_d['--uuid']+"'"
                     elif "run" in action_a:
+                        # run a client for data push/pull
                         hemlock_base = Hemlock_Base()
                         client_uuid, client, splits = hemlock_base.process_args(args[1:])
                         CLIENT_CREDS_FILE, c_inst = hemlock_base.client_import(client)
@@ -885,8 +890,10 @@ class Hemlock():
                         hemlock_base.send_data(data_list, desc_list, h_server, client_uuid)
                         hemlock_base.update_hemlock(client_uuid, server_dict)
                     elif "schedule" in action_a:
+                        # create a schedule that is associated with a client
                         print "TODO"
                     elif "store" in action_a:
+                        # store client credentials
                         print "TODO"
 
                         # write
@@ -1187,7 +1194,7 @@ class Hemlock():
         tab.set_cols_align(tab_align)
         tab.header(tab_header)
 
-        if "remove" not in action_a and "delete" not in action_a and "deregister" not in action_a and "all" not in action_a and "client" not in action_a and "schedule" not in action_a:
+        if "remove" not in action_a and "delete" not in action_a and "deregister" not in action_a and "all" not in action_a and "run" not in action_a and "purge" not in action_a:
             print tab.draw()
         return x, error
 
