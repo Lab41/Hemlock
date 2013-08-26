@@ -342,7 +342,6 @@ class Hemlock():
             """,
             'client-schedule' : """
             client-schedule (schedule a specific client)
-                --uuid (uuid of client)
                 --name (name of the schedule)
                 --minute (cron minute)
                 --hour (cron hour)
@@ -353,7 +352,6 @@ class Hemlock():
             """,
             'client-store' : """
             client-store (store a specific client)
-                --uuid (uuid of client)
                 --type (type of client, i.e. mysql)
                 --system_id (uuid of system associated with the client)
                 --credential_file (path to file that contains the credentials for the client)
@@ -689,6 +687,8 @@ class Hemlock():
             cur.execute(role_table)
         if "schedules" not in tables:
             schedule_table = "CREATE TABLE IF NOT EXISTS schedules(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), minute VARCHAR(10), hour VARCHAR(10), day_of_month VARCHAR(10), month VARCHAR(10), day_of_week VARCHAR(10), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
+                --uuid (uuid of client)
+                --uuid (uuid of client)
             cur.execute(schedule_table)
         if "tenants" not in tables:
             tenant_table = "CREATE TABLE IF NOT EXISTS tenants(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
