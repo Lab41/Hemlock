@@ -63,7 +63,8 @@ class Hemlock():
             '--hour',
             '--day_of_month',
             '--month',
-            '--day_of_week'
+            '--day_of_week',
+            '--client_id'
         ]
         return self.check_args(args, arg_d, var_d)
 
@@ -146,6 +147,12 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def role_users_list(self, args, var_d):
+        arg_d = [
+            '--uuid'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def schedule_delete(self, args, var_d):
         arg_d = [
             '--uuid'
         ]
@@ -394,6 +401,10 @@ class Hemlock():
             role-users-list (list users a role belongs to)
                 --uuid (uuid of role)
             """,
+            'schedule-delete' : """
+            schedule-delete (delete a specific schedule)
+                --uuid (uuid of schedule)
+            """,
             'schedule-get' : """
             schedule-get (get a specific schedule)
                 --uuid (uuid of client)
@@ -525,6 +536,7 @@ class Hemlock():
             'role-get' : self.role_get,
             'role-list' : self.role_list,
             'role-users-list' : self.role_users_list,
+            'schedule-delete' : self.schedule_delete,
             'schedule-get' : self.schedule_get,
             'schedule-list' : self.schedule_list,
             'system-add-tenant' : self.system_add_tenant,
@@ -844,6 +856,8 @@ class Hemlock():
                     data_action = "DELETE FROM "+action_a[0]+"s_tenants WHERE "+action_a[0]+"_id = '"+var_d['--uuid']+"'"
                 elif "roles" in action_a:
                     data_action = "DELETE FROM "+action_a[0]+"s_roles WHERE "+action_a[0]+"_id = '"+var_d['--uuid']+"'"
+                elif "schedule" in action_a:
+                    data_action = "DELETE FROM "+action_a[0]+"s_clients WHERE "+action_a[0]+"_id = '"+var_d['--uuid']+"'"
                 data_action2 = "DELETE FROM "+action_a[0]+"s WHERE uuid = '"+var_d['--uuid']+"'"
             else:
                 # read only
@@ -867,11 +881,13 @@ class Hemlock():
                         # list clients
                         data_action = "SELECT * FROM "+action_a[0]+"s"
                     # purge, run, schedule, and store are not read only
+                    # delete
                     elif "purge" in action_a:
                         # delete clients
                         data_action = "DELETE FROM schedules_clients WHERE client_id = '"+var_d['--uuid']+"'"
                         data_action2 = "DELETE FROM systems_clients WHERE client_id = '"+var_d['--uuid']+"'"
                         data_action3 = "DELETE FROM clients WHERE uuid = '"+var_d['--uuid']+"'"
+                    # write
                     elif "run" in action_a:
                         # run a client for data push/pull
                         hemlock_base = Hemlock_Base()
@@ -889,51 +905,56 @@ class Hemlock():
                             hemlock_base.stream_workers()
                         hemlock_base.send_data(data_list, desc_list, h_server, client_uuid)
                         hemlock_base.update_hemlock(client_uuid, server_dict)
+                    # write
                     elif "schedule" in action_a:
                         # create a schedule that is associated with a client
-                        print "TODO"
+                        data_action = "INSERT INTO schedules("
+                        data_action2 = "INSERT INTO schedules_"+action_a[0]+"s("
+                        i = 0
+                        k = -1
+                        for prop in props:
+                            if prop == "client_id":
+                                data_action2 += prop+", schedule_id) VALUES("
+                                k = i
+                            else:
+                                data_action += prop+", "
+                            i += 1
+                        data_action = data_action[:-2]+") VALUES("
+                        i = 0
+                        for val in vals:
+                            if k == i:
+                                data_action2 += "\""+val+"\", \""+uid+"\")"
+                            else:
+                                data_action += "\""+val+"\", "
+                            i += 1
+                        if k == -1:
+                            data_action2 = ""
+                        data_action = data_action[:-2]+")"
+                    # write
                     elif "store" in action_a:
                         # store client credentials
-                        print "TODO"
-
-                        # write
-                        #data_action = "INSERT INTO "+action_a[0]+"s("
-                        #data_action2 = "INSERT INTO "+action_a[0]+"s_tenants("
-                        #data_action3 = "INSERT INTO "+action_a[0]+"s_roles("
-                        #i = 0
-                        #j = -1
-                        #k = -1
-                        #l = -1
-                        #for prop in props:
-                        #    if prop == "password":
-                        #        j = i
-                        #    if prop == "tenant_id":
-                        #        data_action2 += prop+", user_id) VALUES("
-                        #        k = i
-                        #    elif prop == "role_id":
-                        #        data_action3 += prop+", user_id) VALUES("
-                        #        l = i
-                        #    else:
-                        #        data_action += prop+", "
-                        #    i += 1
-                        #data_action = data_action[:-2]+") VALUES("
-                        #i = 0
-                        #for val in vals:
-                        #    if j == i:
-                        #        data_action += "AES_ENCRYPT(\""+val+"\", \""+aes_key+"\"), "
-                        #    elif k == i:
-                        #        data_action2 += "\""+val+"\", \""+uid+"\")"
-                        #    elif l == i:
-                        #        data_action3 += "\""+val+"\", \""+uid+"\")"
-                        #    else:
-                        #        data_action += "\""+val+"\", "
-                        #    i += 1
-                        #if k == -1:
-                        #    data_action2 = ""
-                        #if l == -1:
-                        #    data_action3 = ""
-                        #data_action = data_action[:-2]+")"
-
+                        data_action = "INSERT INTO "+action_a[0]+"s("
+                        data_action2 = "INSERT INTO systems_"+action_a[0]+"s("
+                        i = 0
+                        k = -1
+                        for prop in props:
+                            if prop == "system_id":
+                                data_action2 += prop+", client_id) VALUES("
+                                k = i
+                            else:
+                                data_action += prop+", "
+                            i += 1
+                        data_action = data_action[:-2]+") VALUES("
+                        i = 0
+                        for val in vals:
+                            if k == i:
+                                data_action2 += "\""+val+"\", \""+uid+"\")"
+                            else:
+                                data_action += "\""+val+"\", "
+                            i += 1
+                        if k == -1:
+                            data_action2 = ""
+                        data_action = data_action[:-2]+")"
                 elif "all" in action_a:
                     # since this one returns all data and 
                     # descriptions in one payload, it will 
