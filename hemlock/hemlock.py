@@ -352,6 +352,7 @@ class Hemlock():
             """,
             'client-store' : """
             client-store (store a specific client)
+                --name (name of client)
                 --type (type of client, i.e. mysql)
                 --system_id (uuid of system associated with the client)
                 --credential_file (path to file that contains the credentials for the client)
