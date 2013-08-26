@@ -343,10 +343,20 @@ class Hemlock():
             'client-schedule' : """
             client-schedule (schedule a specific client)
                 --uuid (uuid of client)
+                --name (name of the schedule)
+                --minute (cron minute)
+                --hour (cron hour)
+                --day_of_month (cron day of month)
+                --month (cron month)
+                --day_of_week (cron day of week)
+                --client_id (uuid of the client this schedule will run on)
             """,
             'client-store' : """
             client-store (store a specific client)
                 --uuid (uuid of client)
+                --type (type of client, i.e. mysql)
+                --system_id (uuid of system associated with the client)
+                --credential_file (path to file that contains the credentials for the client)
             """,
             'deregister-local-system' : """
             deregister-local-system (from Hemlock remove a system)
