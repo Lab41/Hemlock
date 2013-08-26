@@ -24,6 +24,14 @@ from couchbase import Couchbase
 HELP_COUNTER = 0
 
 class Hemlock():
+    # !! TODO
+    #    add client_schedules_list
+    #    add schedule_clients_list
+    #    add client_add_schedule
+    #    add client_remove_schedule
+    #    add schedule_add_client
+    #    add schedule_remove_client
+
     def client_get(self, args, var_d):
         arg_d = [
             '--uuid'
@@ -68,6 +76,9 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def client_store(self, args, var_d):
+        # !! TODO
+        #    do some sort of check if the client is local or remote and do
+        #    the appropriate action accordingly
         arg_d = [
             '--name',
             '--type',
@@ -938,6 +949,8 @@ class Hemlock():
                         if k == -1:
                             data_action2 = ""
                         data_action = data_action[:-2]+")"
+                        # !! TODO 
+                        #    create a crontab file based off of the parameters
                     # write
                     elif "store" in action_a:
                         # store client credentials
@@ -963,6 +976,7 @@ class Hemlock():
                                 # !! TODO
                                 #    instead of val, val is the file to open,
                                 #    read in and then convert to a json object to store
+                                #    encrypt values with AES
                                 data_action += "\""+val+"\", "
                             elif k == i:
                                 data_action2 += "\""+val+"\", \""+uid+"\")"
