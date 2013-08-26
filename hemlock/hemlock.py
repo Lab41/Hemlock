@@ -687,8 +687,6 @@ class Hemlock():
             cur.execute(role_table)
         if "schedules" not in tables:
             schedule_table = "CREATE TABLE IF NOT EXISTS schedules(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), minute VARCHAR(10), hour VARCHAR(10), day_of_month VARCHAR(10), month VARCHAR(10), day_of_week VARCHAR(10), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
-                --uuid (uuid of client)
-                --uuid (uuid of client)
             cur.execute(schedule_table)
         if "tenants" not in tables:
             tenant_table = "CREATE TABLE IF NOT EXISTS tenants(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
