@@ -57,7 +57,6 @@ class Hemlock():
         #    perhaps one schedule to many clients, or many schedules
         #    to one client (only one active)
         arg_d = [
-            '--uuid',
             '--name',
             '--minute',
             '--hour',
@@ -945,9 +944,13 @@ class Hemlock():
                         data_action = "INSERT INTO "+action_a[0]+"s("
                         data_action2 = "INSERT INTO systems_"+action_a[0]+"s("
                         i = 0
+                        j = -1
                         k = -1
                         for prop in props:
-                            if prop == "system_id":
+                            if prop == "credential_file": 
+                                data_action += "credentials, "
+                                j = i
+                            elif prop == "system_id":
                                 data_action2 += prop+", client_id) VALUES("
                                 k = i
                             else:
@@ -956,7 +959,12 @@ class Hemlock():
                         data_action = data_action[:-2]+") VALUES("
                         i = 0
                         for val in vals:
-                            if k == i:
+                            if j == i:
+                                # !! TODO
+                                #    instead of val, val is the file to open,
+                                #    read in and then convert to a json object to store
+                                data_action += "\""+val+"\", "
+                            elif k == i:
                                 data_action2 += "\""+val+"\", \""+uid+"\")"
                             else:
                                 data_action += "\""+val+"\", "
