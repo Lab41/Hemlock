@@ -939,7 +939,7 @@ class Hemlock():
                 # read only
                 if "tenants" in action_a:
                     data_action = "SELECT * FROM systems_tenants WHERE system_id = '"+var_d['--uuid']+"'"
-                else if "clients" in action_a:
+                elif "clients" in action_a:
                     data_action = "SELECT * FROM systems_clients WHERE system_id = '"+var_d['--uuid']+"'"
                 else:
                     data_action = "SELECT * FROM systems"
