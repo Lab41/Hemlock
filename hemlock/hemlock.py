@@ -24,13 +24,12 @@ from couchbase import Couchbase
 HELP_COUNTER = 0
 
 class Hemlock():
-    # !! TODO
-    #    add client_schedules_list
-    #    add schedule_clients_list
-    #    add client_add_schedule
-    #    add client_remove_schedule
-    #    add schedule_add_client
-    #    add schedule_remove_client
+    def client_add_schedule(self, args, var_d):
+        arg_d = [
+            '--uuid',
+            '--schedule_id'
+        ]
+        return self.check_args(args, arg_d, var_d)
 
     def client_get(self, args, var_d):
         arg_d = [
@@ -49,11 +48,21 @@ class Hemlock():
         ]
         return self.check_args(args, arg_d, var_d)
 
+    def client_remove_schedule(self, args, var_d):
+        arg_d = [
+            '--uuid',
+            '--schedule_id'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
     def client_run(self, args, var_d):
         arg_d = [
             # !! TODO these currently point to system_uuid and client type, 
             #         needs to be changed to point to client_uuid from the 
             #         client_store
+            #
+            #         update hemlock_base to take client credentials from db,
+            #         and have the file be a fallback
             '--uuid',
             '--client'
         ]
@@ -72,6 +81,12 @@ class Hemlock():
             '--month',
             '--day_of_week',
             '--client_id'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def client_schedules_list(self, args, var_d):
+        arg_d = [
+            '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
@@ -162,6 +177,19 @@ class Hemlock():
         ]
         return self.check_args(args, arg_d, var_d)
 
+    def schedule_add_client(self, args, var_d):
+        arg_d = [
+            '--uuid',
+            '--client_id'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def schedule_clients_list(self, args, var_d):
+        arg_d = [
+            '--uuid'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
     def schedule_delete(self, args, var_d):
         arg_d = [
             '--uuid'
@@ -176,6 +204,13 @@ class Hemlock():
 
     def schedule_list(self, args, var_d):
         arg_d = [
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def schedule_remove_client(self, args, var_d):
+        arg_d = [
+            '--uuid',
+            '--client_id'
         ]
         return self.check_args(args, arg_d, var_d)
 
@@ -334,6 +369,11 @@ class Hemlock():
         global HELP_COUNTER
         if HELP_COUNTER >= 1:
             help_dict = {
+            'client-add-schedule' : """
+            client-add-schedule (add a schedule to a client)
+                --uuid (uuid of client)
+                --schedule_id (uuid of schedule)
+            """,
             'client-get' : """
             client-get (get a specific client)
                 --uuid (uuid of client)
@@ -344,6 +384,11 @@ class Hemlock():
             'client-purge' : """
             client-purge (purge a specific client)
                 --uuid (uuid of client)
+            """,
+            'client-remove-schedule' : """
+            client-remove-schedule (remove a schedule from a client)
+                --uuid (uuid of client)
+                --schedule_id (uuid of schedule)
             """,
             'client-run' : """
             client-run (run a specific client)
@@ -359,6 +404,10 @@ class Hemlock():
                 --month (cron month)
                 --day_of_week (cron day of week)
                 --client_id (uuid of the client this schedule will run on)
+            """,
+            'client-schedules-list' : """
+            client-schedules-list (list schedules a client belongs to)
+                --uuid (uuid of client)
             """,
             'client-store' : """
             client-store (store a specific client)
@@ -420,6 +469,15 @@ class Hemlock():
             role-users-list (list users a role belongs to)
                 --uuid (uuid of role)
             """,
+            'schedule-add-client' : """
+            schedule-add-client (add a client to a schedule)
+                --uuid (uuid of schedule)
+                --client_id (uuid of client)
+            """,
+            'schedule-clients-list' : """
+            schedule-clients-list (list client a schedule belongs to)
+                --uuid (uuid of schedule)
+            """,
             'schedule-delete' : """
             schedule-delete (delete a specific schedule)
                 --uuid (uuid of schedule)
@@ -430,6 +488,11 @@ class Hemlock():
             """,
             'schedule-list' : """
             schedule-list (list all schedules)
+            """,
+            'schedule-remove-client' : """
+            schedule-remove-client (remove a client from a schedule)
+                --uuid (uuid of schedule)
+                --client_id (uuid of client)
             """,
             'system-add-tenant' : """
             system-add-tenant (add a tenant to a system)
@@ -536,14 +599,15 @@ class Hemlock():
         global HELP_COUNTER
         var_d = {}
 
-        # !! TODO add load data actions
-        #         is this needed?
         arg_actions = {
+            'client-add-schedule' : self.client_add_schedule,
             'client-get' : self.client_get,
             'client-list' : self.client_list,
             'client-purge' : self.client_purge,
+            'client-remove-schedule' : self.client_remove_schedule,
             'client-run' : self.client_run,
             'client-schedule' : self.client_schedule,
+            'client-schedules-list' : self.client_schedules_list,
             'client-store' : self.client_store,
             'deregister-local-system' : self.deregister_local_system,
             'deregister-remote-system' : self.deregister_remote_system,
@@ -555,9 +619,12 @@ class Hemlock():
             'role-get' : self.role_get,
             'role-list' : self.role_list,
             'role-users-list' : self.role_users_list,
+            'schedule-add-client' : self.schedule_add_client,
+            'schedule-clients-list' : self.schedule_clients_list,
             'schedule-delete' : self.schedule_delete,
             'schedule-get' : self.schedule_get,
             'schedule-list' : self.schedule_list,
+            'schedule-remove-client' : self.schedule_remove_client,
             'system-add-tenant' : self.system_add_tenant,
             'system-get' : self.system_get,
             'system-list' : self.system_list,
@@ -808,17 +875,25 @@ class Hemlock():
                 cur.execute(data_action2)
 
         else:
-            # update to roles/tenants/users tables
+            # update to clients/schedules/roles/tenants/users tables
             if "add" in action_a: 
                 # write
                 if "tenant" in action_a:
                     data_action = "INSERT INTO users_tenants(user_id, tenant_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--tenant_id']+"\")"
+                elif "client" in action_a:
+                    # !! TODO
+                    #data_action = "INSERT INTO users_tenants(user_id, tenant_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--tenant_id']+"\")"
+                    data_action = ""
                 else: # roles
                     data_action = "INSERT INTO users_roles(user_id, role_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--role_id']+"\")"
             elif "remove" in action_a:
                 # delete
                 if "tenant" in action_a:
                     remove_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"'"
+                elif "client" in action_a:
+                    # !! TODO
+                    #remove_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"'"
+                    data_action = ""
                 else: # roles
                     remove_action = "SELECT * FROM users_roles WHERE user_id = '"+var_d['--uuid']+"'"
                 cur.execute(remove_action)
@@ -826,9 +901,14 @@ class Hemlock():
                 if len(remove_results) > 1:
                     if "tenant" in action_a:
                         data_action = "DELETE FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"' and tenant_id = '"+var_d['--tenant_id']+"'"
+                    elif "client" in action_a:
+                        # !! TODO
+                        #data_action = "DELETE FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"' and tenant_id = '"+var_d['--tenant_id']+"'"
+                        data_action = ""
                     else: # roles
                         data_action = "DELETE FROM users_roles WHERE user_id = '"+var_d['--uuid']+"' and role_id = '"+var_d['--role_id']+"'"
                 else:
+                    # !! TODO it's ok if it's a schedule/client
                     print "You can not remove the last tenant or role from a user."
                     sys.exit(0)
             elif "create" in action_a:
@@ -951,6 +1031,9 @@ class Hemlock():
                         data_action = data_action[:-2]+")"
                         # !! TODO 
                         #    create a crontab file based off of the parameters
+                        #
+                        #    also create a script that the crontab calls and 
+                        #    grabs creds from mysql
                     # write
                     elif "store" in action_a:
                         # store client credentials
@@ -973,11 +1056,22 @@ class Hemlock():
                         i = 0
                         for val in vals:
                             if j == i:
-                                # !! TODO
                                 #    instead of val, val is the file to open,
                                 #    read in and then convert to a json object to store
-                                #    encrypt values with AES
-                                data_action += "\""+val+"\", "
+                                #    encrypted values with AES
+                                try:
+                                    cred_dict = {}
+                                    f = open(val, 'r')
+                                    for line in f:
+                                        entry_a = line.split("=")
+                                        cred_dict[entry_a[0].strip()] = entry_a[1].strip()
+                                    f.close()
+                                    creds = json.dumps(cred_dict)
+                                    data_action += "AES_ENCRYPT(\""+creds.replace('"','\\"')+"\", \""+aes_key+"\"), "
+                                except:
+                                    error = 1
+                                    print "Unable to read credentials file"
+                                    sys.exit(0)
                             elif k == i:
                                 data_action2 += "\""+val+"\", \""+uid+"\")"
                             else:
@@ -1133,6 +1227,7 @@ class Hemlock():
             except:
                 error = 1
                 print "not valid"
+                sys.exit(0)
 
         results = cur.fetchall()
         desc_results = ""
