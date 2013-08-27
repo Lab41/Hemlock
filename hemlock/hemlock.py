@@ -23,18 +23,17 @@ from clients.hemlock_base import Hemlock_Base
 HELP_COUNTER = 0
 
 class Hemlock():
-    # !! TODO
-    #    add system_clients_list
-    #    add client_systems_list
-    #    add client_add_system
-    #    add system_add_client
-    #    add system_remove_client
-    #    add client_remove_system
-
     def client_add_schedule(self, args, var_d):
         arg_d = [
             '--uuid',
             '--schedule_id'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def client_add_system(self, args, var_d):
+        arg_d = [
+            '--uuid',
+            '--system_id'
         ]
         return self.check_args(args, arg_d, var_d)
 
@@ -59,6 +58,13 @@ class Hemlock():
         arg_d = [
             '--uuid',
             '--schedule_id'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def client_remove_system(self, args, var_d):
+        arg_d = [
+            '--uuid',
+            '--system_id'
         ]
         return self.check_args(args, arg_d, var_d)
 
@@ -106,6 +112,12 @@ class Hemlock():
             '--type',
             '--system_id',
             '--credential_file'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def client_systems_list(self, args, var_d):
+        arg_d = [
+            '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
@@ -225,6 +237,12 @@ class Hemlock():
         arg_d = [
             '--uuid',
             '--tenant_id'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def system_clients_list(self, args, var_d):
+        arg_d = [
+            '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
@@ -381,6 +399,11 @@ class Hemlock():
                 --uuid (uuid of client)
                 --schedule_id (uuid of schedule)
             """,
+            'client-add-system' : """
+            client-add-system (add a system to a client)
+                --uuid (uuid of client)
+                --system_id (uuid of system)
+            """,
             'client-get' : """
             client-get (get a specific client)
                 --uuid (uuid of client)
@@ -396,6 +419,11 @@ class Hemlock():
             client-remove-schedule (remove a schedule from a client)
                 --uuid (uuid of client)
                 --schedule_id (uuid of schedule)
+            """,
+            'client-remove-system' : """
+            client-remove-system (remove a system from a client)
+                --uuid (uuid of client)
+                --system_id (uuid of system)
             """,
             'client-run' : """
             client-run (run a specific client)
@@ -422,6 +450,10 @@ class Hemlock():
                 --type (type of client, i.e. mysql)
                 --system_id (uuid of system associated with the client)
                 --credential_file (path to file that contains the credentials for the client)
+            """,
+            'client-systems-list' : """
+            client-systems-list (list systems a client belongs to)
+                --uuid (uuid of client)
             """,
             'deregister-local-system' : """
             deregister-local-system (from Hemlock remove a system)
@@ -505,6 +537,10 @@ class Hemlock():
             system-add-tenant (add a tenant to a system)
                 --uuid (uuid of system)
                 --tenant_id (uuid of tenant)
+            """,
+            'system-clients-list' : """
+            system-clients-list (list clients a system belongs to)
+                --uuid (uuid of system)
             """,
             'system-get' : """
             system-get (get a specific system)
@@ -608,14 +644,17 @@ class Hemlock():
 
         arg_actions = {
             'client-add-schedule' : self.client_add_schedule,
+            'client-add-system' : self.client_add_system,
             'client-get' : self.client_get,
             'client-list' : self.client_list,
             'client-purge' : self.client_purge,
             'client-remove-schedule' : self.client_remove_schedule,
+            'client-remove-system' : self.client_remove_system,
             'client-run' : self.client_run,
             'client-schedule' : self.client_schedule,
             'client-schedules-list' : self.client_schedules_list,
             'client-store' : self.client_store,
+            'client-systems-list' : self.client_systems_list,
             'deregister-local-system' : self.deregister_local_system,
             'deregister-remote-system' : self.deregister_remote_system,
             'list-all' : self.list_all,
@@ -633,6 +672,7 @@ class Hemlock():
             'schedule-list' : self.schedule_list,
             'schedule-remove-client' : self.schedule_remove_client,
             'system-add-tenant' : self.system_add_tenant,
+            'system-clients-list' : self.system_clients_list,
             'system-get' : self.system_get,
             'system-list' : self.system_list,
             'system-remove-tenant' : self.system_remove_tenant,
@@ -867,21 +907,40 @@ class Hemlock():
                 data_action = data_action[:-2]+")"
             elif "add" in action_a:
                 # write
-                data_action = "INSERT INTO systems_tenants(system_id, tenant_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--tenant_id']+"\")"
+                # systems_tenants
+                if "tenant" in action_a:
+                    data_action = "INSERT INTO systems_tenants(system_id, tenant_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--tenant_id']+"\")"
+                # systems_clients 
+                else:
+                    data_action = "INSERT INTO systems_clients(system_id, client_id) VALUES(\""+var_d['--system_id']+"\", \""+var_d['--uuid']+"\")"
             elif "remove" in action_a:
                 # delete
-                remove_action = "SELECT * FROM systems_tenants WHERE system_id = '"+var_d['--uuid']+"'"
-                cur.execute(remove_action)
-                remove_results = cur.fetchall()
-                if len(remove_results) > 1:
-                    data_action = "DELETE FROM systems_tenants WHERE system_id = '"+var_d['--uuid']+"' and tenant_id = '"+var_d['--tenant_id']+"'"
+                # systems_tenants
+                if "tenant" in action_a:
+                    remove_action = "SELECT * FROM systems_tenants WHERE system_id = '"+var_d['--uuid']+"'"
+                    cur.execute(remove_action)
+                    remove_results = cur.fetchall()
+                    if len(remove_results) > 1:
+                        data_action = "DELETE FROM systems_tenants WHERE system_id = '"+var_d['--uuid']+"' and tenant_id = '"+var_d['--tenant_id']+"'"
+                    else:
+                        print "You can not remove the last tenant from a system."
+                        sys.exit(0)
+                # systems_clients
                 else:
-                    print "You can not remove the last tenant from a system."
-                    sys.exit(0)
+                    remove_action = "SELECT * FROM systems_tenants WHERE client_id = '"+var_d['--uuid']+"'"
+                    cur.execute(remove_action)
+                    remove_results = cur.fetchall()
+                    if len(remove_results) > 1:
+                        data_action = "DELETE FROM systems_clients WHERE system_id = '"+var_d['--system_id']+"' and client_id = '"+var_d['--uuid']+"'"
+                    else:
+                        print "You can not remove the last system from a client."
+                        sys.exit(0)
             else:
                 # read only
                 if "tenants" in action_a:
                     data_action = "SELECT * FROM systems_tenants WHERE system_id = '"+var_d['--uuid']+"'"
+                else if "clients" in action_a:
+                    data_action = "SELECT * FROM systems_clients WHERE system_id = '"+var_d['--uuid']+"'"
                 else:
                     data_action = "SELECT * FROM systems"
                     if "get" in action_a:
