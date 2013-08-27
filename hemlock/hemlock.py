@@ -24,6 +24,14 @@ from couchbase import Couchbase
 HELP_COUNTER = 0
 
 class Hemlock():
+    # !! TODO
+    #    add system_clients_list
+    #    add client_systems_list
+    #    add client_add_system
+    #    add system_add_client
+    #    add system_remove_client
+    #    add client_remove_system
+
     def client_add_schedule(self, args, var_d):
         arg_d = [
             '--uuid',
@@ -815,7 +823,7 @@ class Hemlock():
             vals.append(timestamp)
 
         if "system" in action_a:
-            # update to systems table
+            # update to systems/clients table
             if "deregister" in action_a:
                 # delete
                 data_action = "DELETE FROM systems_tenants WHERE system_id = '"+var_d['--uuid']+"'"
@@ -880,7 +888,7 @@ class Hemlock():
                 # write
                 if "tenant" in action_a:
                     data_action = "INSERT INTO users_tenants(user_id, tenant_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--tenant_id']+"\")"
-                elif "client" in action_a:
+                elif "schedule" in action_a:
                     # !! TODO
                     #data_action = "INSERT INTO users_tenants(user_id, tenant_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--tenant_id']+"\")"
                     data_action = ""
@@ -890,7 +898,7 @@ class Hemlock():
                 # delete
                 if "tenant" in action_a:
                     remove_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"'"
-                elif "client" in action_a:
+                elif "schedule" in action_a:
                     # !! TODO
                     #remove_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"'"
                     data_action = ""
@@ -901,7 +909,7 @@ class Hemlock():
                 if len(remove_results) > 1:
                     if "tenant" in action_a:
                         data_action = "DELETE FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"' and tenant_id = '"+var_d['--tenant_id']+"'"
-                    elif "client" in action_a:
+                    elif "schedule" in action_a:
                         # !! TODO
                         #data_action = "DELETE FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"' and tenant_id = '"+var_d['--tenant_id']+"'"
                         data_action = ""
@@ -1032,6 +1040,8 @@ class Hemlock():
                         # !! TODO 
                         #    create a crontab file based off of the parameters
                         #
+                        #    create hemlock user (if doesn't already exist
+                        #    that will call the crontab
                         #    also create a script that the crontab calls and 
                         #    grabs creds from mysql
                     # write
