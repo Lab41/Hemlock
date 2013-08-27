@@ -1,3 +1,9 @@
+### 0.1.1 (2013-08-23)
+
+- small additions to the api for clients and schedules
+- bug fixes
+- improved MySQL client support related to memory issues
+
 ### 0.1.0 (2013-08-12)
 
 - basic proof-of-concept
