@@ -90,12 +90,14 @@ class Hemlock_Base():
         # connect to the hemlock server
         # required fields in the server creds file are as follows:
         #    HEMLOCK_COUCH_SERVER
-        #    HEMLOCK__COUCH_PW
+        #    HEMLOCK_COUCH_BUCKET
+        #    HEMLOCK_COUCH_USERNAME
+        #    HEMLOCK_COUCH_PW
         h_server = ""
-        h_bucket = "hemlock"
         try:
             h_server = couchbase.Couchbase.connect(host=server_dict['HEMLOCK_COUCH_SERVER'],
-                                 bucket=h_bucket,
+                                 bucket=server_dict['HEMLOCK_COUCH_BUCKET'],
+                                 username=server_dict['HEMLOCK_COUCH_USERNAME'],
                                  password=server_dict['HEMLOCK_COUCH_PW'])
         except:
             print "Failure connecting to the Hemlock server"

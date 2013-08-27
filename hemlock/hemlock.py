@@ -19,7 +19,6 @@ import getpass, json, os, sys, time, uuid
 import MySQLdb as mdb
 import texttable as tt
 from clients.hemlock_base import Hemlock_Base
-from couchbase import Couchbase
 
 HELP_COUNTER = 0
 
@@ -678,6 +677,7 @@ class Hemlock():
         parser.add_option("-p", "--mysql-password", action="store", dest="pw", help="MySQL Password")
         parser.add_option("-c", "--couchbase-server", action="store", dest="c_server", help="Couchbase Server")
         parser.add_option("-b", "--couchbase-bucket", action="store", dest="bucket", help="Couchbase Bucket")
+        parser.add_option("-n", "--couchbase-username", action="store", dest="c_user", help="Couchbase Username")
         parser.add_option("-w", "--couchbase-password", action="store", dest="c_pw", help="Couchbase Password")
         return parser.parse_args()
 
@@ -727,6 +727,14 @@ class Hemlock():
                 options.bucket = os.environ['HEMLOCK_COUCHBASE_BUCKET']
         except:
             options.bucket = raw_input("Couchbase Bucket (default is hemlock):")
+            if options.bucket == "":
+                options.bucket = "hemlock"
+
+        try:
+            if options.c_user == None:
+                options.c_user = os.environ['HEMLOCK_COUCHBASE_USERNAME']
+        except:
+            options.bucket = raw_input("Couchbase Username (default is hemlock):")
             if options.bucket == "":
                 options.bucket = "hemlock"
 
