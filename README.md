@@ -101,10 +101,10 @@ Credential files
     HEMLOCK_MYSQL_SERVER=192.168.1.10
     HEMLOCK_MYSQL_USERNAME=user
     HEMLOCK_MYSQL_PW=pass
-    HEMLOCK_COUCH_SERVER=192.168.1.20
-    HEMLOCK_COUCH_BUCKET=hemlock
-    HEMLOCK_COUCH_USERNAME=hemlock
-    HEMLOCK_COUCH_PW=pass
+    HEMLOCK_COUCHBASE_SERVER=192.168.1.20
+    HEMLOCK_COUCHBASE_BUCKET=hemlock
+    HEMLOCK_COUCHBASE_USERNAME=hemlock
+    HEMLOCK_COUCHBASE_PW=pass
     ```
 2. Create credential files for each client you intend to use ([examples](https://github.com/Lab41/Hemlock/tree/master/hemlock/clients/)).
 
