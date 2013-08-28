@@ -40,13 +40,14 @@ class Hemlock_Base():
         try:
             f = open(CLIENT_CREDS_FILE, 'r')
             for line in f:
-                # split each line on the first '='
-                line = line.split("=",1)
-                try:
-                    client_dict[line[0]] = line[1].strip()
-                except:
-                    print "Malformed Client Creds file."
-                    sys.exit(0)
+                if len(line) > 0 and line[0] != "#" and "=" in line:
+                    # split each line on the first '='
+                    line = line.split("=",1)
+                    try:
+                        client_dict[line[0]] = line[1].strip()
+                    except:
+                        print "Malformed Client Creds file."
+                        sys.exit(0)
             f.close()
         except:
             print "Unable to open "+CLIENT_CREDS_FILE
@@ -54,13 +55,14 @@ class Hemlock_Base():
         try:
             f = open(SERVER_CREDS_FILE, 'r')
             for line in f:
-                # split each line on the first '='
-                line = line.split("=",1)
-                try:
-                    server_dict[line[0]] = line[1].strip()
-                except:
-                    print "Malformed Server Creds file."
-                    sys.exit(0)
+                if len(line) > 0 and line[0] != "#" and "=" in line:
+                    # split each line on the first '='
+                    line = line.split("=",1)
+                    try:
+                        server_dict[line[0]] = line[1].strip()
+                    except:
+                        print "Malformed Server Creds file."
+                        sys.exit(0)
             f.close()
         except:
             print "Unable to open "+SERVER_CREDS_FILE

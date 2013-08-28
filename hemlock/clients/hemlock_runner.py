@@ -14,9 +14,27 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-import datetime, sys, time
+import ast, datetime, sys, time
 import MySQLdb as mdb
 import hemlock_base
 
 class Hemlock_Runner():
+    def mysql_server(self, server, user, pw, db):
+        # connect to the mysql server
+        try:
+            m_server = mdb.connect(server, user, pw, db)
+        except:
+            print "MySQL server failure"
+            sys.exit(0)
+        return m_server
 
+    def get_creds(self, m_server, cliend_id, aes_key):
+        cur = m_server.cursor()
+        data_action = "SELECT AES_DECRYPT(credentials, '"+aes_key+"') from clients where uuid = '"+cliend_id+"'"
+        cur.execute(data_action)
+        results = cur.fetchall()
+        client_dict = ast.literal_eval(results[0][0])
+
+        # !! TODO
+        server_dict = {}
+        return client_dict, server_dict

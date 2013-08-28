@@ -19,6 +19,7 @@ import getpass, json, os, sys, time, uuid
 import MySQLdb as mdb
 import texttable as tt
 from clients.hemlock_base import Hemlock_Base
+from clients.hemlock_runner import Hemlock_Runner
 
 HELP_COUNTER = 0
 
@@ -1065,20 +1066,28 @@ class Hemlock():
                     elif "run" in action_a:
                         # run a client for data push/pull
                         hemlock_base = Hemlock_Base()
+                        hemlock_runner = Hemlock_Runner()
                         client_uuid, client, splits = hemlock_base.process_args(args[1:])
                         CLIENT_CREDS_FILE, c_inst = hemlock_base.client_import(client)
+                        # !! TODO this needs to be removed once server_dict is squared away
                         client_dict, server_dict = hemlock_base.get_creds(CLIENT_CREDS_FILE)
+                        client_dict, server_dict_dummy = hemlock_runner.get_creds(m_server, client_uuid, aes_key)
                         c_server = c_inst.connect_client(client_dict)
                         data_list = []
                         desc_list = []
                         h_server = hemlock_base.connect_server(server_dict)
-                        hemlock_base.verify_system(client_uuid, server_dict)
+                        # !! TODO
+                        #    using the client_uuid get the system_id
+                        #    can a client have more than one system associated? should it?
+                        # !! TODO this line in temporary
+                        system_uuid = client_uuid
+                        hemlock_base.verify_system(system_uuid, server_dict)
                         if not client.startswith("stream"):
-                            data_list, desc_list = c_inst.get_data(client_dict, c_server, h_server, client_uuid)
+                            data_list, desc_list = c_inst.get_data(client_dict, c_server, h_server, system_uuid)
                         else:
                             hemlock_base.stream_workers()
-                        hemlock_base.send_data(data_list, desc_list, h_server, client_uuid)
-                        hemlock_base.update_hemlock(client_uuid, server_dict)
+                        hemlock_base.send_data(data_list, desc_list, h_server, system_uuid)
+                        hemlock_base.update_hemlock(system_uuid, server_dict)
                     # write
                     elif "schedule" in action_a:
                         # create a schedule that is associated with a client
