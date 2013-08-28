@@ -29,12 +29,17 @@ class Hemlock_Runner():
         return m_server
 
     def get_creds(self, m_server, cliend_id, aes_key):
+        # get client_dict
         cur = m_server.cursor()
         data_action = "SELECT AES_DECRYPT(credentials, '"+aes_key+"') from clients where uuid = '"+cliend_id+"'"
         cur.execute(data_action)
         results = cur.fetchall()
         client_dict = ast.literal_eval(results[0][0])
 
-        # !! TODO
-        server_dict = {}
+        # get server_dict
+        cur = m_server.cursor()
+        data_action = "SELECT AES_DECRYPT(credentials, '"+aes_key+"') from hemlock_server"
+        cur.execute(data_action)
+        results = cur.fetchall()
+        server_dict = ast.literal_eval(results[0][0])
         return client_dict, server_dict

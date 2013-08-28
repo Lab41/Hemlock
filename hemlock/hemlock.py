@@ -120,6 +120,12 @@ class Hemlock():
         ]
         return self.check_args(args, arg_d, var_d)
 
+    def hemlock_server_store(self, args, var_d):
+        arg_d = [
+            '--credential_file'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
     def list_all(self, args, var_d):
         arg_d = [
         ]
@@ -440,6 +446,10 @@ class Hemlock():
             deregister-remote-system (from a system remove it from Hemlock)
                 --uuid (uuid of system)
             """,
+            'hemlock-server-store' : """
+            hemlock-server-store (store credentials for the hemlock server)
+                --credential_file (path to file that contains the credentials for the hemlock server)
+            """,
             'list-all' : """
             list-all (list everything)
             """,
@@ -632,6 +642,7 @@ class Hemlock():
             'client-systems-list' : self.client_systems_list,
             'deregister-local-system' : self.deregister_local_system,
             'deregister-remote-system' : self.deregister_remote_system,
+            'hemlock-server-store' : self.hemlock_server_store,
             'list-all' : self.list_all,
             'register-local-system' : self.register_local_system,
             'register-remote-system' : self.register_remote_system,
@@ -699,6 +710,8 @@ class Hemlock():
     def get_auth(self):
         # extract command-line switches
         (options, args_leftover) = Hemlock().parse_auth()
+
+        # !! TODO check if credentials are already stored in mysql
 
         # use environment variables and CLI as fallbacks for unspecified variables
         try:
@@ -791,6 +804,9 @@ class Hemlock():
         if "clients" not in tables:
             client_table = "CREATE TABLE IF NOT EXISTS clients(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), type VARCHAR(50), credentials BLOB, created DATETIME, INDEX (uuid)) ENGINE = INNODB"
             cur.execute(client_table)
+        if "hemlock_server" not in tables:
+            server_table = "CREATE TABLE IF NOT EXISTS hemlock_server(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), credentials BLOB, created DATETIME, INDEX (uuid)) ENGINE = INNODB"
+            cur.execute(server_table)
         if "roles" not in tables:
             role_table = "CREATE TABLE IF NOT EXISTS roles(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
             cur.execute(role_table)
@@ -1009,6 +1025,50 @@ class Hemlock():
                     data_action = "SELECT * FROM users_roles WHERE role_id = '"+var_d['--uuid']+"'"
                 elif "systems" in action_a:
                     data_action = "SELECT * FROM systems_tenants WHERE tenant_id = '"+var_d['--uuid']+"'"
+                elif "server" in action_a:
+                    # write
+                    if "store" in action_a:
+                        # delete any pre-existing hemlock_server_creds that are stored
+                        # !! TODO notify end user, and give them the option to opt out
+                        data_action = "TRUNCATE TABLE hemlock_server"
+                        cur.execute(data_action)
+                        results = cur.fetchall()
+                        
+                        # store hemlock server credentials
+                        data_action = "INSERT INTO "+action_a[0]+"_server("
+                        i = 0
+                        j = -1
+                        for prop in props:
+                            if prop == "credential_file": 
+                                data_action += "credentials, "
+                                j = i
+                            else:
+                                data_action += prop+", "
+                            i += 1
+                        data_action = data_action[:-2]+") VALUES("
+                        i = 0
+                        for val in vals:
+                            if j == i:
+                                #    instead of val, val is the file to open,
+                                #    read in and then convert to a json object to store
+                                #    encrypted values with AES
+                                try:
+                                    cred_dict = {}
+                                    f = open(val, 'r')
+                                    for line in f:
+                                        entry_a = line.split("=")
+                                        cred_dict[entry_a[0].strip()] = entry_a[1].strip()
+                                    f.close()
+                                    creds = json.dumps(cred_dict)
+                                    data_action += "AES_ENCRYPT(\""+creds.replace('"','\\"')+"\", \""+aes_key+"\"), "
+                                except:
+                                    error = 1
+                                    print "Unable to read credentials file"
+                                    sys.exit(0)
+                            else:
+                                data_action += "\""+val+"\", "
+                            i += 1
+                        data_action = data_action[:-2]+")"
                 elif "client" in action_a:
                     if "get" in action_a:
                         # get a client
@@ -1030,18 +1090,21 @@ class Hemlock():
                         hemlock_runner = Hemlock_Runner()
                         client_uuid, client, splits = hemlock_base.process_args(args[1:])
                         CLIENT_CREDS_FILE, c_inst = hemlock_base.client_import(client)
-                        # !! TODO this needs to be removed once server_dict is squared away
-                        client_dict, server_dict = hemlock_base.get_creds(CLIENT_CREDS_FILE)
-                        client_dict, server_dict_dummy = hemlock_runner.get_creds(m_server, client_uuid, aes_key)
+
+                        # get client_dict and server_dict that are stored in mysql
+                        client_dict, server_dict = hemlock_runner.get_creds(m_server, client_uuid, aes_key)
                         c_server = c_inst.connect_client(client_dict)
                         data_list = []
                         desc_list = []
                         h_server = hemlock_base.connect_server(server_dict)
-                        # !! TODO
-                        #    using the client_uuid get the system_id
-                        #    can a client have more than one system associated? should it?
-                        # !! TODO this line in temporary
-                        system_uuid = client_uuid
+
+                        # using the client_uuid get the system_id
+                        data_action = "SELECT * from systems_clients where client_id = '"+client_uuid+"'"
+                        cur.execute(data_action)
+                        results = cur.fetchall()
+                        system_uuid = str(results[0][0]) 
+
+                        # verify that the system exists and is properly associated
                         hemlock_base.verify_system(system_uuid, server_dict)
                         if not client.startswith("stream"):
                             data_list, desc_list = c_inst.get_data(client_dict, c_server, h_server, system_uuid)
@@ -1252,7 +1315,7 @@ class Hemlock():
                             item_dict = {}
                             for field, item in zip([x[0] for x in results], entry):
                                 # do not return user's passwords
-                                if field != "password":
+                                if field != "password" and field != "credentials":
                                     item_dict[field] = str(item)
                             table_array.append(item_dict)
                         data_dict[table] = table_array
@@ -1311,7 +1374,7 @@ class Hemlock():
                     vals = list(results[0])
                     i = 0
                     while i < len(desc_results):
-                        if desc_results[i][0] != "password":
+                        if desc_results[i][0] != "password" and desc_results[i][0] != "credentials":
                             x.append([desc_results[i][0],vals[i]])
                         i += 1
                 else:
