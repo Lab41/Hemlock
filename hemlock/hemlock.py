@@ -934,9 +934,12 @@ class Hemlock():
                 if "tenant" in action_a:
                     data_action = "INSERT INTO users_tenants(user_id, tenant_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--tenant_id']+"\")"
                 elif "schedule" in action_a:
-                    # !! TODO
-                    #data_action = "INSERT INTO users_tenants(user_id, tenant_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--tenant_id']+"\")"
-                    data_action = ""
+                    # client_add_schedule
+                    if action_a[0] == "client":
+                        data_action = "INSERT INTO schedules_clients(client_id, schedule_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--schedule_id']+"\")"
+                    # schedule_add_client
+                    else:
+                        data_action = "INSERT INTO schedules_clients(client_id, schedule_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--client_id']+"\")"
                 else: # roles
                     data_action = "INSERT INTO users_roles(user_id, role_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--role_id']+"\")"
             elif "remove" in action_a:
@@ -944,9 +947,12 @@ class Hemlock():
                 if "tenant" in action_a:
                     remove_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"'"
                 elif "schedule" in action_a:
-                    # !! TODO
-                    #remove_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"'"
-                    data_action = ""
+                    # client_remove_schedule
+                    if action_a[0] == "client":
+                        remove_action = "SELECT * FROM schedules_clients WHERE client_id = '"+var_d['--uuid']+"'"
+                    # schedule_remove_client
+                    else:
+                        remove_action = "SELECT * FROM schedules_clients WHERE schedule_id = '"+var_d['--uuid']+"'"
                 else: # roles
                     remove_action = "SELECT * FROM users_roles WHERE user_id = '"+var_d['--uuid']+"'"
                 cur.execute(remove_action)
@@ -955,15 +961,19 @@ class Hemlock():
                     if "tenant" in action_a:
                         data_action = "DELETE FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"' and tenant_id = '"+var_d['--tenant_id']+"'"
                     elif "schedule" in action_a:
-                        # !! TODO
-                        #data_action = "DELETE FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"' and tenant_id = '"+var_d['--tenant_id']+"'"
-                        data_action = ""
+                        # client_remove_schedule
+                        if action_a[0] == "client":
+                            data_action = "DELETE FROM schedules_clients WHERE client_id = '"+var_d['--uuid']+"' and system_id = '"+var_d['--system_id']+"'"
+                        # schedule_remove_client
+                        else:
+                            data_action = "DELETE FROM schedules_clients WHERE system_id = '"+var_d['--uuid']+"' and client_id = '"+var_d['--client_id']+"'"
                     else: # roles
                         data_action = "DELETE FROM users_roles WHERE user_id = '"+var_d['--uuid']+"' and role_id = '"+var_d['--role_id']+"'"
                 else:
-                    # !! TODO it's ok if it's a schedule/client
-                    print "You can not remove the last tenant or role from a user."
-                    sys.exit(0)
+                    # it's ok if it's a schedule/client
+                    if "schedule" not in action_a:
+                        print "You can not remove the last tenant or role from a user."
+                        sys.exit(0)
             elif "create" in action_a:
                 # write
                 data_action = "INSERT INTO "+action_a[0]+"s("
@@ -1023,8 +1033,16 @@ class Hemlock():
                     data_action = "SELECT * FROM users_tenants WHERE tenant_id = '"+var_d['--uuid']+"'"
                 elif "users" in action_a and "role" in action_a:
                     data_action = "SELECT * FROM users_roles WHERE role_id = '"+var_d['--uuid']+"'"
-                elif "systems" in action_a:
+                elif "clients" in action_a and "schedule" in action_a:
+                    data_action = "SELECT * FROM schedules_clients WHERE schedule_id = '"+var_d['--uuid']+"'"
+                elif "clients" in action_a and "system" in action_a:
+                    data_action = "SELECT * FROM systems_clients WHERE system_id = '"+var_d['--uuid']+"'"
+                elif "schedules" in action_a and "client" in action_a:
+                    data_action = "SELECT * FROM schedules_clients WHERE client_id = '"+var_d['--uuid']+"'"
+                elif "systems" in action_a and "tenant" in action_a:
                     data_action = "SELECT * FROM systems_tenants WHERE tenant_id = '"+var_d['--uuid']+"'"
+                elif "systems" in action_a and "client" in action_a:
+                    data_action = "SELECT * FROM systems_clients WHERE client_id = '"+var_d['--uuid']+"'"
                 elif "server" in action_a:
                     # write
                     if "store" in action_a:
@@ -1356,15 +1374,27 @@ class Hemlock():
             if results:
                 if "roles" in action_a:
                     data_action = "desc users_roles"
+                elif "clients" in action_a:
+                    # schedule
+                    data_action = "desc "+action_a[0]+"s_clients"
                 elif "tenants" in action_a:
+                    # system
                     data_action = "desc "+action_a[0]+"s_tenants"
                 elif "users" in action_a:
                     if "tenant" in action_a:
                         data_action = "desc "+action_a[1]+"_tenants"
-                    else: # role
+                    # role
+                    else:
                         data_action = "desc "+action_a[1]+"_roles"
+                elif "schedules" in action_a:
+                    # client
+                    data_action = "desc "+action_a[1]+"_clients"
                 elif "systems" in action_a:
-                    data_action = "desc "+action_a[1]+"_tenants"
+                    if "tenant" in action_a:
+                        data_action = "desc "+action_a[1]+"_tenants"
+                    # client
+                    else:
+                        data_action = "desc "+action_a[1]+"_clients"
                 else:
                     data_action = "desc "+action_a[0]+"s"
                 cur.execute(data_action)
@@ -1378,7 +1408,20 @@ class Hemlock():
                             x.append([desc_results[i][0],vals[i]])
                         i += 1
                 else:
-                    if "roles" in action_a:
+                    if "clients" in action_a:
+                        tab_header = ['Client ID']
+                        tab_align = ['c']
+                        i = 0
+                        a = -1
+                        while i < len(desc_results):
+                            if desc_results[i][0] == 'client_id':
+                                a = i
+                            i += 1
+                        i = 0
+                        while i < len(results):
+                            x.append([results[i][a]])
+                            i += 1
+                    elif "roles" in action_a:
                         tab_header = ['Role ID']
                         tab_align = ['c']
                         i = 0
@@ -1411,6 +1454,19 @@ class Hemlock():
                         a = -1
                         while i < len(desc_results):
                             if desc_results[i][0] == 'user_id':
+                                a = i
+                            i += 1
+                        i = 0
+                        while i < len(results):
+                            x.append([results[i][a]])
+                            i += 1
+                    elif "schedules" in action_a:
+                        tab_header = ['Schedule ID']
+                        tab_align = ['c']
+                        i = 0
+                        a = -1
+                        while i < len(desc_results):
+                            if desc_results[i][0] == 'schedule_id':
                                 a = i
                             i += 1
                         i = 0
