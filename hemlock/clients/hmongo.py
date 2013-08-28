@@ -18,7 +18,7 @@ import sys
 from pymongo import MongoClient
 
 class HMongo:
-    def connect_client(self, client_dict):
+    def connect_client(self, debug, client_dict):
         # connect to the mongo server
         # required fields in the client creds file are as follows:
         #    MONGO_SERVER
@@ -26,6 +26,7 @@ class HMongo:
         #    MONGO_DB
         #    MONGO_COLLECTION
         c_server = ""
+        # DEBUG
         try:
             c_server = MongoClient(client_dict['MONGO_SERVER'],
                                    int(client_dict['MONGO_PORT']))
@@ -36,10 +37,11 @@ class HMongo:
             sys.exit(0)
         return c_collection
 
-    def get_data(self, client_dict, c_server, h_server, client_uuid):
+    def get_data(self, debug, client_dict, c_server, h_server, client_uuid):
         data_list = [[]]
         desc_list = []
 
+        # DEBUG
         i = 0
         for record in c_server.find():
             data_list[0].append([])

@@ -20,7 +20,7 @@ import MySQLdb as mdb
 import MySQLdb.cursors
 
 class HMysql:
-    def connect_client(self, client_dict):
+    def connect_client(self, debug, client_dict):
         # connect to the mysql server
         # required fields in the client creds file are as follows:
         #    MYSQL_SERVER
@@ -31,6 +31,7 @@ class HMysql:
         #    MYSQL_TABLE (if not specified it will try all tables
         #                 the credentials has access to)
         c_server = ""
+        # DEBUG
         try:
             c_server = mdb.connect(client_dict['MYSQL_SERVER'],
                                    client_dict['MYSQL_USERNAME'],
@@ -42,7 +43,8 @@ class HMysql:
             sys.exit(0)
         return c_server
 
-    def get_data(self, client_dict, c_server, h_server, client_uuid):
+    def get_data(self, debug, client_dict, c_server, h_server, client_uuid):
+        # DEBUG
         h_inst = hemlock_base.Hemlock_Base()
         query_list = []
         data_list = []
@@ -50,6 +52,7 @@ class HMysql:
         tables = ()
         cur = c_server.cursor()
 
+        # DEBUG
         if "MYSQL_TABLE" in client_dict:
             # modify this line if you want to be more fine-grained
             # with what data is pulled from the table
@@ -64,6 +67,7 @@ class HMysql:
                 query = "SELECT * FROM "+table[0]
                 query_list.append(query)
 
+        # DEBUG
         for query in query_list:
             table = query.split("FROM ")
             cur.execute("DESC "+table[1])
@@ -73,10 +77,11 @@ class HMysql:
             while result:
                 result = cur.fetchmany(1000)
                 data_list.append(result)
-                h_inst.send_data(data_list, desc_list, h_server, client_uuid)
+                h_inst.send_data(debug, data_list, desc_list, h_server, client_uuid)
                 data_list = []
             desc_list = []
 
+        # DEBUG
         try:
             c_server.commit()
             cur.close()

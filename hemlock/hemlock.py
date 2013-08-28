@@ -625,7 +625,7 @@ class Hemlock():
 
             sys.exit()
 
-    def process_args(self, args):
+    def process_args(self, debug, args):
         global HELP_COUNTER
         var_d = {}
 
@@ -705,14 +705,22 @@ class Hemlock():
         parser.add_option("-b", "--couchbase-bucket", action="store", dest="bucket", help="Couchbase Bucket")
         parser.add_option("-n", "--couchbase-username", action="store", dest="c_user", help="Couchbase Username")
         parser.add_option("-w", "--couchbase-password", action="store", dest="c_pw", help="Couchbase Password")
+        parser.add_option("-D", "--debug", action="store_false", dest="debug", help="Debugging Mode")
         return parser.parse_args()
 
     def get_auth(self):
         # extract command-line switches
         (options, args_leftover) = Hemlock().parse_auth()
 
+        if options.debug == None:
+            options.debug = 0
+        else:
+            options.debug = 1
+
+        # DEBUG
         # !! TODO check if credentials are already stored in mysql
 
+        # DEBUG
         # use environment variables and CLI as fallbacks for unspecified variables
         try:
             if options.server == None:
@@ -772,9 +780,9 @@ class Hemlock():
         except:
             options.c_pw = getpass.getpass("Couchbase Password:")
 
-        return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.bucket, options.c_pw
+        return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.bucket, options.c_pw, options.debug
 
-    def mysql_server(self, server, user, pw, db):
+    def mysql_server(self, debug, server, user, pw, db):
         # connect to the mysql server
         try:
             m_server = mdb.connect(server, user, pw, db)
@@ -783,15 +791,17 @@ class Hemlock():
             sys.exit(0)
         return m_server
 
-    def process_action(self, action, var_d, m_server):
+    def process_action(self, debug, action, var_d, m_server):
         error = 0
         # !! TODO try/except
 
         # !! TODO FIX THIS!!!!!!
         aes_key = "test"
 
+        # DEBUG
         cur = m_server.cursor()
 
+        # DEBUG
         # ensure mysql tables exist
         cur.execute("show tables")
         results = cur.fetchall()
@@ -801,6 +811,7 @@ class Hemlock():
             tables.append(results[i][0])
             i += 1
 
+        # DEBUG
         if "clients" not in tables:
             client_table = "CREATE TABLE IF NOT EXISTS clients(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), type VARCHAR(50), credentials BLOB, created DATETIME, INDEX (uuid)) ENGINE = INNODB"
             cur.execute(client_table)
@@ -861,6 +872,7 @@ class Hemlock():
             vals.append(uid)
             vals.append(timestamp)
 
+        # DEBUG
         if "system" in action_a:
             # update to systems/clients table
             if "deregister" in action_a:
@@ -927,6 +939,7 @@ class Hemlock():
             if data_action2:
                 cur.execute(data_action2)
 
+        # DEBUG
         else:
             # update to clients/schedules/roles/tenants/users tables
             if "add" in action_a: 
@@ -1345,6 +1358,7 @@ class Hemlock():
                     data_action = "SELECT * FROM "+action_a[0]+"s"
                     if "get" in action_a:
                         data_action += " WHERE uuid = '"+var_d['--uuid']+"'"
+            # DEBUG
             try:
                 if data_action:
                     cur.execute(data_action)
@@ -1357,6 +1371,7 @@ class Hemlock():
                 print "not valid"
                 sys.exit(0)
 
+        # DEBUG
         results = cur.fetchall()
         desc_results = ""
 
@@ -1365,11 +1380,13 @@ class Hemlock():
         tab_header = ['Property', 'Value']
         tab_align = ['c','c']
 
+        # DEBUG
         if "get" not in action_a and "list" not in action_a:
             i = 0
             while i < len(props):
                 x.append([props[i],vals[i]])
                 i += 1
+        # DEBUG
         else:
             if results:
                 if "roles" in action_a:
@@ -1507,16 +1524,25 @@ class Hemlock():
         tab.set_cols_align(tab_align)
         tab.header(tab_header)
 
+        # DEBUG
         if "remove" not in action_a and "delete" not in action_a and "deregister" not in action_a and "all" not in action_a and "run" not in action_a and "purge" not in action_a:
             print tab.draw()
         return x, error
 
 if __name__ == "__main__":
     start_time = time.time()
-    args, user, pw, db, server, c_server, bucket, c_pw = Hemlock().get_auth()
-    var_d, action = Hemlock().process_args(args)
-    m_server = Hemlock().mysql_server(server, user, pw, db)
-    x, error = Hemlock().process_action(action, var_d, m_server)
-    m_server.commit()
-    m_server.close()
+    args, user, pw, db, server, c_server, bucket, c_pw, debug = Hemlock().get_auth()
+    var_d, action = Hemlock().process_args(debug, args)
+    m_server = Hemlock().mysql_server(debug, server, user, pw, db)
+
+    # DEBUG
+    # use x and error for debugging
+    x, error = Hemlock().process_action(debug, action, var_d, m_server)
+
+    ## DEBUG
+    try:
+        m_server.commit()
+        m_server.close()
+    except:
+        print "Failed to close the MySQL connection."
     print "Took",time.time() - start_time,"seconds to complete."

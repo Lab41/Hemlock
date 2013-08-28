@@ -17,7 +17,7 @@
 import json, requests, sys
 
 class HRest:
-    def connect_client(self, client_dict):
+    def connect_client(self, debug, client_dict):
         # connect to the rest server
         # required fields in the client creds file are as follows:
         #    REST_AUTH_URL
@@ -30,9 +30,12 @@ class HRest:
         #    REST_AUTH_FIELD
         #    REST_PW_FIELD
         #    REST_PW
+
+        # DEBUG
         auth_url = client_dict['REST_AUTH_URL']
         auth_params = {client_dict['REST_USERNAME_FIELD']:client_dict['REST_USERNAME'],client_dict['REST_PW_FIELD']:client_dict['REST_PW']}
         r = ""
+        # DEBUG
         try:
             if client_dict['REST_AUTH_TYPE'] == 'get':
                 r = requests.get(auth_url, params=auth_params)
@@ -48,13 +51,15 @@ class HRest:
             sys.exit(0)
         return auth_token
 
-    def get_data(self, client_dict, c_server, h_server, client_uuid):
+    def get_data(self, debug, client_dict, c_server, h_server, client_uuid):
         data_list = [[]]
         desc_list = []
 
+        # DEBUG
         data_url = client_dict['REST_DATA_URL']
         data_params = {client_dict['REST_AUTH_FIELD']:c_server}
         r = ""
+        # DEBUG
         try:
             if client_dict['REST_DATA_TYPE'] == 'get':
                 r = requests.get(data_url, params=data_params)

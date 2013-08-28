@@ -17,11 +17,12 @@
 import redis, sys
 
 class HRedis:
-    def connect_client(self, client_dict):
+    def connect_client(self, debug, client_dict):
         # connect to the redis server
         # required fields in the client creds file are as follows:
         #    REDIS_SERVER
         c_server = ""
+        # DEBUG
         try:
             c_server = redis.Redis(client_dict['REDIS_SERVER'])
         except:
@@ -29,12 +30,14 @@ class HRedis:
             sys.exit(0)
         return c_server
 
-    def get_data(self, client_dict, c_server, h_server, client_uuid):
+    def get_data(self, debug, client_dict, c_server, h_server, client_uuid):
         data_list = [[]]
         desc_list = []
 
+        # DEBUG
         keys = c_server.keys('*')
 
+        # DEBUG
         i = 0
         for key in keys:
             key_type = c_server.type(key)

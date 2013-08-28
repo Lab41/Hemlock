@@ -18,7 +18,7 @@ import sys
 from socket import *
 
 class HStream_Odd:
-    def connect_client(self, client_dict):
+    def connect_client(self, debug, client_dict):
         # connect to the stream server
         # required fields in the client creds file are as follows:
         #    HOST
@@ -26,6 +26,7 @@ class HStream_Odd:
         c_server = ""
         host = client_dict['HOST']
         port = int(client_dict['PORT'])
+        # DEBUG
         try:
             sockobj = socket(AF_INET, SOCK_STREAM)
             sockobj.bind((host, port))
@@ -36,12 +37,13 @@ class HStream_Odd:
             sys.exit(0)
         return c_server
 
-    def worker(self, connection, address):
+    def worker(self, debug, connection, address):
         data_list = [[]]
         desc_list = []
         print connection, address
         print "start"
         d = ""
+        # DEBUG
         while True:
             data = connection.recv(1024)
             if not data: break

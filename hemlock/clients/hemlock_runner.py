@@ -19,7 +19,8 @@ import MySQLdb as mdb
 import hemlock_base
 
 class Hemlock_Runner():
-    def mysql_server(self, server, user, pw, db):
+    def mysql_server(self, debug, server, user, pw, db):
+        # DEBUG
         # connect to the mysql server
         try:
             m_server = mdb.connect(server, user, pw, db)
@@ -28,7 +29,8 @@ class Hemlock_Runner():
             sys.exit(0)
         return m_server
 
-    def get_creds(self, m_server, cliend_id, aes_key):
+    def get_creds(self, debug, m_server, cliend_id, aes_key):
+        # DEBUG
         # get client_dict
         cur = m_server.cursor()
         data_action = "SELECT AES_DECRYPT(credentials, '"+aes_key+"') from clients where uuid = '"+cliend_id+"'"
@@ -36,6 +38,7 @@ class Hemlock_Runner():
         results = cur.fetchall()
         client_dict = ast.literal_eval(results[0][0])
 
+        # DEBUG
         # get server_dict
         cur = m_server.cursor()
         data_action = "SELECT AES_DECRYPT(credentials, '"+aes_key+"') from hemlock_server"

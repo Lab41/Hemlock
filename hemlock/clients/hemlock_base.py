@@ -28,15 +28,17 @@ def call_worker():
     return d, data_list
 
 class Hemlock_Base():
-    def client_import(self, client):
+    def client_import(self, debug, client):
+        # DEBUG
         exec "import h"+client
         str = "h"+client+".H"+client.title()+"()"
         c_inst = eval(str)
         return client+'_creds', c_inst
 
-    def get_creds(self, CLIENT_CREDS_FILE):
+    def get_creds(self, debug, CLIENT_CREDS_FILE):
         client_dict = {}
         server_dict = {}
+        # DEBUG
         try:
             f = open(CLIENT_CREDS_FILE, 'r')
             for line in f:
@@ -52,6 +54,7 @@ class Hemlock_Base():
         except:
             print "Unable to open "+CLIENT_CREDS_FILE
             sys.exit(0)
+        # DEBUG
         try:
             f = open(SERVER_CREDS_FILE, 'r')
             for line in f:
@@ -69,7 +72,8 @@ class Hemlock_Base():
             sys.exit(0)
         return client_dict, server_dict
 
-    def verify_system(self, client_uuid, server_dict):
+    def verify_system(self, debug, client_uuid, server_dict):
+        # DEBUG
         try:
             h_server = mdb.connect(server_dict['HEMLOCK_MYSQL_SERVER'],
                                    server_dict['HEMLOCK_MYSQL_USERNAME'],
@@ -88,7 +92,7 @@ class Hemlock_Base():
             sys.exit(0)
         return
 
-    def connect_server(self, server_dict):
+    def connect_server(self, debug, server_dict):
         # connect to the hemlock server
         # required fields in the server creds file are as follows:
         #    HEMLOCK_COUCHBASE_SERVER
@@ -96,6 +100,7 @@ class Hemlock_Base():
         #    HEMLOCK_COUCHBASE_USERNAME
         #    HEMLOCK_COUCHBASE_PW
         h_server = ""
+        # DEBUG
         try:
             h_server = couchbase.Couchbase.connect(host=server_dict['HEMLOCK_COUCHBASE_SERVER'],
                                  bucket=server_dict['HEMLOCK_COUCHBASE_BUCKET'],
@@ -106,11 +111,12 @@ class Hemlock_Base():
             sys.exit(0)
         return h_server
 
-    def send_data(self, data_list, desc_list, h_server, client_uuid):
+    def send_data(self, debug, data_list, desc_list, h_server, client_uuid):
         j_dict = {}
         j = 0
         i = 0
         e = 0
+        # DEBUG
         for table_data in data_list:
             t_dict = {}
             for record in table_data:
@@ -127,6 +133,7 @@ class Hemlock_Base():
                 j_dict['hemlock-date'] = time.strftime('%Y-%m-%d %H:%M:%S')
                 t_dict[uid.hexdigest()] = j_dict
                 # requires couchbase 1.0 client
+                # !! TODO this should a parameter, not hardcoded
                 if len(t_dict) > 250000:
                     try:
                         h_server.set_multi(t_dict, format=couchbase.FMT_JSON)
@@ -146,12 +153,14 @@ class Hemlock_Base():
                 except:
                     print "Failure."
             j += 1
+        # DEBUG
         print i,"records"
         print e,"errors"
         return
 
-    def update_hemlock(self, client_uuid, server_dict):
+    def update_hemlock(self, debug, client_uuid, server_dict):
         # update mysql record to say when data was last updated for this system
+        # DEBUG
         try:
             h_server = mdb.connect(server_dict['HEMLOCK_MYSQL_SERVER'],
                                    server_dict['HEMLOCK_MYSQL_USERNAME'],
@@ -170,7 +179,8 @@ class Hemlock_Base():
     def stream_callback(self, data):
         print data
 
-    def stream_workers(self):
+    def stream_workers(self, debug):
+        # DEBUG
         objects= [0] * 10
         pool = Pool(processes=4)
         for obj in objects:
@@ -186,12 +196,13 @@ class Hemlock_Base():
         print "-h \thelp\n"
         sys.exit(0)
 
-    def process_args(self, args):
+    def process_args(self, debug, args):
         # process args
         splits = -1
         client = None
         client_uuid = None
         i = 0
+        # DEBUG
         if not args:
             self.print_help()
         while i < len(args):
@@ -221,7 +232,8 @@ class Hemlock_Base():
 
         return client_uuid, client, splits
 
-    def get_args(self):
+    def get_args(self, debug):
+        # DEBUG
         args = []
         for arg in sys.argv:
             args.append(arg)
@@ -230,20 +242,22 @@ class Hemlock_Base():
 if __name__ == "__main__":
     start_time = time.time()
     hemlock = Hemlock_Base()
-    args = hemlock.get_args()
-    client_uuid, client, splits = hemlock.process_args(args)
-    CLIENT_CREDS_FILE, c_inst = hemlock.client_import(client)
-    client_dict, server_dict = hemlock.get_creds(CLIENT_CREDS_FILE)
+    debug = 0
+    args = hemlock.get_args(debug)
+    client_uuid, client, splits = hemlock.process_args(debug, args)
+    CLIENT_CREDS_FILE, c_inst = hemlock.client_import(debug, client)
+    client_dict, server_dict = hemlock.get_creds(debug, CLIENT_CREDS_FILE)
     global c_server
-    c_server = c_inst.connect_client(client_dict)
+    c_server = c_inst.connect_client(debug, client_dict)
     data_list = []
     desc_list = []
-    h_server = hemlock.connect_server(server_dict)
-    hemlock.verify_system(client_uuid, server_dict)
+    h_server = hemlock.connect_server(debug, server_dict)
+    hemlock.verify_system(debug, client_uuid, server_dict)
+    # DEBUG
     if not client.startswith("stream"):
-        data_list, desc_list = c_inst.get_data(client_dict, c_server, h_server, client_uuid)
+        data_list, desc_list = c_inst.get_data(debug, client_dict, c_server, h_server, client_uuid)
     else:
-        hemlock.stream_workers()
-    hemlock.send_data(data_list, desc_list, h_server, client_uuid)
-    hemlock.update_hemlock(client_uuid, server_dict)
+        hemlock.stream_workers(debug)
+    hemlock.send_data(debug, data_list, desc_list, h_server, client_uuid)
+    hemlock.update_hemlock(debug, client_uuid, server_dict)
     print "Took",time.time() - start_time,"seconds to complete."
