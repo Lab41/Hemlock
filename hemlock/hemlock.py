@@ -720,65 +720,80 @@ class Hemlock():
         # DEBUG
         # !! TODO check if credentials are already stored in mysql
 
-        # DEBUG
         # use environment variables and CLI as fallbacks for unspecified variables
         try:
             if options.server == None:
                 options.server = os.environ['HEMLOCK_MYSQL_SERVER']
+            self.log.debug(options.debug, "HEMLOCK_MYSQL_SERVER = "+options.server)
         except:
             options.server = raw_input("MySQL Server (default is localhost):")
             if options.server == "":
                 options.server = "localhost"
+            self.log.debug(options.debug, "HEMLOCK_MYSQL_SERVER = "+options.server)
 
         try:
             if options.db == None:
                 options.db = os.environ['HEMLOCK_MYSQL_DB']
+            self.log.debug(options.debug, "HEMLOCK_MYSQL_DB = "+options.db)
         except:
             options.db = raw_input("MySQL DB (default is hemlock):")
             if options.db == "":
                 options.db = "hemlock"
+            self.log.debug(options.debug, "HEMLOCK_MYSQL_DB = "+options.db)
 
         try:
             if options.user == None:
                 options.user = os.environ['HEMLOCK_MYSQL_USER']
+            self.log.debug(options.debug, "HEMLOCK_MYSQL_USER = "+options.user)
         except:
             options.user = raw_input("Username:")
+            self.log.debug(options.debug, "HEMLOCK_MYSQL_USER = "+options.user)
 
         try:
             if options.pw == None:
                 options.pw = os.environ['HEMLOCK_MYSQL_PW']
+            self.log.debug(options.debug, "HEMLOCK_MYSQL_PW = "+options.pw)
         except:
             options.pw = getpass.getpass("MySQL Password:")
+            self.log.debug(options.debug, "HEMLOCK_MYSQL_PW = "+options.pw)
 
         try:
             if options.c_server == None:
                 options.c_server = os.environ['HEMLOCK_COUCHBASE_SERVER']
+            self.log.debug(options.debug, "HEMLOCK_COUCHBASE_SERVER = "+options.c_server)
         except:
             options.c_server = raw_input("Couchbase Server (default is localhost):")
             if options.c_server == "":
                 options.c_server = "localhost"
+            self.log.debug(options.debug, "HEMLOCK_COUCHBASE_SERVER = "+options.c_server)
 
         try:
             if options.bucket == None:
                 options.bucket = os.environ['HEMLOCK_COUCHBASE_BUCKET']
+            self.log.debug(options.debug, "HEMLOCK_COUCHBASE_BUCKET = "+options.bucket)
         except:
             options.bucket = raw_input("Couchbase Bucket (default is hemlock):")
             if options.bucket == "":
                 options.bucket = "hemlock"
+            self.log.debug(options.debug, "HEMLOCK_COUCHBASE_BUCKET = "+options.bucket)
 
         try:
             if options.c_user == None:
                 options.c_user = os.environ['HEMLOCK_COUCHBASE_USERNAME']
+            self.log.debug(options.debug, "HEMLOCK_COUCHBASE_USERNAME = "+options.c_user)
         except:
             options.bucket = raw_input("Couchbase Username (default is hemlock):")
             if options.bucket == "":
                 options.bucket = "hemlock"
+            self.log.debug(options.debug, "HEMLOCK_COUCHBASE_USERNAME = "+options.c_user)
 
         try:
             if options.c_pw == None:
                 options.c_pw = os.environ['HEMLOCK_COUCHBASE_PW']
+            self.log.debug(options.debug, "HEMLOCK_COUCHBASE_PW = "+options.c_pw)
         except:
             options.c_pw = getpass.getpass("Couchbase Password:")
+            self.log.debug(options.debug, "HEMLOCK_COUCHBASE_PW = "+options.c_pw)
 
         return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.bucket, options.c_pw, options.debug
 
@@ -786,7 +801,9 @@ class Hemlock():
         # connect to the mysql server
         try:
             m_server = mdb.connect(server, user, pw, db)
+            self.log.debug(debug, "MySQL Handle: "+str(m_server))
         except:
+            self.log.debug(debug, sys.exc_info()[0])
             print "MySQL server failure"
             sys.exit(0)
         return m_server
