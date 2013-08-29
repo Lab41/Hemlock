@@ -18,3 +18,6 @@ class Hemlock_Debugger():
     def debug(self, debug, string):
         if debug:
             print string
+            f = open('debug.log', 'a')
+            f.write(string)
+            f.close()

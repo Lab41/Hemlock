@@ -21,6 +21,7 @@ import texttable as tt
 from clients.hemlock_base import Hemlock_Base
 from clients.hemlock_debugger import Hemlock_Debugger
 from clients.hemlock_runner import Hemlock_Runner
+from clients.hemlock_scheduler import Hemlock_Scheduler
 
 class Hemlock():
     def __init__(self):

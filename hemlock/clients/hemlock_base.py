@@ -32,10 +32,14 @@ class Hemlock_Base():
         self.SERVER_CREDS_FILE = '../hemlock_creds'
 
     def client_import(self, debug, client):
-        # DEBUG
+        self.log.debug(debug, "Importing: h"+client)
         exec "import h"+client
+
         str = "h"+client+".H"+client.title()+"()"
+        self.log.debug(debug, "Initializing: "+str)
+
         c_inst = eval(str)
+        self.log.debug(debug, "Client handle: "+str(c_inst))
         return client+'_creds', c_inst
 
     def get_creds(self, debug, CLIENT_CREDS_FILE):

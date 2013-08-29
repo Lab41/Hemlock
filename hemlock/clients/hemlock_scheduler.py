@@ -16,7 +16,6 @@
 
 from hemlock_debugger import Hemlock_Debugger
 from apscheduler.scheduler import Scheduler
-import logging
 import signal
 
 class Hemlock_Scheduler():
@@ -24,6 +23,7 @@ class Hemlock_Scheduler():
         self.log = Hemlock_Debugger()
 
     def job_work(self):
+        # DEBUG
         # do actual work here
         # !! TODO
         test_log2 = open('scheduler.log', 'a')
@@ -31,7 +31,7 @@ class Hemlock_Scheduler():
         test_log2.close() 
 
     def init_schedule(self):
-        logging.basicConfig(level=logging.DEBUG)
+        # DEBUG
         sched = Scheduler()
 
         # Start the scheduler
@@ -40,6 +40,7 @@ class Hemlock_Scheduler():
         return sched
 
     def schedule_job(self, sched, function, periodicity, start_time):
+        # DEBUG
         sched.add_interval_job(function, seconds=periodicity, start_date=start_time)
 
 if __name__ == "__main__":
@@ -47,6 +48,7 @@ if __name__ == "__main__":
     sched = hemlock_scheduler.init_schedule()
     # example schedules
     # !! TODO
+    # DEBUG
     hemlock_scheduler.schedule_job(sched, hemlock_scheduler.job_work, 120, '2013-08-29 12:30:09')
     hemlock_scheduler.schedule_job(sched, hemlock_scheduler.job_work, 120, '2013-08-29 12:31:03')
 
