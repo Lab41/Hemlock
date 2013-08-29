@@ -48,6 +48,7 @@ setup(
         ('', ['LICENSE.txt'])
     ],
     install_requires=[
+        'APScheduler'
         'texttable'
     ]
 )
