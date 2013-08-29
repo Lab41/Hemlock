@@ -45,10 +45,14 @@ class Hemlock_Base():
     def get_creds(self, debug, CLIENT_CREDS_FILE):
         client_dict = {}
         server_dict = {}
-        # DEBUG
+
+        # read in client creds file
         try:
+            self.log.debug(debug, "Opening client_creds file: "+CLIENT_CREDS_FILE)
             f = open(CLIENT_CREDS_FILE, 'r')
+            self.log.debug(debug, "Client creds file handle: "+str(f))
             for line in f:
+                self.log.debug(debug, line)
                 if len(line) > 0 and line[0] != "#" and "=" in line:
                     # split each line on the first '='
                     line = line.split("=",1)
@@ -56,15 +60,21 @@ class Hemlock_Base():
                         client_dict[line[0]] = line[1].strip()
                     except:
                         print "Malformed Client Creds file."
+                        self.log.debug(debug, sys.exc_info()[0])
                         sys.exit(0)
             f.close()
         except:
             print "Unable to open "+CLIENT_CREDS_FILE
+            self.log.debug(debug, sys.exc_info()[0])
             sys.exit(0)
-        # DEBUG
+
+        # read in hemlock server creds file
         try:
+            self.log.debug(debug, "Opening server_creds file: "+SERVER_CREDS_FILE)
             f = open(self.SERVER_CREDS_FILE, 'r')
+            self.log.debug(debug, "Server creds file handle: "+str(f))
             for line in f:
+                self.log.debug(debug, line)
                 if len(line) > 0 and line[0] != "#" and "=" in line:
                     # split each line on the first '='
                     line = line.split("=",1)
@@ -72,30 +82,41 @@ class Hemlock_Base():
                         server_dict[line[0]] = line[1].strip()
                     except:
                         print "Malformed Server Creds file."
+                        self.log.debug(debug, sys.exc_info()[0])
                         sys.exit(0)
             f.close()
         except:
             print "Unable to open "+self.SERVER_CREDS_FILE
+            self.log.debug(debug, sys.exc_info()[0])
             sys.exit(0)
         return client_dict, server_dict
 
     def verify_system(self, debug, client_uuid, server_dict):
-        # DEBUG
+        # verify the client system is registered
+        # required fields in the server creds file are as follows:
+        #    HEMLOCK_MYSQL_SERVER
+        #    HEMLOCK_MYSQL_USERNAME
+        #    HEMLOCK_MYSQL_PW
         try:
             h_server = mdb.connect(server_dict['HEMLOCK_MYSQL_SERVER'],
                                    server_dict['HEMLOCK_MYSQL_USERNAME'],
                                    server_dict['HEMLOCK_MYSQL_PW'],
                                    "hemlock")
+            self.log.debug(debug, "MySQL connection handle: "+str(h_server))
             cur = h_server.cursor()
+            self.log.debug(debug, "MySQL cursor handle: "+str(cur))
             query = "SELECT * from systems WHERE uuid='"+client_uuid+"'"
+            self.log.debug(debug, "Executing mysql query: "+query)
             a = cur.execute(query)
             if a == 0:
                 print client_uuid,"is not a valid system."
                 sys.exit(0)
             h_server.commit()
             h_server.close()
+            self.log.debug(debug, "Successfully closed the mysql connection.")
         except:
             print "Failure connecting to the Hemlock server"
+            self.log.debug(debug, sys.exc_info()[0])
             sys.exit(0)
         return
 
@@ -107,14 +128,15 @@ class Hemlock_Base():
         #    HEMLOCK_COUCHBASE_USERNAME
         #    HEMLOCK_COUCHBASE_PW
         h_server = ""
-        # DEBUG
         try:
             h_server = couchbase.Couchbase.connect(host=server_dict['HEMLOCK_COUCHBASE_SERVER'],
                                  bucket=server_dict['HEMLOCK_COUCHBASE_BUCKET'],
                                  username=server_dict['HEMLOCK_COUCHBASE_USERNAME'],
                                  password=server_dict['HEMLOCK_COUCHBASE_PW'])
+            self.log.debug(debug, "Couchbase connection handle: "+str(h_server))
         except:
             print "Failure connecting to the Hemlock server"
+            self.log.debug(debug, sys.exc_info()[0])
             sys.exit(0)
         return h_server
 
