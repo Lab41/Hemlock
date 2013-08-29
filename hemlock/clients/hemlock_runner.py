@@ -17,8 +17,12 @@
 import ast, datetime, sys, time
 import MySQLdb as mdb
 import hemlock_base
+from hemlock_debugger import Hemlock_Debugger
 
 class Hemlock_Runner():
+    def __init__(self):
+        self.log = Hemlock_Debugger()
+
     def mysql_server(self, debug, server, user, pw, db):
         # DEBUG
         # connect to the mysql server

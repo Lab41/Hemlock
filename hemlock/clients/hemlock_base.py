@@ -18,8 +18,7 @@ import ast, couchbase, datetime, hashlib, sys, time
 import MySQLdb as mdb
 from multiprocessing import Pool
 from socket import *
-
-SERVER_CREDS_FILE='../hemlock_creds'
+from hemlock_debugger import Hemlock_Debugger
 
 # has to be outside the class, since instance objects can't be pickled
 def call_worker():
@@ -28,6 +27,10 @@ def call_worker():
     return d, data_list
 
 class Hemlock_Base():
+    def __init__(self):
+        self.log = Hemlock_Debugger()
+        self.SERVER_CREDS_FILE = '../hemlock_creds'
+
     def client_import(self, debug, client):
         # DEBUG
         exec "import h"+client
@@ -56,7 +59,7 @@ class Hemlock_Base():
             sys.exit(0)
         # DEBUG
         try:
-            f = open(SERVER_CREDS_FILE, 'r')
+            f = open(self.SERVER_CREDS_FILE, 'r')
             for line in f:
                 if len(line) > 0 and line[0] != "#" and "=" in line:
                     # split each line on the first '='
@@ -68,7 +71,7 @@ class Hemlock_Base():
                         sys.exit(0)
             f.close()
         except:
-            print "Unable to open "+SERVER_CREDS_FILE
+            print "Unable to open "+self.SERVER_CREDS_FILE
             sys.exit(0)
         return client_dict, server_dict
 

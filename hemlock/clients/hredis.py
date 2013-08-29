@@ -15,8 +15,12 @@
 #   limitations under the License.
 
 import redis, sys
+from hemlock_debugger import Hemlock_Debugger
 
 class HRedis:
+    def __init__(self):
+        self.log = Hemlock_Debugger()
+
     def connect_client(self, debug, client_dict):
         # connect to the redis server
         # required fields in the client creds file are as follows:

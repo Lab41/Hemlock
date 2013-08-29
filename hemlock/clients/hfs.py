@@ -15,6 +15,7 @@
 #   limitations under the License.
 
 import hemlock_base
+from hemlock_debugger import Hemlock_Debugger
 
 import ast, base64, fnmatch, json, hashlib, magic, os, sys, time, uuid
 
@@ -38,6 +39,9 @@ import xlrd
 import csv
 
 class HFs:
+    def __init__(self):
+        self.log = Hemlock_Debugger()
+
     def connect_client(self, debug, client_dict):
         # DEBUG
         input = "/mnt/"

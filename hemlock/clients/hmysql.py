@@ -18,8 +18,12 @@ import hemlock_base
 import sys
 import MySQLdb as mdb
 import MySQLdb.cursors
+from hemlock_debugger import Hemlock_Debugger
 
 class HMysql:
+    def __init__(self):
+        self.log = Hemlock_Debugger()
+
     def connect_client(self, debug, client_dict):
         # connect to the mysql server
         # required fields in the client creds file are as follows:

@@ -19,11 +19,14 @@ import getpass, json, os, sys, time, uuid
 import MySQLdb as mdb
 import texttable as tt
 from clients.hemlock_base import Hemlock_Base
+from clients.hemlock_debugger import Hemlock_Debugger
 from clients.hemlock_runner import Hemlock_Runner
 
-HELP_COUNTER = 0
-
 class Hemlock():
+    def __init__(self):
+        self.log = Hemlock_Debugger()
+        self.HELP_COUNTER = 0
+
     def client_add_schedule(self, args, var_d):
         arg_d = [
             '--uuid',
@@ -366,7 +369,6 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def check_args(self, args, arg_d, var_d):
-        global HELP_COUNTER
         i = 0
         while i < len(args):
             try:
@@ -374,18 +376,17 @@ class Hemlock():
                     var_d[args[i]] = args[i+1]
                     arg_d.remove(args[i])
                 else:
-                    HELP_COUNTER += 1
+                    self.HELP_COUNTER += 1
                     i = len(args)
                 i += 2
             except:
-                HELP_COUNTER += 1
+                self.HELP_COUNTER += 1
         if arg_d:
-            HELP_COUNTER += 1
+            self.HELP_COUNTER += 1
         return var_d
 
     def print_help(self, action):
-        global HELP_COUNTER
-        if HELP_COUNTER >= 1:
+        if self.HELP_COUNTER >= 1:
             help_dict = {
             'client-add-schedule' : """
             client-add-schedule (add a schedule to a client)
@@ -626,7 +627,6 @@ class Hemlock():
             sys.exit()
 
     def process_args(self, debug, args):
-        global HELP_COUNTER
         var_d = {}
 
         arg_actions = {
@@ -687,7 +687,7 @@ class Hemlock():
             action = args[0]
             var_d = arg_actions[action](args[1:], var_d)
         except:
-            HELP_COUNTER += 1
+            self.HELP_COUNTER += 1
 
         self.print_help(action)
 

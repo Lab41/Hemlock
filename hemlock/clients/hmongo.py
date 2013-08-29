@@ -16,8 +16,12 @@
 
 import sys
 from pymongo import MongoClient
+from hemlock_debugger import Hemlock_Debugger
 
 class HMongo:
+    def __init__(self):
+        self.log = Hemlock_Debugger()
+
     def connect_client(self, debug, client_dict):
         # connect to the mongo server
         # required fields in the client creds file are as follows:
