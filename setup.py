@@ -33,7 +33,7 @@ setup(
     description='Hemlock is a way of providing a common data access layer.',
     url='http://lab41.github.io/Hemlock',
     packages=['hemlock', 'hemlock.clients', 'hemlock.load_scripts', 'hemlock.www'],
-    scripts=['bin/hemlock', 'scripts/ci/setup_env_hemlock.sh'],
+    scripts=['bin/hemlock', 'bin/hemlock-scheduler', 'scripts/ci/setup_env_hemlock.sh'],
     license='LICENSE.txt',
     long_description=open('README.md').read(),
     keywords='hemlock metadata cache heterogeneous'.split(),

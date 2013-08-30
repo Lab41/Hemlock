@@ -14,33 +14,69 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-from hemlock_debugger import Hemlock_Debugger
 from apscheduler.scheduler import Scheduler
+from clients.hemlock_debugger import Hemlock_Debugger
+
 import MySQLdb as mdb
 import signal
+import sys
 
 class Hemlock_Scheduler():
     def __init__(self):
         self.log = Hemlock_Debugger()
+        try:
+            args = []
+            for arg in sys.argv:
+                args.append(arg)
+            self.path = args[1]
+        except:
+            print "No path provided, defaulting to 'hemlock_creds' in the current working directory"
+            self.path = "hemlock_creds"
 
     def check_schedules(self):
         # !! TODO
         #    get these values from args, called from hemlock.py
         #    check if it's already running, if not start it
-        server = ""
-        user = ""
-        pw = ""
-        db = ""
+        server_dict = {}
+
+        # read in hemlock server creds file
+        try:
+            self.log.debug(debug, "Opening server_creds file: "+self.path)
+            f = open(self.path, 'r')
+            self.log.debug(debug, "Server creds file handle: "+str(f))
+            for line in f:
+                self.log.debug(debug, line)
+                if len(line) > 0 and line[0] != "#" and "=" in line:
+                    # split each line on the first '='
+                    line = line.split("=",1)
+                    try:
+                        server_dict[line[0]] = line[1].strip()
+                    except:
+                        print "Malformed Server Creds file."
+                        self.log.debug(debug, sys.exc_info()[0])
+                        sys.exit(0)
+            f.close()
+        except:
+            print "Unable to open "+self.path
+            self.log.debug(debug, sys.exc_info()[0])
+            sys.exit(0)
 
         # connect to the mysql server
         try:
-            m_server = mdb.connect(server, user, pw, db)
+            m_server = mdb.connect(server_dict['HEMLOCK_MYSQL_SERVER'],
+                                   server_dict['HEMLOCK_MYSQL_USERNAME'],
+                                   server_dict['HEMLOCK_MYSQL_PW'],
+                                   "hemlock")
+
             self.log.debug(debug, "MySQL Handle: "+str(m_server))
         except:
             self.log.debug(debug, sys.exc_info()[0])
             print "MySQL server failure"
             sys.exit(0)
 
+        test_log2 = open('scheduler.log', 'a')
+        test_log2.write("foo")
+        test_log2.close() 
         # !! TODO
         #    query to get everything in schedules
         #    updates schedules
@@ -72,6 +108,7 @@ if __name__ == "__main__":
     # example schedules
     # !! TODO
     # DEBUG
+    hemlock_scheduler.schedule_job(sched, hemlock_scheduler.check_schedules, 300, '2013-08-29 12:32:43')
     hemlock_scheduler.schedule_job(sched, hemlock_scheduler.job_work, 120, '2013-08-29 12:30:09')
     hemlock_scheduler.schedule_job(sched, hemlock_scheduler.job_work, 120, '2013-08-29 12:31:03')
 

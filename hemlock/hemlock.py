@@ -14,14 +14,21 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-import hemlock_options_parser
-import getpass, json, os, sys, time, uuid
-import MySQLdb as mdb
-import texttable as tt
 from clients.hemlock_base import Hemlock_Base
 from clients.hemlock_debugger import Hemlock_Debugger
 from clients.hemlock_runner import Hemlock_Runner
 from clients.hemlock_scheduler import Hemlock_Scheduler
+
+import hemlock_options_parser
+
+import getpass
+import json
+import MySQLdb as mdb
+import os
+import sys
+import texttable as tt
+import time
+import uuid
 
 class Hemlock():
     def __init__(self):
@@ -227,6 +234,12 @@ class Hemlock():
         arg_d = [
             '--uuid',
             '--client_id'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def start_scheduler(self, args, var_d):
+        arg_d = [
+            '--hemlock_creds_path'
         ]
         return self.check_args(args, arg_d, var_d)
 
@@ -522,6 +535,10 @@ class Hemlock():
                 --uuid (uuid of schedule)
                 --client_id (uuid of client)
             """,
+            'start-scheduler' : """
+            start-scheduler (start the scheduler)
+                --hemlock_creds_path (file path to the hemlock_creds file)
+            """,
             'system-add-tenant' : """
             system-add-tenant (add a tenant to a system)
                 --uuid (uuid of system)
@@ -658,6 +675,7 @@ class Hemlock():
             'schedule-get' : self.schedule_get,
             'schedule-list' : self.schedule_list,
             'schedule-remove-client' : self.schedule_remove_client,
+            'start-scheduler' : self.start_scheduler,
             'system-add-tenant' : self.system_add_tenant,
             'system-clients-list' : self.system_clients_list,
             'system-get' : self.system_get,
@@ -717,9 +735,6 @@ class Hemlock():
             options.debug = 0
         else:
             options.debug = 1
-
-        # DEBUG
-        # !! TODO check if credentials are already stored in mysql
 
         # use environment variables and CLI as fallbacks for unspecified variables
         try:
@@ -1064,6 +1079,11 @@ class Hemlock():
                 elif "schedule" in action_a:
                     data_action = "DELETE FROM "+action_a[0]+"s_clients WHERE "+action_a[0]+"_id = '"+var_d['--uuid']+"'"
                 data_action2 = "DELETE FROM "+action_a[0]+"s WHERE uuid = '"+var_d['--uuid']+"'"
+            # start scheduler
+            elif "start" in action_a:
+                 # !! TODO
+                 # call hemlock_scheduler
+                 print action_a, var_d
             else:
                 # read only
                 if "roles" in action_a:
@@ -1198,13 +1218,6 @@ class Hemlock():
                         if k == -1:
                             data_action2 = ""
                         data_action = data_action[:-2]+")"
-                        # !! TODO 
-                        #    create a crontab file based off of the parameters
-                        #
-                        #    create hemlock user (if doesn't already exist
-                        #    that will call the crontab
-                        #    also create a script that the crontab calls and 
-                        #    grabs creds from mysql
                     # write
                     elif "store" in action_a:
                         # store client credentials
@@ -1555,7 +1568,7 @@ class Hemlock():
         tab.header(tab_header)
 
         # DEBUG
-        if "remove" not in action_a and "delete" not in action_a and "deregister" not in action_a and "all" not in action_a and "run" not in action_a and "purge" not in action_a:
+        if "start" not in action_a and "remove" not in action_a and "delete" not in action_a and "deregister" not in action_a and "all" not in action_a and "run" not in action_a and "purge" not in action_a:
             print tab.draw()
         return x, error
 

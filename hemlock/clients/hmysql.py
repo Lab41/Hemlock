@@ -14,11 +14,13 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from hemlock_debugger import Hemlock_Debugger
+
 import hemlock_base
-import sys
+
 import MySQLdb as mdb
 import MySQLdb.cursors
-from hemlock_debugger import Hemlock_Debugger
+import sys
 
 class HMysql:
     def __init__(self):

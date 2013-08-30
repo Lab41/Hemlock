@@ -14,29 +14,27 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-import hemlock_base
 from hemlock_debugger import Hemlock_Debugger
-
-import ast, base64, fnmatch, json, hashlib, magic, os, sys, time, uuid
-
-# process pdfs
 from pdfminer.pdfinterp import PDFResourceManager, process_pdf
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
 from cStringIO import StringIO
 
-# process xml
-import xmltodict
+import hemlock_base
 
-# process powerpoint
-
-# process word
-
-# process excel
-import xlrd
-
-# process csv
+import ast
+import base64
 import csv
+import fnmatch
+import json
+import hashlib
+import magic
+import os
+import sys
+import time
+import uuid
+import xlrd
+import xmltodict
 
 class HFs:
     def __init__(self):

@@ -18,10 +18,11 @@ from hemlock.hemlock import Hemlock
 
 class HemlockCLI():
     def __init__(self):
-        args, user, pw, db, server, c_server, bucket, c_pw = Hemlock().get_auth()
-        var_d, action = Hemlock().process_args(args)
-        m_server = Hemlock().mysql_server(server, user, pw, db)
-        x, error = Hemlock().process_action(action, var_d, m_server)
+        hemlock = Hemlock()
+        args, user, pw, db, server, c_server, bucket, c_pw = hemlock.get_auth()
+        var_d, action = hemlock.process_args(args)
+        m_server = hemlock.mysql_server(server, user, pw, db)
+        x, error = hemlock.process_action(action, var_d, m_server)
         m_server.commit()
         m_server.close()
 

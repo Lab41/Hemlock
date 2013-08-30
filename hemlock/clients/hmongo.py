@@ -14,9 +14,10 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-import sys
-from pymongo import MongoClient
 from hemlock_debugger import Hemlock_Debugger
+from pymongo import MongoClient
+
+import sys
 
 class HMongo:
     def __init__(self):

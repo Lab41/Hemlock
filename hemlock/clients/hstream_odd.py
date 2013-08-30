@@ -14,9 +14,10 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-import sys
-from socket import *
 from hemlock_debugger import Hemlock_Debugger
+from socket import *
+
+import sys
 
 class HStream_Odd:
     def __init__(self):

@@ -14,10 +14,15 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-import ast, datetime, sys, time
-import MySQLdb as mdb
-import hemlock_base
 from hemlock_debugger import Hemlock_Debugger
+
+import hemlock_base
+
+import ast
+import datetime
+import MySQLdb as mdb
+import sys
+import time
 
 class Hemlock_Runner():
     def __init__(self):
