@@ -17,7 +17,6 @@
 from clients.hemlock_base import Hemlock_Base
 from clients.hemlock_debugger import Hemlock_Debugger
 from clients.hemlock_runner import Hemlock_Runner
-from clients.hemlock_scheduler import Hemlock_Scheduler
 
 import hemlock_options_parser
 
@@ -1081,9 +1080,19 @@ class Hemlock():
                 data_action2 = "DELETE FROM "+action_a[0]+"s WHERE uuid = '"+var_d['--uuid']+"'"
             # start scheduler
             elif "start" in action_a:
-                 # !! TODO
-                 # call hemlock_scheduler
-                 print action_a, var_d
+                 # check if there is already a hemlock_scheduler running
+                 # if there is already one running, don't spawn another one
+                 cmd = "ps cax | grep hemlock-sched | wc -l"
+                 result = os.popen(cmd).read()
+                 if result[0] == "0":
+                     # DEBUG
+                     # call hemlock-scheduler
+                     cmd = "hemlock-scheduler "+var_d['--hemlock_creds_path']+" &"
+
+                     # result should be 0, otherwise error
+                     result = os.system(cmd)
+                 else: 
+                     print "There is already a Hemlock Scheduler running."
             else:
                 # read only
                 if "roles" in action_a:
