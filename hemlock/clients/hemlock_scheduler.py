@@ -16,11 +16,34 @@
 
 from hemlock_debugger import Hemlock_Debugger
 from apscheduler.scheduler import Scheduler
+import MySQLdb as mdb
 import signal
 
 class Hemlock_Scheduler():
     def __init__(self):
         self.log = Hemlock_Debugger()
+
+    def check_schedules(self):
+        # !! TODO
+        #    get these values from args, called from hemlock.py
+        #    check if it's already running, if not start it
+        server = ""
+        user = ""
+        pw = ""
+        db = ""
+
+        # connect to the mysql server
+        try:
+            m_server = mdb.connect(server, user, pw, db)
+            self.log.debug(debug, "MySQL Handle: "+str(m_server))
+        except:
+            self.log.debug(debug, sys.exc_info()[0])
+            print "MySQL server failure"
+            sys.exit(0)
+
+        # !! TODO
+        #    query to get everything in schedules
+        #    updates schedules
 
     def job_work(self):
         # DEBUG
