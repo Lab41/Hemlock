@@ -16,11 +16,13 @@
 
 from hemlock.hemlock_scheduler import Hemlock_Scheduler
 
+import logging
 import signal
 
 class HemlockScheduler():
     def __init__(self):
         hemlock_scheduler = Hemlock_Scheduler()
+        logging.basicConfig(level=logging.DEBUG)
         sched = hemlock_scheduler.init_schedule()
         # example schedules
         # !! TODO

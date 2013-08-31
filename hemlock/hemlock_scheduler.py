@@ -18,6 +18,7 @@ from apscheduler.scheduler import Scheduler
 from clients.hemlock_debugger import Hemlock_Debugger
 from hemlock import Hemlock
 
+import logging
 import MySQLdb as mdb
 import signal
 import sys
@@ -25,25 +26,30 @@ import sys
 class Hemlock_Scheduler():
     def __init__(self):
         self.log = Hemlock_Debugger()
+        args = []
+        for arg in sys.argv:
+            args.append(arg)
         try:
-            args = []
-            for arg in sys.argv:
-                args.append(arg)
             self.path = args[1]
         except:
             print "No path provided, defaulting to 'hemlock_creds' in the current working directory"
             self.path = "hemlock_creds"
+
+        try:
+            self.debug = args[2]
+        except:
+            self.debug = 0
 
     def check_schedules(self):
         server_dict = {}
 
         # read in hemlock server creds file
         try:
-            self.log.debug(debug, "Opening server_creds file: "+self.path)
+            self.log.debug(self.debug, "Opening server_creds file: "+self.path)
             f = open(self.path, 'r')
-            self.log.debug(debug, "Server creds file handle: "+str(f))
+            self.log.debug(self.debug, "Server creds file handle: "+str(f))
             for line in f:
-                self.log.debug(debug, line)
+                self.log.debug(self.debug, line)
                 if len(line) > 0 and line[0] != "#" and "=" in line:
                     # split each line on the first '='
                     line = line.split("=",1)
@@ -51,12 +57,12 @@ class Hemlock_Scheduler():
                         server_dict[line[0]] = line[1].strip()
                     except:
                         print "Malformed Server Creds file."
-                        self.log.debug(debug, sys.exc_info()[0])
+                        self.log.debug(self.debug, sys.exc_info()[0])
                         sys.exit(0)
             f.close()
         except:
             print "Unable to open "+self.path
-            self.log.debug(debug, sys.exc_info()[0])
+            self.log.debug(self.debug, sys.exc_info()[0])
             sys.exit(0)
 
         # connect to the mysql server
@@ -66,21 +72,23 @@ class Hemlock_Scheduler():
                                    server_dict['HEMLOCK_MYSQL_PW'],
                                    "hemlock")
 
-            self.log.debug(debug, "MySQL Handle: "+str(m_server))
+            self.log.debug(self.debug, "MySQL Handle: "+str(m_server))
         except:
-            self.log.debug(debug, sys.exc_info()[0])
+            self.log.debug(self.debug, sys.exc_info()[0])
             print "MySQL server failure"
             sys.exit(0)
 
         cur = m_server.cursor()
-        self.log.debug(debug, "MySQL Cursor: "+str(cur))
+        self.log.debug(self.debug, "MySQL Cursor: "+str(cur))
 
         cur.execute("SELECT * FROM schedules")
         results = cur.fetchall()
+        self.log.debug(self.debug, str(results))
 
         test_log2 = open('scheduler.log', 'a')
-        test_log2.write("foo")
+        test_log2.write(str(results))
         test_log2.close() 
+
         # !! TODO
         #    query to get everything in schedules
         #    updates schedules
@@ -95,6 +103,7 @@ class Hemlock_Scheduler():
 
     def init_schedule(self):
         # DEBUG
+        logging.basicConfig(level=logging.DEBUG)
         sched = Scheduler()
 
         # Start the scheduler
@@ -108,6 +117,7 @@ class Hemlock_Scheduler():
 
 if __name__ == "__main__":
     hemlock_scheduler = Hemlock_Scheduler()
+    logging.basicConfig(level=logging.DEBUG)
     sched = hemlock_scheduler.init_schedule()
     # example schedules
     # !! TODO

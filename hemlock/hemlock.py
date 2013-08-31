@@ -1087,7 +1087,10 @@ class Hemlock():
                  if result[0] == "0":
                      # DEBUG
                      # call hemlock-scheduler
-                     cmd = "hemlock-scheduler "+var_d['--hemlock_creds_path']+" &"
+                     if debug == 0:
+                         cmd = "hemlock-scheduler "+var_d['--hemlock_creds_path']+" >> scheduler.log &"
+                     else:
+                         cmd = "hemlock-scheduler "+var_d['--hemlock_creds_path']+" -D >> scheduler.log &"
 
                      # result should be 0, otherwise error
                      result = os.system(cmd)
