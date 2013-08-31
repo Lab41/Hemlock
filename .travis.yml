@@ -12,7 +12,7 @@ before_install:
   # - /opt/couchbase/bin/couchbase-cli cluster-init -c 127.0.0.1:8091 --cluster-init-username=Administrator --cluster-init-password=password --cluster-init-ramsize=256
   # - /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=hemlock --bucket-password=password --bucket-type=couchbase --bucket-port=11211 --bucket-ramsize=100 --bucket-replica=0 -u Administrator -p password
 install: 
-  - pip install APScheduler --use-mirrors
+  - pip install APScheduler
   - pip install MySQL-python --use-mirrors
   - pip install texttable --use-mirrors
   - pip install couchbase --use-mirrors
