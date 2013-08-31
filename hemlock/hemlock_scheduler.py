@@ -16,6 +16,7 @@
 
 from apscheduler.scheduler import Scheduler
 from clients.hemlock_debugger import Hemlock_Debugger
+from hemlock import Hemlock
 
 import MySQLdb as mdb
 import signal
@@ -34,9 +35,6 @@ class Hemlock_Scheduler():
             self.path = "hemlock_creds"
 
     def check_schedules(self):
-        # !! TODO
-        #    get these values from args, called from hemlock.py
-        #    check if it's already running, if not start it
         server_dict = {}
 
         # read in hemlock server creds file
@@ -73,6 +71,12 @@ class Hemlock_Scheduler():
             self.log.debug(debug, sys.exc_info()[0])
             print "MySQL server failure"
             sys.exit(0)
+
+        cur = m_server.cursor()
+        self.log.debug(debug, "MySQL Cursor: "+str(cur))
+
+        cur.execute("SELECT * FROM schedules")
+        results = cur.fetchall()
 
         test_log2 = open('scheduler.log', 'a')
         test_log2.write("foo")
