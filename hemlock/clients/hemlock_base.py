@@ -23,13 +23,13 @@ import couchbase
 import datetime
 import hashlib
 import MySQLdb as mdb
+import pickle
 import sys
 import time
 
-# has to be outside the class, since instance objects can't be pickled
 def call_worker():
     connection, address = c_server.accept()
-    d, data_list = c_inst.worker(connection, address)
+    d, data_list = c_inst.worker(debug, connection, address)
     return d, data_list
 
 class Hemlock_Base():
@@ -41,10 +41,10 @@ class Hemlock_Base():
         self.log.debug(debug, "Importing: h"+client)
         exec "import h"+client
 
-        str = "h"+client+".H"+client.title()+"()"
-        self.log.debug(debug, "Initializing: "+str)
+        cmd = "h"+client+".H"+client.title()+"()"
+        self.log.debug(debug, "Initializing: "+cmd)
 
-        c_inst = eval(str)
+        c_inst = eval(cmd)
         self.log.debug(debug, "Client handle: "+str(c_inst))
         return client+'_creds', c_inst
 
@@ -76,7 +76,7 @@ class Hemlock_Base():
 
         # read in hemlock server creds file
         try:
-            self.log.debug(debug, "Opening server_creds file: "+SERVER_CREDS_FILE)
+            self.log.debug(debug, "Opening server_creds file: "+self.SERVER_CREDS_FILE)
             f = open(self.SERVER_CREDS_FILE, 'r')
             self.log.debug(debug, "Server creds file handle: "+str(f))
             for line in f:

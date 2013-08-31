@@ -1181,15 +1181,15 @@ class Hemlock():
                         # run a client for data push/pull
                         hemlock_base = Hemlock_Base()
                         hemlock_runner = Hemlock_Runner()
-                        client_uuid, client, splits = hemlock_base.process_args(args[1:])
-                        CLIENT_CREDS_FILE, c_inst = hemlock_base.client_import(client)
+                        client_uuid, client, splits = hemlock_base.process_args(debug, args[1:])
+                        CLIENT_CREDS_FILE, c_inst = hemlock_base.client_import(debug, client)
 
                         # get client_dict and server_dict that are stored in mysql
-                        client_dict, server_dict = hemlock_runner.get_creds(m_server, client_uuid, aes_key)
-                        c_server = c_inst.connect_client(client_dict)
+                        client_dict, server_dict = hemlock_runner.get_creds(debug, m_server, client_uuid, aes_key)
+                        c_server = c_inst.connect_client(debug, client_dict)
                         data_list = []
                         desc_list = []
-                        h_server = hemlock_base.connect_server(server_dict)
+                        h_server = hemlock_base.connect_server(debug, server_dict)
 
                         # using the client_uuid get the system_id
                         data_action = "SELECT * from systems_clients where client_id = '"+client_uuid+"'"
@@ -1198,13 +1198,13 @@ class Hemlock():
                         system_uuid = str(results[0][0]) 
 
                         # verify that the system exists and is properly associated
-                        hemlock_base.verify_system(system_uuid, server_dict)
+                        hemlock_base.verify_system(debug, system_uuid, server_dict)
                         if not client.startswith("stream"):
-                            data_list, desc_list = c_inst.get_data(client_dict, c_server, h_server, system_uuid)
+                            data_list, desc_list = c_inst.get_data(debug, client_dict, c_server, h_server, system_uuid)
                         else:
-                            hemlock_base.stream_workers()
-                        hemlock_base.send_data(data_list, desc_list, h_server, system_uuid)
-                        hemlock_base.update_hemlock(system_uuid, server_dict)
+                            hemlock_base.stream_workers(debug, c_server)
+                        hemlock_base.send_data(debug, data_list, desc_list, h_server, system_uuid)
+                        hemlock_base.update_hemlock(debug, system_uuid, server_dict)
                     # write
                     elif "schedule" in action_a:
                         # create a schedule that is associated with a client
