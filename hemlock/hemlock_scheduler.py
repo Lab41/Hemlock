@@ -86,15 +86,18 @@ class Hemlock_Scheduler():
         results = cur.fetchall()
         self.log.debug(self.debug, str(results))
 
-        test_log2 = open('scheduler.log', 'a')
-        test_log2.write(str(results))
-        test_log2.close() 
-
         # !! TODO
         #    remove schedules that are not stored
-        #    readd schedules that are stored
+        jobs = self.sched.get_jobs()
+        for job in jobs:
+            test_log2 = open('scheduler.log', 'a')
+            test_log2.write(str(job)+"\n")
+            test_log2.write(str(job.name)+"\n")
+            test_log2.close() 
+            
+        #    read schedules that are stored
         for schedule in results:
-            self.schedule_job_cron(self.job_work2, str(schedule[3]), str(schedule[4]), str(schedule[5]), str(schedule[6]), str(schedule[7]))
+            self.schedule_job_cron(self.job_work2, str(schedule[1]), str(schedule[3]), str(schedule[4]), str(schedule[5]), str(schedule[6]), str(schedule[7]))
             
         # !! TODO
         #    query to get everything in schedules
@@ -130,9 +133,9 @@ class Hemlock_Scheduler():
         # DEBUG
         self.sched.add_interval_job(function, seconds=periodicity, start_date=start_time)
 
-    def schedule_job_cron(self, function, minute, hour, day_of_month, month, day_of_week):
+    def schedule_job_cron(self, function, name, minute, hour, day_of_month, month, day_of_week):
         # DEBUG
-        self.sched.add_cron_job(function, minute=minute, hour=hour, day=day_of_month, month=month, day_of_week=day_of_week)
+        self.sched.add_cron_job(function, name=name, minute=minute, hour=hour, day=day_of_month, month=month, day_of_week=day_of_week)
 
 if __name__ == "__main__":
     hemlock_scheduler = Hemlock_Scheduler()
