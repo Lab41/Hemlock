@@ -603,6 +603,11 @@ class TestClass:
         # !! TODO fix what is returned
         return x, error
 
+    def process_start_scheduler(self):
+        x = ""
+        error = ""
+        return x, error
+
     def connect_mysql(self, debug, server, user, pw, db):
         a = hemlock.Hemlock()
         m_server = a.mysql_server(debug, server, user, pw, db)
@@ -857,5 +862,10 @@ class TestClass:
 
     def test_process_schedule_list(self):
         x, error = self.process_schedule_list()
+        for err in error:
+            assert err == 0
+
+    def test_process_start_scheduler(self):
+        x, error = self.process_start_scheduler()
         for err in error:
             assert err == 0

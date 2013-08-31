@@ -38,6 +38,10 @@ Client usage examples
 
     Start grabbing data (can be run either locally or remotely)
     ```bash
+    hemlock client-run --uuid 3565d4e2-6d81-488a-8c01-93c5421ad95d --client mysql
+
+    or
+
     python hemlock_base.py --uuid 3565d4e2-6d81-488a-8c01-93c5421ad95d --client mysql
     ```
 
@@ -68,6 +72,10 @@ Client usage examples
 
     Start grabbing data (can be run either locally or remotely)
     ```bash
+    hemlock client-run --uuid da917588-f63a-47f1-98e2-33fce24a7a0a --client redis
+
+    or
+
     python hemlock_base.py --uuid da917588-f63a-47f1-98e2-33fce24a7a0a --client redis
     ```
 
