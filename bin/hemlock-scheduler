@@ -22,14 +22,13 @@ import signal
 class HemlockScheduler():
     def __init__(self):
         hemlock_scheduler = Hemlock_Scheduler()
-        logging.basicConfig(level=logging.DEBUG)
-        sched = hemlock_scheduler.init_schedule()
+        logging.basicConfig(filename='scheduler.log', level=logging.DEBUG)
         # example schedules
         # !! TODO
         # DEBUG
-        hemlock_scheduler.schedule_job(sched, hemlock_scheduler.check_schedules, 300, '2013-08-29 12:32:43')
-        hemlock_scheduler.schedule_job(sched, hemlock_scheduler.job_work, 120, '2013-08-29 12:30:09')
-        hemlock_scheduler.schedule_job(sched, hemlock_scheduler.job_work, 120, '2013-08-29 12:31:03')
+        hemlock_scheduler.schedule_job(hemlock_scheduler.check_schedules, 300, '2013-08-29 12:32:43')
+        hemlock_scheduler.schedule_job(hemlock_scheduler.job_work, 120, '2013-08-29 12:30:09')
+        hemlock_scheduler.schedule_job(hemlock_scheduler.job_work, 120, '2013-08-29 12:31:03')
 
         # APSScheduler.Scheduler only works until the main thread exits
         signal.pause()

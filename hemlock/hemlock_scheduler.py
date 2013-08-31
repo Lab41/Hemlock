@@ -26,6 +26,7 @@ import sys
 class Hemlock_Scheduler():
     def __init__(self):
         self.log = Hemlock_Debugger()
+        self.sched = self.init_schedule()
         args = []
         for arg in sys.argv:
             args.append(arg)
@@ -90,10 +91,24 @@ class Hemlock_Scheduler():
         test_log2.close() 
 
         # !! TODO
+        #    remove schedules that are not stored
+        #    readd schedules that are stored
+        for schedule in results:
+            self.schedule_job_cron(self.job_work2, str(schedule[3]), str(schedule[4]), str(schedule[5]), str(schedule[6]), str(schedule[7]))
+            
+        # !! TODO
         #    query to get everything in schedules
         #    updates schedules
 
     def job_work(self):
+        # DEBUG
+        # do actual work here
+        # !! TODO
+        test_log2 = open('scheduler.log', 'a')
+        test_log2.write("foo")
+        test_log2.close() 
+
+    def job_work2(self):
         # DEBUG
         # do actual work here
         # !! TODO
@@ -103,7 +118,7 @@ class Hemlock_Scheduler():
 
     def init_schedule(self):
         # DEBUG
-        logging.basicConfig(level=logging.DEBUG)
+        logging.basicConfig(filename='scheduler.log', level=logging.DEBUG)
         sched = Scheduler()
 
         # Start the scheduler
@@ -111,20 +126,24 @@ class Hemlock_Scheduler():
 
         return sched
 
-    def schedule_job(self, sched, function, periodicity, start_time):
+    def schedule_job(self, function, periodicity, start_time):
         # DEBUG
-        sched.add_interval_job(function, seconds=periodicity, start_date=start_time)
+        self.sched.add_interval_job(function, seconds=periodicity, start_date=start_time)
+
+    def schedule_job_cron(self, function, minute, hour, day_of_month, month, day_of_week):
+        # DEBUG
+        self.sched.add_cron_job(function, minute=minute, hour=hour, day=day_of_month, month=month, day_of_week=day_of_week)
 
 if __name__ == "__main__":
     hemlock_scheduler = Hemlock_Scheduler()
-    logging.basicConfig(level=logging.DEBUG)
-    sched = hemlock_scheduler.init_schedule()
+    logging.basicConfig(filename='scheduler.log', level=logging.DEBUG)
+
     # example schedules
     # !! TODO
     # DEBUG
-    hemlock_scheduler.schedule_job(sched, hemlock_scheduler.check_schedules, 300, '2013-08-29 12:32:43')
-    hemlock_scheduler.schedule_job(sched, hemlock_scheduler.job_work, 120, '2013-08-29 12:30:09')
-    hemlock_scheduler.schedule_job(sched, hemlock_scheduler.job_work, 120, '2013-08-29 12:31:03')
+    hemlock_scheduler.schedule_job(hemlock_scheduler.check_schedules, 300, '2013-08-29 12:32:43')
+    hemlock_scheduler.schedule_job(hemlock_scheduler.job_work, 120, '2013-08-29 12:30:09')
+    hemlock_scheduler.schedule_job(hemlock_scheduler.job_work, 120, '2013-08-29 12:31:03')
 
     # APSScheduler.Scheduler only works until the main thread exits
     signal.pause()

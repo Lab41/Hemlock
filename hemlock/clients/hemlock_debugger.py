@@ -19,5 +19,5 @@ class Hemlock_Debugger():
         if debug:
             print string
             f = open('debug.log', 'a')
-            f.write(string)
+            f.write(string+"\n")
             f.close()
