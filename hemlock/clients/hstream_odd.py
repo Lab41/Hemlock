@@ -24,7 +24,10 @@ import socket
 import sys
 
 def handle(connection, address):
-    logging.basicConfig(level=logging.DEBUG)
+    h_inst = hemlock_base.Hemlock_Base()
+    data_list = [[]]
+    desc_list = []
+    logging.basicConfig(filename='scheduler.log', level=logging.DEBUG)
     logger = logging.getLogger("process-%r" % (address,))
     try:
         logger.debug("Connected %r at %r", connection, address)
@@ -34,6 +37,8 @@ def handle(connection, address):
                 logger.debug("Socket closed remotely")
                 break
             logger.debug("Received data %r", data)
+            # !! TODO
+            #h_inst.send_data(debug, data_list, desc_list, h_server, client_uuid)
             #connection.sendall(data)
             #logger.debug("Sent data")
     except:
@@ -46,6 +51,30 @@ class HStream_Odd:
     def __init__(self):
         self.log = Hemlock_Debugger()
         self.logger = logging.getLogger("server")
+
+    def connect_client(self, debug, client_dict):
+        # connect to the stream server
+        # required fields in the client creds file are as follows:
+        #    HOST
+        #    PORT
+        hostname = client_dict['HOST']
+        port = int(client_dict['PORT'])
+
+        logging.basicConfig(filename='scheduler.log', level=logging.DEBUG)
+        try:
+            logging.info("Listening")
+            self.start(hostname, port)
+        except:
+            logging.exception("Unexpected exception")
+        finally:
+            logging.info("Shutting down")
+            for process in multiprocessing.active_children():
+                logging.info("Shutting down process %r", process)
+                process.terminate()
+                process.join()
+        logging.info("All done")
+
+        return ""
 
     def start(self, hostname, port):
         self.logger.debug("listening")
@@ -60,62 +89,3 @@ class HStream_Odd:
             process.daemon = True
             process.start()
             self.logger.debug("Started process %r", process)
-
-    def connect_client(self, debug, client_dict):
-        # connect to the stream server
-        # required fields in the client creds file are as follows:
-        #    HOST
-        #    PORT
-        #c_server = ""
-        hostname = client_dict['HOST']
-        port = int(client_dict['PORT'])
-
-        # !! TODO
-        logging.basicConfig(level=logging.DEBUG)
-        try:
-            logging.info("Listening")
-            self.start(hostname, port)
-        except:
-            logging.exception("Unexpected exception")
-        finally:
-            logging.info("Shutting down")
-            for process in multiprocessing.active_children():
-                logging.info("Shutting down process %r", process)
-                process.terminate()
-                process.join()
-        logging.info("All done")
-
-        # DEBUG
-        #try:
-        #    sockobj = socket(AF_INET, SOCK_STREAM)
-        #    sockobj.bind((host, port))
-        #    sockobj.listen(2)
-        #    c_server = sockobj
-        #except:
-        #    print "Failure connecting to the client server"
-        #    sys.exit(0)
-        #return c_server
-
-    def worker(self, debug, connection, address):
-        data_list = [[]]
-        desc_list = []
-        print connection, address
-        print "start"
-        d = ""
-        # DEBUG
-        while True:
-            data = connection.recv(1024)
-            if not data: break
-            print address, "got data:", data
-            d += data
-        print 'Server disconnected by', address
-        connection.close()
-
-        print "end"
-        return "did " + d, data_list
-
-        # !! TODO actually store data in arrays
-        #data_list[0][i].append(str(record_dict[k]))
-        #desc_list[i].append([str(k)])
-
-        #return data_list, desc_list
