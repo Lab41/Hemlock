@@ -23,14 +23,13 @@ import couchbase
 import datetime
 import hashlib
 import MySQLdb as mdb
-import pickle
 import sys
 import time
 
-def call_worker():
-    connection, address = c_server.accept()
-    d, data_list = c_inst.worker(debug, connection, address)
-    return d, data_list
+#def call_worker():
+#    connection, address = c_server.accept()
+#    d, data_list = c_inst.worker(debug, connection, address)
+#    return d, data_list
 
 class Hemlock_Base():
     def __init__(self):

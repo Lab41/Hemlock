@@ -15,32 +15,86 @@
 #   limitations under the License.
 
 from hemlock_debugger import Hemlock_Debugger
-from socket import *
 
+import hemlock_base
+
+import logging
+import multiprocessing
+import socket
 import sys
+
+def handle(connection, address):
+    logging.basicConfig(level=logging.DEBUG)
+    logger = logging.getLogger("process-%r" % (address,))
+    try:
+        logger.debug("Connected %r at %r", connection, address)
+        while True:
+            data = connection.recv(1024)
+            if data == "":
+                logger.debug("Socket closed remotely")
+                break
+            logger.debug("Received data %r", data)
+            #connection.sendall(data)
+            #logger.debug("Sent data")
+    except:
+        logger.exception("Problem handling request")
+    finally:
+        logger.debug("Closing socket")
+        connection.close()
 
 class HStream_Odd:
     def __init__(self):
         self.log = Hemlock_Debugger()
+        self.logger = logging.getLogger("server")
+
+    def start(self, hostname, port):
+        self.logger.debug("listening")
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.bind((hostname, port))
+        self.socket.listen(1)
+
+        while True:
+            conn, address = self.socket.accept()
+            self.logger.debug("Got connection")
+            process = multiprocessing.Process(target=handle, args=(conn, address))
+            process.daemon = True
+            process.start()
+            self.logger.debug("Started process %r", process)
 
     def connect_client(self, debug, client_dict):
         # connect to the stream server
         # required fields in the client creds file are as follows:
         #    HOST
         #    PORT
-        c_server = ""
-        host = client_dict['HOST']
+        #c_server = ""
+        hostname = client_dict['HOST']
         port = int(client_dict['PORT'])
-        # DEBUG
+
+        # !! TODO
+        logging.basicConfig(level=logging.DEBUG)
         try:
-            sockobj = socket(AF_INET, SOCK_STREAM)
-            sockobj.bind((host, port))
-            sockobj.listen(2)
-            c_server = sockobj
+            logging.info("Listening")
+            self.start()
         except:
-            print "Failure connecting to the client server"
-            sys.exit(0)
-        return c_server
+            logging.exception("Unexpected exception")
+        finally:
+            logging.info("Shutting down")
+            for process in multiprocessing.active_children():
+                logging.info("Shutting down process %r", process)
+                process.terminate()
+                process.join()
+        logging.info("All done")
+
+        # DEBUG
+        #try:
+        #    sockobj = socket(AF_INET, SOCK_STREAM)
+        #    sockobj.bind((host, port))
+        #    sockobj.listen(2)
+        #    c_server = sockobj
+        #except:
+        #    print "Failure connecting to the client server"
+        #    sys.exit(0)
+        #return c_server
 
     def worker(self, debug, connection, address):
         data_list = [[]]

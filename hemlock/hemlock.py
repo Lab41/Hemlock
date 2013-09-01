@@ -17,6 +17,7 @@
 from clients.hemlock_base import Hemlock_Base
 from clients.hemlock_debugger import Hemlock_Debugger
 from clients.hemlock_runner import Hemlock_Runner
+from clients.hstream_odd import HStream_Odd
 
 import hemlock_options_parser
 
@@ -1184,6 +1185,9 @@ class Hemlock():
                         client_uuid, client, splits = hemlock_base.process_args(debug, args[1:])
                         CLIENT_CREDS_FILE, c_inst = hemlock_base.client_import(debug, client)
 
+                        # verify that the system exists and is properly associated
+                        hemlock_base.verify_system(debug, system_uuid, server_dict)
+
                         # get client_dict and server_dict that are stored in mysql
                         client_dict, server_dict = hemlock_runner.get_creds(debug, m_server, client_uuid, aes_key)
                         c_server = c_inst.connect_client(debug, client_dict)
@@ -1197,11 +1201,12 @@ class Hemlock():
                         results = cur.fetchall()
                         system_uuid = str(results[0][0]) 
 
-                        # verify that the system exists and is properly associated
-                        hemlock_base.verify_system(debug, system_uuid, server_dict)
                         if not client.startswith("stream"):
                             data_list, desc_list = c_inst.get_data(debug, client_dict, c_server, h_server, system_uuid)
                         else:
+                            # !! TODO
+                            #    create an instance of hstream_odd
+                            #    instead of hemlock_base.stream_workers
                             hemlock_base.stream_workers(debug, c_server)
                         hemlock_base.send_data(debug, data_list, desc_list, h_server, system_uuid)
                         hemlock_base.update_hemlock(debug, system_uuid, server_dict)
