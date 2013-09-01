@@ -74,7 +74,7 @@ class HStream_Odd:
         logging.basicConfig(level=logging.DEBUG)
         try:
             logging.info("Listening")
-            self.start()
+            self.start(hostname, port)
         except:
             logging.exception("Unexpected exception")
         finally:
