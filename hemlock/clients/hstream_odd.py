@@ -23,7 +23,7 @@ import multiprocessing
 import socket
 import sys
 
-def handle(connection, address):
+def handle(debug, connection, address, h_server, client_uuid):
     h_inst = hemlock_base.Hemlock_Base()
     data_list = [[]]
     desc_list = []
@@ -38,7 +38,8 @@ def handle(connection, address):
                 break
             logger.debug("Received data %r", data)
             # !! TODO
-            #h_inst.send_data(debug, data_list, desc_list, h_server, client_uuid)
+            #    update data_list and desc_list
+            h_inst.send_data(debug, data_list, desc_list, h_server, client_uuid)
             #connection.sendall(data)
             #logger.debug("Sent data")
     except:
@@ -52,7 +53,7 @@ class HStream_Odd:
         self.log = Hemlock_Debugger()
         self.logger = logging.getLogger("server")
 
-    def connect_client(self, debug, client_dict):
+    def connect_client(self, debug, client_dict, h_server, client_uuid):
         # connect to the stream server
         # required fields in the client creds file are as follows:
         #    HOST
@@ -63,7 +64,7 @@ class HStream_Odd:
         logging.basicConfig(filename='scheduler.log', level=logging.DEBUG)
         try:
             logging.info("Listening")
-            self.start(hostname, port)
+            self.start(debug, hostname, port, h_server, client_uuid)
         except:
             logging.exception("Unexpected exception")
         finally:
@@ -76,7 +77,7 @@ class HStream_Odd:
 
         return ""
 
-    def start(self, hostname, port):
+    def start(self, debug, hostname, port, h_server, client_uuid):
         self.logger.debug("listening")
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.bind((hostname, port))
@@ -85,7 +86,7 @@ class HStream_Odd:
         while True:
             conn, address = self.socket.accept()
             self.logger.debug("Got connection")
-            process = multiprocessing.Process(target=handle, args=(conn, address))
+            process = multiprocessing.Process(target=handle, args=(debug, conn, address, h_server, client_uuid))
             process.daemon = True
             process.start()
             self.logger.debug("Started process %r", process)

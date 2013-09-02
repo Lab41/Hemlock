@@ -1195,10 +1195,14 @@ class Hemlock():
                         # verify that the system exists and is properly associated
                         hemlock_base.verify_system(debug, system_uuid, server_dict)
 
-                        c_server = c_inst.connect_client(debug, client_dict)
+                        h_server = hemlock_base.connect_server(debug, server_dict)
+
+                        if not client.startswith("stream"):
+                            c_server = c_inst.connect_client(debug, client_dict)
+                        else:
+                            c_server = c_inst.connect_client(debug, client_dict, h_server, client_uuid)
                         data_list = []
                         desc_list = []
-                        h_server = hemlock_base.connect_server(debug, server_dict)
 
                         if not client.startswith("stream"):
                             data_list, desc_list = c_inst.get_data(debug, client_dict, c_server, h_server, system_uuid)
