@@ -15,7 +15,10 @@ Install instructions
 sudo pip install hemlock
 
 Or build from source:
+
 git clone https://github.com/Lab41/Hemlock.git
+cd Hemlock
+sudo python setup.py install
 ```
 
 Required Dependencies
@@ -25,6 +28,7 @@ Python modules:
 - [MySQLdb](http://mysql-python.sourceforge.net/MySQLdb.html)
 - [texttable](https://pypi.python.org/pypi/texttable)
 - [couchbase](http://www.couchbase.com/communities/python/getting-started) >= 1.0
+- [APScheduler](https://pypi.python.org/pypi/APScheduler)
 
 Build a server running [MySQL](http://www.mysql.com/) to store user accounts, tenants, and registered 
 systems.
@@ -107,6 +111,17 @@ Credential files
     HEMLOCK_COUCHBASE_PW=pass
     ```
 2. Create credential files for each client you intend to use ([examples](https://github.com/Lab41/Hemlock/tree/master/hemlock/clients/)).
+
+
+Getting started
+----------------
+
+1. Source Hemlock credentials
+2. Create a tenant, user, and data source system
+3. Add credentials for data source system
+4. Add a schedule for the data source system to run
+5. Perform a test run for pulling data from the data source system
+6. Search for data that has been loaded into Hemlock
 
 
 Currently supported data sources
