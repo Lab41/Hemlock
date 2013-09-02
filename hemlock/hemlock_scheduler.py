@@ -117,6 +117,7 @@ class Hemlock_Scheduler():
         # DEBUG
         # do actual work here
         # !! TODO
+        #    if streaming is already running and requested again, ignore
         test_log2 = open('scheduler.log', 'a')
         test_log2.write("bar")
         test_log2.close() 

@@ -18,6 +18,7 @@ from hemlock_debugger import Hemlock_Debugger
 
 import hemlock_base
 
+import ast
 import logging
 import multiprocessing
 import socket
@@ -38,7 +39,25 @@ def handle(debug, connection, address, h_server, client_uuid):
                 break
             logger.debug("Received data %r", data)
             # !! TODO
+            #    format data as a json string
+            j_list = []
+            # !! TODO
             #    update data_list and desc_list
+            i = 0
+            for record in j_list:
+                data_list[0].append([])
+                desc_list.append([])
+                while record[0] == '"' or record[0] == "'":
+                    record = record.decode('unicode-escape')[1:-1]
+                record = record.encode('ascii', 'ignore')
+                record = ast.literal_eval(record)
+                for key in record:
+                    data_list[0][i].append(str(record[key]))
+                    desc_list[i].append([str(key)])
+                i += 1
+            # !! TODO
+            #    should be this moved so that it doesn't send data
+            #    for every piece recieved, will it be too slow?
             h_inst.send_data(debug, data_list, desc_list, h_server, client_uuid)
             #connection.sendall(data)
             #logger.debug("Sent data")
