@@ -43,6 +43,8 @@ class Hemlock_Scheduler():
 
     def check_schedules(self):
         server_dict = {}
+        # !! TODO
+        #    check environment variables first, then check for creds file
 
         # read in hemlock server creds file
         try:
