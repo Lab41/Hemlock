@@ -11,11 +11,15 @@ performance, and formats.
 Install instructions
 ====================
 
+Option A, install using pip:
+
 ```bash
 sudo pip install hemlock
+```
 
-Or build from source:
+Option B, build from source:
 
+```bash
 git clone https://github.com/Lab41/Hemlock.git
 cd Hemlock
 sudo python setup.py install
