@@ -43,30 +43,33 @@ class Hemlock_Scheduler():
 
     def check_schedules(self):
         server_dict = {}
-        # !! TODO
         #    check environment variables first, then check for creds file
-
-        # read in hemlock server creds file
         try:
-            self.log.debug(self.debug, "Opening server_creds file: "+self.path)
-            f = open(self.path, 'r')
-            self.log.debug(self.debug, "Server creds file handle: "+str(f))
-            for line in f:
-                self.log.debug(self.debug, line)
-                if len(line) > 0 and line[0] != "#" and "=" in line:
-                    # split each line on the first '='
-                    line = line.split("=",1)
-                    try:
-                        server_dict[line[0]] = line[1].strip()
-                    except:
-                        print "Malformed Server Creds file."
-                        self.log.debug(self.debug, sys.exc_info()[0])
-                        sys.exit(0)
-            f.close()
+            server_dict['HEMLOCK_MYSQL_SERVER'] = os.environ['HEMLOCK_MYSQL_SERVER']
+            server_dict['HEMLOCK_MYSQL_USERNAME'] = os.environ['HEMLOCK_MYSQL_USERNAME']
+            server_dict['HEMLOCK_MYSQL_PW'] = os.environ['HEMLOCK_MYSQL_PW']
         except:
-            print "Unable to open "+self.path
-            self.log.debug(self.debug, sys.exc_info()[0])
-            sys.exit(0)
+            # read in hemlock server creds file
+            try:
+                self.log.debug(self.debug, "Opening server_creds file: "+self.path)
+                f = open(self.path, 'r')
+                self.log.debug(self.debug, "Server creds file handle: "+str(f))
+                for line in f:
+                    self.log.debug(self.debug, line)
+                    if len(line) > 0 and line[0] != "#" and "=" in line:
+                        # split each line on the first '='
+                        line = line.split("=",1)
+                        try:
+                            server_dict[line[0]] = line[1].strip()
+                        except:
+                            print "Malformed Server Creds file."
+                            self.log.debug(self.debug, sys.exc_info()[0])
+                            sys.exit(0)
+                f.close()
+            except:
+                print "Unable to open "+self.path
+                self.log.debug(self.debug, sys.exc_info()[0])
+                sys.exit(0)
 
         # connect to the mysql server
         try:
@@ -99,7 +102,7 @@ class Hemlock_Scheduler():
             
         #    read schedules that are stored
         for schedule in results:
-            self.schedule_job_cron(self.job_work2, str(schedule[1]), str(schedule[3]), str(schedule[4]), str(schedule[5]), str(schedule[6]), str(schedule[7]))
+            self.schedule_job_cron(self.job_work, str(schedule[1]), str(schedule[3]), str(schedule[4]), str(schedule[5]), str(schedule[6]), str(schedule[7]))
             
         # !! TODO
         #    query to get everything in schedules
@@ -109,17 +112,10 @@ class Hemlock_Scheduler():
         # DEBUG
         # do actual work here
         # !! TODO
+        #    if streaming is already running and requested again, ignore
+        #    if the job requested, regardless, is still running, skip this run, and log it
         test_log2 = open('scheduler.log', 'a')
         test_log2.write("foo")
-        test_log2.close() 
-
-    def job_work2(self):
-        # DEBUG
-        # do actual work here
-        # !! TODO
-        #    if streaming is already running and requested again, ignore
-        test_log2 = open('scheduler.log', 'a')
-        test_log2.write("bar")
         test_log2.close() 
 
     def init_schedule(self):
@@ -144,12 +140,8 @@ if __name__ == "__main__":
     hemlock_scheduler = Hemlock_Scheduler()
     logging.basicConfig(filename='scheduler.log', level=logging.DEBUG)
 
-    # example schedules
-    # !! TODO
     # DEBUG
-    hemlock_scheduler.schedule_job(hemlock_scheduler.check_schedules, 300, '2013-08-29 12:32:43')
-    hemlock_scheduler.schedule_job(hemlock_scheduler.job_work, 120, '2013-08-29 12:30:09')
-    hemlock_scheduler.schedule_job(hemlock_scheduler.job_work, 120, '2013-08-29 12:31:03')
+    hemlock_scheduler.schedule_job(hemlock_scheduler.check_schedules, 60, '2013-08-29 12:32:43')
 
     # APSScheduler.Scheduler only works until the main thread exits
     signal.pause()

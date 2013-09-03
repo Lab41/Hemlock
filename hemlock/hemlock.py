@@ -66,13 +66,9 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def client_run(self, args, var_d):
+        # !! TODO 
+        #    --client no longer necessary, should be queried using the client_uuid
         arg_d = [
-            # !! TODO these currently point to system_uuid and client type, 
-            #         needs to be changed to point to client_uuid from the 
-            #         client_store
-            #
-            #         update hemlock_base to take client credentials from db,
-            #         and have the file be a fallback
             '--uuid',
             '--client'
         ]
@@ -1186,6 +1182,8 @@ class Hemlock():
                         hemlock_base = Hemlock_Base()
                         hemlock_runner = Hemlock_Runner()
                         client_uuid, client, splits = hemlock_base.process_args(debug, args[1:])
+                        # !! TODO
+                        #    client type using the client_uuid
                         CLIENT_CREDS_FILE, c_inst = hemlock_base.client_import(debug, client)
 
                         # using the client_uuid get the system_id
@@ -1210,11 +1208,6 @@ class Hemlock():
 
                         if not client.startswith("stream"):
                             data_list, desc_list = c_inst.get_data(debug, client_dict, c_server, h_server, system_uuid)
-                        #else:
-                        #    # !! TODO
-                        #    #    create an instance of hstream_odd
-                        #    #    instead of hemlock_base.stream_workers
-                        #    hemlock_base.stream_workers(debug, c_server)
                         hemlock_base.send_data(debug, data_list, desc_list, h_server, system_uuid)
                         hemlock_base.update_hemlock(debug, system_uuid, server_dict)
                     # write

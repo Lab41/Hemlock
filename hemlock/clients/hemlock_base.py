@@ -26,11 +26,6 @@ import MySQLdb as mdb
 import sys
 import time
 
-#def call_worker():
-#    connection, address = c_server.accept()
-#    d, data_list = c_inst.worker(debug, connection, address)
-#    return d, data_list
-
 class Hemlock_Base():
     def __init__(self):
         self.log = Hemlock_Debugger()
@@ -233,6 +228,7 @@ class Hemlock_Base():
     def process_args(self, debug, args):
         # process args
         splits = -1
+        # !! TODO this shouldn't be necessary anymore
         client = None
         client_uuid = None
         i = 0
@@ -246,6 +242,7 @@ class Hemlock_Base():
                     i += 1
                 except:
                     self.print_help()
+            # !! TODO this shouldn't be necessary anymore
             elif args[i] == "--client":
                 try:
                     client = args[i+1]
@@ -261,9 +258,11 @@ class Hemlock_Base():
             else:
                 self.print_help()
             i += 1
+        # !! TODO client shouldn't be necessary anymore
         if not client or not client_uuid:
             self.print_help()
 
+        # !! TODO client shouldn't be necessary anymore
         return client_uuid, client, splits
 
     def get_args(self, debug):
