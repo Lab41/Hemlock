@@ -1189,7 +1189,7 @@ class Hemlock():
                         args = []
                         for key in var_d:
                             args.append(key)
-                            args.append(var_d[key]
+                            args.append(var_d[key])
                         client_uuid, client, splits = hemlock_base.process_args(debug, args)
                         
                         CLIENT_CREDS_FILE, c_inst = hemlock_base.client_import(debug, client)
