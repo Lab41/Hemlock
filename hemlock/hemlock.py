@@ -1179,7 +1179,6 @@ class Hemlock():
                         hemlock_base = Hemlock_Base()
                         hemlock_runner = Hemlock_Runner()
 
-                        print args
                         # client type using the client_uuid
                         data_action = "SELECT type FROM clients WHERE uuid = '"+var_d['--uuid']+"'"
                         cur.execute(data_action)
