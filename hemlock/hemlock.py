@@ -751,8 +751,8 @@ class Hemlock():
 
         try:
             if options.user == None:
-                options.user = os.environ['HEMLOCK_MYSQL_USER']
-            self.log.debug(options.debug, "HEMLOCK_MYSQL_USER = "+options.user)
+                options.user = os.environ['HEMLOCK_MYSQL_USERNAME']
+            self.log.debug(options.debug, "HEMLOCK_MYSQL_USERNAME = "+options.user)
         except:
             options.user = raw_input("Username:")
             self.log.debug(options.debug, "HEMLOCK_MYSQL_USER = "+options.user)
