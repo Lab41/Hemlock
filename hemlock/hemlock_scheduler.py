@@ -102,7 +102,7 @@ class Hemlock_Scheduler():
 
         #    read schedules that are stored
         for schedule in results:
-            self.schedule_job_cron(self.job_work, [str(schedule[1])], str(schedule[1]), str(schedule[3]), str(schedule[4]), str(schedule[5]), str(schedule[6]), str(schedule[7]))
+            self.schedule_job_cron(self.job_work, str(schedule[1]), str(schedule[1]), str(schedule[3]), str(schedule[4]), str(schedule[5]), str(schedule[6]), str(schedule[7]))
 
         # !! TODO
         #    query to get everything in schedules
@@ -111,12 +111,13 @@ class Hemlock_Scheduler():
     def job_work(self, args):
         # DEBUG
         # do actual work here
-        print args
         # !! TODO
         #    if streaming is already running and requested again, ignore
         #    if the job requested, regardless, is still running, skip this run, and log it
         test_log2 = open('scheduler.log', 'a')
-        test_log2.write("foo")
+        test_log2.write("test: ")
+        test_log2.write(str(args))
+        test_log2.write("\n")
         test_log2.close() 
 
     def init_schedule(self):
@@ -135,7 +136,7 @@ class Hemlock_Scheduler():
 
     def schedule_job_cron(self, function, args, name, minute, hour, day_of_month, month, day_of_week):
         # DEBUG
-        self.sched.add_cron_job(function, args=args, name=name, minute=minute, hour=hour, day=day_of_month, month=month, day_of_week=day_of_week)
+        self.sched.add_cron_job(function, args=['foo'], name=name, minute=minute, hour=hour, day=day_of_month, month=month, day_of_week=day_of_week)
 
 if __name__ == "__main__":
     hemlock_scheduler = Hemlock_Scheduler()
