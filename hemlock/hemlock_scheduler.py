@@ -99,18 +99,19 @@ class Hemlock_Scheduler():
             test_log2.write(str(job)+"\n")
             test_log2.write(str(job.name)+"\n")
             test_log2.close() 
-            
+
         #    read schedules that are stored
         for schedule in results:
-            self.schedule_job_cron(self.job_work, str(schedule[1]), str(schedule[3]), str(schedule[4]), str(schedule[5]), str(schedule[6]), str(schedule[7]))
-            
+            self.schedule_job_cron(self.job_work, [str(schedule[1])], str(schedule[1]), str(schedule[3]), str(schedule[4]), str(schedule[5]), str(schedule[6]), str(schedule[7]))
+
         # !! TODO
         #    query to get everything in schedules
         #    updates schedules
 
-    def job_work(self):
+    def job_work(self, args):
         # DEBUG
         # do actual work here
+        print args
         # !! TODO
         #    if streaming is already running and requested again, ignore
         #    if the job requested, regardless, is still running, skip this run, and log it
@@ -132,15 +133,16 @@ class Hemlock_Scheduler():
         # DEBUG
         self.sched.add_interval_job(function, seconds=periodicity, start_date=start_time)
 
-    def schedule_job_cron(self, function, name, minute, hour, day_of_month, month, day_of_week):
+    def schedule_job_cron(self, function, args, name, minute, hour, day_of_month, month, day_of_week):
         # DEBUG
-        self.sched.add_cron_job(function, name=name, minute=minute, hour=hour, day=day_of_month, month=month, day_of_week=day_of_week)
+        self.sched.add_cron_job(function, args=args, name=name, minute=minute, hour=hour, day=day_of_month, month=month, day_of_week=day_of_week)
 
 if __name__ == "__main__":
     hemlock_scheduler = Hemlock_Scheduler()
     logging.basicConfig(filename='scheduler.log', level=logging.DEBUG)
 
     # DEBUG
+    # run every 60 seconds
     hemlock_scheduler.schedule_job(hemlock_scheduler.check_schedules, 60, '2013-08-29 12:32:43')
 
     # APSScheduler.Scheduler only works until the main thread exits
