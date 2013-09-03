@@ -60,12 +60,12 @@ class Hemlock_Base():
                         client_dict[line[0]] = line[1].strip()
                     except:
                         print "Malformed Client Creds file."
-                        self.log.debug(debug, sys.exc_info()[0])
+                        self.log.debug(debug, str(sys.exc_info()[0]))
                         sys.exit(0)
             f.close()
         except:
             print "Unable to open "+CLIENT_CREDS_FILE
-            self.log.debug(debug, sys.exc_info()[0])
+            self.log.debug(debug, str(sys.exc_info()[0]))
             sys.exit(0)
 
         # read in hemlock server creds file
@@ -82,12 +82,12 @@ class Hemlock_Base():
                         server_dict[line[0]] = line[1].strip()
                     except:
                         print "Malformed Server Creds file."
-                        self.log.debug(debug, sys.exc_info()[0])
+                        self.log.debug(debug, str(sys.exc_info()[0]))
                         sys.exit(0)
             f.close()
         except:
             print "Unable to open "+self.SERVER_CREDS_FILE
-            self.log.debug(debug, sys.exc_info()[0])
+            self.log.debug(debug, str(sys.exc_info()[0]))
             sys.exit(0)
         return client_dict, server_dict
 
@@ -116,7 +116,7 @@ class Hemlock_Base():
             self.log.debug(debug, "Successfully closed the mysql connection.")
         except:
             print "Failure connecting to the Hemlock server"
-            self.log.debug(debug, sys.exc_info()[0])
+            self.log.debug(debug, str(sys.exc_info()[0]))
             sys.exit(0)
         return
 
@@ -136,7 +136,7 @@ class Hemlock_Base():
             self.log.debug(debug, "Couchbase connection handle: "+str(h_server))
         except:
             print "Failure connecting to the Hemlock server"
-            self.log.debug(debug, sys.exc_info()[0])
+            self.log.debug(debug, str(sys.exc_info()[0]))
             sys.exit(0)
         return h_server
 

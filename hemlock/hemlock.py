@@ -811,7 +811,7 @@ class Hemlock():
             m_server = mdb.connect(server, user, pw, db)
             self.log.debug(debug, "MySQL Handle: "+str(m_server))
         except:
-            self.log.debug(debug, sys.exc_info()[0])
+            self.log.debug(debug, str(sys.exc_info()[0]))
             print "MySQL server failure"
             sys.exit(0)
         return m_server
@@ -1613,5 +1613,5 @@ if __name__ == "__main__":
         hemlock.log.debug(debug, "Successfully closed the MySQL connection")
     except:
         print "Failed to close the MySQL connection."
-        hemlock.log.debug(debug, sys.exc_info()[0])
+        hemlock.log.debug(debug, str(sys.exc_info()[0]))
     print "Took",time.time() - start_time,"seconds to complete."
