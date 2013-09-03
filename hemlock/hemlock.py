@@ -67,10 +67,8 @@ class Hemlock():
 
     def client_run(self, args, var_d):
         # !! TODO 
-        #    --client no longer necessary, should be queried using the client_uuid
         arg_d = [
-            '--uuid',
-            '--client'
+            '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
@@ -421,7 +419,6 @@ class Hemlock():
             'client-run' : """
             client-run (run a specific client)
                 --uuid (uuid of client)
-                --client (type of client, i.e. mysql)
             """,
             'client-schedule' : """
             client-schedule (schedule a specific client)
@@ -1181,9 +1178,16 @@ class Hemlock():
                         # run a client for data push/pull
                         hemlock_base = Hemlock_Base()
                         hemlock_runner = Hemlock_Runner()
+
+                        # client type using the client_uuid
+                        data_action = "SELECT type FROM clients WHERE uuid = '"+args[2]+"'"
+                        cur.execute(data_action)
+                        results = cur.fetchall()
+                        args.append("--client")
+                        args.append(results[0][0])
+
                         client_uuid, client, splits = hemlock_base.process_args(debug, args[1:])
-                        # !! TODO
-                        #    client type using the client_uuid
+                        
                         CLIENT_CREDS_FILE, c_inst = hemlock_base.client_import(debug, client)
 
                         # using the client_uuid get the system_id
