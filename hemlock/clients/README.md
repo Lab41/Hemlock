@@ -36,9 +36,14 @@ Client usage examples
     hemlock system-list
     ```
 
+    Store client type and credentials:
+    ```bash
+    hemlock client-store --name mysql_client_1 --type mysql --system_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6 --credential_file /path/to/mysql_creds 
+    ```
+
     Start grabbing data (can be run either locally or remotely)
     ```bash
-    hemlock client-run --uuid 3565d4e2-6d81-488a-8c01-93c5421ad95d --client mysql
+    hemlock client-run --uuid 3565d4e2-6d81-488a-8c01-93c5421ad95d
 
     or
 
@@ -70,9 +75,14 @@ Client usage examples
     hemlock system-list
     ```
 
+    Store client type and credentials:
+    ```bash
+    hemlock client-store --name redis_client_1 --type redis --system_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6 --credential_file /path/to/redis_creds 
+    ```
+
     Start grabbing data (can be run either locally or remotely)
     ```bash
-    hemlock client-run --uuid da917588-f63a-47f1-98e2-33fce24a7a0a --client redis
+    hemlock client-run --uuid da917588-f63a-47f1-98e2-33fce24a7a0a
 
     or
 

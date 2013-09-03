@@ -26,7 +26,6 @@ HEMLOCK
 
             client-run (run a specific client)
                 --uuid (uuid of client)
-                --client (type of client, i.e. mysql)
             
 
             client-schedule (schedule a specific client)
@@ -64,10 +63,10 @@ HEMLOCK
 
             hemlock-server-store (store credentials for the hemlock server)
                 --credential_file (path to file that contains the credentials for the hemlock server)
-            
+
 
             list-all (list everything)
-            
+
 
             register-local-system (from a system add it to Hemlock)
                 --name (name of system)
@@ -134,6 +133,10 @@ HEMLOCK
             schedule-remove-client (remove a client from a schedule)
                 --uuid (uuid of schedule)
                 --client_id (uuid of client)
+            
+
+            start-scheduler (start the scheduler)
+                --hemlock_creds_path (file path to the hemlock_creds file)
             
 
             system-add-tenant (add a tenant to a system)
