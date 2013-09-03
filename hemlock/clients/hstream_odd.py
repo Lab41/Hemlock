@@ -19,6 +19,7 @@ from hemlock_debugger import Hemlock_Debugger
 import hemlock_base
 
 import ast
+import json
 import logging
 import multiprocessing
 import socket
@@ -38,11 +39,15 @@ def handle(debug, connection, address, h_server, client_uuid):
                 logger.debug("Socket closed remotely")
                 break
             logger.debug("Received data %r", data)
-            # !! TODO
-            #    format data as a json string
+
+            j_str = "{"
+            j_str += "\"stream\":"
+            j_str += "\""+data.strip()+"\"}"
+            print j_str
+            j_str = json.dumps(repr(j_str))
             j_list = []
-            # !! TODO
-            #    update data_list and desc_list
+            j_list.append(j_str)
+
             i = 0
             for record in j_list:
                 data_list[0].append([])
@@ -59,8 +64,6 @@ def handle(debug, connection, address, h_server, client_uuid):
             #    should be this moved so that it doesn't send data
             #    for every piece recieved, will it be too slow?
             h_inst.send_data(debug, data_list, desc_list, h_server, client_uuid)
-            #connection.sendall(data)
-            #logger.debug("Sent data")
     except:
         logger.exception("Problem handling request")
     finally:
