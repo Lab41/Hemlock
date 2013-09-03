@@ -1179,14 +1179,18 @@ class Hemlock():
                         hemlock_base = Hemlock_Base()
                         hemlock_runner = Hemlock_Runner()
 
+                        print args
                         # client type using the client_uuid
-                        data_action = "SELECT type FROM clients WHERE uuid = '"+args[2]+"'"
+                        data_action = "SELECT type FROM clients WHERE uuid = '"+var_d['--uuid']+"'"
                         cur.execute(data_action)
                         results = cur.fetchall()
-                        args.append("--client")
-                        args.append(results[0][0])
+                        var_d['--client'] = results[0][0]
 
-                        client_uuid, client, splits = hemlock_base.process_args(debug, args[1:])
+                        args = []
+                        for key in var_d:
+                            args.append(key)
+                            args.append(var_d[key]
+                        client_uuid, client, splits = hemlock_base.process_args(debug, args)
                         
                         CLIENT_CREDS_FILE, c_inst = hemlock_base.client_import(debug, client)
 
