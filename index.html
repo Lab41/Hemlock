@@ -44,7 +44,10 @@ performance, and formats.</p>
 <div class="highlight"><pre>sudo pip install hemlock
 
 Or build from <span class="nb">source</span>:
+
 git clone https://github.com/Lab41/Hemlock.git
+<span class="nb">cd </span>Hemlock
+sudo python setup.py install
 </pre></div>
 
 <h2>
@@ -57,6 +60,7 @@ git clone https://github.com/Lab41/Hemlock.git
 <li><a href="https://pypi.python.org/pypi/texttable">texttable</a></li>
 <li>
 <a href="http://www.couchbase.com/communities/python/getting-started">couchbase</a> &gt;= 1.0</li>
+<li><a href="https://pypi.python.org/pypi/APScheduler">APScheduler</a></li>
 </ul><p>Build a server running <a href="http://www.mysql.com/">MySQL</a> to store user accounts, tenants, and registered 
 systems.</p>
 
@@ -137,6 +141,16 @@ systems.</p>
 </pre></div>
 </li>
 <li><p>Create credential files for each client you intend to use (<a href="https://github.com/Lab41/Hemlock/tree/master/hemlock/clients/">examples</a>).</p></li>
+</ol><h2>
+<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting started</h2>
+
+<ol>
+<li>Source Hemlock credentials</li>
+<li>Create a tenant, user, and data source system</li>
+<li>Add credentials for data source system</li>
+<li>Add a schedule for the data source system to run</li>
+<li>Perform a test run for pulling data from the data source system</li>
+<li>Search for data that has been loaded into Hemlock</li>
 </ol><h1>
 <a name="currently-supported-data-sources" class="anchor" href="#currently-supported-data-sources"><span class="octicon octicon-link"></span></a>Currently supported data sources</h1>
 
