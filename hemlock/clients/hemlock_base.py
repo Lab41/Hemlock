@@ -283,6 +283,7 @@ if __name__ == "__main__":
     h_server = hemlock.connect_server(debug, server_dict)
     hemlock.verify_system(debug, client_uuid, server_dict)
     # DEBUG
+    # !! TODO this is no longer correct for streams
     if not client.startswith("stream"):
         data_list, desc_list = c_inst.get_data(debug, client_dict, c_server, h_server, client_uuid)
     else:
