@@ -104,15 +104,16 @@ Getting started
 
 1. Create Hemlock credentials (see 'Credential files')
    ```bash
-    HEMLOCK_MYSQL_SERVER=192.168.1.10
-    HEMLOCK_MYSQL_USERNAME=user
-    HEMLOCK_MYSQL_PW=pass
-    HEMLOCK_COUCHBASE_SERVER=192.168.1.20
-    HEMLOCK_COUCHBASE_BUCKET=hemlock
-    HEMLOCK_COUCHBASE_USERNAME=hemlock
-    HEMLOCK_COUCHBASE_PW=pass
-    ```
-    (if you'd like these to persist, consider adding export before each line and performing ``source`` on the file)
+   HEMLOCK_MYSQL_SERVER=192.168.1.10
+   HEMLOCK_MYSQL_USERNAME=user
+   HEMLOCK_MYSQL_PW=pass
+   HEMLOCK_COUCHBASE_SERVER=192.168.1.20
+   HEMLOCK_COUCHBASE_BUCKET=hemlock
+   HEMLOCK_COUCHBASE_USERNAME=hemlock
+   HEMLOCK_COUCHBASE_PW=pass
+   ```
+
+   (if you'd like these to persist, consider adding export before each line and performing ``source`` on the file)
 2. Create a tenant, role, user, and data source system
    ```bash
    hemlock tenant-create --name Project1
