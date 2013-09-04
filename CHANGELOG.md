@@ -1,6 +1,10 @@
 ### 0.1.2 (2013-09-03)
 
--
+- added storing of client and hemlock creds in mysql
+- greatly improved client and schedule api calls
+- improved streaming client support
+- moved majority of hemlock function calls to be done directly through hemlock, rather than other classes
+- bug fixes
 
 ### 0.1.1 (2013-08-23)
 

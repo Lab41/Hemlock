@@ -91,12 +91,25 @@ Once that is added, start up ElasticSearch with ``bin/elasticsearch`` and then p
 curl -XPUT http://localhost:9200/_template/couchbase -d @plugins/transport-couchbase/couchbase_template.json
 ```
 
-Installing
-----------
+Installing required databases
+-----------------------------
 
-1. Create database ``hemlock`` in MySQL.
-2. Create bucket ``hemlock`` in Couchbase.
-3. Create index ``hemlock`` in ElasticSearch.
+1. Create database ``hemlock`` in [MySQL](http://www.mysql.com/).
+2. Create bucket ``hemlock`` in [Couchbase](http://www.couchbase.com/).
+3. Create index ``hemlock`` in [ElasticSearch](http://www.elasticsearch.org/).
+
+
+Getting started
+----------------
+
+1. Source Hemlock credentials
+2. Create a tenant, user, and data source system
+3. Add credentials for data source system
+4. Store a client
+5. Add credentials for hemlock
+6. Add a schedule for the data source system to run
+7. Perform a test run for pulling data from the data source system
+8. Search for data that has been loaded into Hemlock
 
 
 Credential files
@@ -104,8 +117,6 @@ Credential files
 
 1. Create a ``hemlock_creds`` file (see hemlock_creds_sample for an example): 
     ```bash
-    SAMPLE hemlock_creds:
-    
     HEMLOCK_MYSQL_SERVER=192.168.1.10
     HEMLOCK_MYSQL_USERNAME=user
     HEMLOCK_MYSQL_PW=pass
@@ -115,17 +126,6 @@ Credential files
     HEMLOCK_COUCHBASE_PW=pass
     ```
 2. Create credential files for each client you intend to use ([examples](https://github.com/Lab41/Hemlock/tree/master/hemlock/clients/)).
-
-
-Getting started
-----------------
-
-1. Source Hemlock credentials
-2. Create a tenant, user, and data source system
-3. Add credentials for data source system
-4. Add a schedule for the data source system to run
-5. Perform a test run for pulling data from the data source system
-6. Search for data that has been loaded into Hemlock
 
 
 Currently supported data sources
@@ -138,7 +138,7 @@ MongoDB    | mongo     | pymongo
 Redis      | redis     | redis
 Local FileSystem | fs  | magic, pdfminer, xmltodict
 RESTful API | rest     | 
-Streams ( **experimental** )   | stream_odd |
+Streams    | stream_odd |
 
 
 Adding a new data source type

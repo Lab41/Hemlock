@@ -719,6 +719,31 @@ class Hemlock():
         parser.add_option("-D", "--debug", action="store_false", dest="debug", help="Debugging Mode")
         return parser.parse_args()
 
+    def read_creds(self):
+        resp = ""
+        while resp != 'y' and resp != 'n':
+            resp = raw_input("Do you have a hemlock_creds file? (y/n)")
+            resp = resp.lower()
+        if resp == 'y':
+            resp = raw_input("Path to hemlock_creds file: ")
+            try:
+                f = open(resp, 'r')
+                for line in f:
+                    self.log.debug(debug, line)
+                    if len(line) > 0 and line[0] != "#" and "=" in line:
+                        # split each line on the first '='
+                        line = line.split("=",1)
+                        try:
+                            os.environ[line[0]] = line[1].strip()
+                        except:
+                            print "Malformed Hemlock Creds file."
+                            self.log.debug(debug, str(sys.exc_info()[0]))
+                f.close()
+            except:
+                print "Unable to open "+resp
+                self.log.debug(debug, str(sys.exc_info()[0]))
+        return
+
     def get_auth(self):
         # extract command-line switches
         (options, args_leftover) = Hemlock().parse_auth()
@@ -728,80 +753,164 @@ class Hemlock():
         else:
             options.debug = 1
 
+        asked_for_creds = 0
+
         # use environment variables and CLI as fallbacks for unspecified variables
         try:
             if options.server == None:
                 options.server = os.environ['HEMLOCK_MYSQL_SERVER']
             self.log.debug(options.debug, "HEMLOCK_MYSQL_SERVER = "+options.server)
         except:
-            options.server = raw_input("MySQL Server (default is localhost):")
-            if options.server == "":
-                options.server = "localhost"
-            self.log.debug(options.debug, "HEMLOCK_MYSQL_SERVER = "+options.server)
+            if asked_for_creds == 0:
+                self.read_creds()
+                asked_for_creds = 1
+                try:
+                    options.server = os.environ['HEMLOCK_MYSQL_SERVER']
+                except:
+                    options.server = raw_input("MySQL Server (default is localhost):")
+                    if options.server == "":
+                        options.server = "localhost"
+                    self.log.debug(options.debug, "HEMLOCK_MYSQL_SERVER = "+options.server)
+            else:
+                options.server = raw_input("MySQL Server (default is localhost):")
+                if options.server == "":
+                    options.server = "localhost"
+                self.log.debug(options.debug, "HEMLOCK_MYSQL_SERVER = "+options.server)
 
         try:
             if options.db == None:
                 options.db = os.environ['HEMLOCK_MYSQL_DB']
             self.log.debug(options.debug, "HEMLOCK_MYSQL_DB = "+options.db)
         except:
-            options.db = raw_input("MySQL DB (default is hemlock):")
-            if options.db == "":
-                options.db = "hemlock"
-            self.log.debug(options.debug, "HEMLOCK_MYSQL_DB = "+options.db)
+            if asked_for_creds == 0:
+                self.read_creds()
+                asked_for_creds = 1
+                try:
+                    options.db = os.environ['HEMLOCK_MYSQL_DB']
+                except:
+                    options.db = raw_input("MySQL DB (default is hemlock):")
+                    if options.db == "":
+                        options.db = "hemlock"
+                    self.log.debug(options.debug, "HEMLOCK_MYSQL_DB = "+options.db)
+            else:
+                options.db = raw_input("MySQL DB (default is hemlock):")
+                if options.db == "":
+                    options.db = "hemlock"
+                self.log.debug(options.debug, "HEMLOCK_MYSQL_DB = "+options.db)
 
         try:
             if options.user == None:
                 options.user = os.environ['HEMLOCK_MYSQL_USERNAME']
             self.log.debug(options.debug, "HEMLOCK_MYSQL_USERNAME = "+options.user)
         except:
-            options.user = raw_input("Username:")
-            self.log.debug(options.debug, "HEMLOCK_MYSQL_USER = "+options.user)
+            if asked_for_creds == 0:
+                self.read_creds()
+                asked_for_creds = 1
+                try:
+                    options.user = os.environ['HEMLOCK_MYSQL_USERNAME']
+                except:
+                    options.user = raw_input("Username:")
+                    self.log.debug(options.debug, "HEMLOCK_MYSQL_USER = "+options.user)
+            else:
+                options.user = raw_input("Username:")
+                self.log.debug(options.debug, "HEMLOCK_MYSQL_USER = "+options.user)
 
         try:
             if options.pw == None:
                 options.pw = os.environ['HEMLOCK_MYSQL_PW']
             self.log.debug(options.debug, "HEMLOCK_MYSQL_PW = "+options.pw)
         except:
-            options.pw = getpass.getpass("MySQL Password:")
-            self.log.debug(options.debug, "HEMLOCK_MYSQL_PW = "+options.pw)
+            if asked_for_creds == 0:
+                self.read_creds()
+                asked_for_creds = 1
+                try:
+                    options.pw = os.environ['HEMLOCK_MYSQL_PW']
+                except:
+                    options.pw = getpass.getpass("MySQL Password:")
+                    self.log.debug(options.debug, "HEMLOCK_MYSQL_PW = "+options.pw)
+            else:
+                options.pw = getpass.getpass("MySQL Password:")
+                self.log.debug(options.debug, "HEMLOCK_MYSQL_PW = "+options.pw)
 
         try:
             if options.c_server == None:
                 options.c_server = os.environ['HEMLOCK_COUCHBASE_SERVER']
             self.log.debug(options.debug, "HEMLOCK_COUCHBASE_SERVER = "+options.c_server)
         except:
-            options.c_server = raw_input("Couchbase Server (default is localhost):")
-            if options.c_server == "":
-                options.c_server = "localhost"
-            self.log.debug(options.debug, "HEMLOCK_COUCHBASE_SERVER = "+options.c_server)
+            if asked_for_creds == 0:
+                self.read_creds()
+                asked_for_creds = 1
+                try:
+                    options.c_server = os.environ['HEMLOCK_COUCHBASE_SERVER']
+                except:
+                    options.c_server = raw_input("Couchbase Server (default is localhost):")
+                    if options.c_server == "":
+                        options.c_server = "localhost"
+                    self.log.debug(options.debug, "HEMLOCK_COUCHBASE_SERVER = "+options.c_server)
+            else:
+                options.c_server = raw_input("Couchbase Server (default is localhost):")
+                if options.c_server == "":
+                    options.c_server = "localhost"
+                self.log.debug(options.debug, "HEMLOCK_COUCHBASE_SERVER = "+options.c_server)
 
         try:
             if options.bucket == None:
                 options.bucket = os.environ['HEMLOCK_COUCHBASE_BUCKET']
             self.log.debug(options.debug, "HEMLOCK_COUCHBASE_BUCKET = "+options.bucket)
         except:
-            options.bucket = raw_input("Couchbase Bucket (default is hemlock):")
-            if options.bucket == "":
-                options.bucket = "hemlock"
-            self.log.debug(options.debug, "HEMLOCK_COUCHBASE_BUCKET = "+options.bucket)
+            if asked_for_creds == 0:
+                self.read_creds()
+                asked_for_creds = 1
+                try:
+                    options.bucket = os.environ['HEMLOCK_COUCHBASE_BUCKET']
+                except:
+                    options.bucket = raw_input("Couchbase Bucket (default is hemlock):")
+                    if options.bucket == "":
+                        options.bucket = "hemlock"
+                    self.log.debug(options.debug, "HEMLOCK_COUCHBASE_BUCKET = "+options.bucket)
+            else:
+                options.bucket = raw_input("Couchbase Bucket (default is hemlock):")
+                if options.bucket == "":
+                    options.bucket = "hemlock"
+                self.log.debug(options.debug, "HEMLOCK_COUCHBASE_BUCKET = "+options.bucket)
 
         try:
             if options.c_user == None:
                 options.c_user = os.environ['HEMLOCK_COUCHBASE_USERNAME']
             self.log.debug(options.debug, "HEMLOCK_COUCHBASE_USERNAME = "+options.c_user)
         except:
-            options.bucket = raw_input("Couchbase Username (default is hemlock):")
-            if options.bucket == "":
-                options.bucket = "hemlock"
-            self.log.debug(options.debug, "HEMLOCK_COUCHBASE_USERNAME = "+options.c_user)
+            if asked_for_creds == 0:
+                self.read_creds()
+                asked_for_creds = 1
+                try:
+                    options.c_user = os.environ['HEMLOCK_COUCHBASE_USERNAME']
+                except:
+                    options.bucket = raw_input("Couchbase Username (default is hemlock):")
+                    if options.bucket == "":
+                        options.bucket = "hemlock"
+                    self.log.debug(options.debug, "HEMLOCK_COUCHBASE_USERNAME = "+options.c_user)
+            else:
+                options.bucket = raw_input("Couchbase Username (default is hemlock):")
+                if options.bucket == "":
+                    options.bucket = "hemlock"
+                self.log.debug(options.debug, "HEMLOCK_COUCHBASE_USERNAME = "+options.c_user)
 
         try:
             if options.c_pw == None:
                 options.c_pw = os.environ['HEMLOCK_COUCHBASE_PW']
             self.log.debug(options.debug, "HEMLOCK_COUCHBASE_PW = "+options.c_pw)
         except:
-            options.c_pw = getpass.getpass("Couchbase Password:")
-            self.log.debug(options.debug, "HEMLOCK_COUCHBASE_PW = "+options.c_pw)
+            if asked_for_creds == 0:
+                self.read_creds()
+                asked_for_creds = 1
+                try:
+                    options.c_pw = os.environ['HEMLOCK_COUCHBASE_PW']
+                except:
+                    options.c_pw = getpass.getpass("Couchbase Password:")
+                    self.log.debug(options.debug, "HEMLOCK_COUCHBASE_PW = "+options.c_pw)
+            else:
+                options.c_pw = getpass.getpass("Couchbase Password:")
+                self.log.debug(options.debug, "HEMLOCK_COUCHBASE_PW = "+options.c_pw)
 
         return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.bucket, options.c_pw, options.debug
 
