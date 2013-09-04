@@ -216,9 +216,17 @@ Getting started
     }
    }
 
-   Now we can feed the ``id`` into Couchbase to return the full document:
+   Now we can feed the 'id' into Couchbase to return the full document:
    
    http://couchbase.fqdn:8092/hemlock/865f458b4421ae5fd758e3c81aca9f8d8b4696b6
+   
+   Which returns something like the following:
+   
+   {
+    "hemlock-system": "a50b86c2-59f7-42a3-aa67-3367579189fe",
+    "hemlock-date": "2013-09-03 16:10:20",
+    "stream": "DOYLIE"
+   }
    ```
    
 Credential files
