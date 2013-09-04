@@ -102,9 +102,54 @@ Installing required databases
 Getting started
 ----------------
 
-1. Source Hemlock credentials
-2. Create a tenant, user, and data source system
-3. Add credentials for data source system
+1. Create Hemlock credentials (see 'Credential files')
+   ```bash
+    HEMLOCK_MYSQL_SERVER=192.168.1.10
+    HEMLOCK_MYSQL_USERNAME=user
+    HEMLOCK_MYSQL_PW=pass
+    HEMLOCK_COUCHBASE_SERVER=192.168.1.20
+    HEMLOCK_COUCHBASE_BUCKET=hemlock
+    HEMLOCK_COUCHBASE_USERNAME=hemlock
+    HEMLOCK_COUCHBASE_PW=pass
+    ```
+    (if you'd like these to persist, consider adding export before each line and performing ``source`` on the file)
+2. Create a tenant, role, user, and data source system
+   ```bash
+   hemlock tenant-create --name Project1
+
+   hemlock tenant-list
+   
+   hemlock role-create --name User
+   
+   hemlock role-list
+   
+   hemlock user-create --name User1 \
+                       --username Username1 \
+                       --email user1@email.com \
+                       --rold_id 42ba73f9-0ab6-4a50-908c-1585955754f4 \
+                       --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
+   
+   hemlock user-list
+   
+   hemlock register-local-system --name System1 \
+                                 --data_type csv \
+                                 --description "description" \
+                                 --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6 \
+                                 --hostname system1.fqdn \
+                                 --endpoint http://hemlock.server/ \
+                                 --poc_name user1 \
+                                 --poc_email user1@email.com
+   
+   hemlock system-list
+   ```
+3. Add credentials for data source system, for example: mysql_creds
+   ```bash
+   MYSQL_SERVER=192.168.1.30
+   MYSQL_DB=db1
+   #MYSQL_TABLE=table1
+   MYSQL_USERNAME=user
+   MYSQL_PW=pass
+   ```
 4. Store a client
 5. Add credentials for hemlock
 6. Add a schedule for the data source system to run
