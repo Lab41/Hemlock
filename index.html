@@ -275,18 +275,19 @@ Which returns something like the following:
 <a name="credential-files" class="anchor" href="#credential-files"><span class="octicon octicon-link"></span></a>Credential files</h2>
 
 <ol>
-<li>Create a <code>hemlock_creds</code> file (see hemlock_creds_sample for an example): 
-<code>bash
-HEMLOCK_MYSQL_SERVER=192.168.1.10
-HEMLOCK_MYSQL_USERNAME=user
-HEMLOCK_MYSQL_PW=pass
-HEMLOCK_COUCHBASE_SERVER=192.168.1.20
-HEMLOCK_COUCHBASE_BUCKET=hemlock
-HEMLOCK_COUCHBASE_USERNAME=hemlock
-HEMLOCK_COUCHBASE_PW=pass
-</code>
+<li>
+<p>Create a <code>hemlock_creds</code> file (see hemlock_creds_sample for an example): </p>
+
+<div class="highlight"><pre><span class="nv">HEMLOCK_MYSQL_SERVER</span><span class="o">=</span>192.168.1.10
+<span class="nv">HEMLOCK_MYSQL_USERNAME</span><span class="o">=</span>user
+<span class="nv">HEMLOCK_MYSQL_PW</span><span class="o">=</span>pass
+<span class="nv">HEMLOCK_COUCHBASE_SERVER</span><span class="o">=</span>192.168.1.20
+<span class="nv">HEMLOCK_COUCHBASE_BUCKET</span><span class="o">=</span>hemlock
+<span class="nv">HEMLOCK_COUCHBASE_USERNAME</span><span class="o">=</span>hemlock
+<span class="nv">HEMLOCK_COUCHBASE_PW</span><span class="o">=</span>pass
+</pre></div>
 </li>
-<li>Create credential files for each client you intend to use (<a href="https://github.com/Lab41/Hemlock/tree/master/hemlock/clients/">examples</a>).</li>
+<li><p>Create credential files for each client you intend to use (<a href="https://github.com/Lab41/Hemlock/tree/master/hemlock/clients/">examples</a>).</p></li>
 </ol><h1>
 <a name="currently-supported-data-sources" class="anchor" href="#currently-supported-data-sources"><span class="octicon octicon-link"></span></a>Currently supported data sources</h1>
 
