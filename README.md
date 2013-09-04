@@ -125,21 +125,21 @@ Getting started
    hemlock role-list
    
    hemlock user-create --name User1 \
-                       --username Username1 \
-                       --email user1@email.com \
-                       --rold_id 42ba73f9-0ab6-4a50-908c-1585955754f4 \
-                       --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
+                        --username Username1 \
+                        --email user1@email.com \
+                        --rold_id 42ba73f9-0ab6-4a50-908c-1585955754f4 \
+                        --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
    
    hemlock user-list
    
    hemlock register-local-system --name System1 \
-                                 --data_type csv \
-                                 --description "description" \
-                                 --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6 \
-                                 --hostname system1.fqdn \
-                                 --endpoint http://hemlock.server/ \
-                                 --poc_name user1 \
-                                 --poc_email user1@email.com
+                                  --data_type csv \
+                                  --description "description" \
+                                  --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6 \
+                                  --hostname system1.fqdn \
+                                  --endpoint http://hemlock.server/ \
+                                  --poc_name user1 \
+                                  --poc_email user1@email.com
    
    hemlock system-list
    ```
@@ -152,12 +152,75 @@ Getting started
    MYSQL_PW=pass
    ```
 4. Store a client
+   ```bash
+   hemlock client-store --name mysql_client_1 --type mysql --system_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6 --credential_file /path/to/mysql_creds 
+
+   hemlock client-list
+   ```
 5. Add credentials for hemlock
-6. Add a schedule for the data source system to run
+   ```bash
+   hemlock hemlock-server-store --credential_file /path/to/hemlock_creds
+   ```
+6. Add a schedule for the data source system to run (optional)
+   ```bash
+   hemlock client-schedule --name schedule1 \
+                          --minute "54" \
+                          --hour "12" \
+                          --day_of_month "*" \
+                          --month "*" \
+                          --day_of_week "*" \
+                          --client_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
+
+   hemlock schedule-list
+
+   ```
 7. Perform a test run for pulling data from the data source system
+   ```bash
+   hemlock client-run --uuid 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
+   ```
 8. Search for data that has been loaded into Hemlock
+   ```bash
+   Full text search with elasticsearch:
 
+   http://elasticsearch.fqdn:9200/hemlock/_search?q=foo
 
+   Which returns something the following:
+   
+   {
+    "took": 14,
+    "timed_out": false,
+    "_shards": {
+        "total": 20,
+        "successful": 20,
+        "failed": 0
+    },
+    "hits": {
+        "total": 1,
+        "max_score": 3.6582048,
+        "hits": [
+            {
+                "_index": "hemlock",
+                "_type": "couchbaseDocument",
+                "_id": "865f458b4421ae5fd758e3c81aca9f8d8b4696b6",
+                "_score": 3.6582048,
+                "_source": {
+                    "meta": {
+                        "id": "865f458b4421ae5fd758e3c81aca9f8d8b4696b6",
+                        "rev": "1-0010f1ac6045ccf40000000000000000",
+                        "flags": 0,
+                        "expiration": 0
+                    }
+                }
+            }
+        ]
+    }
+   }
+
+   Now we can feed the ``id`` into Couchbase to return the full document:
+   
+   http://couchbase.fqdn:8092/hemlock/865f458b4421ae5fd758e3c81aca9f8d8b4696b6
+   ```
+   
 Credential files
 ----------------
 
