@@ -233,6 +233,7 @@ Credential files
 ----------------
 
 1. Create a ``hemlock_creds`` file (see hemlock_creds_sample for an example): 
+
    ```bash
    HEMLOCK_MYSQL_SERVER=192.168.1.10
    HEMLOCK_MYSQL_USERNAME=user
@@ -242,6 +243,7 @@ Credential files
    HEMLOCK_COUCHBASE_USERNAME=hemlock
    HEMLOCK_COUCHBASE_PW=pass
    ```
+   
 2. Create credential files for each client you intend to use ([examples](https://github.com/Lab41/Hemlock/tree/master/hemlock/clients/)).
 
 
