@@ -1387,6 +1387,7 @@ class Hemlock():
                                     data_action += "AES_ENCRYPT(\""+creds.replace('"','\\"')+"\", \""+aes_key+"\"), "
                                 except:
                                     error = 1
+                                    self.log.debug(debug, str(sys.exc_info()[0]))
                                     print "Unable to read credentials file"
                                     sys.exit(0)
                             elif k == i:
