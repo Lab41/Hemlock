@@ -1140,7 +1140,7 @@ class Hemlock():
                 if len(remove_results) > 1:
                     if "tenant" in action_a:
                         data_action = "DELETE FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"' and tenant_id = '"+var_d['--tenant_id']+"'"
-                        self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                        self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                     elif "schedule" in action_a:
                         # client_remove_schedule
                         if action_a[0] == "client":
@@ -1148,10 +1148,10 @@ class Hemlock():
                         # schedule_remove_client
                         else:
                             data_action = "DELETE FROM schedules_clients WHERE system_id = '"+var_d['--uuid']+"' and client_id = '"+var_d['--client_id']+"'"
-                        self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                        self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                     else: # roles
                         data_action = "DELETE FROM users_roles WHERE user_id = '"+var_d['--uuid']+"' and role_id = '"+var_d['--role_id']+"'"
-                        self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                        self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 else:
                     # it's ok if it's a schedule/client
                     if "schedule" not in action_a:
@@ -1195,22 +1195,22 @@ class Hemlock():
                 if l == -1:
                     data_action3 = ""
                 data_action = data_action[:-2]+")"
-                self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
-                self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action2)
-                self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action3)
+                self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
+                self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action2)
+                self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action3)
             elif "delete" in action_a:
                 # delete
                 if "tenants" in action_a:
                     data_action = "DELETE FROM "+action_a[0]+"s_tenants WHERE "+action_a[0]+"_id = '"+var_d['--uuid']+"'"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "roles" in action_a:
                     data_action = "DELETE FROM "+action_a[0]+"s_roles WHERE "+action_a[0]+"_id = '"+var_d['--uuid']+"'"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "schedule" in action_a:
                     data_action = "DELETE FROM "+action_a[0]+"s_clients WHERE "+action_a[0]+"_id = '"+var_d['--uuid']+"'"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 data_action2 = "DELETE FROM "+action_a[0]+"s WHERE uuid = '"+var_d['--uuid']+"'"
-                self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action2)
+                self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action2)
             # start scheduler
             elif "start" in action_a:
                  # check if there is already a hemlock_scheduler running
@@ -1233,34 +1233,34 @@ class Hemlock():
                 # read only
                 if "roles" in action_a:
                     data_action = "SELECT * FROM users_roles WHERE user_id = '"+var_d['--uuid']+"'"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "tenants" in action_a and "user" in action_a:
                     data_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"'"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "tenants" in action_a and "system" in action_a:
                     data_action = "SELECT * FROM systems_tenants WHERE system_id = '"+var_d['--uuid']+"'"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "users" in action_a and "tenant" in action_a:
                     data_action = "SELECT * FROM users_tenants WHERE tenant_id = '"+var_d['--uuid']+"'"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "users" in action_a and "role" in action_a:
                     data_action = "SELECT * FROM users_roles WHERE role_id = '"+var_d['--uuid']+"'"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "clients" in action_a and "schedule" in action_a:
                     data_action = "SELECT * FROM schedules_clients WHERE schedule_id = '"+var_d['--uuid']+"'"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "clients" in action_a and "system" in action_a:
                     data_action = "SELECT * FROM systems_clients WHERE system_id = '"+var_d['--uuid']+"'"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "schedules" in action_a and "client" in action_a:
                     data_action = "SELECT * FROM schedules_clients WHERE client_id = '"+var_d['--uuid']+"'"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "systems" in action_a and "tenant" in action_a:
                     data_action = "SELECT * FROM systems_tenants WHERE tenant_id = '"+var_d['--uuid']+"'"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "systems" in action_a and "client" in action_a:
                     data_action = "SELECT * FROM systems_clients WHERE client_id = '"+var_d['--uuid']+"'"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "server" in action_a:
                     # write
                     if "store" in action_a:
@@ -1272,7 +1272,7 @@ class Hemlock():
                             resp = resp.lower()
                         if resp == 'y':
                             data_action = "TRUNCATE TABLE hemlock_server"
-                            self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                            self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                             cur.execute(data_action)
                             results = cur.fetchall()
                             self.log.debug(debug, "Successfully executed the following SQL query: "+data_action)
@@ -1316,16 +1316,16 @@ class Hemlock():
                             data_action = data_action[:-2]+")"
                         else:
                             data_action = ""
-                        self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                        self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "client" in action_a:
                     if "get" in action_a:
                         # get a client
                         data_action = "SELECT * FROM "+action_a[0]+"s WHERE uuid = '"+var_d['--uuid']+"'"
-                        self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                        self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                     elif "list" in action_a:
                         # list clients
                         data_action = "SELECT * FROM "+action_a[0]+"s"
-                        self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                        self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                     # purge, run, schedule, and store are not read only
                     # delete
                     elif "purge" in action_a:
@@ -1333,9 +1333,9 @@ class Hemlock():
                         data_action = "DELETE FROM schedules_clients WHERE client_id = '"+var_d['--uuid']+"'"
                         data_action2 = "DELETE FROM systems_clients WHERE client_id = '"+var_d['--uuid']+"'"
                         data_action3 = "DELETE FROM clients WHERE uuid = '"+var_d['--uuid']+"'"
-                        self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
-                        self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action2)
-                        self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action3)
+                        self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
+                        self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action2)
+                        self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action3)
                     # write
                     elif "run" in action_a:
                         # run a client for data push/pull
@@ -1344,7 +1344,7 @@ class Hemlock():
 
                         # client type using the client_uuid
                         data_action = "SELECT type FROM clients WHERE uuid = '"+var_d['--uuid']+"'"
-                        self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                        self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                         cur.execute(data_action)
                         results = cur.fetchall()
                         self.log.debug(debug, "Successfully executed the following SQL query: "+data_action)
@@ -1361,7 +1361,7 @@ class Hemlock():
 
                         # using the client_uuid get the system_id
                         data_action = "SELECT * from systems_clients where client_id = '"+client_uuid+"'"
-                        self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                        self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                         cur.execute(data_action)
                         results = cur.fetchall()
                         self.log.debug(debug, "Successfully executed the following SQL query: "+data_action)
@@ -1411,8 +1411,8 @@ class Hemlock():
                         if k == -1:
                             data_action2 = ""
                         data_action = data_action[:-2]+")"
-                        self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
-                        self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action2)
+                        self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
+                        self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action2)
                     # write
                     elif "store" in action_a:
                         # store client credentials
@@ -1461,8 +1461,8 @@ class Hemlock():
                         if k == -1:
                             data_action2 = ""
                         data_action = data_action[:-2]+")"
-                        self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
-                        self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action2)
+                        self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
+                        self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action2)
                 elif "all" in action_a:
                     # since this one returns all data and 
                     # descriptions in one payload, it will 
@@ -1568,7 +1568,7 @@ class Hemlock():
 
                     # get all tables
                     data_action = "show tables"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                     cur.execute(data_action)
                     results = cur.fetchall()
                     self.log.debug(debug, "Successfully executed the following SQL query: "+data_action)
@@ -1580,14 +1580,14 @@ class Hemlock():
                         table_array = []
                         # get field names of each table
                         data_action = "DESC "+table
-                        self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                        self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                         cur.execute(data_action)
                         results = cur.fetchall()
                         self.log.debug(debug, "Successfully executed the following SQL query: "+data_action)
                         self.log.debug(debug, "Results: "+str(results))
                         # get data from each table
                         data_action = "SELECT * FROM "+table
-                        self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                        self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                         cur.execute(data_action)
                         results2 = cur.fetchall()
                         self.log.debug(debug, "Successfully executed the following SQL query: "+data_action)
@@ -1609,7 +1609,7 @@ class Hemlock():
                     data_action = "SELECT * FROM "+action_a[0]+"s"
                     if "get" in action_a:
                         data_action += " WHERE uuid = '"+var_d['--uuid']+"'"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
             try:
                 if data_action:
                     cur.execute(data_action)
@@ -1643,36 +1643,36 @@ class Hemlock():
             if results:
                 if "roles" in action_a:
                     data_action = "desc users_roles"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "clients" in action_a:
                     # schedule
                     data_action = "desc "+action_a[0]+"s_clients"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "tenants" in action_a:
                     # system
                     data_action = "desc "+action_a[0]+"s_tenants"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "users" in action_a:
                     if "tenant" in action_a:
                         data_action = "desc "+action_a[1]+"_tenants"
                     # role
                     else:
                         data_action = "desc "+action_a[1]+"_roles"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "schedules" in action_a:
                     # client
                     data_action = "desc "+action_a[1]+"_clients"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "systems" in action_a:
                     if "tenant" in action_a:
                         data_action = "desc "+action_a[1]+"_tenants"
                     # client
                     else:
                         data_action = "desc "+action_a[1]+"_clients"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 else:
                     data_action = "desc "+action_a[0]+"s"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "data_action)
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 cur.execute(data_action)
                 desc_results = cur.fetchall()
                 self.log.debug(debug, "Successfully executed the following SQL query: "+data_action)
