@@ -162,7 +162,7 @@ class Hemlock_Base():
                 j_dict['hemlock-date'] = time.strftime('%Y-%m-%d %H:%M:%S')
                 t_dict[uid.hexdigest()] = j_dict
                 # requires couchbase 1.0 client
-                # !! TODO this should a parameter, not hardcoded
+                # !! TODO this should be a parameter, not hardcoded
                 if len(t_dict) > 250000:
                     try:
                         h_server.set_multi(t_dict, format=couchbase.FMT_JSON)
@@ -267,27 +267,3 @@ class Hemlock_Base():
         for arg in sys.argv:
             args.append(arg)
         return args[1:]
-
-if __name__ == "__main__":
-    start_time = time.time()
-    hemlock = Hemlock_Base()
-    debug = 0
-    args = hemlock.get_args(debug)
-    client_uuid, client, splits = hemlock.process_args(debug, args)
-    CLIENT_CREDS_FILE, c_inst = hemlock.client_import(debug, client)
-    client_dict, server_dict = hemlock.get_creds(debug, CLIENT_CREDS_FILE)
-    global c_server
-    c_server = c_inst.connect_client(debug, client_dict)
-    data_list = []
-    desc_list = []
-    h_server = hemlock.connect_server(debug, server_dict)
-    hemlock.verify_system(debug, client_uuid, server_dict)
-    # DEBUG
-    # !! TODO this is no longer correct for streams
-    if not client.startswith("stream"):
-        data_list, desc_list = c_inst.get_data(debug, client_dict, c_server, h_server, client_uuid)
-    else:
-        hemlock.stream_workers(debug)
-    hemlock.send_data(debug, data_list, desc_list, h_server, client_uuid)
-    hemlock.update_hemlock(debug, client_uuid, server_dict)
-    print "Took",time.time() - start_time,"seconds to complete."

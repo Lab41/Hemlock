@@ -76,6 +76,13 @@ class HFs:
         return 
 
     def process_files(self, debug, input, h_server, client_uuid):
+        # !! TODO
+        #    check by file extension first, import from file_types should match
+        #    extension name. second check mimetype, again file_types should 
+        #    match the name. finally if none of those match, generic, then fall
+        #    back to no mimetype or known extension type and try to base64 
+        #    encode it
+
         # DEBUG
         matches = []
         errors = 0
@@ -91,6 +98,9 @@ class HFs:
             f = open(file, 'rb')
             # DEBUG
             try:
+                # !! TODO
+                #    this should be a more explicit check against the
+                #    extension, not the name
                 if "csv" in file:
                     # DEBUG
                     try:

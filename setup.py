@@ -32,7 +32,7 @@ setup(
     author_email='charliel@lab41.org',
     description='Hemlock is a way of providing a common data access layer.',
     url='http://lab41.github.io/Hemlock',
-    packages=['hemlock', 'hemlock.clients', 'hemlock.load_scripts', 'hemlock.www'],
+    packages=['hemlock', 'hemlock.clients', 'hemlock.load_scripts', 'hemlock.www', 'hemlock.clients.file_types'],
     scripts=['bin/hemlock', 'bin/hemlock-scheduler', 'scripts/ci/setup_env_hemlock.sh', 'scripts/bin/distro'],
     license='LICENSE.txt',
     long_description=open('README.md').read(),
