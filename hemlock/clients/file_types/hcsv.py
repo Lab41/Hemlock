@@ -17,3 +17,33 @@
 class Hcsv:
     def __init__(self):
         return
+    def process_files(file):
+        # DEBUG
+        try:
+            f.close()
+            with open(file, 'rb') as csvfile:
+                reader = csv.reader(csvfile, delimiter=',', quotechar='"')
+                hrow = reader.next()
+                for row in reader:
+                    j = 0
+                    j_str = "{"
+                    while j < len(hrow):
+                        j_str += "\""+hrow[j]+"\":"
+                        j_str += "\""+ row[j]+"\","
+                        j += 1
+                    j_str = j_str[:-1]+"}"
+                    if j_str != "}":
+                        j_str = json.dumps(repr(j_str))
+                        j_list.append(j_str)
+                        # !! TODO
+                        # need to rework this line
+                        self.format_lists(debug, j_list, h_server, client_uuid)
+                        j_list = []
+                        i += 1
+        except:
+            f = open(file, 'rb')
+            j_str = json.dumps( { "payload": f.read() } )
+            j_list.append(j_str)
+            self.format_lists(debug, j_list, h_server, client_uuid)
+            j_list = []
+            i += 1
