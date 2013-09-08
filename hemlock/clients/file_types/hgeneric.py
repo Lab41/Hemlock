@@ -17,3 +17,11 @@
 class Hgeneric:
     def __init__(self):
         return
+
+    def process_files(file):
+        # DEBUG
+        j_str = json.dumps( { "payload": f.read() } )
+        j_list.append(j_str)
+        self.format_lists(debug, j_list, h_server, client_uuid)
+        j_list = []
+        i += 1

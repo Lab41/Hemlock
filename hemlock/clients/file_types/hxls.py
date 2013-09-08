@@ -17,3 +17,45 @@
 class Hxls:
     def __init__(self):
         return
+    def process_files(file):
+        # DEBUG
+        try:
+            wb = xlrd.open_workbook(file)
+            wb_sn = wb.sheet_names()
+            for sn in wb_sn:
+                sh = wb.sheet_by_name(sn)
+                j = 0
+                header = []
+                for rownum in xrange(sh.nrows):
+                    j_str = "{"
+                    if j == 0:
+                        header = sh.row_values(rownum)
+                    else:
+                        row = sh.row_values(rownum)
+                        k = 0
+                        header2 = []
+                        while k < len(header):·
+                            if header[k] != "":
+                                if header[k] in header2:
+                                    j_str += "\""+unicode(header[k])+str(k)+"\":\""+unicode(row[k])+"\","
+                                else:
+                                    j_str += "\""+unicode(header[k])+"\":\""+unicode(row[k])+"\","
+                                header2.append(header[k])
+                            else:
+                                j_str += "\"empty-"+str(k)+"\":\""+unicode(row[k])+"\","
+                            k += 1
+                    j += 1
+                    j_str = j_str[:-1]+"}"
+                    if j_str != "}":
+                        j_str = json.dumps(j_str)
+                        j_list.append(j_str)
+                        self.format_lists(debug, j_list, h_server, client_uuid)
+                        j_list = []
+                        i += 1
+        except:
+            b64_text = base64.b64encode(f.read())
+            j_str = json.dumps( { "payload": b64_text } )
+            j_list.append(j_str)
+            self.format_lists(debug, j_list, h_server, client_uuid)
+            j_list = []
+            i += 1
