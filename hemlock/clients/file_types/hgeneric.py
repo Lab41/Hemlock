@@ -14,14 +14,16 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-class Hgeneric:
-    def __init__(self):
-        return
+from hemlock.clients import hfs
 
-    def process_files(file):
+class Hgeneric:
+    def process_files(self, debug, file, file_mime, h_server, client_uuid):
+        # !! TODO try/catch
+        f = open(file, 'rb')
+        h_inst = hfs.HFs()
         # DEBUG
         j_str = json.dumps( { "payload": f.read() } )
         j_list.append(j_str)
-        self.format_lists(debug, j_list, h_server, client_uuid)
+        h_inst.format_lists(debug, j_list, h_server, client_uuid)
         j_list = []
         i += 1

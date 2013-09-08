@@ -14,10 +14,13 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from hemlock.clients import hfs
+
 class Hxls:
-    def __init__(self):
-        return
-    def process_files(file):
+    def process_files(self, debug, file, file_mime, h_server, client_uuid):
+        # !! TODO try/catch
+        f = open(file, 'rb')
+        h_inst = hfs.HFs()
         # DEBUG
         try:
             wb = xlrd.open_workbook(file)
@@ -49,13 +52,13 @@ class Hxls:
                     if j_str != "}":
                         j_str = json.dumps(j_str)
                         j_list.append(j_str)
-                        self.format_lists(debug, j_list, h_server, client_uuid)
+                        h_inst.format_lists(debug, j_list, h_server, client_uuid)
                         j_list = []
                         i += 1
         except:
             b64_text = base64.b64encode(f.read())
             j_str = json.dumps( { "payload": b64_text } )
             j_list.append(j_str)
-            self.format_lists(debug, j_list, h_server, client_uuid)
+            h_inst.format_lists(debug, j_list, h_server, client_uuid)
             j_list = []
             i += 1
