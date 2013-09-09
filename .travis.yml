@@ -17,6 +17,7 @@ install:
   - pip install texttable
   - pip install couchbase
   - pip install pytest
+  - pip install pytest-cov
   - pip install python-coveralls
   - pip install hemlock
 script: py.test --cov=hemlock
