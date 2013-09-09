@@ -20,7 +20,9 @@ install:
   - pip install pytest-cov
   - pip install python-coveralls
   - pip install hemlock
-script: py.test --cov=hemlock
+before_script:
+  - py.test --cov=hemlock
+script: py.test -v --cov hemlock --cov-report term-missing
 after_success:
   - coveralls
 branches:
