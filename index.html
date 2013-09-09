@@ -31,6 +31,8 @@
         <h1>
 <a name="hemlock" class="anchor" href="#hemlock"><span class="octicon octicon-link"></span></a>Hemlock</h1>
 
+<p><a href="http://badge.fury.io/py/hemlock"><img src="https://badge.fury.io/py/hemlock.png" alt="PyPI version"></a> <a href="https://travis-ci.org/Lab41/Hemlock"><img src="https://travis-ci.org/Lab41/Hemlock.png?branch=master" alt="Build Status"></a> <a href="http://crate.io/packages/hemlock/"><img src="https://pypip.in/d/hemlock/badge.png" alt="downloads"></a></p>
+
 <p>Hemlock is an open-source project exploring ways to create a common data access
 layer that eliminates the need to understand underlying data topologies but
 still preserving the requirements of each data source such as access control,
@@ -43,12 +45,12 @@ performance, and formats.</p>
 
 <p>Option A, install using pip:</p>
 
-<div class="highlight"><pre>sudo pip install hemlock
+<div class="highlight highlight-bash"><pre>sudo pip install hemlock
 </pre></div>
 
 <p>Option B, build from source:</p>
 
-<div class="highlight"><pre>git clone https://github.com/Lab41/Hemlock.git
+<div class="highlight highlight-bash"><pre>git clone https://github.com/Lab41/Hemlock.git
 <span class="nb">cd </span>Hemlock
 sudo python setup.py install
 </pre></div>
@@ -75,7 +77,7 @@ systems.</p>
 
 <p>Once the plugin is installed, be sure and update the couchbase_template.json under plugins/transport-couchbase/ to have the following:</p>
 
-<div class="highlight"><pre><span class="p">{</span>
+<div class="highlight highlight-json"><pre><span class="p">{</span>
     <span class="nt">"template"</span> <span class="p">:</span> <span class="s2">"*"</span><span class="p">,</span>
     <span class="nt">"order"</span> <span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
     <span class="nt">"mappings"</span> <span class="p">:</span> <span class="p">{</span>
@@ -115,7 +117,7 @@ systems.</p>
 
 <p>Once that is added, start up ElasticSearch with <code>bin/elasticsearch</code> and then perform the following the first time:</p>
 
-<div class="highlight"><pre>curl -XPUT http://localhost:9200/_template/couchbase -d @plugins/transport-couchbase/couchbase_template.json
+<div class="highlight highlight-bash"><pre>curl -XPUT http://localhost:9200/_template/couchbase -d @plugins/transport-couchbase/couchbase_template.json
 </pre></div>
 
 <h2>
@@ -132,7 +134,7 @@ systems.</p>
 <li>
 <p>Create Hemlock credentials (see 'Credential files')</p>
 
-<div class="highlight"><pre><span class="nv">HEMLOCK_MYSQL_SERVER</span><span class="o">=</span>192.168.1.10
+<div class="highlight highlight-bash"><pre><span class="nv">HEMLOCK_MYSQL_SERVER</span><span class="o">=</span>192.168.1.10
 <span class="nv">HEMLOCK_MYSQL_USERNAME</span><span class="o">=</span>user
 <span class="nv">HEMLOCK_MYSQL_DB</span><span class="o">=</span>hemlock
 <span class="nv">HEMLOCK_MYSQL_PW</span><span class="o">=</span>pass
@@ -147,7 +149,7 @@ systems.</p>
 <li>
 <p>Create a tenant, role, user, and data source system</p>
 
-<div class="highlight"><pre>hemlock tenant-create --name Project1
+<div class="highlight highlight-bash"><pre>hemlock tenant-create --name Project1
 
 hemlock tenant-list
 
@@ -178,7 +180,7 @@ hemlock system-list
 <li>
 <p>Add credentials for data source system, for example: mysql_creds</p>
 
-<div class="highlight"><pre><span class="nv">MYSQL_SERVER</span><span class="o">=</span>192.168.1.30
+<div class="highlight highlight-bash"><pre><span class="nv">MYSQL_SERVER</span><span class="o">=</span>192.168.1.30
 <span class="nv">MYSQL_DB</span><span class="o">=</span>db1
 <span class="c">#MYSQL_TABLE=table1</span>
 <span class="nv">MYSQL_USERNAME</span><span class="o">=</span>user
@@ -188,7 +190,7 @@ hemlock system-list
 <li>
 <p>Store a client</p>
 
-<div class="highlight"><pre>hemlock client-store --name mysql_client_1 --type mysql --system_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6 --credential_file /path/to/mysql_creds 
+<div class="highlight highlight-bash"><pre>hemlock client-store --name mysql_client_1 --type mysql --system_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6 --credential_file /path/to/mysql_creds 
 
 hemlock client-list
 </pre></div>
@@ -196,13 +198,13 @@ hemlock client-list
 <li>
 <p>Add credentials for hemlock</p>
 
-<div class="highlight"><pre>hemlock hemlock-server-store --credential_file /path/to/hemlock_creds
+<div class="highlight highlight-bash"><pre>hemlock hemlock-server-store --credential_file /path/to/hemlock_creds
 </pre></div>
 </li>
 <li>
 <p>Add a schedule for the data source system to run (optional)</p>
 
-<div class="highlight"><pre>hemlock client-schedule --name schedule1 <span class="se">\</span>
+<div class="highlight highlight-bash"><pre>hemlock client-schedule --name schedule1 <span class="se">\</span>
                       --minute <span class="s2">"54"</span> <span class="se">\</span>
                       --hour <span class="s2">"12"</span> <span class="se">\</span>
                       --day_of_month <span class="s2">"*"</span> <span class="se">\</span>
@@ -217,13 +219,13 @@ hemlock schedule-list
 <li>
 <p>Perform a test run for pulling data from the data source system</p>
 
-<div class="highlight"><pre>hemlock client-run --uuid 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
+<div class="highlight highlight-bash"><pre>hemlock client-run --uuid 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
 </pre></div>
 </li>
 <li>
 <p>Search for data that has been loaded into Hemlock</p>
 
-<div class="highlight"><pre>Full text search with elasticsearch:
+<div class="highlight highlight-bash"><pre>Full text search with elasticsearch:
 
 http://elasticsearch.fqdn:9200/hemlock/_search?q<span class="o">=</span>foo
 
@@ -279,7 +281,7 @@ Which returns something like the following:
 <li>
 <p>Create a <code>hemlock_creds</code> file (see hemlock_creds_sample for an example): </p>
 
-<div class="highlight"><pre><span class="nv">HEMLOCK_MYSQL_SERVER</span><span class="o">=</span>192.168.1.10
+<div class="highlight highlight-bash"><pre><span class="nv">HEMLOCK_MYSQL_SERVER</span><span class="o">=</span>192.168.1.10
 <span class="nv">HEMLOCK_MYSQL_USERNAME</span><span class="o">=</span>user
 <span class="nv">HEMLOCK_MYSQL_DB</span><span class="o">=</span>hemlock
 <span class="nv">HEMLOCK_MYSQL_PW</span><span class="o">=</span>pass
@@ -339,7 +341,7 @@ classes will need two methods defined: <code>connect_client</code> and <code>get
 
 <p>The following is a template that can be used to work from:</p>
 
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">HMyclient</span><span class="p">:</span>
+<div class="highlight highlight-python"><pre><span class="k">class</span> <span class="nc">HMyclient</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">connect_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_dict</span><span class="p">):</span>
         <span class="c"># return a handle that can be used to get data from the data source</span>
         <span class="k">return</span> <span class="n">c_server</span>
@@ -358,19 +360,19 @@ classes will need two methods defined: <code>connect_client</code> and <code>get
 <li>
 <p>Create a tenant</p>
 
-<div class="highlight"><pre>hemlock tenant-create --name Project1
+<div class="highlight highlight-bash"><pre>hemlock tenant-create --name Project1
 </pre></div>
 </li>
 <li>
 <p>Create a role</p>
 
-<div class="highlight"><pre>hemlock role-create --name User
+<div class="highlight highlight-bash"><pre>hemlock role-create --name User
 </pre></div>
 </li>
 <li>
 <p>Create a user</p>
 
-<div class="highlight"><pre>hemlock user-create --name User1 <span class="se">\</span>
+<div class="highlight highlight-bash"><pre>hemlock user-create --name User1 <span class="se">\</span>
                     --username Username1 <span class="se">\</span>
                     --email user1@email.com <span class="se">\</span>
                     --rold_id 42ba73f9-0ab6-4a50-908c-1585955754f4 <span class="se">\</span>
@@ -380,7 +382,7 @@ classes will need two methods defined: <code>connect_client</code> and <code>get
 <li>
 <p>Register a local system</p>
 
-<div class="highlight"><pre>hemlock register-local-system --name System1 <span class="se">\</span>
+<div class="highlight highlight-bash"><pre>hemlock register-local-system --name System1 <span class="se">\</span>
                               --data_type csv <span class="se">\</span>
                               --description <span class="s2">"description"</span> <span class="se">\</span>
                               --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6 <span class="se">\</span>
@@ -393,19 +395,19 @@ classes will need two methods defined: <code>connect_client</code> and <code>get
 <li>
 <p>List registered systems</p>
 
-<div class="highlight"><pre>hemlock system-list
+<div class="highlight highlight-bash"><pre>hemlock system-list
 </pre></div>
 </li>
 <li>
 <p>List created users</p>
 
-<div class="highlight"><pre>hemlock user-list
+<div class="highlight highlight-bash"><pre>hemlock user-list
 </pre></div>
 </li>
 <li>
 <p>Lists created tenants</p>
 
-<div class="highlight"><pre>hemlock tenant-list
+<div class="highlight highlight-bash"><pre>hemlock tenant-list
 </pre></div>
 </li>
 <li><p><a href="https://github.com/Lab41/Hemlock/tree/master/hemlock/clients/">Connecting to a client</a></p></li>
@@ -420,11 +422,6 @@ classes will need two methods defined: <code>connect_client</code> and <code>get
 <a name="tests" class="anchor" href="#tests"><span class="octicon octicon-link"></span></a>Tests</h1>
 
 <p>The tests for this project use <a href="http://pytest.org/latest/">py.test</a></p>
-
-<h1>
-<a name="travis-ci-status" class="anchor" href="#travis-ci-status"><span class="octicon octicon-link"></span></a>Travis CI Status</h1>
-
-<p><a href="https://travis-ci.org/Lab41/Hemlock"><img src="https://travis-ci.org/Lab41/Hemlock.png?branch=master" alt="Build Status"></a></p>
 
 <h1>
 <a name="contributing-to-hemlock" class="anchor" href="#contributing-to-hemlock"><span class="octicon octicon-link"></span></a>Contributing to Hemlock</h1>
