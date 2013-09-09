@@ -17,8 +17,11 @@ install:
   - pip install texttable
   - pip install couchbase
   - pip install pytest
+  - pip install python-coveralls
   - pip install hemlock
-script: py.test
+script: py.test --cov=hemlock
+after_success:
+  - coveralls
 branches:
   except:
   - gh-pages
