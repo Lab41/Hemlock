@@ -37,7 +37,7 @@ class Hxls:
                         row = sh.row_values(rownum)
                         k = 0
                         header2 = []
-                        while k < len(header):·
+                        while k < len(header):
                             if header[k] != "":
                                 if header[k] in header2:
                                     j_str += "\""+unicode(header[k])+str(k)+"\":\""+unicode(row[k])+"\","
