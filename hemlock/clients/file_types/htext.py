@@ -14,6 +14,17 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from hemlock.clients import hfs
+
 class Htext:
-    def __init__(self):
-        return
+    def process_files(self, debug, file, file_mime, h_server, client_uuid):
+        # !! TODO try/catch
+        f = open(file, 'rb')
+        h_inst = hfs.HFs()
+        # DEBUG
+        if file_mime:
+            if "text" in file_mime:
+                j_str = json.dumps( { "payload": repr(f.read()) } )
+                j_list.append(j_str)
+                h_inst.format_lists(debug, j_list, h_server, client_uuid)
+                j_list = []
