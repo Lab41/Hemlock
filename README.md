@@ -1,5 +1,6 @@
 Hemlock
 =======
+[![PyPI version](https://badge.fury.io/py/hemlock.png)](http://badge.fury.io/py/hemlock) [![Build Status](https://travis-ci.org/Lab41/Hemlock.png?branch=master)](https://travis-ci.org/Lab41/Hemlock)
 
 Hemlock is an open-source project exploring ways to create a common data access
 layer that eliminates the need to understand underlying data topologies but
@@ -346,11 +347,6 @@ Tests
 =====
 
 The tests for this project use [py.test](http://pytest.org/latest/)
-
-Travis CI Status
-================
-
-[![Build Status](https://travis-ci.org/Lab41/Hemlock.png?branch=master)](https://travis-ci.org/Lab41/Hemlock)
 
 
 Contributing to Hemlock
