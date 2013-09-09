@@ -1,6 +1,6 @@
 Hemlock
 =======
-[![PyPI version](https://badge.fury.io/py/hemlock.png)](http://badge.fury.io/py/hemlock) [![Build Status](https://travis-ci.org/Lab41/Hemlock.png?branch=master)](https://travis-ci.org/Lab41/Hemlock) [![downloads](https://pypip.in/d/hemlock/badge.png)](http://crate.io/packages/hemlock/)
+[![PyPI version](https://badge.fury.io/py/hemlock.png)](http://badge.fury.io/py/hemlock) [![Build Status](https://travis-ci.org/Lab41/Hemlock.png?branch=master)](https://travis-ci.org/Lab41/Hemlock) [![downloads](https://pypip.in/d/hemlock/badge.png)](http://crate.io/packages/hemlock/) [![Coverage Status](https://coveralls.io/repos/Lab41/Hemlock/badge.png?branch=master)](https://coveralls.io/r/Lab41/Hemlock?branch=master)
 
 Hemlock is an open-source project exploring ways to create a common data access
 layer that eliminates the need to understand underlying data topologies but
