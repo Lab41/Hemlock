@@ -1,0 +1,358 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hemlock.clients.hfs &mdash; Hemlock 0.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Hemlock 0.1.2 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Hemlock 0.1.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for hemlock.clients.hfs</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c">#</span>
+<span class="c">#   Copyright (c) 2013 In-Q-Tel, Inc/Lab41, All Rights Reserved.</span>
+<span class="c">#</span>
+<span class="c">#   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c">#   you may not use this file except in compliance with the License.</span>
+<span class="c">#   You may obtain a copy of the License at</span>
+<span class="c">#</span>
+<span class="c">#       http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c">#</span>
+<span class="c">#   Unless required by applicable law or agreed to in writing, software</span>
+<span class="c">#   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c">#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c">#   See the License for the specific language governing permissions and</span>
+<span class="c">#   limitations under the License.</span>
+
+<span class="kn">from</span> <span class="nn">hemlock_debugger</span> <span class="kn">import</span> <span class="n">Hemlock_Debugger</span>
+<span class="kn">from</span> <span class="nn">pdfminer.pdfinterp</span> <span class="kn">import</span> <span class="n">PDFResourceManager</span><span class="p">,</span> <span class="n">process_pdf</span>
+<span class="kn">from</span> <span class="nn">pdfminer.converter</span> <span class="kn">import</span> <span class="n">TextConverter</span>
+<span class="kn">from</span> <span class="nn">pdfminer.layout</span> <span class="kn">import</span> <span class="n">LAParams</span>
+<span class="kn">from</span> <span class="nn">cStringIO</span> <span class="kn">import</span> <span class="n">StringIO</span>
+
+<span class="kn">import</span> <span class="nn">hemlock_base</span>
+
+<span class="kn">import</span> <span class="nn">ast</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">fnmatch</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">magic</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">import</span> <span class="nn">xlrd</span>
+<span class="kn">import</span> <span class="nn">xmltodict</span>
+
+<div class="viewcode-block" id="HFs"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hfs.HFs">[docs]</a><span class="k">class</span> <span class="nc">HFs</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">Hemlock_Debugger</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HFs.connect_client"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hfs.HFs.connect_client">[docs]</a>    <span class="k">def</span> <span class="nf">connect_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">client_dict</span><span class="p">):</span>
+        <span class="c"># DEBUG</span>
+        <span class="nb">input</span> <span class="o">=</span> <span class="s">&quot;/mnt/&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">input</span> <span class="o">=</span> <span class="n">client_dict</span><span class="p">[</span><span class="s">&#39;FILE_PATH&#39;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Failure with the creds file&quot;</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">input</span>
+</div>
+<div class="viewcode-block" id="HFs.get_data"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hfs.HFs.get_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">client_dict</span><span class="p">,</span> <span class="n">c_server</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">):</span>
+        <span class="c"># DEBUG</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">process_files</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">c_server</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[[]],</span> <span class="p">[]</span>
+</div>
+<div class="viewcode-block" id="HFs.format_lists"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hfs.HFs.format_lists">[docs]</a>    <span class="k">def</span> <span class="nf">format_lists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">j_list</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">):</span>
+        <span class="c"># DEBUG</span>
+        <span class="n">data_list</span> <span class="o">=</span> <span class="p">[[]]</span>
+        <span class="n">desc_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">j_list</span><span class="p">:</span>
+            <span class="n">data_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
+            <span class="n">desc_list</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
+            <span class="k">while</span> <span class="n">record</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">record</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;&#39;&quot;</span><span class="p">:</span>
+                <span class="n">record</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;unicode-escape&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">record</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;ascii&#39;</span><span class="p">,</span> <span class="s">&#39;ignore&#39;</span><span class="p">)</span>
+            <span class="n">record</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">record</span><span class="p">:</span>
+                <span class="n">data_list</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
+                <span class="n">desc_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)])</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">h_inst</span> <span class="o">=</span> <span class="n">hemlock_base</span><span class="o">.</span><span class="n">Hemlock_Base</span><span class="p">()</span>
+        <span class="n">h_inst</span><span class="o">.</span><span class="n">send_data</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">data_list</span><span class="p">,</span> <span class="n">desc_list</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">)</span>
+        <span class="k">return</span> 
+</div>
+<div class="viewcode-block" id="HFs.process_files"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hfs.HFs.process_files">[docs]</a>    <span class="k">def</span> <span class="nf">process_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">):</span>
+        <span class="c"># !! TODO</span>
+        <span class="c">#    check by file extension first, import from file_types should match</span>
+        <span class="c">#    extension name. second check mimetype, again file_types should </span>
+        <span class="c">#    match the name. finally if none of those match, generic, then fall</span>
+        <span class="c">#    back to no mimetype or known extension type and try to base64 </span>
+        <span class="c">#    encode it</span>
+
+        <span class="c"># DEBUG</span>
+        <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">fnmatch</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span> <span class="s">&#39;*.*&#39;</span><span class="p">):</span>
+                <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">j_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c"># DEBUG</span>
+        <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+            <span class="k">print</span> <span class="nb">file</span>
+            <span class="n">file_mime</span> <span class="o">=</span> <span class="n">magic</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="n">mime</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span>
+            <span class="c"># DEBUG</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c"># !! TODO</span>
+                <span class="c">#    this should be a more explicit check against the</span>
+                <span class="c">#    extension, not the name</span>
+                <span class="k">if</span> <span class="s">&quot;csv&quot;</span> <span class="ow">in</span> <span class="nb">file</span><span class="p">:</span>
+                    <span class="c"># DEBUG</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>
+                            <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">csvfile</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s">&#39;,&#39;</span><span class="p">,</span> <span class="n">quotechar</span><span class="o">=</span><span class="s">&#39;&quot;&#39;</span><span class="p">)</span>
+                            <span class="n">hrow</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+                            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+                                <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+                                <span class="n">j_str</span> <span class="o">=</span> <span class="s">&quot;{&quot;</span>
+                                <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">hrow</span><span class="p">):</span>
+                                    <span class="n">j_str</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="o">+</span><span class="n">hrow</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">:&quot;</span>
+                                    <span class="n">j_str</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="o">+</span> <span class="n">row</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">,&quot;</span>
+                                    <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+                                <span class="n">j_str</span> <span class="o">=</span> <span class="n">j_str</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;}&quot;</span>
+                                <span class="k">if</span> <span class="n">j_str</span> <span class="o">!=</span> <span class="s">&quot;}&quot;</span><span class="p">:</span>
+                                    <span class="n">j_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">j_str</span><span class="p">))</span>
+                                    <span class="n">j_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j_str</span><span class="p">)</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">format_lists</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">j_list</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">)</span>
+                                    <span class="n">j_list</span> <span class="o">=</span> <span class="p">[]</span>
+                                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span>
+                        <span class="n">j_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span> <span class="p">{</span> <span class="s">&quot;payload&quot;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span> <span class="p">}</span> <span class="p">)</span>
+                        <span class="n">j_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j_str</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">format_lists</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">j_list</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">)</span>
+                        <span class="n">j_list</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">elif</span> <span class="s">&quot;xls&quot;</span> <span class="ow">in</span> <span class="nb">file</span><span class="p">:</span>
+                    <span class="c"># DEBUG</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">wb</span> <span class="o">=</span> <span class="n">xlrd</span><span class="o">.</span><span class="n">open_workbook</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
+                        <span class="n">wb_sn</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">sheet_names</span><span class="p">()</span>
+                        <span class="k">for</span> <span class="n">sn</span> <span class="ow">in</span> <span class="n">wb_sn</span><span class="p">:</span>
+                            <span class="n">sh</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">sheet_by_name</span><span class="p">(</span><span class="n">sn</span><span class="p">)</span>
+                            <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+                            <span class="n">header</span> <span class="o">=</span> <span class="p">[]</span>
+                            <span class="k">for</span> <span class="n">rownum</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">sh</span><span class="o">.</span><span class="n">nrows</span><span class="p">):</span>
+                                <span class="n">j_str</span> <span class="o">=</span> <span class="s">&quot;{&quot;</span>
+                                <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                                    <span class="n">header</span> <span class="o">=</span> <span class="n">sh</span><span class="o">.</span><span class="n">row_values</span><span class="p">(</span><span class="n">rownum</span><span class="p">)</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">row</span> <span class="o">=</span> <span class="n">sh</span><span class="o">.</span><span class="n">row_values</span><span class="p">(</span><span class="n">rownum</span><span class="p">)</span>
+                                    <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+                                    <span class="n">header2</span> <span class="o">=</span> <span class="p">[]</span>
+                                    <span class="k">while</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">header</span><span class="p">):</span> 
+                                        <span class="k">if</span> <span class="n">header</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+                                            <span class="k">if</span> <span class="n">header</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="ow">in</span> <span class="n">header2</span><span class="p">:</span>
+                                                <span class="n">j_str</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="o">+</span><span class="nb">unicode</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">:</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="o">+</span><span class="nb">unicode</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">,&quot;</span>
+                                            <span class="k">else</span><span class="p">:</span>
+                                                <span class="n">j_str</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="o">+</span><span class="nb">unicode</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">:</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="o">+</span><span class="nb">unicode</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">,&quot;</span>
+                                            <span class="n">header2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+                                        <span class="k">else</span><span class="p">:</span>
+                                            <span class="n">j_str</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">empty-&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">:</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="o">+</span><span class="nb">unicode</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">,&quot;</span>
+                                        <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+                                <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+                                <span class="n">j_str</span> <span class="o">=</span> <span class="n">j_str</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;}&quot;</span>
+                                <span class="k">if</span> <span class="n">j_str</span> <span class="o">!=</span> <span class="s">&quot;}&quot;</span><span class="p">:</span>
+                                    <span class="n">j_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">j_str</span><span class="p">)</span>
+                                    <span class="n">j_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j_str</span><span class="p">)</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">format_lists</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">j_list</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">)</span>
+                                    <span class="n">j_list</span> <span class="o">=</span> <span class="p">[]</span>
+                                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="n">b64_text</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+                        <span class="n">j_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span> <span class="p">{</span> <span class="s">&quot;payload&quot;</span><span class="p">:</span> <span class="n">b64_text</span> <span class="p">}</span> <span class="p">)</span>
+                        <span class="n">j_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j_str</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">format_lists</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">j_list</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">)</span>
+                        <span class="n">j_list</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">j_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span> <span class="p">{</span> <span class="s">&quot;payload&quot;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span> <span class="p">}</span> <span class="p">)</span>
+                    <span class="n">j_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j_str</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">format_lists</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">j_list</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">)</span>
+                    <span class="n">j_list</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="c"># !! TODO if file is xml</span>
+                <span class="c"># !! TODO if file is json</span>
+                <span class="c"># !! TODO if file is doc</span>
+                <span class="c"># !! TODO if file is ppt</span>
+                <span class="c"># DEBUG</span>
+                <span class="k">if</span> <span class="n">file_mime</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s">&quot;pdf&quot;</span> <span class="ow">in</span> <span class="n">file_mime</span><span class="p">:</span>
+                        <span class="c"># DEBUG</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_pdf</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
+                            <span class="n">j_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span> <span class="p">{</span> <span class="s">&quot;payload&quot;</span> <span class="p">:</span> <span class="n">text</span> <span class="p">}</span> <span class="p">)</span>
+                        <span class="k">except</span><span class="p">:</span>
+                            <span class="n">b64_text</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+                            <span class="n">j_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span> <span class="p">{</span> <span class="s">&quot;payload&quot;</span><span class="p">:</span> <span class="n">b64_text</span> <span class="p">}</span> <span class="p">)</span>
+                    <span class="k">elif</span> <span class="s">&quot;text&quot;</span> <span class="ow">in</span> <span class="n">file_mime</span><span class="p">:</span>
+                        <span class="n">j_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span> <span class="p">{</span> <span class="s">&quot;payload&quot;</span><span class="p">:</span> <span class="nb">repr</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span> <span class="p">}</span> <span class="p">)</span>
+                    <span class="k">elif</span> <span class="s">&quot;pcap&quot;</span> <span class="ow">in</span> <span class="n">file_mime</span><span class="p">:</span>
+                        <span class="c"># DEBUG</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">u</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+                            <span class="n">cmd</span> <span class="o">=</span> <span class="s">&quot;tshark -r &quot;</span><span class="o">+</span><span class="nb">file</span><span class="o">+</span><span class="s">&quot; -T text -V &gt; &quot;</span><span class="o">+</span><span class="n">u</span>
+                            <span class="n">junk</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+                            <span class="n">g</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span>
+                            <span class="n">a</span> <span class="o">=</span> <span class="p">[]</span>
+                            <span class="n">b</span> <span class="o">=</span> <span class="p">{}</span>
+                            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">g</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">line</span> <span class="o">==</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">:</span>
+                                    <span class="c"># a frame</span>
+                                    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">a</span><span class="p">:</span>
+                                        <span class="c"># DEBUG</span>
+                                        <span class="k">try</span><span class="p">:</span>
+                                            <span class="n">e_list</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;:&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                                            <span class="n">b</span><span class="p">[</span><span class="n">e_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span> <span class="o">=</span> <span class="n">e_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                                        <span class="k">except</span><span class="p">:</span>
+                                            <span class="c"># ignore junk</span>
+                                            <span class="n">junk</span> <span class="o">=</span> <span class="n">element</span>
+                                    <span class="n">j_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+                                    <span class="n">a</span> <span class="o">=</span> <span class="p">[]</span>
+                                    <span class="n">b</span> <span class="o">=</span> <span class="p">{}</span>
+                                    <span class="n">j_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j_str</span><span class="p">)</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">format_lists</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">j_list</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">)</span>
+                                    <span class="n">j_list</span> <span class="o">=</span> <span class="p">[]</span>
+                                <span class="n">a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                            <span class="n">g</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                            <span class="n">cmd</span> <span class="o">=</span> <span class="s">&quot;rm -rf &quot;</span><span class="o">+</span><span class="n">u</span>
+                            <span class="n">junk</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+                        <span class="k">except</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">g</span><span class="p">:</span>
+                                <span class="n">g</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                                <span class="n">cmd</span> <span class="o">=</span> <span class="s">&quot;rm -rf &quot;</span><span class="o">+</span><span class="n">u</span>
+                                <span class="n">junk</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+                            <span class="k">print</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+                            <span class="k">print</span> <span class="s">&quot;need tshark installed to process pcap files&quot;</span>
+                            <span class="n">b64_text</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+                            <span class="n">j_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span> <span class="p">{</span> <span class="s">&quot;payload&quot;</span><span class="p">:</span> <span class="n">b64_text</span> <span class="p">}</span> <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c">#print file, file_mime</span>
+                        <span class="n">b64_text</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+                        <span class="n">j_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span> <span class="p">{</span> <span class="s">&quot;payload&quot;</span><span class="p">:</span> <span class="n">b64_text</span> <span class="p">}</span> <span class="p">)</span>
+                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">j_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j_str</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">format_lists</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">j_list</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">)</span>
+                    <span class="n">j_list</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="nb">file</span><span class="p">,</span> <span class="s">&quot;no mimetype&quot;</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">print</span> <span class="n">errors</span><span class="p">,</span><span class="s">&quot;errors.&quot;</span>
+        <span class="k">print</span> <span class="n">i</span><span class="p">,</span><span class="s">&quot;documents.&quot;</span>
+        <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="HFs.convert_pdf"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hfs.HFs.convert_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">convert_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+        <span class="c"># DEBUG</span>
+        <span class="n">rsrcmgr</span> <span class="o">=</span> <span class="n">PDFResourceManager</span><span class="p">()</span>
+        <span class="n">retstr</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
+        <span class="n">codec</span> <span class="o">=</span> <span class="s">&#39;utf-8&#39;</span>
+        <span class="n">laparams</span> <span class="o">=</span> <span class="n">LAParams</span><span class="p">()</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">TextConverter</span><span class="p">(</span><span class="n">rsrcmgr</span><span class="p">,</span> <span class="n">retstr</span><span class="p">,</span> <span class="n">codec</span><span class="o">=</span><span class="n">codec</span><span class="p">,</span> <span class="n">laparams</span><span class="o">=</span><span class="n">laparams</span><span class="p">)</span>
+
+        <span class="n">fp</span> <span class="o">=</span> <span class="nb">file</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span>
+        <span class="n">process_pdf</span><span class="p">(</span><span class="n">rsrcmgr</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span>
+        <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">device</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="nb">str</span> <span class="o">=</span> <span class="n">retstr</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+        <span class="n">retstr</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">str</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Hemlock 0.1.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013 In-Q-Tel, Inc/Lab41, All Rights Reserved..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

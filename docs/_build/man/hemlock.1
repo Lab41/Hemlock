@@ -1,0 +1,1000 @@
+.\" Man page generated from reStructuredText.
+.
+.TH "HEMLOCK" "1" "September 10, 2013" "0.1.2" "Hemlock"
+.SH NAME
+hemlock \- Hemlock Documentation
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.sp
+Contents:
+.SH HEMLOCK PACKAGE
+.SS \fBhemlock\fP Module
+.sp
+Created on 19 August 2013
+@author: Charlie Lewis
+.INDENT 0.0
+.TP
+.B class hemlock.hemlock.Hemlock
+Main class for driving the API
+.INDENT 7.0
+.TP
+.B check_args(args, arg_d, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B client_add_schedule(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B client_get(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B client_list(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B client_purge(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B client_remove_schedule(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B client_run(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B client_schedule(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B client_schedules_list(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B client_store(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B client_systems_list(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B deregister_local_system(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B deregister_remote_system(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B get_auth()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B hemlock_server_store(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B list_all(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B mysql_server(debug, server, user, pw, db)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B parse_auth()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B print_help(action)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_action(debug, action, var_d, m_server)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_args(debug, args)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B read_creds(debug)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B register_local_system(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B register_remote_system(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B role_create(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B role_delete(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B role_get(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B role_list(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B role_users_list(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B schedule_add_client(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B schedule_clients_list(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B schedule_delete(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B schedule_get(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B schedule_list(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B schedule_remove_client(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B start_scheduler(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B system_add_tenant(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B system_clients_list(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B system_get(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B system_list(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B system_remove_tenant(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B system_tenants_list(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B tenant_create(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B tenant_delete(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B tenant_get(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B tenant_list(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B tenant_systems_list(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B tenant_users_list(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B user_add_role(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B user_add_tenant(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B user_create(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B user_delete(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B user_get(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B user_list(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B user_remove_role(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B user_remove_tenant(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B user_roles_list(args, var_d)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B user_tenants_list(args, var_d)
+.UNINDENT
+.UNINDENT
+.SS \fBhemlock_options_parser\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.hemlock_options_parser.PassThroughOptionParser(usage=None, option_list=None, option_class=<class optparse.Option at 0x16f49a8>, version=None, conflict_handler=\(aqerror\(aq, description=None, formatter=None, add_help_option=True, prog=None, epilog=None)
+Bases: \fBoptparse.OptionParser\fP
+.sp
+An unknown option pass\-through implementation of OptionParser.
+.sp
+When unknown arguments are encountered, bundle with largs and try again,
+until rargs is depleted.
+.sp
+sys.exit(status) will still be called if a known argument is passed
+incorrectly (e.g. missing arguments or bad argument types, etc.)
+.UNINDENT
+.SS \fBhemlock_scheduler\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.hemlock_scheduler.Hemlock_Scheduler
+.INDENT 7.0
+.TP
+.B check_schedules()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B init_schedule()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B job_work(args)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B schedule_job(function, periodicity, start_time)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B schedule_job_cron(function, args, name, minute, hour, day_of_month, month, day_of_week)
+.UNINDENT
+.UNINDENT
+.SS \fBtest_hemlock\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.test_hemlock.TestClass
+.INDENT 7.0
+.TP
+.B connect_mysql(debug, server, user, pw, db)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_client_get()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_client_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_client_purge()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_client_run()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_client_schedule()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_client_store()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_deregister_local_system()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_deregister_remote_system()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_list_all()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_register_local_system()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_register_remote_system()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_role_create()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_role_delete()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_role_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_role_users_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_schedule_get()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_schedule_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_start_scheduler()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_system_add_tenant()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_system_get()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_system_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_system_remove_tenant()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_system_tenants_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_tenant_create()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_tenant_delete()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_tenant_get()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_tenant_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_tenant_systems_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_tenant_users_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_user_add_role()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_user_add_tenant()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_user_create()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_user_delete()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_user_get()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_user_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_user_remove_role()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_user_remove_tenant()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_user_roles_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_user_tenants_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_connect_mysql()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_client_get()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_client_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_client_purge()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_client_run()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_client_schedule()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_client_store()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_deregister_local_system()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_deregister_remote_system()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_list_all()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_register_local_system()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_register_remote_system()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_role_create()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_role_delete()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_role_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_role_users_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_schedule_get()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_schedule_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_start_scheduler()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_system_add_tenant()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_system_get()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_system_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_system_remove_tenant()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_system_tenants_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_tenant_create()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_tenant_delete()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_tenant_get()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_tenant_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_tenant_systems_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_tenant_users_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_user_add_role()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_user_add_tenant()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_user_create()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_user_delete()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_user_get()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_user_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_user_remove_role()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_user_remove_tenant()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_user_roles_list()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_user_tenants_list()
+.UNINDENT
+.UNINDENT
+.SS Subpackages
+.SS clients Package
+.SS \fBhemlock_base\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.hemlock_base.Hemlock_Base
+.INDENT 7.0
+.TP
+.B client_import(debug, client)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B connect_server(debug, server_dict)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B get_args(debug)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B get_creds(debug, CLIENT_CREDS_FILE)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B print_help()
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_args(debug, args)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B send_data(debug, data_list, desc_list, h_server, client_uuid)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B stream_callback(data)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B stream_workers(debug)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B update_hemlock(debug, client_uuid, server_dict)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B verify_system(debug, client_uuid, server_dict)
+.UNINDENT
+.UNINDENT
+.SS \fBhemlock_debugger\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.hemlock_debugger.Hemlock_Debugger
+.INDENT 7.0
+.TP
+.B debug(debug, string)
+.UNINDENT
+.UNINDENT
+.SS \fBhemlock_runner\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.hemlock_runner.Hemlock_Runner
+.INDENT 7.0
+.TP
+.B get_creds(debug, m_server, client_id, aes_key)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B mysql_server(debug, server, user, pw, db)
+.UNINDENT
+.UNINDENT
+.SS \fBhfs\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.hfs.HFs
+.INDENT 7.0
+.TP
+.B connect_client(debug, client_dict)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B convert_pdf(debug, input)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B format_lists(debug, j_list, h_server, client_uuid)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B get_data(debug, client_dict, c_server, h_server, client_uuid)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_files(debug, input, h_server, client_uuid)
+.UNINDENT
+.UNINDENT
+.SS \fBhhbase\fP Module
+.SS \fBhhdfs\fP Module
+.SS \fBhmongo\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.hmongo.HMongo
+.INDENT 7.0
+.TP
+.B connect_client(debug, client_dict)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B get_data(debug, client_dict, c_server, h_server, client_uuid)
+.UNINDENT
+.UNINDENT
+.SS \fBhmysql\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.hmysql.HMysql
+.INDENT 7.0
+.TP
+.B connect_client(debug, client_dict)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B get_data(debug, client_dict, c_server, h_server, client_uuid)
+.UNINDENT
+.UNINDENT
+.SS \fBhredis\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.hredis.HRedis
+.INDENT 7.0
+.TP
+.B connect_client(debug, client_dict)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B get_data(debug, client_dict, c_server, h_server, client_uuid)
+.UNINDENT
+.UNINDENT
+.SS \fBhrest\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.hrest.HRest
+.INDENT 7.0
+.TP
+.B connect_client(debug, client_dict)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B get_data(debug, client_dict, c_server, h_server, client_uuid)
+.UNINDENT
+.UNINDENT
+.SS \fBhstream_odd\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.hstream_odd.HStream_Odd
+.INDENT 7.0
+.TP
+.B connect_client(debug, client_dict, h_server, client_uuid)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B start(debug, hostname, port, h_server, client_uuid)
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.TP
+.B hemlock.clients.hstream_odd.handle(debug, connection, address, h_server, client_uuid)
+.UNINDENT
+.SS Subpackages
+.SS file_types Package
+.SS \fBhcsv\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.hcsv.Hcsv
+.INDENT 7.0
+.TP
+.B process_files(debug, file, file_mime, h_server, client_uuid)
+.UNINDENT
+.UNINDENT
+.SS \fBhdoc\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.hdoc.Hdoc
+.UNINDENT
+.SS \fBhgeneric\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.hgeneric.Hgeneric
+.INDENT 7.0
+.TP
+.B process_files(debug, file, file_mime, h_server, client_uuid)
+.UNINDENT
+.UNINDENT
+.SS \fBhjson\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.hjson.Hjson
+.UNINDENT
+.SS \fBhpcap\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.hpcap.Hpcap
+.INDENT 7.0
+.TP
+.B process_files(debug, file, file_mime, h_server, client_uuid)
+.UNINDENT
+.UNINDENT
+.SS \fBhpdf\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.hpdf.Hpdf
+.INDENT 7.0
+.TP
+.B convert_pdf(debug, input)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_files(debug, file, file_mime, h_server, client_uuid)
+.UNINDENT
+.UNINDENT
+.SS \fBhppt\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.hppt.Hppt
+.UNINDENT
+.SS \fBhtext\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.htext.Htext
+.INDENT 7.0
+.TP
+.B process_files(debug, file, file_mime, h_server, client_uuid)
+.UNINDENT
+.UNINDENT
+.SS \fBhxls\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.hxls.Hxls
+.INDENT 7.0
+.TP
+.B process_files(debug, file, file_mime, h_server, client_uuid)
+.UNINDENT
+.UNINDENT
+.SS \fBhxml\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.hxml.Hxml
+.UNINDENT
+.SS load_scripts Package
+.SS \fBcsv_to_mysql\fP Module
+.INDENT 0.0
+.TP
+.B hemlock.load_scripts.csv_to_mysql.get_args()
+.UNINDENT
+.INDENT 0.0
+.TP
+.B hemlock.load_scripts.csv_to_mysql.get_auth()
+.UNINDENT
+.INDENT 0.0
+.TP
+.B hemlock.load_scripts.csv_to_mysql.mysql_server(server, user, pw, db)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B hemlock.load_scripts.csv_to_mysql.print_help()
+.UNINDENT
+.INDENT 0.0
+.TP
+.B hemlock.load_scripts.csv_to_mysql.process_args(args)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B hemlock.load_scripts.csv_to_mysql.process_csv(input, m_server, table)
+.UNINDENT
+.SS \fBcsv_to_redis_hash\fP Module
+.INDENT 0.0
+.TP
+.B hemlock.load_scripts.csv_to_redis_hash.get_args()
+.UNINDENT
+.INDENT 0.0
+.TP
+.B hemlock.load_scripts.csv_to_redis_hash.print_help()
+.UNINDENT
+.INDENT 0.0
+.TP
+.B hemlock.load_scripts.csv_to_redis_hash.process_args(args)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B hemlock.load_scripts.csv_to_redis_hash.process_csv(input, r_server)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B hemlock.load_scripts.csv_to_redis_hash.redis_server(server)
+.UNINDENT
+.SS \fBdoc_to_mongo\fP Module
+.INDENT 0.0
+.TP
+.B hemlock.load_scripts.doc_to_mongo.get_args()
+.UNINDENT
+.INDENT 0.0
+.TP
+.B hemlock.load_scripts.doc_to_mongo.mongo_server(server, port, database, collection)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B hemlock.load_scripts.doc_to_mongo.print_help()
+.UNINDENT
+.INDENT 0.0
+.TP
+.B hemlock.load_scripts.doc_to_mongo.process_args(args)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B hemlock.load_scripts.doc_to_mongo.process_doc(input, m_server, m_database, m_collection)
+.UNINDENT
+.SS www Package
+.SS \fBhemlock_web\fP Module
+.INDENT 0.0
+.IP \(bu 2
+\fIgenindex\fP
+.IP \(bu 2
+\fImodindex\fP
+.IP \(bu 2
+\fIsearch\fP
+.UNINDENT
+.SH AUTHOR
+Charlie Lewis
+.SH COPYRIGHT
+2013 In-Q-Tel, Inc/Lab41, All Rights Reserved.
+.\" Generated by docutils manpage writer.
+.

@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hemlock.hemlock_scheduler &mdash; Hemlock 0.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Hemlock 0.1.2 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Hemlock 0.1.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for hemlock.hemlock_scheduler</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c">#</span>
+<span class="c">#   Copyright (c) 2013 In-Q-Tel, Inc/Lab41, All Rights Reserved.</span>
+<span class="c">#</span>
+<span class="c">#   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c">#   you may not use this file except in compliance with the License.</span>
+<span class="c">#   You may obtain a copy of the License at</span>
+<span class="c">#</span>
+<span class="c">#       http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c">#</span>
+<span class="c">#   Unless required by applicable law or agreed to in writing, software</span>
+<span class="c">#   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c">#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c">#   See the License for the specific language governing permissions and</span>
+<span class="c">#   limitations under the License.</span>
+
+<span class="kn">from</span> <span class="nn">apscheduler.scheduler</span> <span class="kn">import</span> <span class="n">Scheduler</span>
+<span class="kn">from</span> <span class="nn">clients.hemlock_debugger</span> <span class="kn">import</span> <span class="n">Hemlock_Debugger</span>
+<span class="kn">from</span> <span class="nn">hemlock</span> <span class="kn">import</span> <span class="n">Hemlock</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">MySQLdb</span> <span class="kn">as</span> <span class="nn">mdb</span>
+<span class="kn">import</span> <span class="nn">signal</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<div class="viewcode-block" id="Hemlock_Scheduler"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock_scheduler.Hemlock_Scheduler">[docs]</a><span class="k">class</span> <span class="nc">Hemlock_Scheduler</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">Hemlock_Debugger</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sched</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_schedule</span><span class="p">()</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">:</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;No path provided, defaulting to &#39;hemlock_creds&#39; in the current working directory&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="s">&quot;hemlock_creds&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="Hemlock_Scheduler.check_schedules"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock_scheduler.Hemlock_Scheduler.check_schedules">[docs]</a>    <span class="k">def</span> <span class="nf">check_schedules</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">server_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c">#    check environment variables first, then check for creds file</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">server_dict</span><span class="p">[</span><span class="s">&#39;HEMLOCK_MYSQL_SERVER&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HEMLOCK_MYSQL_SERVER&#39;</span><span class="p">]</span>
+            <span class="n">server_dict</span><span class="p">[</span><span class="s">&#39;HEMLOCK_MYSQL_USERNAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HEMLOCK_MYSQL_USERNAME&#39;</span><span class="p">]</span>
+            <span class="n">server_dict</span><span class="p">[</span><span class="s">&#39;HEMLOCK_MYSQL_PW&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HEMLOCK_MYSQL_PW&#39;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="c"># read in hemlock server creds file</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Opening server_creds file: &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Server creds file handle: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&quot;#&quot;</span> <span class="ow">and</span> <span class="s">&quot;=&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                        <span class="c"># split each line on the first &#39;=&#39;</span>
+                        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;=&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">server_dict</span><span class="p">[</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                        <span class="k">except</span><span class="p">:</span>
+                            <span class="k">print</span> <span class="s">&quot;Malformed Server Creds file.&quot;</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+                            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&quot;Unable to open &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c"># connect to the mysql server</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">m_server</span> <span class="o">=</span> <span class="n">mdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">server_dict</span><span class="p">[</span><span class="s">&#39;HEMLOCK_MYSQL_SERVER&#39;</span><span class="p">],</span>
+                                   <span class="n">server_dict</span><span class="p">[</span><span class="s">&#39;HEMLOCK_MYSQL_USERNAME&#39;</span><span class="p">],</span>
+                                   <span class="n">server_dict</span><span class="p">[</span><span class="s">&#39;HEMLOCK_MYSQL_PW&#39;</span><span class="p">],</span>
+                                   <span class="s">&quot;hemlock&quot;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;MySQL Handle: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">m_server</span><span class="p">))</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">print</span> <span class="s">&quot;MySQL server failure&quot;</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">cur</span> <span class="o">=</span> <span class="n">m_server</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;MySQL Cursor: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">cur</span><span class="p">))</span>
+
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT * FROM schedules&quot;</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+
+        <span class="c"># !! TODO</span>
+        <span class="c">#    remove schedules that are not stored</span>
+        <span class="n">jobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sched</span><span class="o">.</span><span class="n">get_jobs</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">job</span> <span class="ow">in</span> <span class="n">jobs</span><span class="p">:</span>
+            <span class="n">test_log2</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;scheduler.log&#39;</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">)</span>
+            <span class="n">test_log2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">job</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+            <span class="n">test_log2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+            <span class="n">test_log2</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> 
+
+        <span class="c">#    read schedules that are stored</span>
+        <span class="k">for</span> <span class="n">schedule</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">schedule_job_cron</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">job_work</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">schedule</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">schedule</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">schedule</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">schedule</span><span class="p">[</span><span class="mi">4</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">schedule</span><span class="p">[</span><span class="mi">5</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">schedule</span><span class="p">[</span><span class="mi">6</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">schedule</span><span class="p">[</span><span class="mi">7</span><span class="p">]))</span>
+
+        <span class="c"># !! TODO</span>
+        <span class="c">#    query to get everything in schedules</span>
+        <span class="c">#    updates schedules</span>
+</div>
+<div class="viewcode-block" id="Hemlock_Scheduler.job_work"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock_scheduler.Hemlock_Scheduler.job_work">[docs]</a>    <span class="k">def</span> <span class="nf">job_work</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="c"># DEBUG</span>
+        <span class="c"># do actual work here</span>
+        <span class="c"># !! TODO</span>
+        <span class="c">#    if streaming is already running and requested again, ignore</span>
+        <span class="c">#    if the job requested, regardless, is still running, skip this run, and log it</span>
+        <span class="n">test_log2</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;scheduler.log&#39;</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">)</span>
+        <span class="n">test_log2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;test: &quot;</span><span class="p">)</span>
+        <span class="n">test_log2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="p">))</span>
+        <span class="n">test_log2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+        <span class="n">test_log2</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> 
+</div>
+<div class="viewcode-block" id="Hemlock_Scheduler.init_schedule"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock_scheduler.Hemlock_Scheduler.init_schedule">[docs]</a>    <span class="k">def</span> <span class="nf">init_schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># DEBUG</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&#39;scheduler.log&#39;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+        <span class="n">sched</span> <span class="o">=</span> <span class="n">Scheduler</span><span class="p">()</span>
+
+        <span class="c"># Start the scheduler</span>
+        <span class="n">sched</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">sched</span>
+</div>
+<div class="viewcode-block" id="Hemlock_Scheduler.schedule_job"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock_scheduler.Hemlock_Scheduler.schedule_job">[docs]</a>    <span class="k">def</span> <span class="nf">schedule_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">periodicity</span><span class="p">,</span> <span class="n">start_time</span><span class="p">):</span>
+        <span class="c"># DEBUG</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sched</span><span class="o">.</span><span class="n">add_interval_job</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="n">periodicity</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="n">start_time</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Hemlock_Scheduler.schedule_job_cron"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock_scheduler.Hemlock_Scheduler.schedule_job_cron">[docs]</a>    <span class="k">def</span> <span class="nf">schedule_job_cron</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">minute</span><span class="p">,</span> <span class="n">hour</span><span class="p">,</span> <span class="n">day_of_month</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day_of_week</span><span class="p">):</span>
+        <span class="c"># DEBUG</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sched</span><span class="o">.</span><span class="n">add_cron_job</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;foo&#39;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="n">minute</span><span class="p">,</span> <span class="n">hour</span><span class="o">=</span><span class="n">hour</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="n">day_of_month</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="n">month</span><span class="p">,</span> <span class="n">day_of_week</span><span class="o">=</span><span class="n">day_of_week</span><span class="p">)</span>
+</div></div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">hemlock_scheduler</span> <span class="o">=</span> <span class="n">Hemlock_Scheduler</span><span class="p">()</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&#39;scheduler.log&#39;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+
+    <span class="c"># DEBUG</span>
+    <span class="c"># run every 60 seconds</span>
+    <span class="n">hemlock_scheduler</span><span class="o">.</span><span class="n">schedule_job</span><span class="p">(</span><span class="n">hemlock_scheduler</span><span class="o">.</span><span class="n">check_schedules</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="s">&#39;2013-08-29 12:32:43&#39;</span><span class="p">)</span>
+
+    <span class="c"># APSScheduler.Scheduler only works until the main thread exits</span>
+    <span class="n">signal</span><span class="o">.</span><span class="n">pause</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Hemlock 0.1.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013 In-Q-Tel, Inc/Lab41, All Rights Reserved..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

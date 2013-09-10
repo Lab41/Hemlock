@@ -89,14 +89,6 @@ clients Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`word_freq` Module
------------------------
-
-.. automodule:: hemlock.clients.word_freq
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Subpackages
 -----------
 

@@ -1,0 +1,361 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hemlock.clients.hemlock_base &mdash; Hemlock 0.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Hemlock 0.1.2 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Hemlock 0.1.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for hemlock.clients.hemlock_base</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c">#</span>
+<span class="c">#   Copyright (c) 2013 In-Q-Tel, Inc/Lab41, All Rights Reserved.</span>
+<span class="c">#</span>
+<span class="c">#   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c">#   you may not use this file except in compliance with the License.</span>
+<span class="c">#   You may obtain a copy of the License at</span>
+<span class="c">#</span>
+<span class="c">#       http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c">#</span>
+<span class="c">#   Unless required by applicable law or agreed to in writing, software</span>
+<span class="c">#   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c">#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c">#   See the License for the specific language governing permissions and</span>
+<span class="c">#   limitations under the License.</span>
+
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>
+<span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">hemlock_debugger</span> <span class="kn">import</span> <span class="n">Hemlock_Debugger</span>
+
+<span class="kn">import</span> <span class="nn">ast</span>
+<span class="kn">import</span> <span class="nn">couchbase</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">MySQLdb</span> <span class="kn">as</span> <span class="nn">mdb</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<div class="viewcode-block" id="Hemlock_Base"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base">[docs]</a><span class="k">class</span> <span class="nc">Hemlock_Base</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">Hemlock_Debugger</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SERVER_CREDS_FILE</span> <span class="o">=</span> <span class="s">&#39;../hemlock_creds&#39;</span>
+
+<div class="viewcode-block" id="Hemlock_Base.client_import"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.client_import">[docs]</a>    <span class="k">def</span> <span class="nf">client_import</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">client</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Importing: h&quot;</span><span class="o">+</span><span class="n">client</span><span class="p">)</span>
+        <span class="k">exec</span> <span class="s">&quot;import h&quot;</span><span class="o">+</span><span class="n">client</span>
+
+        <span class="n">cmd</span> <span class="o">=</span> <span class="s">&quot;h&quot;</span><span class="o">+</span><span class="n">client</span><span class="o">+</span><span class="s">&quot;.H&quot;</span><span class="o">+</span><span class="n">client</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">+</span><span class="s">&quot;()&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Initializing: &quot;</span><span class="o">+</span><span class="n">cmd</span><span class="p">)</span>
+
+        <span class="n">c_inst</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Client handle: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">c_inst</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">client</span><span class="o">+</span><span class="s">&#39;_creds&#39;</span><span class="p">,</span> <span class="n">c_inst</span>
+</div>
+<div class="viewcode-block" id="Hemlock_Base.get_creds"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.get_creds">[docs]</a>    <span class="k">def</span> <span class="nf">get_creds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">CLIENT_CREDS_FILE</span><span class="p">):</span>
+        <span class="n">client_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">server_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c"># read in client creds file</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Opening client_creds file: &quot;</span><span class="o">+</span><span class="n">CLIENT_CREDS_FILE</span><span class="p">)</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">CLIENT_CREDS_FILE</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Client creds file handle: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&quot;#&quot;</span> <span class="ow">and</span> <span class="s">&quot;=&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                    <span class="c"># split each line on the first &#39;=&#39;</span>
+                    <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;=&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">client_dict</span><span class="p">[</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="k">print</span> <span class="s">&quot;Malformed Client Creds file.&quot;</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span>
+                        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Unable to open &quot;</span><span class="o">+</span><span class="n">CLIENT_CREDS_FILE</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c"># read in hemlock server creds file</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Opening server_creds file: &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">SERVER_CREDS_FILE</span><span class="p">)</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SERVER_CREDS_FILE</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Server creds file handle: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&quot;#&quot;</span> <span class="ow">and</span> <span class="s">&quot;=&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                    <span class="c"># split each line on the first &#39;=&#39;</span>
+                    <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;=&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">server_dict</span><span class="p">[</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="k">print</span> <span class="s">&quot;Malformed Server Creds file.&quot;</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span>
+                        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Unable to open &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">SERVER_CREDS_FILE</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">client_dict</span><span class="p">,</span> <span class="n">server_dict</span>
+</div>
+<div class="viewcode-block" id="Hemlock_Base.verify_system"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.verify_system">[docs]</a>    <span class="k">def</span> <span class="nf">verify_system</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">,</span> <span class="n">server_dict</span><span class="p">):</span>
+        <span class="c"># verify the client system is registered</span>
+        <span class="c"># required fields in the server creds file are as follows:</span>
+        <span class="c">#    HEMLOCK_MYSQL_SERVER</span>
+        <span class="c">#    HEMLOCK_MYSQL_USERNAME</span>
+        <span class="c">#    HEMLOCK_MYSQL_PW</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">h_server</span> <span class="o">=</span> <span class="n">mdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">server_dict</span><span class="p">[</span><span class="s">&#39;HEMLOCK_MYSQL_SERVER&#39;</span><span class="p">],</span>
+                                   <span class="n">server_dict</span><span class="p">[</span><span class="s">&#39;HEMLOCK_MYSQL_USERNAME&#39;</span><span class="p">],</span>
+                                   <span class="n">server_dict</span><span class="p">[</span><span class="s">&#39;HEMLOCK_MYSQL_PW&#39;</span><span class="p">],</span>
+                                   <span class="s">&quot;hemlock&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;MySQL connection handle: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">h_server</span><span class="p">))</span>
+            <span class="n">cur</span> <span class="o">=</span> <span class="n">h_server</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;MySQL cursor handle: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">cur</span><span class="p">))</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="s">&quot;SELECT * from systems WHERE uuid=&#39;&quot;</span><span class="o">+</span><span class="n">client_uuid</span><span class="o">+</span><span class="s">&quot;&#39;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Executing mysql query: &quot;</span><span class="o">+</span><span class="n">query</span><span class="p">)</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">print</span> <span class="n">client_uuid</span><span class="p">,</span><span class="s">&quot;is not a valid system.&quot;</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">h_server</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="n">h_server</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Successfully closed the mysql connection.&quot;</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Failure connecting to the Hemlock server&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="Hemlock_Base.connect_server"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.connect_server">[docs]</a>    <span class="k">def</span> <span class="nf">connect_server</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">server_dict</span><span class="p">):</span>
+        <span class="c"># connect to the hemlock server</span>
+        <span class="c"># required fields in the server creds file are as follows:</span>
+        <span class="c">#    HEMLOCK_COUCHBASE_SERVER</span>
+        <span class="c">#    HEMLOCK_COUCHBASE_BUCKET</span>
+        <span class="c">#    HEMLOCK_COUCHBASE_USERNAME</span>
+        <span class="c">#    HEMLOCK_COUCHBASE_PW</span>
+        <span class="n">h_server</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">h_server</span> <span class="o">=</span> <span class="n">couchbase</span><span class="o">.</span><span class="n">Couchbase</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">server_dict</span><span class="p">[</span><span class="s">&#39;HEMLOCK_COUCHBASE_SERVER&#39;</span><span class="p">],</span>
+                                 <span class="n">bucket</span><span class="o">=</span><span class="n">server_dict</span><span class="p">[</span><span class="s">&#39;HEMLOCK_COUCHBASE_BUCKET&#39;</span><span class="p">],</span>
+                                 <span class="n">username</span><span class="o">=</span><span class="n">server_dict</span><span class="p">[</span><span class="s">&#39;HEMLOCK_COUCHBASE_USERNAME&#39;</span><span class="p">],</span>
+                                 <span class="n">password</span><span class="o">=</span><span class="n">server_dict</span><span class="p">[</span><span class="s">&#39;HEMLOCK_COUCHBASE_PW&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Couchbase connection handle: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">h_server</span><span class="p">))</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Failure connecting to the Hemlock server&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">h_server</span>
+</div>
+<div class="viewcode-block" id="Hemlock_Base.send_data"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.send_data">[docs]</a>    <span class="k">def</span> <span class="nf">send_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">data_list</span><span class="p">,</span> <span class="n">desc_list</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">):</span>
+        <span class="n">j_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c"># DEBUG</span>
+        <span class="k">for</span> <span class="n">table_data</span> <span class="ow">in</span> <span class="n">data_list</span><span class="p">:</span>
+            <span class="n">t_dict</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">table_data</span><span class="p">:</span>
+                <span class="n">j_dict</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">while</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">record</span><span class="p">):</span>
+                    <span class="n">rec</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">rec</span><span class="p">)</span> <span class="o">==</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">:</span>
+                        <span class="n">rec</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">rec</span><span class="p">)</span>
+                    <span class="n">j_dict</span><span class="p">[</span><span class="n">desc_list</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">rec</span>
+                    <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">uid</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">j_dict</span><span class="o">.</span><span class="n">items</span><span class="p">())))</span>
+                <span class="n">j_dict</span><span class="p">[</span><span class="s">&#39;hemlock-system&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">client_uuid</span>
+                <span class="n">j_dict</span><span class="p">[</span><span class="s">&#39;hemlock-date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M:%S&#39;</span><span class="p">)</span>
+                <span class="n">t_dict</span><span class="p">[</span><span class="n">uid</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()]</span> <span class="o">=</span> <span class="n">j_dict</span>
+                <span class="c"># requires couchbase 1.0 client</span>
+                <span class="c"># !! TODO this should be a parameter, not hardcoded</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">t_dict</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">250000</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">h_server</span><span class="o">.</span><span class="n">set_multi</span><span class="p">(</span><span class="n">t_dict</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="n">couchbase</span><span class="o">.</span><span class="n">FMT_JSON</span><span class="p">)</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="k">print</span> <span class="s">&quot;Failure.&quot;</span>
+                    <span class="n">t_dict</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="c">#try:</span>
+                <span class="c">#    h_server.set(uid.hexdigest(), j_dict, format=couchbase.FMT_JSON)</span>
+                <span class="c">#except:</span>
+                <span class="c">#    print &quot;Failed to send record.&quot;</span>
+                <span class="c">#    e += 1</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="c"># requires couchbase 1.0 client</span>
+            <span class="k">if</span> <span class="n">t_dict</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">h_server</span><span class="o">.</span><span class="n">set_multi</span><span class="p">(</span><span class="n">t_dict</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="n">couchbase</span><span class="o">.</span><span class="n">FMT_JSON</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="s">&quot;Failure.&quot;</span>
+            <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="c"># DEBUG</span>
+        <span class="k">print</span> <span class="n">i</span><span class="p">,</span><span class="s">&quot;records&quot;</span>
+        <span class="k">print</span> <span class="n">e</span><span class="p">,</span><span class="s">&quot;errors&quot;</span>
+        <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="Hemlock_Base.update_hemlock"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.update_hemlock">[docs]</a>    <span class="k">def</span> <span class="nf">update_hemlock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">,</span> <span class="n">server_dict</span><span class="p">):</span>
+        <span class="c"># update mysql record to say when data was last updated for this system</span>
+        <span class="c"># DEBUG</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">h_server</span> <span class="o">=</span> <span class="n">mdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">server_dict</span><span class="p">[</span><span class="s">&#39;HEMLOCK_MYSQL_SERVER&#39;</span><span class="p">],</span>
+                                   <span class="n">server_dict</span><span class="p">[</span><span class="s">&#39;HEMLOCK_MYSQL_USERNAME&#39;</span><span class="p">],</span>
+                                   <span class="n">server_dict</span><span class="p">[</span><span class="s">&#39;HEMLOCK_MYSQL_PW&#39;</span><span class="p">],</span>
+                                   <span class="s">&quot;hemlock&quot;</span><span class="p">)</span>
+            <span class="n">cur</span> <span class="o">=</span> <span class="n">h_server</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="s">&quot;UPDATE systems SET updated_data=&#39;&quot;</span><span class="o">+</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M:%S&#39;</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;&#39; WHERE uuid=&#39;&quot;</span><span class="o">+</span><span class="n">client_uuid</span><span class="o">+</span><span class="s">&quot;&#39;&quot;</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+            <span class="n">h_server</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="n">h_server</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Failure connecting to the Hemlock server&quot;</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="Hemlock_Base.stream_callback"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.stream_callback">[docs]</a>    <span class="k">def</span> <span class="nf">stream_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">print</span> <span class="n">data</span>
+</div>
+<div class="viewcode-block" id="Hemlock_Base.stream_workers"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.stream_workers">[docs]</a>    <span class="k">def</span> <span class="nf">stream_workers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">):</span>
+        <span class="c"># DEBUG</span>
+        <span class="n">objects</span><span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
+            <span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">call_worker</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stream_callback</span><span class="p">)</span> 
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="c">#    #Hemlock_Base().send_data(data_list, desc_list, h_server, client_uuid)</span>
+        <span class="c">#    #Hemlock_Base().update_hemlock(client_uuid, server_dict)</span>
+</div>
+<div class="viewcode-block" id="Hemlock_Base.print_help"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.print_help">[docs]</a>    <span class="k">def</span> <span class="nf">print_help</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;--uuid </span><span class="se">\t</span><span class="s">&lt;uuid of system&gt; (use &#39;system-list&#39; on the Hemlock server)&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;--client </span><span class="se">\t</span><span class="s"> &lt;name of client&gt; (client file must exist in the clients folder)&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;-h </span><span class="se">\t</span><span class="s">help</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Hemlock_Base.process_args"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.process_args">[docs]</a>    <span class="k">def</span> <span class="nf">process_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="c"># process args</span>
+        <span class="n">splits</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">client_uuid</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c"># DEBUG</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;--uuid&quot;</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">client_uuid</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;--client&quot;</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">client</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;--splits&quot;</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">splits</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">splits</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">client</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">client_uuid</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">client_uuid</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">splits</span>
+</div>
+<div class="viewcode-block" id="Hemlock_Base.get_args"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.get_args">[docs]</a>    <span class="k">def</span> <span class="nf">get_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">):</span>
+        <span class="c"># DEBUG</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">:</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Hemlock 0.1.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013 In-Q-Tel, Inc/Lab41, All Rights Reserved..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>
