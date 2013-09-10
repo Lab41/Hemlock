@@ -56,12 +56,15 @@
 <h1>hemlock Package<a class="headerlink" href="#hemlock-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="module-hemlock.hemlock">
 <span id="hemlock-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hemlock</span></tt> Module<a class="headerlink" href="#module-hemlock.hemlock" title="Permalink to this headline">¶</a></h2>
+<p>This module is the main core of Hemlock and interfaces with and controls the
+majority of other modules in this package.</p>
 <p>Created on 19 August 2013
 &#64;author: Charlie Lewis</p>
 <dl class="class">
 <dt id="hemlock.hemlock.Hemlock">
 <em class="property">class </em><tt class="descclassname">hemlock.hemlock.</tt><tt class="descname">Hemlock</tt><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock" title="Permalink to this definition">¶</a></dt>
-<dd><p>Main class for driving the API</p>
+<dd><p>This class is responsible for driving the API and the core functionality of
+Hemlock.</p>
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.check_args">
 <tt class="descname">check_args</tt><big>(</big><em>args</em>, <em>arg_d</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.check_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.check_args" title="Permalink to this definition">¶</a></dt>
@@ -70,7 +73,23 @@
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.client_add_schedule">
 <tt class="descname">client_add_schedule</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.client_add_schedule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.client_add_schedule" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Adds a schedule to a client.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.client_get">
@@ -359,7 +378,7 @@
 <span id="hemlock-options-parser-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hemlock_options_parser</span></tt> Module<a class="headerlink" href="#module-hemlock.hemlock_options_parser" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="hemlock.hemlock_options_parser.PassThroughOptionParser">
-<em class="property">class </em><tt class="descclassname">hemlock.hemlock_options_parser.</tt><tt class="descname">PassThroughOptionParser</tt><big>(</big><em>usage=None</em>, <em>option_list=None</em>, <em>option_class=&lt;class optparse.Option at 0x16f49a8&gt;</em>, <em>version=None</em>, <em>conflict_handler='error'</em>, <em>description=None</em>, <em>formatter=None</em>, <em>add_help_option=True</em>, <em>prog=None</em>, <em>epilog=None</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock_options_parser.html#PassThroughOptionParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock_options_parser.PassThroughOptionParser" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">hemlock.hemlock_options_parser.</tt><tt class="descname">PassThroughOptionParser</tt><big>(</big><em>usage=None</em>, <em>option_list=None</em>, <em>option_class=&lt;class optparse.Option at 0x22259a8&gt;</em>, <em>version=None</em>, <em>conflict_handler='error'</em>, <em>description=None</em>, <em>formatter=None</em>, <em>add_help_option=True</em>, <em>prog=None</em>, <em>epilog=None</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock_options_parser.html#PassThroughOptionParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock_options_parser.PassThroughOptionParser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">optparse.OptionParser</span></tt></p>
 <p>An unknown option pass-through implementation of OptionParser.</p>
 <p>When unknown arguments are encountered, bundle with largs and try again,

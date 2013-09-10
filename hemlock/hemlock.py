@@ -15,6 +15,9 @@
 #   limitations under the License.
 
 """
+This module is the main core of Hemlock and interfaces with and controls the
+majority of other modules in this package.
+
 Created on 19 August 2013
 @author: Charlie Lewis
 """
@@ -36,7 +39,8 @@ import uuid
 
 class Hemlock():
     """
-    Main class for driving the API
+    This class is responsible for driving the API and the core functionality of
+    Hemlock.
     """
 
     def __init__(self):
@@ -44,6 +48,13 @@ class Hemlock():
         self.HELP_COUNTER = 0
 
     def client_add_schedule(self, args, var_d):
+        """
+        Adds a schedule to a client.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid',
             '--schedule_id'
