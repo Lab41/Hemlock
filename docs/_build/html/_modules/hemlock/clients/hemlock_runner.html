@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hemlock.clients.hemlock_runner &mdash; Hemlock 0.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Hemlock 0.1.2 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Hemlock 0.1.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for hemlock.clients.hemlock_runner</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c">#</span>
+<span class="c">#   Copyright (c) 2013 In-Q-Tel, Inc/Lab41, All Rights Reserved.</span>
+<span class="c">#</span>
+<span class="c">#   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c">#   you may not use this file except in compliance with the License.</span>
+<span class="c">#   You may obtain a copy of the License at</span>
+<span class="c">#</span>
+<span class="c">#       http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c">#</span>
+<span class="c">#   Unless required by applicable law or agreed to in writing, software</span>
+<span class="c">#   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c">#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c">#   See the License for the specific language governing permissions and</span>
+<span class="c">#   limitations under the License.</span>
+
+<span class="kn">from</span> <span class="nn">hemlock_debugger</span> <span class="kn">import</span> <span class="n">Hemlock_Debugger</span>
+
+<span class="kn">import</span> <span class="nn">hemlock_base</span>
+
+<span class="kn">import</span> <span class="nn">ast</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">MySQLdb</span> <span class="kn">as</span> <span class="nn">mdb</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<div class="viewcode-block" id="Hemlock_Runner"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_runner.Hemlock_Runner">[docs]</a><span class="k">class</span> <span class="nc">Hemlock_Runner</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">Hemlock_Debugger</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Hemlock_Runner.mysql_server"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_runner.Hemlock_Runner.mysql_server">[docs]</a>    <span class="k">def</span> <span class="nf">mysql_server</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pw</span><span class="p">,</span> <span class="n">db</span><span class="p">):</span>
+        <span class="c"># DEBUG</span>
+        <span class="c"># connect to the mysql server</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">m_server</span> <span class="o">=</span> <span class="n">mdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">server</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pw</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;MySQL server failure&quot;</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">m_server</span>
+</div>
+<div class="viewcode-block" id="Hemlock_Runner.get_creds"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_runner.Hemlock_Runner.get_creds">[docs]</a>    <span class="k">def</span> <span class="nf">get_creds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">m_server</span><span class="p">,</span> <span class="n">client_id</span><span class="p">,</span> <span class="n">aes_key</span><span class="p">):</span>
+        <span class="c"># DEBUG</span>
+        <span class="c"># get client_dict</span>
+        <span class="n">cur</span> <span class="o">=</span> <span class="n">m_server</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;SELECT AES_DECRYPT(credentials, &#39;&quot;</span><span class="o">+</span><span class="n">aes_key</span><span class="o">+</span><span class="s">&quot;&#39;) from clients where uuid = &#39;&quot;</span><span class="o">+</span><span class="n">client_id</span><span class="o">+</span><span class="s">&quot;&#39;&quot;</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">data_action</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+        <span class="n">client_dict</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="c"># DEBUG</span>
+        <span class="c"># get server_dict</span>
+        <span class="n">cur</span> <span class="o">=</span> <span class="n">m_server</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;SELECT AES_DECRYPT(credentials, &#39;&quot;</span><span class="o">+</span><span class="n">aes_key</span><span class="o">+</span><span class="s">&quot;&#39;) from hemlock_server&quot;</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">data_action</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+        <span class="n">server_dict</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">client_dict</span><span class="p">,</span> <span class="n">server_dict</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Hemlock 0.1.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013 In-Q-Tel, Inc/Lab41, All Rights Reserved..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

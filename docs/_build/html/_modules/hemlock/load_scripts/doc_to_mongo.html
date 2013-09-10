@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hemlock.load_scripts.doc_to_mongo &mdash; Hemlock 0.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Hemlock 0.1.2 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Hemlock 0.1.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for hemlock.load_scripts.doc_to_mongo</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c">#</span>
+<span class="c">#   Copyright (c) 2013 In-Q-Tel, Inc/Lab41, All Rights Reserved.</span>
+<span class="c">#</span>
+<span class="c">#   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c">#   you may not use this file except in compliance with the License.</span>
+<span class="c">#   You may obtain a copy of the License at</span>
+<span class="c">#</span>
+<span class="c">#       http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c">#</span>
+<span class="c">#   Unless required by applicable law or agreed to in writing, software</span>
+<span class="c">#   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c">#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c">#   See the License for the specific language governing permissions and</span>
+<span class="c">#   limitations under the License.</span>
+
+<span class="kn">import</span> <span class="nn">fnmatch</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">time</span><span class="o">,</span> <span class="nn">uuid</span>
+<span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
+
+<div class="viewcode-block" id="mongo_server"><a class="viewcode-back" href="../../../hemlock.load_scripts.html#hemlock.load_scripts.doc_to_mongo.mongo_server">[docs]</a><span class="k">def</span> <span class="nf">mongo_server</span><span class="p">(</span><span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">database</span><span class="p">,</span> <span class="n">collection</span><span class="p">):</span>
+    <span class="c"># connect to the redis server</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">m_server</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">(</span><span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
+        <span class="n">m_database</span> <span class="o">=</span> <span class="n">m_server</span><span class="p">[</span><span class="n">database</span><span class="p">]</span>
+        <span class="n">m_collection</span> <span class="o">=</span> <span class="n">m_database</span><span class="p">[</span><span class="n">collection</span><span class="p">]</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Mongo server failure&quot;</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">m_server</span><span class="p">,</span> <span class="n">m_database</span><span class="p">,</span> <span class="n">m_collection</span>
+</div>
+<div class="viewcode-block" id="process_doc"><a class="viewcode-back" href="../../../hemlock.load_scripts.html#hemlock.load_scripts.doc_to_mongo.process_doc">[docs]</a><span class="k">def</span> <span class="nf">process_doc</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">m_server</span><span class="p">,</span> <span class="n">m_database</span><span class="p">,</span> <span class="n">m_collection</span><span class="p">):</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">docs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">fnmatch</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span> <span class="s">&#39;*.txt&#39;</span><span class="p">):</span>
+            <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">m_collection</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
+            <span class="k">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">j</span><span class="p">),</span> <span class="s">&quot;total docs.&quot;</span>
+            <span class="k">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="s">&quot;docs failed.&quot;</span>
+            <span class="n">docs</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">doc</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;doc&quot;</span><span class="p">:</span> <span class="n">doc</span><span class="p">}</span>
+            <span class="n">docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+            <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">m_collection</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
+    <span class="k">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">j</span><span class="p">),</span> <span class="s">&quot;total docs.&quot;</span>
+    <span class="k">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="s">&quot;docs failed.&quot;</span>
+</div>
+<div class="viewcode-block" id="print_help"><a class="viewcode-back" href="../../../hemlock.load_scripts.html#hemlock.load_scripts.doc_to_mongo.print_help">[docs]</a><span class="k">def</span> <span class="nf">print_help</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">&quot;-i </span><span class="se">\t</span><span class="s">&lt;input path to files&gt; (default is /mnt/)&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;-s </span><span class="se">\t</span><span class="s">&lt;mongo server&gt; (default is localhost)&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;-p </span><span class="se">\t</span><span class="s">&lt;mongo port&gt; (default is 27017)&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;-d </span><span class="se">\t</span><span class="s">&lt;mongo database&gt; (default is local)&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;-c </span><span class="se">\t</span><span class="s">&lt;mongo collection&gt; (default is collection)&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;-h </span><span class="se">\t</span><span class="s">help</span><span class="se">\n</span><span class="s">&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="process_args"><a class="viewcode-back" href="../../../hemlock.load_scripts.html#hemlock.load_scripts.doc_to_mongo.process_args">[docs]</a><span class="k">def</span> <span class="nf">process_args</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="c"># default initialization</span>
+    <span class="nb">input</span> <span class="o">=</span> <span class="s">&quot;/mnt/&quot;</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="s">&quot;localhost&quot;</span>
+    <span class="n">port</span> <span class="o">=</span> <span class="mi">27017</span>
+    <span class="n">database</span> <span class="o">=</span> <span class="s">&quot;local&quot;</span>
+    <span class="n">collection</span> <span class="o">=</span> <span class="s">&quot;collection&quot;</span>
+
+    <span class="c"># process args</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;-s&quot;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">server</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">print_help</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;-p&quot;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">print_help</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;-d&quot;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">database</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">print_help</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;-c&quot;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">collection</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">print_help</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;-i&quot;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">input</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">print_help</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">print_help</span><span class="p">()</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nb">input</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">database</span><span class="p">,</span> <span class="n">collection</span>
+</div>
+<div class="viewcode-block" id="get_args"><a class="viewcode-back" href="../../../hemlock.load_scripts.html#hemlock.load_scripts.doc_to_mongo.get_args">[docs]</a><span class="k">def</span> <span class="nf">get_args</span><span class="p">():</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">:</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">get_args</span><span class="p">()</span>
+    <span class="nb">input</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">database</span><span class="p">,</span> <span class="n">collection</span> <span class="o">=</span> <span class="n">process_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">m_server</span><span class="p">,</span> <span class="n">m_database</span><span class="p">,</span> <span class="n">m_collection</span> <span class="o">=</span> <span class="n">mongo_server</span><span class="p">(</span><span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">database</span><span class="p">,</span> <span class="n">collection</span><span class="p">)</span>
+    <span class="n">process_doc</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">m_server</span><span class="p">,</span> <span class="n">m_database</span><span class="p">,</span> <span class="n">m_collection</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&quot;Took&quot;</span><span class="p">,</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">,</span><span class="s">&quot;seconds to complete.&quot;</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Hemlock 0.1.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013 In-Q-Tel, Inc/Lab41, All Rights Reserved..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

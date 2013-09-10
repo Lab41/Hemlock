@@ -61,9 +61,13 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 Contents:
 .SH HEMLOCK PACKAGE
 .SS \fBhemlock\fP Module
+.sp
+Created on 19 August 2013
+@author: Charlie Lewis
 .INDENT 0.0
 .TP
 .B class hemlock.hemlock.Hemlock
+Main class for driving the API
 .INDENT 7.0
 .TP
 .B check_args(args, arg_d, var_d)
@@ -147,6 +151,10 @@ Contents:
 .INDENT 7.0
 .TP
 .B process_args(debug, args)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B read_creds(debug)
 .UNINDENT
 .INDENT 7.0
 .TP
@@ -296,7 +304,7 @@ Contents:
 .SS \fBhemlock_options_parser\fP Module
 .INDENT 0.0
 .TP
-.B class hemlock.hemlock_options_parser.PassThroughOptionParser(usage=None, option_list=None, option_class=<class optparse.Option at 0x1aaf9a8>, version=None, conflict_handler=\(aqerror\(aq, description=None, formatter=None, add_help_option=True, prog=None, epilog=None)
+.B class hemlock.hemlock_options_parser.PassThroughOptionParser(usage=None, option_list=None, option_class=<class optparse.Option at 0x16f49a8>, version=None, conflict_handler=\(aqerror\(aq, description=None, formatter=None, add_help_option=True, prog=None, epilog=None)
 Bases: \fBoptparse.OptionParser\fP
 .sp
 An unknown option pass\-through implementation of OptionParser.
@@ -723,7 +731,7 @@ incorrectly (e.g. missing arguments or bad argument types, etc.)
 .B class hemlock.clients.hemlock_runner.Hemlock_Runner
 .INDENT 7.0
 .TP
-.B get_creds(debug, m_server, cliend_id, aes_key)
+.B get_creds(debug, m_server, client_id, aes_key)
 .UNINDENT
 .INDENT 7.0
 .TP
@@ -826,19 +834,86 @@ incorrectly (e.g. missing arguments or bad argument types, etc.)
 .TP
 .B hemlock.clients.hstream_odd.handle(debug, connection, address, h_server, client_uuid)
 .UNINDENT
-.SS \fBword_freq\fP Module
 .SS Subpackages
 .SS file_types Package
 .SS \fBhcsv\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.hcsv.Hcsv
+.INDENT 7.0
+.TP
+.B process_files(debug, file, file_mime, h_server, client_uuid)
+.UNINDENT
+.UNINDENT
 .SS \fBhdoc\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.hdoc.Hdoc
+.UNINDENT
 .SS \fBhgeneric\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.hgeneric.Hgeneric
+.INDENT 7.0
+.TP
+.B process_files(debug, file, file_mime, h_server, client_uuid)
+.UNINDENT
+.UNINDENT
 .SS \fBhjson\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.hjson.Hjson
+.UNINDENT
 .SS \fBhpcap\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.hpcap.Hpcap
+.INDENT 7.0
+.TP
+.B process_files(debug, file, file_mime, h_server, client_uuid)
+.UNINDENT
+.UNINDENT
 .SS \fBhpdf\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.hpdf.Hpdf
+.INDENT 7.0
+.TP
+.B convert_pdf(debug, input)
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_files(debug, file, file_mime, h_server, client_uuid)
+.UNINDENT
+.UNINDENT
 .SS \fBhppt\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.hppt.Hppt
+.UNINDENT
 .SS \fBhtext\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.htext.Htext
+.INDENT 7.0
+.TP
+.B process_files(debug, file, file_mime, h_server, client_uuid)
+.UNINDENT
+.UNINDENT
 .SS \fBhxls\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.hxls.Hxls
+.INDENT 7.0
+.TP
+.B process_files(debug, file, file_mime, h_server, client_uuid)
+.UNINDENT
+.UNINDENT
 .SS \fBhxml\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.clients.file_types.hxml.Hxml
+.UNINDENT
 .SS load_scripts Package
 .SS \fBcsv_to_mysql\fP Module
 .INDENT 0.0
