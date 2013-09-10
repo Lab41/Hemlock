@@ -343,6 +343,11 @@ Related repositories
  - [Hemlock-REST](http://lab41.github.io/Hemlock-REST/)
  - [Hemlock-Frontend](http://lab41.github.io/Hemlock-Frontend/)
 
+Documentation
+=============
+
+ - [Docs](http://lab41.github.io/Hemlock/docs/_build/html/index.html)
+
 Tests
 =====
 
