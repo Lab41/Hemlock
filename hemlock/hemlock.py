@@ -14,6 +14,11 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+"""
+Created on 19 August 2013
+@author: Charlie Lewis
+"""
+
 from clients.hemlock_base import Hemlock_Base
 from clients.hemlock_debugger import Hemlock_Debugger
 from clients.hemlock_runner import Hemlock_Runner
@@ -30,6 +35,10 @@ import time
 import uuid
 
 class Hemlock():
+    """
+    Main class for driving the API
+    """
+
     def __init__(self):
         self.log = Hemlock_Debugger()
         self.HELP_COUNTER = 0
