@@ -1,0 +1,392 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>clients Package &mdash; Hemlock 0.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Hemlock 0.1.2 documentation" href="index.html" />
+    <link rel="up" title="hemlock Package" href="hemlock.html" />
+    <link rel="next" title="file_types Package" href="hemlock.clients.file_types.html" />
+    <link rel="prev" title="hemlock Package" href="hemlock.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="hemlock.clients.file_types.html" title="file_types Package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="hemlock.html" title="hemlock Package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Hemlock 0.1.2 documentation</a> &raquo;</li>
+          <li><a href="hemlock.html" accesskey="U">hemlock Package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="clients-package">
+<h1>clients Package<a class="headerlink" href="#clients-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-hemlock.clients.hemlock_base">
+<span id="hemlock-base-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hemlock_base</span></tt> Module<a class="headerlink" href="#module-hemlock.clients.hemlock_base" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hemlock.clients.hemlock_base.Hemlock_Base">
+<em class="property">class </em><tt class="descclassname">hemlock.clients.hemlock_base.</tt><tt class="descname">Hemlock_Base</tt><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="hemlock.clients.hemlock_base.Hemlock_Base.client_import">
+<tt class="descname">client_import</tt><big>(</big><em>debug</em>, <em>client</em><big>)</big><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.client_import" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hemlock_base.Hemlock_Base.connect_server">
+<tt class="descname">connect_server</tt><big>(</big><em>debug</em>, <em>server_dict</em><big>)</big><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.connect_server" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hemlock_base.Hemlock_Base.get_args">
+<tt class="descname">get_args</tt><big>(</big><em>debug</em><big>)</big><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.get_args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hemlock_base.Hemlock_Base.get_creds">
+<tt class="descname">get_creds</tt><big>(</big><em>debug</em>, <em>CLIENT_CREDS_FILE</em><big>)</big><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.get_creds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hemlock_base.Hemlock_Base.print_help">
+<tt class="descname">print_help</tt><big>(</big><big>)</big><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.print_help" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hemlock_base.Hemlock_Base.process_args">
+<tt class="descname">process_args</tt><big>(</big><em>debug</em>, <em>args</em><big>)</big><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.process_args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hemlock_base.Hemlock_Base.send_data">
+<tt class="descname">send_data</tt><big>(</big><em>debug</em>, <em>data_list</em>, <em>desc_list</em>, <em>h_server</em>, <em>client_uuid</em><big>)</big><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.send_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hemlock_base.Hemlock_Base.stream_callback">
+<tt class="descname">stream_callback</tt><big>(</big><em>data</em><big>)</big><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.stream_callback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hemlock_base.Hemlock_Base.stream_workers">
+<tt class="descname">stream_workers</tt><big>(</big><em>debug</em><big>)</big><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.stream_workers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hemlock_base.Hemlock_Base.update_hemlock">
+<tt class="descname">update_hemlock</tt><big>(</big><em>debug</em>, <em>client_uuid</em>, <em>server_dict</em><big>)</big><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.update_hemlock" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hemlock_base.Hemlock_Base.verify_system">
+<tt class="descname">verify_system</tt><big>(</big><em>debug</em>, <em>client_uuid</em>, <em>server_dict</em><big>)</big><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.verify_system" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hemlock.clients.hemlock_debugger">
+<span id="hemlock-debugger-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hemlock_debugger</span></tt> Module<a class="headerlink" href="#module-hemlock.clients.hemlock_debugger" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hemlock.clients.hemlock_debugger.Hemlock_Debugger">
+<em class="property">class </em><tt class="descclassname">hemlock.clients.hemlock_debugger.</tt><tt class="descname">Hemlock_Debugger</tt><a class="headerlink" href="#hemlock.clients.hemlock_debugger.Hemlock_Debugger" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="hemlock.clients.hemlock_debugger.Hemlock_Debugger.debug">
+<tt class="descname">debug</tt><big>(</big><em>debug</em>, <em>string</em><big>)</big><a class="headerlink" href="#hemlock.clients.hemlock_debugger.Hemlock_Debugger.debug" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hemlock.clients.hemlock_runner">
+<span id="hemlock-runner-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hemlock_runner</span></tt> Module<a class="headerlink" href="#module-hemlock.clients.hemlock_runner" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hemlock.clients.hemlock_runner.Hemlock_Runner">
+<em class="property">class </em><tt class="descclassname">hemlock.clients.hemlock_runner.</tt><tt class="descname">Hemlock_Runner</tt><a class="headerlink" href="#hemlock.clients.hemlock_runner.Hemlock_Runner" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="hemlock.clients.hemlock_runner.Hemlock_Runner.get_creds">
+<tt class="descname">get_creds</tt><big>(</big><em>debug</em>, <em>m_server</em>, <em>cliend_id</em>, <em>aes_key</em><big>)</big><a class="headerlink" href="#hemlock.clients.hemlock_runner.Hemlock_Runner.get_creds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hemlock_runner.Hemlock_Runner.mysql_server">
+<tt class="descname">mysql_server</tt><big>(</big><em>debug</em>, <em>server</em>, <em>user</em>, <em>pw</em>, <em>db</em><big>)</big><a class="headerlink" href="#hemlock.clients.hemlock_runner.Hemlock_Runner.mysql_server" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hemlock.clients.hfs">
+<span id="hfs-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hfs</span></tt> Module<a class="headerlink" href="#module-hemlock.clients.hfs" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hemlock.clients.hfs.HFs">
+<em class="property">class </em><tt class="descclassname">hemlock.clients.hfs.</tt><tt class="descname">HFs</tt><a class="headerlink" href="#hemlock.clients.hfs.HFs" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="hemlock.clients.hfs.HFs.connect_client">
+<tt class="descname">connect_client</tt><big>(</big><em>debug</em>, <em>client_dict</em><big>)</big><a class="headerlink" href="#hemlock.clients.hfs.HFs.connect_client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hfs.HFs.convert_pdf">
+<tt class="descname">convert_pdf</tt><big>(</big><em>debug</em>, <em>input</em><big>)</big><a class="headerlink" href="#hemlock.clients.hfs.HFs.convert_pdf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hfs.HFs.format_lists">
+<tt class="descname">format_lists</tt><big>(</big><em>debug</em>, <em>j_list</em>, <em>h_server</em>, <em>client_uuid</em><big>)</big><a class="headerlink" href="#hemlock.clients.hfs.HFs.format_lists" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hfs.HFs.get_data">
+<tt class="descname">get_data</tt><big>(</big><em>debug</em>, <em>client_dict</em>, <em>c_server</em>, <em>h_server</em>, <em>client_uuid</em><big>)</big><a class="headerlink" href="#hemlock.clients.hfs.HFs.get_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hfs.HFs.process_files">
+<tt class="descname">process_files</tt><big>(</big><em>debug</em>, <em>input</em>, <em>h_server</em>, <em>client_uuid</em><big>)</big><a class="headerlink" href="#hemlock.clients.hfs.HFs.process_files" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="hhbase-module">
+<h2><tt class="xref py py-mod docutils literal"><span class="pre">hhbase</span></tt> Module<a class="headerlink" href="#hhbase-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="hhdfs-module">
+<h2><tt class="xref py py-mod docutils literal"><span class="pre">hhdfs</span></tt> Module<a class="headerlink" href="#hhdfs-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-hemlock.clients.hmongo">
+<span id="hmongo-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hmongo</span></tt> Module<a class="headerlink" href="#module-hemlock.clients.hmongo" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hemlock.clients.hmongo.HMongo">
+<em class="property">class </em><tt class="descclassname">hemlock.clients.hmongo.</tt><tt class="descname">HMongo</tt><a class="headerlink" href="#hemlock.clients.hmongo.HMongo" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="hemlock.clients.hmongo.HMongo.connect_client">
+<tt class="descname">connect_client</tt><big>(</big><em>debug</em>, <em>client_dict</em><big>)</big><a class="headerlink" href="#hemlock.clients.hmongo.HMongo.connect_client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hmongo.HMongo.get_data">
+<tt class="descname">get_data</tt><big>(</big><em>debug</em>, <em>client_dict</em>, <em>c_server</em>, <em>h_server</em>, <em>client_uuid</em><big>)</big><a class="headerlink" href="#hemlock.clients.hmongo.HMongo.get_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hemlock.clients.hmysql">
+<span id="hmysql-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hmysql</span></tt> Module<a class="headerlink" href="#module-hemlock.clients.hmysql" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hemlock.clients.hmysql.HMysql">
+<em class="property">class </em><tt class="descclassname">hemlock.clients.hmysql.</tt><tt class="descname">HMysql</tt><a class="headerlink" href="#hemlock.clients.hmysql.HMysql" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="hemlock.clients.hmysql.HMysql.connect_client">
+<tt class="descname">connect_client</tt><big>(</big><em>debug</em>, <em>client_dict</em><big>)</big><a class="headerlink" href="#hemlock.clients.hmysql.HMysql.connect_client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hmysql.HMysql.get_data">
+<tt class="descname">get_data</tt><big>(</big><em>debug</em>, <em>client_dict</em>, <em>c_server</em>, <em>h_server</em>, <em>client_uuid</em><big>)</big><a class="headerlink" href="#hemlock.clients.hmysql.HMysql.get_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hemlock.clients.hredis">
+<span id="hredis-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hredis</span></tt> Module<a class="headerlink" href="#module-hemlock.clients.hredis" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hemlock.clients.hredis.HRedis">
+<em class="property">class </em><tt class="descclassname">hemlock.clients.hredis.</tt><tt class="descname">HRedis</tt><a class="headerlink" href="#hemlock.clients.hredis.HRedis" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="hemlock.clients.hredis.HRedis.connect_client">
+<tt class="descname">connect_client</tt><big>(</big><em>debug</em>, <em>client_dict</em><big>)</big><a class="headerlink" href="#hemlock.clients.hredis.HRedis.connect_client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hredis.HRedis.get_data">
+<tt class="descname">get_data</tt><big>(</big><em>debug</em>, <em>client_dict</em>, <em>c_server</em>, <em>h_server</em>, <em>client_uuid</em><big>)</big><a class="headerlink" href="#hemlock.clients.hredis.HRedis.get_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hemlock.clients.hrest">
+<span id="hrest-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hrest</span></tt> Module<a class="headerlink" href="#module-hemlock.clients.hrest" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hemlock.clients.hrest.HRest">
+<em class="property">class </em><tt class="descclassname">hemlock.clients.hrest.</tt><tt class="descname">HRest</tt><a class="headerlink" href="#hemlock.clients.hrest.HRest" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="hemlock.clients.hrest.HRest.connect_client">
+<tt class="descname">connect_client</tt><big>(</big><em>debug</em>, <em>client_dict</em><big>)</big><a class="headerlink" href="#hemlock.clients.hrest.HRest.connect_client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hrest.HRest.get_data">
+<tt class="descname">get_data</tt><big>(</big><em>debug</em>, <em>client_dict</em>, <em>c_server</em>, <em>h_server</em>, <em>client_uuid</em><big>)</big><a class="headerlink" href="#hemlock.clients.hrest.HRest.get_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hemlock.clients.hstream_odd">
+<span id="hstream-odd-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hstream_odd</span></tt> Module<a class="headerlink" href="#module-hemlock.clients.hstream_odd" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hemlock.clients.hstream_odd.HStream_Odd">
+<em class="property">class </em><tt class="descclassname">hemlock.clients.hstream_odd.</tt><tt class="descname">HStream_Odd</tt><a class="headerlink" href="#hemlock.clients.hstream_odd.HStream_Odd" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="hemlock.clients.hstream_odd.HStream_Odd.connect_client">
+<tt class="descname">connect_client</tt><big>(</big><em>debug</em>, <em>client_dict</em>, <em>h_server</em>, <em>client_uuid</em><big>)</big><a class="headerlink" href="#hemlock.clients.hstream_odd.HStream_Odd.connect_client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hstream_odd.HStream_Odd.start">
+<tt class="descname">start</tt><big>(</big><em>debug</em>, <em>hostname</em>, <em>port</em>, <em>h_server</em>, <em>client_uuid</em><big>)</big><a class="headerlink" href="#hemlock.clients.hstream_odd.HStream_Odd.start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="hemlock.clients.hstream_odd.handle">
+<tt class="descclassname">hemlock.clients.hstream_odd.</tt><tt class="descname">handle</tt><big>(</big><em>debug</em>, <em>connection</em>, <em>address</em>, <em>h_server</em>, <em>client_uuid</em><big>)</big><a class="headerlink" href="#hemlock.clients.hstream_odd.handle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="word-freq-module">
+<h2><tt class="xref py py-mod docutils literal"><span class="pre">word_freq</span></tt> Module<a class="headerlink" href="#word-freq-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="hemlock.clients.file_types.html">file_types Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hemlock.clients.file_types.html#hcsv-module"><tt class="docutils literal"><span class="pre">hcsv</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hemlock.clients.file_types.html#hdoc-module"><tt class="docutils literal"><span class="pre">hdoc</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hemlock.clients.file_types.html#hgeneric-module"><tt class="docutils literal"><span class="pre">hgeneric</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hemlock.clients.file_types.html#hjson-module"><tt class="docutils literal"><span class="pre">hjson</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hemlock.clients.file_types.html#hpcap-module"><tt class="docutils literal"><span class="pre">hpcap</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hemlock.clients.file_types.html#hpdf-module"><tt class="docutils literal"><span class="pre">hpdf</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hemlock.clients.file_types.html#hppt-module"><tt class="docutils literal"><span class="pre">hppt</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hemlock.clients.file_types.html#htext-module"><tt class="docutils literal"><span class="pre">htext</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hemlock.clients.file_types.html#hxls-module"><tt class="docutils literal"><span class="pre">hxls</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hemlock.clients.file_types.html#hxml-module"><tt class="docutils literal"><span class="pre">hxml</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">clients Package</a><ul>
+<li><a class="reference internal" href="#module-hemlock.clients.hemlock_base"><tt class="docutils literal"><span class="pre">hemlock_base</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-hemlock.clients.hemlock_debugger"><tt class="docutils literal"><span class="pre">hemlock_debugger</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-hemlock.clients.hemlock_runner"><tt class="docutils literal"><span class="pre">hemlock_runner</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-hemlock.clients.hfs"><tt class="docutils literal"><span class="pre">hfs</span></tt> Module</a></li>
+<li><a class="reference internal" href="#hhbase-module"><tt class="docutils literal"><span class="pre">hhbase</span></tt> Module</a></li>
+<li><a class="reference internal" href="#hhdfs-module"><tt class="docutils literal"><span class="pre">hhdfs</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-hemlock.clients.hmongo"><tt class="docutils literal"><span class="pre">hmongo</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-hemlock.clients.hmysql"><tt class="docutils literal"><span class="pre">hmysql</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-hemlock.clients.hredis"><tt class="docutils literal"><span class="pre">hredis</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-hemlock.clients.hrest"><tt class="docutils literal"><span class="pre">hrest</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-hemlock.clients.hstream_odd"><tt class="docutils literal"><span class="pre">hstream_odd</span></tt> Module</a></li>
+<li><a class="reference internal" href="#word-freq-module"><tt class="docutils literal"><span class="pre">word_freq</span></tt> Module</a></li>
+<li><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="hemlock.html"
+                        title="previous chapter">hemlock Package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="hemlock.clients.file_types.html"
+                        title="next chapter">file_types Package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/hemlock.clients.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="hemlock.clients.file_types.html" title="file_types Package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="hemlock.html" title="hemlock Package"
+             >previous</a> |</li>
+        <li><a href="index.html">Hemlock 0.1.2 documentation</a> &raquo;</li>
+          <li><a href="hemlock.html" >hemlock Package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013 In-Q-Tel, Inc/Lab41, All Rights Reserved..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>
