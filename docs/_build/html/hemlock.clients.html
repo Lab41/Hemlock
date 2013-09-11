@@ -58,63 +58,228 @@
 <h1>clients Package<a class="headerlink" href="#clients-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="module-hemlock.clients.hemlock_base">
 <span id="hemlock-base-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hemlock_base</span></tt> Module<a class="headerlink" href="#module-hemlock.clients.hemlock_base" title="Permalink to this headline">¶</a></h2>
+<p>This module is the main controller code for running clients that sit in this
+directory.</p>
+<p>Created on 19 August 2013
+&#64;author: Charlie Lewis</p>
 <dl class="class">
 <dt id="hemlock.clients.hemlock_base.Hemlock_Base">
 <em class="property">class </em><tt class="descclassname">hemlock.clients.hemlock_base.</tt><tt class="descname">Hemlock_Base</tt><a class="reference internal" href="_modules/hemlock/clients/hemlock_base.html#Hemlock_Base"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><p>This class is responsible for validating clients and controlling the
+orchestration between clients the Hemlock metadata/data store.</p>
+<dl class="method">
 <dt id="hemlock.clients.hemlock_base.Hemlock_Base.client_import">
 <tt class="descname">client_import</tt><big>(</big><em>debug</em>, <em>client</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hemlock_base.html#Hemlock_Base.client_import"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.client_import" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Imports the client specific as a python module.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>debug</strong> &#8211; instance of
+<a class="reference internal" href="#hemlock.clients.hemlock_debugger.Hemlock_Debugger" title="hemlock.clients.hemlock_debugger.Hemlock_Debugger"><tt class="xref py py-class docutils literal"><span class="pre">Hemlock_Debugger</span></tt></a></li>
+<li><strong>client</strong> &#8211; string containing the name of the technology of the
+client i.e. mysql</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns string name of client credential file and instance of
+the client class</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.clients.hemlock_base.Hemlock_Base.connect_server">
 <tt class="descname">connect_server</tt><big>(</big><em>debug</em>, <em>server_dict</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hemlock_base.html#Hemlock_Base.connect_server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.connect_server" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Connects to the Hemlock couchbase server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>debug</strong> &#8211; instance of
+<a class="reference internal" href="#hemlock.clients.hemlock_debugger.Hemlock_Debugger" title="hemlock.clients.hemlock_debugger.Hemlock_Debugger"><tt class="xref py py-class docutils literal"><span class="pre">Hemlock_Debugger</span></tt></a></li>
+<li><strong>server_dict</strong> &#8211; credentials for connecting to the Hemlock server to
+be able to verify the client system</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns an instance of the couchbase connection</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.clients.hemlock_base.Hemlock_Base.get_args">
 <tt class="descname">get_args</tt><big>(</big><em>debug</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hemlock_base.html#Hemlock_Base.get_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.get_args" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets the arguments from the command line.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>debug</strong> &#8211; instance of
+<a class="reference internal" href="#hemlock.clients.hemlock_debugger.Hemlock_Debugger" title="hemlock.clients.hemlock_debugger.Hemlock_Debugger"><tt class="xref py py-class docutils literal"><span class="pre">Hemlock_Debugger</span></tt></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">returns list of arguments</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.clients.hemlock_base.Hemlock_Base.get_creds">
 <tt class="descname">get_creds</tt><big>(</big><em>debug</em>, <em>CLIENT_CREDS_FILE</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hemlock_base.html#Hemlock_Base.get_creds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.get_creds" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets the credentials for connecting the client and the credentials for
+connecting to the Hemlock server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>debug</strong> &#8211; instance of
+<a class="reference internal" href="#hemlock.clients.hemlock_debugger.Hemlock_Debugger" title="hemlock.clients.hemlock_debugger.Hemlock_Debugger"><tt class="xref py py-class docutils literal"><span class="pre">Hemlock_Debugger</span></tt></a></li>
+<li><strong>CLIENT_CREDS_FILE</strong> &#8211; path to file containing the client
+credentials</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns two dictionaries of the client and server credentials</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.clients.hemlock_base.Hemlock_Base.print_help">
 <tt class="descname">print_help</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hemlock_base.html#Hemlock_Base.print_help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.print_help" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Prints out help for the hemlock_base class.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.clients.hemlock_base.Hemlock_Base.process_args">
 <tt class="descname">process_args</tt><big>(</big><em>debug</em>, <em>args</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hemlock_base.html#Hemlock_Base.process_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.process_args" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Processes the arguments passed in to ensure that the right ones are
+supplied before trying to execute against them.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>debug</strong> &#8211; instance of
+<a class="reference internal" href="#hemlock.clients.hemlock_debugger.Hemlock_Debugger" title="hemlock.clients.hemlock_debugger.Hemlock_Debugger"><tt class="xref py py-class docutils literal"><span class="pre">Hemlock_Debugger</span></tt></a></li>
+<li><strong>args</strong> &#8211; list of arguments that are passed in</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns client system uuid, the client technology to use, and
+the number of splits (defaults to -1 if not supplied)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.clients.hemlock_base.Hemlock_Base.send_data">
 <tt class="descname">send_data</tt><big>(</big><em>debug</em>, <em>data_list</em>, <em>desc_list</em>, <em>h_server</em>, <em>client_uuid</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hemlock_base.html#Hemlock_Base.send_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.send_data" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Sends data to the Hemlock couchbase server that is recieved from the
+client system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>debug</strong> &#8211; instance of
+<a class="reference internal" href="#hemlock.clients.hemlock_debugger.Hemlock_Debugger" title="hemlock.clients.hemlock_debugger.Hemlock_Debugger"><tt class="xref py py-class docutils literal"><span class="pre">Hemlock_Debugger</span></tt></a></li>
+<li><strong>data_list</strong> &#8211; array of arrays containing data from the client</li>
+<li><strong>desc_list</strong> &#8211; list containing a corresponding schema to the data,
+can be empty</li>
+<li><strong>h_server</strong> &#8211; instnace of the couchbase connection</li>
+<li><strong>client_uuid</strong> &#8211; uuid of the client system</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.clients.hemlock_base.Hemlock_Base.stream_callback">
 <tt class="descname">stream_callback</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hemlock_base.html#Hemlock_Base.stream_callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.stream_callback" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Callback for hstream_odd, should only happen if something failed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> &#8211; data that failed</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.clients.hemlock_base.Hemlock_Base.stream_workers">
 <tt class="descname">stream_workers</tt><big>(</big><em>debug</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hemlock_base.html#Hemlock_Base.stream_workers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.stream_workers" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Spawns asyncronous workers when calling an hstream_odd client.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>debug</strong> &#8211; instance of
+<a class="reference internal" href="#hemlock.clients.hemlock_debugger.Hemlock_Debugger" title="hemlock.clients.hemlock_debugger.Hemlock_Debugger"><tt class="xref py py-class docutils literal"><span class="pre">Hemlock_Debugger</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.clients.hemlock_base.Hemlock_Base.update_hemlock">
 <tt class="descname">update_hemlock</tt><big>(</big><em>debug</em>, <em>client_uuid</em>, <em>server_dict</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hemlock_base.html#Hemlock_Base.update_hemlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.update_hemlock" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Sends data to the Hemlock couchbase server that is recieved from the
+client system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>debug</strong> &#8211; instance of
+<a class="reference internal" href="#hemlock.clients.hemlock_debugger.Hemlock_Debugger" title="hemlock.clients.hemlock_debugger.Hemlock_Debugger"><tt class="xref py py-class docutils literal"><span class="pre">Hemlock_Debugger</span></tt></a></li>
+<li><strong>client_uuid</strong> &#8211; uuid of the client system</li>
+<li><strong>server_dict</strong> &#8211; credentials for connecting to the Hemlock server to
+be able to verify the client system</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.clients.hemlock_base.Hemlock_Base.verify_system">
 <tt class="descname">verify_system</tt><big>(</big><em>debug</em>, <em>client_uuid</em>, <em>server_dict</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hemlock_base.html#Hemlock_Base.verify_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hemlock_base.Hemlock_Base.verify_system" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Verifies that the system supplied exists in the Hemlock system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>debug</strong> &#8211; instance of
+<a class="reference internal" href="#hemlock.clients.hemlock_debugger.Hemlock_Debugger" title="hemlock.clients.hemlock_debugger.Hemlock_Debugger"><tt class="xref py py-class docutils literal"><span class="pre">Hemlock_Debugger</span></tt></a></li>
+<li><strong>client_uuid</strong> &#8211; uuid of the client system that is being verified</li>
+<li><strong>server_dict</strong> &#8211; credentials for connecting to the Hemlock server to
+be able to verify the client system</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 

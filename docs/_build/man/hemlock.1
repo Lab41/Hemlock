@@ -1030,7 +1030,7 @@ returns a list of the arguments supplied
 .SS \fBhemlock_options_parser\fP Module
 .INDENT 0.0
 .TP
-.B class hemlock.hemlock_options_parser.PassThroughOptionParser(usage=None, option_list=None, option_class=<class optparse.Option at 0x14149a8>, version=None, conflict_handler=\(aqerror\(aq, description=None, formatter=None, add_help_option=True, prog=None, epilog=None)
+.B class hemlock.hemlock_options_parser.PassThroughOptionParser(usage=None, option_list=None, option_class=<class optparse.Option at 0x19739a8>, version=None, conflict_handler=\(aqerror\(aq, description=None, formatter=None, add_help_option=True, prog=None, epilog=None)
 Bases: \fBoptparse.OptionParser\fP
 .sp
 An unknown option pass\-through implementation of OptionParser.
@@ -1394,52 +1394,202 @@ incorrectly (e.g. missing arguments or bad argument types, etc.)
 .SS Subpackages
 .SS clients Package
 .SS \fBhemlock_base\fP Module
+.sp
+This module is the main controller code for running clients that sit in this
+directory.
+.sp
+Created on 19 August 2013
+@author: Charlie Lewis
 .INDENT 0.0
 .TP
 .B class hemlock.clients.hemlock_base.Hemlock_Base
+This class is responsible for validating clients and controlling the
+orchestration between clients the Hemlock metadata/data store.
 .INDENT 7.0
 .TP
 .B client_import(debug, client)
+Imports the client specific as a python module.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBdebug\fP \-\- instance of
+\fBHemlock_Debugger\fP
+.IP \(bu 2
+\fBclient\fP \-\- string containing the name of the technology of the
+client i.e. mysql
+.UNINDENT
+.TP
+.B Returns
+returns string name of client credential file and instance of
+the client class
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B connect_server(debug, server_dict)
+Connects to the Hemlock couchbase server.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBdebug\fP \-\- instance of
+\fBHemlock_Debugger\fP
+.IP \(bu 2
+\fBserver_dict\fP \-\- credentials for connecting to the Hemlock server to
+be able to verify the client system
+.UNINDENT
+.TP
+.B Returns
+returns an instance of the couchbase connection
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B get_args(debug)
+Gets the arguments from the command line.
+.INDENT 7.0
+.TP
+.B Parameters
+\fBdebug\fP \-\- instance of
+\fBHemlock_Debugger\fP
+.TP
+.B Returns
+returns list of arguments
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B get_creds(debug, CLIENT_CREDS_FILE)
+Gets the credentials for connecting the client and the credentials for
+connecting to the Hemlock server.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBdebug\fP \-\- instance of
+\fBHemlock_Debugger\fP
+.IP \(bu 2
+\fBCLIENT_CREDS_FILE\fP \-\- path to file containing the client
+credentials
+.UNINDENT
+.TP
+.B Returns
+returns two dictionaries of the client and server credentials
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B print_help()
+Prints out help for the hemlock_base class.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_args(debug, args)
+Processes the arguments passed in to ensure that the right ones are
+supplied before trying to execute against them.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBdebug\fP \-\- instance of
+\fBHemlock_Debugger\fP
+.IP \(bu 2
+\fBargs\fP \-\- list of arguments that are passed in
+.UNINDENT
+.TP
+.B Returns
+returns client system uuid, the client technology to use, and
+the number of splits (defaults to \-1 if not supplied)
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B send_data(debug, data_list, desc_list, h_server, client_uuid)
+Sends data to the Hemlock couchbase server that is recieved from the
+client system.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBdebug\fP \-\- instance of
+\fBHemlock_Debugger\fP
+.IP \(bu 2
+\fBdata_list\fP \-\- array of arrays containing data from the client
+.IP \(bu 2
+\fBdesc_list\fP \-\- list containing a corresponding schema to the data,
+can be empty
+.IP \(bu 2
+\fBh_server\fP \-\- instnace of the couchbase connection
+.IP \(bu 2
+\fBclient_uuid\fP \-\- uuid of the client system
+.UNINDENT
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B stream_callback(data)
+Callback for hstream_odd, should only happen if something failed.
+.INDENT 7.0
+.TP
+.B Parameters
+\fBdata\fP \-\- data that failed
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B stream_workers(debug)
+Spawns asyncronous workers when calling an hstream_odd client.
+.INDENT 7.0
+.TP
+.B Parameters
+\fBdebug\fP \-\- instance of
+\fBHemlock_Debugger\fP
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B update_hemlock(debug, client_uuid, server_dict)
+Sends data to the Hemlock couchbase server that is recieved from the
+client system.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBdebug\fP \-\- instance of
+\fBHemlock_Debugger\fP
+.IP \(bu 2
+\fBclient_uuid\fP \-\- uuid of the client system
+.IP \(bu 2
+\fBserver_dict\fP \-\- credentials for connecting to the Hemlock server to
+be able to verify the client system
+.UNINDENT
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B verify_system(debug, client_uuid, server_dict)
+Verifies that the system supplied exists in the Hemlock system.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBdebug\fP \-\- instance of
+\fBHemlock_Debugger\fP
+.IP \(bu 2
+\fBclient_uuid\fP \-\- uuid of the client system that is being verified
+.IP \(bu 2
+\fBserver_dict\fP \-\- credentials for connecting to the Hemlock server to
+be able to verify the client system
+.UNINDENT
+.UNINDENT
 .UNINDENT
 .UNINDENT
 .SS \fBhemlock_debugger\fP Module

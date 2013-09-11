@@ -14,6 +14,14 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+"""
+This module is the main controller code for running clients that sit in this
+directory.
+
+Created on 19 August 2013
+@author: Charlie Lewis
+"""
+
 from multiprocessing import Pool
 from socket import *
 from hemlock_debugger import Hemlock_Debugger
@@ -27,11 +35,26 @@ import sys
 import time
 
 class Hemlock_Base():
+    """
+    This class is responsible for validating clients and controlling the
+    orchestration between clients the Hemlock metadata/data store.
+    """
+
     def __init__(self):
         self.log = Hemlock_Debugger()
         self.SERVER_CREDS_FILE = '../hemlock_creds'
 
     def client_import(self, debug, client):
+        """
+        Imports the client specific as a python module.
+
+        :param debug: instance of
+            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
+        :param client: string containing the name of the technology of the
+            client i.e. mysql
+        :return: returns string name of client credential file and instance of
+            the client class
+        """
         self.log.debug(debug, "Importing: h"+client)
         exec "import h"+client
 
@@ -43,6 +66,16 @@ class Hemlock_Base():
         return client+'_creds', c_inst
 
     def get_creds(self, debug, CLIENT_CREDS_FILE):
+        """
+        Gets the credentials for connecting the client and the credentials for
+        connecting to the Hemlock server.
+
+        :param debug: instance of
+            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
+        :param CLIENT_CREDS_FILE: path to file containing the client
+            credentials
+        :return: returns two dictionaries of the client and server credentials
+        """
         client_dict = {}
         server_dict = {}
 
@@ -92,6 +125,15 @@ class Hemlock_Base():
         return client_dict, server_dict
 
     def verify_system(self, debug, client_uuid, server_dict):
+        """
+        Verifies that the system supplied exists in the Hemlock system.
+
+        :param debug: instance of
+            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
+        :param client_uuid: uuid of the client system that is being verified
+        :param server_dict: credentials for connecting to the Hemlock server to
+            be able to verify the client system
+        """
         # verify the client system is registered
         # required fields in the server creds file are as follows:
         #    HEMLOCK_MYSQL_SERVER
@@ -121,6 +163,15 @@ class Hemlock_Base():
         return
 
     def connect_server(self, debug, server_dict):
+        """
+        Connects to the Hemlock couchbase server.
+
+        :param debug: instance of
+            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
+        :param server_dict: credentials for connecting to the Hemlock server to
+            be able to verify the client system
+        :return: returns an instance of the couchbase connection
+        """
         # connect to the hemlock server
         # required fields in the server creds file are as follows:
         #    HEMLOCK_COUCHBASE_SERVER
@@ -141,6 +192,18 @@ class Hemlock_Base():
         return h_server
 
     def send_data(self, debug, data_list, desc_list, h_server, client_uuid):
+        """
+        Sends data to the Hemlock couchbase server that is recieved from the
+        client system.
+
+        :param debug: instance of
+            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
+        :param data_list: array of arrays containing data from the client
+        :param desc_list: list containing a corresponding schema to the data,
+            can be empty
+        :param h_server: instnace of the couchbase connection
+        :param client_uuid: uuid of the client system
+        """
         j_dict = {}
         j = 0
         i = 0
@@ -188,6 +251,16 @@ class Hemlock_Base():
         return
 
     def update_hemlock(self, debug, client_uuid, server_dict):
+        """
+        Sends data to the Hemlock couchbase server that is recieved from the
+        client system.
+
+        :param debug: instance of
+            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
+        :param client_uuid: uuid of the client system
+        :param server_dict: credentials for connecting to the Hemlock server to
+            be able to verify the client system
+        """
         # update mysql record to say when data was last updated for this system
         # DEBUG
         try:
@@ -206,9 +279,20 @@ class Hemlock_Base():
         return
 
     def stream_callback(self, data):
+        """
+        Callback for hstream_odd, should only happen if something failed.
+
+        :param data: data that failed
+        """
         print data
 
     def stream_workers(self, debug):
+        """
+        Spawns asyncronous workers when calling an hstream_odd client.
+
+        :param debug: instance of
+            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
+        """
         # DEBUG
         objects= [0] * 10
         pool = Pool(processes=4)
@@ -220,12 +304,25 @@ class Hemlock_Base():
         #    #Hemlock_Base().update_hemlock(client_uuid, server_dict)
 
     def print_help(self):
+        """
+        Prints out help for the hemlock_base class.
+        """
         print "--uuid \t<uuid of system> (use 'system-list' on the Hemlock server)"
         print "--client \t <name of client> (client file must exist in the clients folder)"
         print "-h \thelp\n"
         sys.exit(0)
 
     def process_args(self, debug, args):
+        """
+        Processes the arguments passed in to ensure that the right ones are
+        supplied before trying to execute against them.
+
+        :param debug: instance of
+            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
+        :param args: list of arguments that are passed in
+        :return: returns client system uuid, the client technology to use, and
+            the number of splits (defaults to -1 if not supplied)
+        """
         # process args
         splits = -1
         client = None
@@ -262,6 +359,13 @@ class Hemlock_Base():
         return client_uuid, client, splits
 
     def get_args(self, debug):
+        """
+        Gets the arguments from the command line.
+
+        :param debug: instance of
+            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
+        :return: returns list of arguments
+        """
         # DEBUG
         args = []
         for arg in sys.argv:
