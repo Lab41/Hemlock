@@ -68,19 +68,36 @@ Hemlock.</p>
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.check_args">
 <tt class="descname">check_args</tt><big>(</big><em>args</em>, <em>arg_d</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.check_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.check_args" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="hemlock.hemlock.Hemlock.client_add_schedule">
-<tt class="descname">client_add_schedule</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.client_add_schedule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.client_add_schedule" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds a schedule to a client.</p>
+<dd><p>Checks arguments supplied.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>args</strong> &#8211; arguments to pass in from API</li>
-<li><strong>var_d</strong> &#8211; dictionary of key values made from the arguments</li>
+<li><strong>arg_d</strong> &#8211; list of supplied arguments</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a dictionary of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hemlock.hemlock.Hemlock.client_add_schedule">
+<tt class="descname">client_add_schedule</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.client_add_schedule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.client_add_schedule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a specific schedule to a specific client.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
 </ul>
 </td>
 </tr>
@@ -94,57 +111,233 @@ Hemlock.</p>
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.client_get">
 <tt class="descname">client_get</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.client_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.client_get" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets a specific client.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.client_list">
 <tt class="descname">client_list</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.client_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.client_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Lists all clients.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.client_purge">
 <tt class="descname">client_purge</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.client_purge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.client_purge" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Purges a specific client.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.client_remove_schedule">
 <tt class="descname">client_remove_schedule</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.client_remove_schedule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.client_remove_schedule" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Removes a specific schedule from a specific client.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.client_run">
 <tt class="descname">client_run</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.client_run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.client_run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Runs a client.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.client_schedule">
 <tt class="descname">client_schedule</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.client_schedule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.client_schedule" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Schedules a client.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.client_schedules_list">
 <tt class="descname">client_schedules_list</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.client_schedules_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.client_schedules_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Lists all schedules assigned to a specific client.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.client_store">
 <tt class="descname">client_store</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.client_store"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.client_store" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Stores a client.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.client_systems_list">
 <tt class="descname">client_systems_list</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.client_systems_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.client_systems_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Lists all systems assigned to a specific client.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.deregister_local_system">
 <tt class="descname">deregister_local_system</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.deregister_local_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.deregister_local_system" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Deegisters a specific local system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.deregister_remote_system">
 <tt class="descname">deregister_remote_system</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.deregister_remote_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.deregister_remote_system" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Deregisters a specific remote system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.get_auth">
@@ -154,12 +347,44 @@ Hemlock.</p>
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.hemlock_server_store">
 <tt class="descname">hemlock_server_store</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.hemlock_server_store"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.hemlock_server_store" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Stores Hemlock server credentials.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.list_all">
 <tt class="descname">list_all</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.list_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.list_all" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Lists everything that is stored.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.mysql_server">
@@ -174,7 +399,16 @@ Hemlock.</p>
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.print_help">
 <tt class="descname">print_help</tt><big>(</big><em>action</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.print_help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.print_help" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Prints out help.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>action</strong> &#8211; list of API action parsed into elements</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.process_action">
@@ -194,182 +428,758 @@ Hemlock.</p>
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.register_local_system">
 <tt class="descname">register_local_system</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.register_local_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.register_local_system" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Registers a local system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.register_remote_system">
 <tt class="descname">register_remote_system</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.register_remote_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.register_remote_system" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Registers a remote system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.role_create">
 <tt class="descname">role_create</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.role_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.role_create" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Creates a role.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.role_delete">
 <tt class="descname">role_delete</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.role_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.role_delete" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Deletes a specific role.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.role_get">
 <tt class="descname">role_get</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.role_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.role_get" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets a specific role.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.role_list">
 <tt class="descname">role_list</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.role_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.role_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Lists all roles.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.role_users_list">
 <tt class="descname">role_users_list</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.role_users_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.role_users_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Lists all users assigned to a specific role.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.schedule_add_client">
 <tt class="descname">schedule_add_client</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.schedule_add_client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.schedule_add_client" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Adds a specific client to a specific schedule.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.schedule_clients_list">
 <tt class="descname">schedule_clients_list</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.schedule_clients_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.schedule_clients_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Lists all clients assigned to a specific schedule.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.schedule_delete">
 <tt class="descname">schedule_delete</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.schedule_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.schedule_delete" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Deletes a specific schedule.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.schedule_get">
 <tt class="descname">schedule_get</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.schedule_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.schedule_get" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets a specific schedule.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.schedule_list">
 <tt class="descname">schedule_list</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.schedule_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.schedule_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets a specific schedule.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.schedule_remove_client">
 <tt class="descname">schedule_remove_client</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.schedule_remove_client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.schedule_remove_client" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Removes a specific client from a specific schedule.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.start_scheduler">
 <tt class="descname">start_scheduler</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.start_scheduler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.start_scheduler" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Starts the scheduler daemon.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.system_add_tenant">
 <tt class="descname">system_add_tenant</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.system_add_tenant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.system_add_tenant" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Adds a specific tenant to a specific system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.system_clients_list">
 <tt class="descname">system_clients_list</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.system_clients_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.system_clients_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Lists all clients assigned to a specific system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.system_get">
 <tt class="descname">system_get</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.system_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.system_get" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets a specific system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.system_list">
 <tt class="descname">system_list</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.system_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.system_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Lists all clients assigned to a specific system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.system_remove_tenant">
 <tt class="descname">system_remove_tenant</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.system_remove_tenant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.system_remove_tenant" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Removes a specific tenant from a specific system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.system_tenants_list">
 <tt class="descname">system_tenants_list</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.system_tenants_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.system_tenants_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Lists all tenants assigned to a specific system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.tenant_create">
 <tt class="descname">tenant_create</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.tenant_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.tenant_create" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Creates a tenant.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.tenant_delete">
 <tt class="descname">tenant_delete</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.tenant_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.tenant_delete" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Deletes a specific tenant.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.tenant_get">
 <tt class="descname">tenant_get</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.tenant_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.tenant_get" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets a specific tenant.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.tenant_list">
 <tt class="descname">tenant_list</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.tenant_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.tenant_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Lists all tenants.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.tenant_systems_list">
 <tt class="descname">tenant_systems_list</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.tenant_systems_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.tenant_systems_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Lists all systems assigned to a specific tenant.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.tenant_users_list">
 <tt class="descname">tenant_users_list</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.tenant_users_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.tenant_users_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Lists all users assigned to a specific tenant.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.user_add_role">
 <tt class="descname">user_add_role</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.user_add_role"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.user_add_role" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Adds a specific role to a specific user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.user_add_tenant">
 <tt class="descname">user_add_tenant</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.user_add_tenant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.user_add_tenant" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Adds a specific tenant to a specific user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.user_create">
 <tt class="descname">user_create</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.user_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.user_create" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Creates a user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.user_delete">
 <tt class="descname">user_delete</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.user_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.user_delete" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Deletes a specific user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.user_get">
 <tt class="descname">user_get</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.user_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.user_get" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets a specific user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.user_list">
 <tt class="descname">user_list</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.user_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.user_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Lists all users.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.user_remove_role">
 <tt class="descname">user_remove_role</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.user_remove_role"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.user_remove_role" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Removes a specific role from a specific user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.user_remove_tenant">
 <tt class="descname">user_remove_tenant</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.user_remove_tenant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.user_remove_tenant" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Removes a specific tenant from a specific user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.user_roles_list">
 <tt class="descname">user_roles_list</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.user_roles_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.user_roles_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Lists all roles assigned to a specific user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.user_tenants_list">
 <tt class="descname">user_tenants_list</tt><big>(</big><em>args</em>, <em>var_d</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.user_tenants_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.user_tenants_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Lists all tenants assigned to a specific user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; arguments to pass in from API</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values made from the arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a list of the arguments supplied</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
@@ -378,7 +1188,7 @@ Hemlock.</p>
 <span id="hemlock-options-parser-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hemlock_options_parser</span></tt> Module<a class="headerlink" href="#module-hemlock.hemlock_options_parser" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="hemlock.hemlock_options_parser.PassThroughOptionParser">
-<em class="property">class </em><tt class="descclassname">hemlock.hemlock_options_parser.</tt><tt class="descname">PassThroughOptionParser</tt><big>(</big><em>usage=None</em>, <em>option_list=None</em>, <em>option_class=&lt;class optparse.Option at 0x22259a8&gt;</em>, <em>version=None</em>, <em>conflict_handler='error'</em>, <em>description=None</em>, <em>formatter=None</em>, <em>add_help_option=True</em>, <em>prog=None</em>, <em>epilog=None</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock_options_parser.html#PassThroughOptionParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock_options_parser.PassThroughOptionParser" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">hemlock.hemlock_options_parser.</tt><tt class="descname">PassThroughOptionParser</tt><big>(</big><em>usage=None</em>, <em>option_list=None</em>, <em>option_class=&lt;class optparse.Option at 0x14149a8&gt;</em>, <em>version=None</em>, <em>conflict_handler='error'</em>, <em>description=None</em>, <em>formatter=None</em>, <em>add_help_option=True</em>, <em>prog=None</em>, <em>epilog=None</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock_options_parser.html#PassThroughOptionParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock_options_parser.PassThroughOptionParser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">optparse.OptionParser</span></tt></p>
 <p>An unknown option pass-through implementation of OptionParser.</p>
 <p>When unknown arguments are encountered, bundle with largs and try again,
