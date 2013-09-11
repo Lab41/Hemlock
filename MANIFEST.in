@@ -1,8 +1,9 @@
 include AUTHORS
 include *.md *.txt
-recursive-include docs *.md *.png
+recursive-include docs *.md *.png *.rst *.bat *.pickle *.doctree *.html *.inv *.js *.txt *.gif *.css *.1 *.py
 recursive-include hemlock *.md
 recursive-include hemlock/www *.ico *.html *.csv *.tsv *.css *.png *.js 
+include docs/Makefile
 include hemlock/hemlock_creds_source_sample
 include hemlock/hemlock_creds_sample
 include hemlock/clients/fs_creds_sample
