@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "HEMLOCK" "1" "September 10, 2013" "0.1.2" "Hemlock"
+.TH "HEMLOCK" "1" "September 11, 2013" "0.1.2" "Hemlock"
 .SH NAME
 hemlock \- Hemlock Documentation
 .
@@ -62,63 +62,251 @@ Contents:
 .SH HEMLOCK PACKAGE
 .SS \fBhemlock\fP Module
 .sp
+This module is the main core of Hemlock and interfaces with and controls the
+majority of other modules in this package.
+.sp
 Created on 19 August 2013
 @author: Charlie Lewis
 .INDENT 0.0
 .TP
 .B class hemlock.hemlock.Hemlock
-Main class for driving the API
+This class is responsible for driving the API and the core functionality of
+Hemlock.
 .INDENT 7.0
 .TP
 .B check_args(args, arg_d, var_d)
+Checks arguments supplied.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBarg_d\fP \-\- list of supplied arguments
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a dictionary of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B client_add_schedule(args, var_d)
+Adds a specific schedule to a specific client.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B client_get(args, var_d)
+Gets a specific client.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B client_list(args, var_d)
+Lists all clients.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B client_purge(args, var_d)
+Purges a specific client.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B client_remove_schedule(args, var_d)
+Removes a specific schedule from a specific client.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B client_run(args, var_d)
+Runs a client.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B client_schedule(args, var_d)
+Schedules a client.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B client_schedules_list(args, var_d)
+Lists all schedules assigned to a specific client.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B client_store(args, var_d)
+Stores a client.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B client_systems_list(args, var_d)
+Lists all systems assigned to a specific client.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B deregister_local_system(args, var_d)
+Deegisters a specific local system.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B deregister_remote_system(args, var_d)
+Deregisters a specific remote system.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
@@ -127,10 +315,38 @@ Main class for driving the API
 .INDENT 7.0
 .TP
 .B hemlock_server_store(args, var_d)
+Stores Hemlock server credentials.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B list_all(args, var_d)
+Lists everything that is stored.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
@@ -143,6 +359,12 @@ Main class for driving the API
 .INDENT 7.0
 .TP
 .B print_help(action)
+Prints out help.
+.INDENT 7.0
+.TP
+.B Parameters
+\fBaction\fP \-\- list of API action parsed into elements
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
@@ -159,152 +381,656 @@ Main class for driving the API
 .INDENT 7.0
 .TP
 .B register_local_system(args, var_d)
+Registers a local system.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B register_remote_system(args, var_d)
+Registers a remote system.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B role_create(args, var_d)
+Creates a role.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B role_delete(args, var_d)
+Deletes a specific role.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B role_get(args, var_d)
+Gets a specific role.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B role_list(args, var_d)
+Lists all roles.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B role_users_list(args, var_d)
+Lists all users assigned to a specific role.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B schedule_add_client(args, var_d)
+Adds a specific client to a specific schedule.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B schedule_clients_list(args, var_d)
+Lists all clients assigned to a specific schedule.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B schedule_delete(args, var_d)
+Deletes a specific schedule.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B schedule_get(args, var_d)
+Gets a specific schedule.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B schedule_list(args, var_d)
+Gets a specific schedule.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B schedule_remove_client(args, var_d)
+Removes a specific client from a specific schedule.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B start_scheduler(args, var_d)
+Starts the scheduler daemon.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B system_add_tenant(args, var_d)
+Adds a specific tenant to a specific system.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B system_clients_list(args, var_d)
+Lists all clients assigned to a specific system.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B system_get(args, var_d)
+Gets a specific system.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B system_list(args, var_d)
+Lists all clients assigned to a specific system.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B system_remove_tenant(args, var_d)
+Removes a specific tenant from a specific system.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B system_tenants_list(args, var_d)
+Lists all tenants assigned to a specific system.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B tenant_create(args, var_d)
+Creates a tenant.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B tenant_delete(args, var_d)
+Deletes a specific tenant.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B tenant_get(args, var_d)
+Gets a specific tenant.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B tenant_list(args, var_d)
+Lists all tenants.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B tenant_systems_list(args, var_d)
+Lists all systems assigned to a specific tenant.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B tenant_users_list(args, var_d)
+Lists all users assigned to a specific tenant.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B user_add_role(args, var_d)
+Adds a specific role to a specific user.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B user_add_tenant(args, var_d)
+Adds a specific tenant to a specific user.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B user_create(args, var_d)
+Creates a user.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B user_delete(args, var_d)
+Deletes a specific user.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B user_get(args, var_d)
+Gets a specific user.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B user_list(args, var_d)
+Lists all users.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B user_remove_role(args, var_d)
+Removes a specific role from a specific user.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B user_remove_tenant(args, var_d)
+Removes a specific tenant from a specific user.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B user_roles_list(args, var_d)
+Lists all roles assigned to a specific user.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B user_tenants_list(args, var_d)
+Lists all tenants assigned to a specific user.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
 .UNINDENT
 .UNINDENT
 .SS \fBhemlock_options_parser\fP Module
 .INDENT 0.0
 .TP
-.B class hemlock.hemlock_options_parser.PassThroughOptionParser(usage=None, option_list=None, option_class=<class optparse.Option at 0x16f49a8>, version=None, conflict_handler=\(aqerror\(aq, description=None, formatter=None, add_help_option=True, prog=None, epilog=None)
+.B class hemlock.hemlock_options_parser.PassThroughOptionParser(usage=None, option_list=None, option_class=<class optparse.Option at 0x14149a8>, version=None, conflict_handler=\(aqerror\(aq, description=None, formatter=None, add_help_option=True, prog=None, epilog=None)
 Bases: \fBoptparse.OptionParser\fP
 .sp
 An unknown option pass\-through implementation of OptionParser.
