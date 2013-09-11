@@ -49,7 +49,7 @@ class Hemlock():
 
     def client_add_schedule(self, args, var_d):
         """
-        Adds a schedule to a client.
+        Adds a specific schedule to a specific client.
 
         :param args: arguments to pass in from API
         :param var_d: dictionary of key/values made from the arguments 
@@ -62,23 +62,51 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def client_get(self, args, var_d):
+        """
+        Gets a specific client.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def client_list(self, args, var_d):
+        """
+        Lists all clients.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
         ]
         return self.check_args(args, arg_d, var_d)
 
     def client_purge(self, args, var_d):
+        """
+        Purges a specific client.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def client_remove_schedule(self, args, var_d):
+        """
+        Removes a specific schedule from a specific client.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid',
             '--schedule_id'
@@ -86,12 +114,26 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def client_run(self, args, var_d):
+        """
+        Runs a client.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def client_schedule(self, args, var_d):
+        """
+        Schedules a client.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         # !! TODO
         #    consider having a way to activate schedules for clients,
         #    perhaps one schedule to many clients, or many schedules
@@ -108,12 +150,26 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def client_schedules_list(self, args, var_d):
+        """
+        Lists all schedules assigned to a specific client.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def client_store(self, args, var_d):
+        """
+        Stores a client.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--name',
             '--type',
@@ -123,35 +179,77 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def client_systems_list(self, args, var_d):
+        """
+        Lists all systems assigned to a specific client.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def deregister_local_system(self, args, var_d):
+        """
+        Deegisters a specific local system.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def deregister_remote_system(self, args, var_d):
+        """
+        Deregisters a specific remote system.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def hemlock_server_store(self, args, var_d):
+        """
+        Stores Hemlock server credentials.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--credential_file'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def list_all(self, args, var_d):
+        """
+        Lists everything that is stored.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
         ]
         return self.check_args(args, arg_d, var_d)
 
     def register_local_system(self, args, var_d):
+        """
+        Registers a local system.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--name',
             '--data_type',
@@ -165,6 +263,13 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def register_remote_system(self, args, var_d):
+        """
+        Registers a remote system.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         # !! TODO add map of operation vocabulary
         #         is this needed?
         arg_d = [
@@ -181,35 +286,77 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def role_create(self, args, var_d):
+        """
+        Creates a role.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--name'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def role_delete(self, args, var_d):
+        """
+        Deletes a specific role.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def role_get(self, args, var_d):
+        """
+        Gets a specific role.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def role_list(self, args, var_d):
+        """
+        Lists all roles.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
         ]
         return self.check_args(args, arg_d, var_d)
 
     def role_users_list(self, args, var_d):
+        """
+        Lists all users assigned to a specific role.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def schedule_add_client(self, args, var_d):
+        """
+        Adds a specific client to a specific schedule.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid',
             '--client_id'
@@ -217,29 +364,64 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def schedule_clients_list(self, args, var_d):
+        """
+        Lists all clients assigned to a specific schedule.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def schedule_delete(self, args, var_d):
+        """
+        Deletes a specific schedule.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def schedule_get(self, args, var_d):
+        """
+        Gets a specific schedule.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def schedule_list(self, args, var_d):
+        """
+        Gets a specific schedule.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
         ]
         return self.check_args(args, arg_d, var_d)
 
     def schedule_remove_client(self, args, var_d):
+        """
+        Removes a specific client from a specific schedule.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid',
             '--client_id'
@@ -247,6 +429,13 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def start_scheduler(self, args, var_d):
+        """
+        Starts the scheduler daemon.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         # !! TODO this should not be required, if the creds are already stored
         arg_d = [
             '--hemlock_creds_path'
@@ -254,6 +443,13 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def system_add_tenant(self, args, var_d):
+        """
+        Adds a specific tenant to a specific system.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid',
             '--tenant_id'
@@ -261,23 +457,51 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def system_clients_list(self, args, var_d):
+        """
+        Lists all clients assigned to a specific system.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def system_get(self, args, var_d):
+        """
+        Gets a specific system.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def system_list(self, args, var_d):
+        """
+        Lists all clients assigned to a specific system.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
         ]
         return self.check_args(args, arg_d, var_d)
 
     def system_remove_tenant(self, args, var_d):
+        """
+        Removes a specific tenant from a specific system.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid',
             '--tenant_id'
@@ -285,47 +509,103 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def system_tenants_list(self, args, var_d):
+        """
+        Lists all tenants assigned to a specific system.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def tenant_create(self, args, var_d):
+        """
+        Creates a tenant.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--name'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def tenant_delete(self, args, var_d):
+        """
+        Deletes a specific tenant.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def tenant_get(self, args, var_d):
+        """
+        Gets a specific tenant.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def tenant_list(self, args, var_d):
+        """
+        Lists all tenants.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
         ]
         return self.check_args(args, arg_d, var_d)
 
     def tenant_systems_list(self, args, var_d):
+        """
+        Lists all systems assigned to a specific tenant.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def tenant_users_list(self, args, var_d):
+        """
+        Lists all users assigned to a specific tenant.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def user_add_role(self, args, var_d):
+        """
+        Adds a specific role to a specific user.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid',
             '--role_id'
@@ -333,6 +613,13 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def user_add_tenant(self, args, var_d):
+        """
+        Adds a specific tenant to a specific user.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid',
             '--tenant_id'
@@ -340,6 +627,13 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def user_create(self, args, var_d):
+        """
+        Creates a user.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--name',
             '--username',
@@ -350,23 +644,51 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def user_delete(self, args, var_d):
+        """
+        Deletes a specific user.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def user_get(self, args, var_d):
+        """
+        Gets a specific user.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def user_list(self, args, var_d):
+        """
+        Lists all users.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
         ]
         return self.check_args(args, arg_d, var_d)
 
     def user_remove_role(self, args, var_d):
+        """
+        Removes a specific role from a specific user.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid',
             '--role_id'
@@ -374,6 +696,13 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def user_remove_tenant(self, args, var_d):
+        """
+        Removes a specific tenant from a specific user.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid',
             '--tenant_id'
@@ -381,18 +710,40 @@ class Hemlock():
         return self.check_args(args, arg_d, var_d)
 
     def user_roles_list(self, args, var_d):
+        """
+        Lists all roles assigned to a specific user.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def user_tenants_list(self, args, var_d):
+        """
+        Lists all tenants assigned to a specific user.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a list of the arguments supplied 
+        """
         arg_d = [
             '--uuid'
         ]
         return self.check_args(args, arg_d, var_d)
 
     def check_args(self, args, arg_d, var_d):
+        """
+        Checks arguments supplied.
+
+        :param args: arguments to pass in from API
+        :param arg_d: list of supplied arguments 
+        :param var_d: dictionary of key/values made from the arguments 
+        :return: returns a dictionary of the arguments supplied 
+        """
         i = 0
         while i < len(args):
             try:
@@ -410,6 +761,11 @@ class Hemlock():
         return var_d
 
     def print_help(self, action):
+        """
+        Prints out help.
+
+        :param action: list of API action parsed into elements
+        """
         if self.HELP_COUNTER >= 1:
             help_dict = {
             'client-add-schedule' : """
