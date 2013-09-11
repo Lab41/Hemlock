@@ -14,8 +14,27 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+"""
+This module is used for running a debugger across all modules in Hemlock.
+
+Create on 28 August 2013
+@author: Charlie Lewis
+"""
+
 class Hemlock_Debugger():
+    """
+    This class is responsible for printing out debug statements as well as
+    write them to file.
+    """
+
     def debug(self, debug, string):
+        """
+        Prints and logs all debug statements.
+
+        :param debug: instance of
+            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
+        :param string: stringified version of whatever is being debugged.
+        """
         if debug:
             print string
             f = open('debug.log', 'a')

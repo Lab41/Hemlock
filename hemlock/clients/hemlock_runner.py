@@ -14,6 +14,14 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+"""
+This module gets all needed credentials in preparation for getting data from
+clients and into Hemlock's metadata/data store.
+
+Created on 26 August 2013
+@author: Charlie Lewis
+"""
+
 from hemlock_debugger import Hemlock_Debugger
 
 import hemlock_base
@@ -25,10 +33,27 @@ import sys
 import time
 
 class Hemlock_Runner():
+    """
+    This class is responsible for pulling out the credentials from the Hemlock
+    server for both the client system and the Hemlock metadata/data store.
+    """
+
     def __init__(self):
         self.log = Hemlock_Debugger()
 
     def mysql_server(self, debug, server, user, pw, db):
+        """
+        Connects to the Hemlock MySQL server to get an instance for retrieving
+        credentials.
+
+        :param debug: instance of
+            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
+        :param server: server address of the Hemlock MySQL server
+        :param user: user account to connect to the Hemlock MySQL server
+        :param pw: password of the user account
+        :param db: database to connect to in the Hemlock MySQL server
+        :return: returns an instance of the mysql connection
+        """
         # DEBUG
         # connect to the mysql server
         try:
@@ -39,6 +64,18 @@ class Hemlock_Runner():
         return m_server
 
     def get_creds(self, debug, m_server, client_id, aes_key):
+        """
+        Retrieves the credentials for both the client system as well as the
+        Hemlock server that are stored in the Hemlock MySQL server.
+
+        :param debug: instance of
+            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
+        :param m_server: instance of MySQL connection
+        :param client_id: uuid of the client to get credentials for
+        :param aes_key: AES key for decrypting the stored credentials
+        :return: returns two dictionaries for the client system and Hemlock
+            server credentials
+        """
         # DEBUG
         # get client_dict
         cur = m_server.cursor()
