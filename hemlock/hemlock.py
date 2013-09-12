@@ -1090,6 +1090,12 @@ class Hemlock():
     # use OptionParser to parse command-line switches for authentication variables
     # return variables in options array, as well as leftover args that don't have switches
     def parse_auth(self):  
+        """
+        Parses options for authentication if supplied as arguments.
+
+        :return: returns an instance of
+            :class:'~hemlock.hemlock_options_parser.PassThroughOptionParser`
+        """
         parser = hemlock_options_parser.PassThroughOptionParser()
         parser.add_option("-s", "--server-mysql", action="store", dest="server",help="MySQL Server") #, default="localhost"
         parser.add_option("-d", "--database", action="store", dest="db", help="MySQL DB")
@@ -1103,6 +1109,13 @@ class Hemlock():
         return parser.parse_args()
 
     def read_creds(self, debug):
+        """
+        Reads in the credentials file for the Hemlock system and stores them in
+        the local environment variables of the shell.
+
+        :param debug: instance of
+            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
+        """
         resp = ""
         while resp != 'y' and resp != 'n':
             resp = raw_input("Do you have a hemlock_creds file? (y/n)")
@@ -1128,6 +1141,12 @@ class Hemlock():
         return
 
     def get_auth(self):
+        """
+        Gets the authentication of supplied arguments, environment variables,
+        or sets them to defaults.
+
+        :return: returns each of the parsed out arguments
+        """
         # extract command-line switches
         (options, args_leftover) = Hemlock().parse_auth()
 
