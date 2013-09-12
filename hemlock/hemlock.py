@@ -1136,32 +1136,44 @@ class Hemlock():
         :param debug: instance of
             :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
         """
-        # !! TODO
-        #    this needs to be bypassed in cases like running the rest server,
-        #    where it will be broken while it sits and waits for an answer to
-        #    this question
-        resp = ""
-        while resp != 'y' and resp != 'n':
-            resp = raw_input("Do you have a hemlock_creds file? (y/n)")
-            resp = resp.lower()
-        if resp == 'y':
-            resp = raw_input("Path to hemlock_creds file: ")
-            try:
-                f = open(resp, 'r')
-                for line in f:
-                    self.log.debug(debug, line)
-                    if len(line) > 0 and line[0] != "#" and "=" in line:
-                        # split each line on the first '='
-                        line_a = line.split("=",1)
-                        try:
-                            os.environ[line_a[0]] = line_a[1].strip()
-                        except:
-                            print "Malformed Hemlock Creds file."
-                            self.log.debug(debug, str(sys.exc_info()[0]))
-                f.close()
-            except:
-                print "Unable to open "+resp
-                self.log.debug(debug, str(sys.exc_info()[0]))
+        # trying hemlock_creds in the current directory as a default, if that
+        # fails, then ask for a file or parameters
+        try:
+            f = open('hemlock_creds', 'r')
+            for line in f:
+                self.log.debug(debug, line)
+                if len(line) > 0 and line[0] != "#" and "=" in line:
+                    # split each line on the first '='
+                    line_a = line.split("=",1)
+                    try:
+                        os.environ[line_a[0]] = line_a[1].strip()
+                    except:
+                        print "Malformed Hemlock Creds file."
+                        self.log.debug(debug, str(sys.exc_info()[0]))
+            f.close()
+        except:
+            resp = ""
+            while resp != 'y' and resp != 'n':
+                resp = raw_input("Do you have a hemlock_creds file? (y/n)")
+                resp = resp.lower()
+            if resp == 'y':
+                resp = raw_input("Path to hemlock_creds file: ")
+                try:
+                    f = open(resp, 'r')
+                    for line in f:
+                        self.log.debug(debug, line)
+                        if len(line) > 0 and line[0] != "#" and "=" in line:
+                            # split each line on the first '='
+                            line_a = line.split("=",1)
+                            try:
+                                os.environ[line_a[0]] = line_a[1].strip()
+                            except:
+                                print "Malformed Hemlock Creds file."
+                                self.log.debug(debug, str(sys.exc_info()[0]))
+                    f.close()
+                except:
+                    print "Unable to open "+resp
+                    self.log.debug(debug, str(sys.exc_info()[0]))
         return
 
     def get_auth(self):
