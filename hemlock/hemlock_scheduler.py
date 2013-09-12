@@ -14,6 +14,14 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+"""
+This module controlls and runs the scheduler for performing actions between
+client systems and the Hemlock server.
+
+Created on 30 August 2013
+@author: Charlie Lewis
+"""
+
 from apscheduler.scheduler import Scheduler
 from clients.hemlock_debugger import Hemlock_Debugger
 from hemlock import Hemlock
@@ -24,6 +32,11 @@ import signal
 import sys
 
 class Hemlock_Scheduler():
+    """
+    This class is responsible for spawning and controlling the the scheduler
+    and all operations that are scheduled in a cron-like fashion.
+    """
+
     def __init__(self):
         self.log = Hemlock_Debugger()
         self.sched = self.init_schedule()
