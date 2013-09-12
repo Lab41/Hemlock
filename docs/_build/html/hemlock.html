@@ -342,7 +342,17 @@ Hemlock.</p>
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.get_auth">
 <tt class="descname">get_auth</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.get_auth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.get_auth" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets the authentication of supplied arguments, environment variables,
+or sets them to defaults.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns each of the parsed out arguments</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.hemlock_server_store">
@@ -389,12 +399,42 @@ Hemlock.</p>
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.mysql_server">
 <tt class="descname">mysql_server</tt><big>(</big><em>debug</em>, <em>server</em>, <em>user</em>, <em>pw</em>, <em>db</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.mysql_server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.mysql_server" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Connects to the Hemlock MySQL Server</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>debug</strong> &#8211; instance of
+<a class="reference internal" href="hemlock.clients.html#hemlock.clients.hemlock_debugger.Hemlock_Debugger" title="hemlock.clients.hemlock_debugger.Hemlock_Debugger"><tt class="xref py py-class docutils literal"><span class="pre">Hemlock_Debugger</span></tt></a></li>
+<li><strong>server</strong> &#8211; server address of the Hemlock MySQL server</li>
+<li><strong>user</strong> &#8211; user account to connect to the Hemlock MySQL server</li>
+<li><strong>pw</strong> &#8211; password of the user account</li>
+<li><strong>db</strong> &#8211; database to connect to in the Hemlock MySQL server</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns an instance of the mysql connection</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.parse_auth">
 <tt class="descname">parse_auth</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.parse_auth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.parse_auth" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Parses options for authentication if supplied as arguments.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns an instance of
+<a class="reference internal" href="#hemlock.hemlock_options_parser.PassThroughOptionParser" title="hemlock.hemlock_options_parser.PassThroughOptionParser"><tt class="xref py py-class docutils literal"><span class="pre">PassThroughOptionParser</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.print_help">
@@ -413,17 +453,67 @@ Hemlock.</p>
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.process_action">
 <tt class="descname">process_action</tt><big>(</big><em>debug</em>, <em>action</em>, <em>var_d</em>, <em>m_server</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.process_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.process_action" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Processes the action that was supplied.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>debug</strong> &#8211; instance of
+<a class="reference internal" href="hemlock.clients.html#hemlock.clients.hemlock_debugger.Hemlock_Debugger" title="hemlock.clients.hemlock_debugger.Hemlock_Debugger"><tt class="xref py py-class docutils literal"><span class="pre">Hemlock_Debugger</span></tt></a></li>
+<li><strong>action</strong> &#8211; action to be performed</li>
+<li><strong>var_d</strong> &#8211; dictionary of key/values that contain the parameters for
+the action</li>
+<li><strong>m_server</strong> &#8211; instance of MySQL connection</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of results and any errors that may have occurred.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.process_args">
 <tt class="descname">process_args</tt><big>(</big><em>debug</em>, <em>args</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.process_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.process_args" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Processes arguments by directing the supplied action to the
+proper function and ensure that all required fields are present.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>debug</strong> &#8211; instance of
+<a class="reference internal" href="hemlock.clients.html#hemlock.clients.hemlock_debugger.Hemlock_Debugger" title="hemlock.clients.hemlock_debugger.Hemlock_Debugger"><tt class="xref py py-class docutils literal"><span class="pre">Hemlock_Debugger</span></tt></a></li>
+<li><strong>args</strong> &#8211; list of supplied arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a dictionary of argument key/values and the API
+action</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.read_creds">
 <tt class="descname">read_creds</tt><big>(</big><em>debug</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.read_creds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.read_creds" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Reads in the credentials file for the Hemlock system and stores them in
+the local environment variables of the shell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>debug</strong> &#8211; instance of
+<a class="reference internal" href="hemlock.clients.html#hemlock.clients.hemlock_debugger.Hemlock_Debugger" title="hemlock.clients.hemlock_debugger.Hemlock_Debugger"><tt class="xref py py-class docutils literal"><span class="pre">Hemlock_Debugger</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.register_local_system">
@@ -1188,7 +1278,7 @@ Hemlock.</p>
 <span id="hemlock-options-parser-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hemlock_options_parser</span></tt> Module<a class="headerlink" href="#module-hemlock.hemlock_options_parser" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="hemlock.hemlock_options_parser.PassThroughOptionParser">
-<em class="property">class </em><tt class="descclassname">hemlock.hemlock_options_parser.</tt><tt class="descname">PassThroughOptionParser</tt><big>(</big><em>usage=None</em>, <em>option_list=None</em>, <em>option_class=&lt;class optparse.Option at 0x19739a8&gt;</em>, <em>version=None</em>, <em>conflict_handler='error'</em>, <em>description=None</em>, <em>formatter=None</em>, <em>add_help_option=True</em>, <em>prog=None</em>, <em>epilog=None</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock_options_parser.html#PassThroughOptionParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock_options_parser.PassThroughOptionParser" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">hemlock.hemlock_options_parser.</tt><tt class="descname">PassThroughOptionParser</tt><big>(</big><em>usage=None</em>, <em>option_list=None</em>, <em>option_class=&lt;class optparse.Option at 0x167c9a8&gt;</em>, <em>version=None</em>, <em>conflict_handler='error'</em>, <em>description=None</em>, <em>formatter=None</em>, <em>add_help_option=True</em>, <em>prog=None</em>, <em>epilog=None</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock_options_parser.html#PassThroughOptionParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock_options_parser.PassThroughOptionParser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">optparse.OptionParser</span></tt></p>
 <p>An unknown option pass-through implementation of OptionParser.</p>
 <p>When unknown arguments are encountered, bundle with largs and try again,

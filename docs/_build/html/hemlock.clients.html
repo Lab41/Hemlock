@@ -286,31 +286,98 @@ be able to verify the client system</li>
 </div>
 <div class="section" id="module-hemlock.clients.hemlock_debugger">
 <span id="hemlock-debugger-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hemlock_debugger</span></tt> Module<a class="headerlink" href="#module-hemlock.clients.hemlock_debugger" title="Permalink to this headline">¶</a></h2>
+<p>This module is used for running a debugger across all modules in Hemlock.</p>
+<p>Create on 28 August 2013
+&#64;author: Charlie Lewis</p>
 <dl class="class">
 <dt id="hemlock.clients.hemlock_debugger.Hemlock_Debugger">
 <em class="property">class </em><tt class="descclassname">hemlock.clients.hemlock_debugger.</tt><tt class="descname">Hemlock_Debugger</tt><a class="reference internal" href="_modules/hemlock/clients/hemlock_debugger.html#Hemlock_Debugger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hemlock_debugger.Hemlock_Debugger" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><p>This class is responsible for printing out debug statements as well as
+write them to file.</p>
+<dl class="method">
 <dt id="hemlock.clients.hemlock_debugger.Hemlock_Debugger.debug">
 <tt class="descname">debug</tt><big>(</big><em>debug</em>, <em>string</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hemlock_debugger.html#Hemlock_Debugger.debug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hemlock_debugger.Hemlock_Debugger.debug" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Prints and logs all debug statements.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>debug</strong> &#8211; instance of
+<a class="reference internal" href="#hemlock.clients.hemlock_debugger.Hemlock_Debugger" title="hemlock.clients.hemlock_debugger.Hemlock_Debugger"><tt class="xref py py-class docutils literal"><span class="pre">Hemlock_Debugger</span></tt></a></li>
+<li><strong>string</strong> &#8211; stringified version of whatever is being debugged.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
 </div>
 <div class="section" id="module-hemlock.clients.hemlock_runner">
 <span id="hemlock-runner-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hemlock_runner</span></tt> Module<a class="headerlink" href="#module-hemlock.clients.hemlock_runner" title="Permalink to this headline">¶</a></h2>
+<p>This module gets all needed credentials in preparation for getting data from
+clients and into Hemlock&#8217;s metadata/data store.</p>
+<p>Created on 26 August 2013
+&#64;author: Charlie Lewis</p>
 <dl class="class">
 <dt id="hemlock.clients.hemlock_runner.Hemlock_Runner">
 <em class="property">class </em><tt class="descclassname">hemlock.clients.hemlock_runner.</tt><tt class="descname">Hemlock_Runner</tt><a class="reference internal" href="_modules/hemlock/clients/hemlock_runner.html#Hemlock_Runner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hemlock_runner.Hemlock_Runner" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><p>This class is responsible for pulling out the credentials from the Hemlock
+server for both the client system and the Hemlock metadata/data store.</p>
+<dl class="method">
 <dt id="hemlock.clients.hemlock_runner.Hemlock_Runner.get_creds">
 <tt class="descname">get_creds</tt><big>(</big><em>debug</em>, <em>m_server</em>, <em>client_id</em>, <em>aes_key</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hemlock_runner.html#Hemlock_Runner.get_creds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hemlock_runner.Hemlock_Runner.get_creds" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Retrieves the credentials for both the client system as well as the
+Hemlock server that are stored in the Hemlock MySQL server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>debug</strong> &#8211; instance of
+<a class="reference internal" href="#hemlock.clients.hemlock_debugger.Hemlock_Debugger" title="hemlock.clients.hemlock_debugger.Hemlock_Debugger"><tt class="xref py py-class docutils literal"><span class="pre">Hemlock_Debugger</span></tt></a></li>
+<li><strong>m_server</strong> &#8211; instance of MySQL connection</li>
+<li><strong>client_id</strong> &#8211; uuid of the client to get credentials for</li>
+<li><strong>aes_key</strong> &#8211; AES key for decrypting the stored credentials</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns two dictionaries for the client system and Hemlock
+server credentials</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.clients.hemlock_runner.Hemlock_Runner.mysql_server">
 <tt class="descname">mysql_server</tt><big>(</big><em>debug</em>, <em>server</em>, <em>user</em>, <em>pw</em>, <em>db</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hemlock_runner.html#Hemlock_Runner.mysql_server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hemlock_runner.Hemlock_Runner.mysql_server" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Connects to the Hemlock MySQL server to get an instance for retrieving
+credentials.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>debug</strong> &#8211; instance of
+<a class="reference internal" href="#hemlock.clients.hemlock_debugger.Hemlock_Debugger" title="hemlock.clients.hemlock_debugger.Hemlock_Debugger"><tt class="xref py py-class docutils literal"><span class="pre">Hemlock_Debugger</span></tt></a></li>
+<li><strong>server</strong> &#8211; server address of the Hemlock MySQL server</li>
+<li><strong>user</strong> &#8211; user account to connect to the Hemlock MySQL server</li>
+<li><strong>pw</strong> &#8211; password of the user account</li>
+<li><strong>db</strong> &#8211; database to connect to in the Hemlock MySQL server</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns an instance of the mysql connection</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
