@@ -52,8 +52,8 @@ class Hemlock():
         Adds a specific schedule to a specific client.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid',
@@ -66,8 +66,8 @@ class Hemlock():
         Gets a specific client.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -79,8 +79,8 @@ class Hemlock():
         Lists all clients.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
         ]
@@ -91,8 +91,8 @@ class Hemlock():
         Purges a specific client.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -104,8 +104,8 @@ class Hemlock():
         Removes a specific schedule from a specific client.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid',
@@ -118,8 +118,8 @@ class Hemlock():
         Runs a client.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -131,8 +131,8 @@ class Hemlock():
         Schedules a client.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         # !! TODO
         #    consider having a way to activate schedules for clients,
@@ -154,8 +154,8 @@ class Hemlock():
         Lists all schedules assigned to a specific client.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -167,8 +167,8 @@ class Hemlock():
         Stores a client.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--name',
@@ -183,8 +183,8 @@ class Hemlock():
         Lists all systems assigned to a specific client.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -196,8 +196,8 @@ class Hemlock():
         Deegisters a specific local system.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -209,8 +209,8 @@ class Hemlock():
         Deregisters a specific remote system.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -222,8 +222,8 @@ class Hemlock():
         Stores Hemlock server credentials.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--credential_file'
@@ -235,9 +235,23 @@ class Hemlock():
         Lists everything that is stored.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
+        arg_d = [
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def query_data(self, args, var_d):
+        """
+        Queries data stored in Hemlock filtering based on the authenticated
+        user.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
+        """
+        # !! TODO
         arg_d = [
         ]
         return self.check_args(args, arg_d, var_d)
@@ -247,8 +261,8 @@ class Hemlock():
         Registers a local system.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--name',
@@ -267,8 +281,8 @@ class Hemlock():
         Registers a remote system.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         # !! TODO add map of operation vocabulary
         #         is this needed?
@@ -290,8 +304,8 @@ class Hemlock():
         Creates a role.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--name'
@@ -303,8 +317,8 @@ class Hemlock():
         Deletes a specific role.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -316,8 +330,8 @@ class Hemlock():
         Gets a specific role.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -329,8 +343,8 @@ class Hemlock():
         Lists all roles.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
         ]
@@ -341,8 +355,8 @@ class Hemlock():
         Lists all users assigned to a specific role.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -354,8 +368,8 @@ class Hemlock():
         Adds a specific client to a specific schedule.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid',
@@ -368,8 +382,8 @@ class Hemlock():
         Lists all clients assigned to a specific schedule.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -381,8 +395,8 @@ class Hemlock():
         Deletes a specific schedule.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -394,8 +408,8 @@ class Hemlock():
         Gets a specific schedule.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -407,8 +421,8 @@ class Hemlock():
         Gets a specific schedule.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
         ]
@@ -419,8 +433,8 @@ class Hemlock():
         Removes a specific client from a specific schedule.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid',
@@ -433,8 +447,8 @@ class Hemlock():
         Starts the scheduler daemon.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         # !! TODO this should not be required, if the creds are already stored
         arg_d = [
@@ -447,8 +461,8 @@ class Hemlock():
         Adds a specific tenant to a specific system.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid',
@@ -461,8 +475,8 @@ class Hemlock():
         Lists all clients assigned to a specific system.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -474,8 +488,8 @@ class Hemlock():
         Gets a specific system.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -487,8 +501,8 @@ class Hemlock():
         Lists all clients assigned to a specific system.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
         ]
@@ -499,8 +513,8 @@ class Hemlock():
         Removes a specific tenant from a specific system.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid',
@@ -513,8 +527,8 @@ class Hemlock():
         Lists all tenants assigned to a specific system.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -526,8 +540,8 @@ class Hemlock():
         Creates a tenant.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--name'
@@ -539,8 +553,8 @@ class Hemlock():
         Deletes a specific tenant.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -552,8 +566,8 @@ class Hemlock():
         Gets a specific tenant.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -565,8 +579,8 @@ class Hemlock():
         Lists all tenants.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
         ]
@@ -577,8 +591,8 @@ class Hemlock():
         Lists all systems assigned to a specific tenant.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -590,8 +604,8 @@ class Hemlock():
         Lists all users assigned to a specific tenant.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -603,8 +617,8 @@ class Hemlock():
         Adds a specific role to a specific user.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid',
@@ -617,8 +631,8 @@ class Hemlock():
         Adds a specific tenant to a specific user.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid',
@@ -631,8 +645,8 @@ class Hemlock():
         Creates a user.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--name',
@@ -648,8 +662,8 @@ class Hemlock():
         Deletes a specific user.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -661,8 +675,8 @@ class Hemlock():
         Gets a specific user.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -674,8 +688,8 @@ class Hemlock():
         Lists all users.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
         ]
@@ -686,8 +700,8 @@ class Hemlock():
         Removes a specific role from a specific user.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid',
@@ -700,8 +714,8 @@ class Hemlock():
         Removes a specific tenant from a specific user.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid',
@@ -714,8 +728,8 @@ class Hemlock():
         Lists all roles assigned to a specific user.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -727,8 +741,8 @@ class Hemlock():
         Lists all tenants assigned to a specific user.
 
         :param args: arguments to pass in from API
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a list of the arguments supplied 
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
         """
         arg_d = [
             '--uuid'
@@ -740,9 +754,9 @@ class Hemlock():
         Checks arguments supplied.
 
         :param args: arguments to pass in from API
-        :param arg_d: list of supplied arguments 
-        :param var_d: dictionary of key/values made from the arguments 
-        :return: returns a dictionary of the arguments supplied 
+        :param arg_d: list of supplied arguments
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a dictionary of the arguments supplied
         """
         i = 0
         while i < len(args):
@@ -832,6 +846,9 @@ class Hemlock():
             """,
             'list-all' : """
             list-all (list everything)
+            """,
+            'query-data' : """
+            query-data (query data in hemlock)
             """,
             'register-local-system' : """
             register-local-system (from a system add it to Hemlock)
@@ -1037,6 +1054,7 @@ class Hemlock():
             'deregister-remote-system' : self.deregister_remote_system,
             'hemlock-server-store' : self.hemlock_server_store,
             'list-all' : self.list_all,
+            'query-data' : self.query_data,
             'register-local-system' : self.register_local_system,
             'register-remote-system' : self.register_remote_system,
             'role-create' : self.role_create,
@@ -1447,7 +1465,11 @@ class Hemlock():
             vals.append(uid)
             vals.append(timestamp)
 
-        if "system" in action_a:
+        if "query" in action_a:
+            # query the data that resides in hemlock
+            # !! TODO
+            junk = ""
+        elif "system" in action_a:
             # update to systems/clients table
             if "deregister" in action_a:
                 # delete
@@ -2200,7 +2222,7 @@ class Hemlock():
                             if desc_results[i][0] == 'name':
                                 a = i
                             if desc_results[i][0] == 'uuid':
-                                b = i 
+                                b = i
                             i += 1
                         i = 0
                         while i < len(results):
