@@ -1317,6 +1317,18 @@ class Hemlock():
         return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.bucket, options.c_pw, options.debug
 
     def mysql_server(self, debug, server, user, pw, db):
+        """
+        Connects to the Hemlock MySQL Server
+
+        :param debug: instance of
+            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
+        :param server: server address of the Hemlock MySQL server
+        :param user: user account to connect to the Hemlock MySQL server
+        :param pw: password of the user account
+        :param db: database to connect to in the Hemlock MySQL server
+        :return: returns an instance of the mysql connection
+        """
+        # !! TODO redundant of hemlock_runner.mysql_server
         # connect to the mysql server
         try:
             m_server = mdb.connect(server, user, pw, db)
@@ -1328,6 +1340,17 @@ class Hemlock():
         return m_server
 
     def process_action(self, debug, action, var_d, m_server):
+        """
+        Processes the action that was supplied.
+
+        :param debug: instance of
+            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
+        :param action: action to be performed
+        :param var_d: dictionary of key/values that contain the parameters for
+            the action
+        :param m_server: instance of MySQL connection
+        :return: list of results and any errors that may have occurred.
+        """
         error = 0
         # !! TODO
         #    check if scheduler is running, if not start it
