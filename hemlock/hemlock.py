@@ -1094,7 +1094,7 @@ class Hemlock():
         Parses options for authentication if supplied as arguments.
 
         :return: returns an instance of
-            :class:'~hemlock.hemlock_options_parser.PassThroughOptionParser`
+            :class:`~hemlock.hemlock_options_parser.PassThroughOptionParser`
         """
         parser = hemlock_options_parser.PassThroughOptionParser()
         parser.add_option("-s", "--server-mysql", action="store", dest="server",help="MySQL Server") #, default="localhost"
