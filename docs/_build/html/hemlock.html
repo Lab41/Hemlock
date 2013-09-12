@@ -1278,7 +1278,7 @@ the local environment variables of the shell.</p>
 <span id="hemlock-options-parser-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hemlock_options_parser</span></tt> Module<a class="headerlink" href="#module-hemlock.hemlock_options_parser" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="hemlock.hemlock_options_parser.PassThroughOptionParser">
-<em class="property">class </em><tt class="descclassname">hemlock.hemlock_options_parser.</tt><tt class="descname">PassThroughOptionParser</tt><big>(</big><em>usage=None</em>, <em>option_list=None</em>, <em>option_class=&lt;class optparse.Option at 0xd919a8&gt;</em>, <em>version=None</em>, <em>conflict_handler='error'</em>, <em>description=None</em>, <em>formatter=None</em>, <em>add_help_option=True</em>, <em>prog=None</em>, <em>epilog=None</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock_options_parser.html#PassThroughOptionParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock_options_parser.PassThroughOptionParser" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">hemlock.hemlock_options_parser.</tt><tt class="descname">PassThroughOptionParser</tt><big>(</big><em>usage=None</em>, <em>option_list=None</em>, <em>option_class=&lt;class optparse.Option at 0x28609a8&gt;</em>, <em>version=None</em>, <em>conflict_handler='error'</em>, <em>description=None</em>, <em>formatter=None</em>, <em>add_help_option=True</em>, <em>prog=None</em>, <em>epilog=None</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock_options_parser.html#PassThroughOptionParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock_options_parser.PassThroughOptionParser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">optparse.OptionParser</span></tt></p>
 <p>An unknown option pass-through implementation of OptionParser.</p>
 <p>When unknown arguments are encountered, bundle with largs and try again,
@@ -1382,58 +1382,152 @@ run, starts new ones that need to be scheduled.</p>
 </div>
 <div class="section" id="module-hemlock.test_hemlock">
 <span id="test-hemlock-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">test_hemlock</span></tt> Module<a class="headerlink" href="#module-hemlock.test_hemlock" title="Permalink to this headline">¶</a></h2>
+<p>Test module for hemlock.py</p>
+<p>Created on 19 August 2013
+&#64;author: Charlie Lewis</p>
 <dl class="class">
 <dt id="hemlock.test_hemlock.TestClass">
 <em class="property">class </em><tt class="descclassname">hemlock.test_hemlock.</tt><tt class="descname">TestClass</tt><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><p>Test class for hemlock.py</p>
+<dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.connect_mysql">
 <tt class="descname">connect_mysql</tt><big>(</big><em>debug</em>, <em>server</em>, <em>user</em>, <em>pw</em>, <em>db</em><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.connect_mysql"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.connect_mysql" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Makes a connection to the test Hemlock MySQL server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns an instance of the MySQL connection</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_client_get">
 <tt class="descname">process_client_get</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_client_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_client_get" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests client-get action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_client_list">
 <tt class="descname">process_client_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_client_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_client_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests client-list action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_client_purge">
 <tt class="descname">process_client_purge</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_client_purge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_client_purge" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests client-purge action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_client_run">
 <tt class="descname">process_client_run</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_client_run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_client_run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests client-run action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_client_schedule">
 <tt class="descname">process_client_schedule</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_client_schedule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_client_schedule" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests client-schedule action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_client_store">
 <tt class="descname">process_client_store</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_client_store"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_client_store" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests client-store action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_deregister_local_system">
 <tt class="descname">process_deregister_local_system</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_deregister_local_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_deregister_local_system" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests deregister-local-system action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_deregister_remote_system">
 <tt class="descname">process_deregister_remote_system</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_deregister_remote_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_deregister_remote_system" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests deregister-remote-system action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_list_all">
 <tt class="descname">process_list_all</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_list_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_list_all" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests list-all action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_register_local_system">
@@ -1443,107 +1537,296 @@ run, starts new ones that need to be scheduled.</p>
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_register_remote_system">
 <tt class="descname">process_register_remote_system</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_register_remote_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_register_remote_system" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests register-remote-system action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_role_create">
 <tt class="descname">process_role_create</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_role_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_role_create" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests role-create action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_role_delete">
 <tt class="descname">process_role_delete</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_role_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_role_delete" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests role-delete action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_role_list">
 <tt class="descname">process_role_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_role_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_role_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests role-list action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_role_users_list">
 <tt class="descname">process_role_users_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_role_users_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_role_users_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests role-users-list action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_schedule_get">
 <tt class="descname">process_schedule_get</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_schedule_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_schedule_get" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests schedule-get action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_schedule_list">
 <tt class="descname">process_schedule_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_schedule_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_schedule_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests schedule-list action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_start_scheduler">
 <tt class="descname">process_start_scheduler</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_start_scheduler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_start_scheduler" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests start-scheduler action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_system_add_tenant">
 <tt class="descname">process_system_add_tenant</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_system_add_tenant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_system_add_tenant" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests system-add-tenant action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_system_get">
 <tt class="descname">process_system_get</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_system_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_system_get" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests system-get action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_system_list">
 <tt class="descname">process_system_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_system_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_system_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests system-list action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_system_remove_tenant">
 <tt class="descname">process_system_remove_tenant</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_system_remove_tenant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_system_remove_tenant" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests system-remove-tenant action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_system_tenants_list">
 <tt class="descname">process_system_tenants_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_system_tenants_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_system_tenants_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests system-tenants-list action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_tenant_create">
 <tt class="descname">process_tenant_create</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_tenant_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_tenant_create" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests tenant-create action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_tenant_delete">
 <tt class="descname">process_tenant_delete</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_tenant_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_tenant_delete" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests tenant-delete action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_tenant_get">
 <tt class="descname">process_tenant_get</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_tenant_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_tenant_get" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests tenant-get action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_tenant_list">
 <tt class="descname">process_tenant_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_tenant_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_tenant_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests tenant-list action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_tenant_systems_list">
 <tt class="descname">process_tenant_systems_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_tenant_systems_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_tenant_systems_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests tenant-systems-list action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_tenant_users_list">
 <tt class="descname">process_tenant_users_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_tenant_users_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_tenant_users_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests tenant-users-list action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_user_add_role">
 <tt class="descname">process_user_add_role</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_user_add_role"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_user_add_role" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests user-add-role action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_user_add_tenant">
 <tt class="descname">process_user_add_tenant</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_user_add_tenant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_user_add_tenant" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests user-add-tenant action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_user_create">
@@ -1553,237 +1836,340 @@ run, starts new ones that need to be scheduled.</p>
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_user_delete">
 <tt class="descname">process_user_delete</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_user_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_user_delete" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests user-delete action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_user_get">
 <tt class="descname">process_user_get</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_user_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_user_get" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests user-get action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_user_list">
 <tt class="descname">process_user_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_user_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_user_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests user-list action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_user_remove_role">
 <tt class="descname">process_user_remove_role</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_user_remove_role"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_user_remove_role" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests user-remove-role action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_user_remove_tenant">
 <tt class="descname">process_user_remove_tenant</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_user_remove_tenant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_user_remove_tenant" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests user-remove-tenant action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_user_roles_list">
 <tt class="descname">process_user_roles_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_user_roles_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_user_roles_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests user-roles-list action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.process_user_tenants_list">
 <tt class="descname">process_user_tenants_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.process_user_tenants_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.process_user_tenants_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Tests user-tenants-list action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">returns any data and a list of any errors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_connect_mysql">
 <tt class="descname">test_connect_mysql</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_connect_mysql"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_connect_mysql" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for connecting to MySQL.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_client_get">
 <tt class="descname">test_process_client_get</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_client_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_client_get" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the client-get action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_client_list">
 <tt class="descname">test_process_client_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_client_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_client_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the client-list action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_client_purge">
 <tt class="descname">test_process_client_purge</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_client_purge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_client_purge" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the client-purge action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_client_run">
 <tt class="descname">test_process_client_run</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_client_run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_client_run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the client-run action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_client_schedule">
 <tt class="descname">test_process_client_schedule</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_client_schedule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_client_schedule" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the client-schedule action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_client_store">
 <tt class="descname">test_process_client_store</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_client_store"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_client_store" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the client-store action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_deregister_local_system">
 <tt class="descname">test_process_deregister_local_system</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_deregister_local_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_deregister_local_system" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the deregister-local-system action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_deregister_remote_system">
 <tt class="descname">test_process_deregister_remote_system</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_deregister_remote_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_deregister_remote_system" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the deregister-remote-system action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_list_all">
 <tt class="descname">test_process_list_all</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_list_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_list_all" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for list-all action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_register_local_system">
 <tt class="descname">test_process_register_local_system</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_register_local_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_register_local_system" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the register-local-system action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_register_remote_system">
 <tt class="descname">test_process_register_remote_system</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_register_remote_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_register_remote_system" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the register-remote-system action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_role_create">
 <tt class="descname">test_process_role_create</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_role_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_role_create" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the role-create action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_role_delete">
 <tt class="descname">test_process_role_delete</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_role_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_role_delete" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the role-delete action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_role_list">
 <tt class="descname">test_process_role_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_role_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_role_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the role-list action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_role_users_list">
 <tt class="descname">test_process_role_users_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_role_users_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_role_users_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the role-users-list action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_schedule_get">
 <tt class="descname">test_process_schedule_get</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_schedule_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_schedule_get" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the schedule-get action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_schedule_list">
 <tt class="descname">test_process_schedule_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_schedule_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_schedule_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the schedule-list action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_start_scheduler">
 <tt class="descname">test_process_start_scheduler</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_start_scheduler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_start_scheduler" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the start-scheduler action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_system_add_tenant">
 <tt class="descname">test_process_system_add_tenant</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_system_add_tenant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_system_add_tenant" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the system-add-tenant action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_system_get">
 <tt class="descname">test_process_system_get</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_system_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_system_get" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the system-get action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_system_list">
 <tt class="descname">test_process_system_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_system_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_system_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the system-list action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_system_remove_tenant">
 <tt class="descname">test_process_system_remove_tenant</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_system_remove_tenant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_system_remove_tenant" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the system-remove-tenant action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_system_tenants_list">
 <tt class="descname">test_process_system_tenants_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_system_tenants_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_system_tenants_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the system-tenants-list action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_tenant_create">
 <tt class="descname">test_process_tenant_create</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_tenant_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_tenant_create" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the tenant-create action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_tenant_delete">
 <tt class="descname">test_process_tenant_delete</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_tenant_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_tenant_delete" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the tenant-delete action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_tenant_get">
 <tt class="descname">test_process_tenant_get</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_tenant_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_tenant_get" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the tenant-get action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_tenant_list">
 <tt class="descname">test_process_tenant_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_tenant_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_tenant_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the tenant-list action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_tenant_systems_list">
 <tt class="descname">test_process_tenant_systems_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_tenant_systems_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_tenant_systems_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the tenant-systems-list action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_tenant_users_list">
 <tt class="descname">test_process_tenant_users_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_tenant_users_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_tenant_users_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the tenant-users-list action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_user_add_role">
 <tt class="descname">test_process_user_add_role</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_user_add_role"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_user_add_role" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the user-add-role action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_user_add_tenant">
 <tt class="descname">test_process_user_add_tenant</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_user_add_tenant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_user_add_tenant" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the user-add-tenant action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_user_create">
 <tt class="descname">test_process_user_create</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_user_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_user_create" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the user-create action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_user_delete">
 <tt class="descname">test_process_user_delete</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_user_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_user_delete" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the user-delete action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_user_get">
 <tt class="descname">test_process_user_get</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_user_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_user_get" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the user-get action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_user_list">
 <tt class="descname">test_process_user_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_user_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_user_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the user-list action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_user_remove_role">
 <tt class="descname">test_process_user_remove_role</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_user_remove_role"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_user_remove_role" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the user-remove-role action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_user_remove_tenant">
 <tt class="descname">test_process_user_remove_tenant</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_user_remove_tenant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_user_remove_tenant" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the user-remove-tenant action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_user_roles_list">
 <tt class="descname">test_process_user_roles_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_user_roles_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_user_roles_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the user-roles-list action.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.test_hemlock.TestClass.test_process_user_tenants_list">
 <tt class="descname">test_process_user_tenants_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/test_hemlock.html#TestClass.test_process_user_tenants_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.test_hemlock.TestClass.test_process_user_tenants_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calls the test function for the user-tenants-list action.</p>
+</dd></dl>
 
 </dd></dl>
 
