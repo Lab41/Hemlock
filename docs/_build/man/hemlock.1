@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "HEMLOCK" "1" "September 11, 2013" "0.1.2" "Hemlock"
+.TH "HEMLOCK" "1" "September 12, 2013" "0.1.2" "Hemlock"
 .SH NAME
 hemlock \- Hemlock Documentation
 .
@@ -311,6 +311,13 @@ returns a list of the arguments supplied
 .INDENT 7.0
 .TP
 .B get_auth()
+Gets the authentication of supplied arguments, environment variables,
+or sets them to defaults.
+.INDENT 7.0
+.TP
+.B Returns
+returns each of the parsed out arguments
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
@@ -351,10 +358,38 @@ returns a list of the arguments supplied
 .INDENT 7.0
 .TP
 .B mysql_server(debug, server, user, pw, db)
+Connects to the Hemlock MySQL Server
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBdebug\fP \-\- instance of
+\fBHemlock_Debugger\fP
+.IP \(bu 2
+\fBserver\fP \-\- server address of the Hemlock MySQL server
+.IP \(bu 2
+\fBuser\fP \-\- user account to connect to the Hemlock MySQL server
+.IP \(bu 2
+\fBpw\fP \-\- password of the user account
+.IP \(bu 2
+\fBdb\fP \-\- database to connect to in the Hemlock MySQL server
+.UNINDENT
+.TP
+.B Returns
+returns an instance of the mysql connection
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B parse_auth()
+Parses options for authentication if supplied as arguments.
+.INDENT 7.0
+.TP
+.B Returns
+returns an instance of
+:class:\(aq~hemlock.hemlock_options_parser.PassThroughOptionParser\(ga
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
@@ -369,14 +404,59 @@ Prints out help.
 .INDENT 7.0
 .TP
 .B process_action(debug, action, var_d, m_server)
+Processes the action that was supplied.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBdebug\fP \-\- instance of
+\fBHemlock_Debugger\fP
+.IP \(bu 2
+\fBaction\fP \-\- action to be performed
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values that contain the parameters for
+the action
+.IP \(bu 2
+\fBm_server\fP \-\- instance of MySQL connection
+.UNINDENT
+.TP
+.B Returns
+list of results and any errors that may have occurred.
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_args(debug, args)
+Processes arguments by directing the supplied action to the
+proper function and ensure that all required fields are present.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBdebug\fP \-\- instance of
+\fBHemlock_Debugger\fP
+.IP \(bu 2
+\fBargs\fP \-\- list of supplied arguments
+.UNINDENT
+.TP
+.B Returns
+returns a dictionary of argument key/values and the API
+action
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B read_creds(debug)
+Reads in the credentials file for the Hemlock system and stores them in
+the local environment variables of the shell.
+.INDENT 7.0
+.TP
+.B Parameters
+\fBdebug\fP \-\- instance of
+\fBHemlock_Debugger\fP
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
@@ -1030,7 +1110,7 @@ returns a list of the arguments supplied
 .SS \fBhemlock_options_parser\fP Module
 .INDENT 0.0
 .TP
-.B class hemlock.hemlock_options_parser.PassThroughOptionParser(usage=None, option_list=None, option_class=<class optparse.Option at 0x19739a8>, version=None, conflict_handler=\(aqerror\(aq, description=None, formatter=None, add_help_option=True, prog=None, epilog=None)
+.B class hemlock.hemlock_options_parser.PassThroughOptionParser(usage=None, option_list=None, option_class=<class optparse.Option at 0x29279a8>, version=None, conflict_handler=\(aqerror\(aq, description=None, formatter=None, add_help_option=True, prog=None, epilog=None)
 Bases: \fBoptparse.OptionParser\fP
 .sp
 An unknown option pass\-through implementation of OptionParser.
@@ -1593,25 +1673,95 @@ be able to verify the client system
 .UNINDENT
 .UNINDENT
 .SS \fBhemlock_debugger\fP Module
+.sp
+This module is used for running a debugger across all modules in Hemlock.
+.sp
+Create on 28 August 2013
+@author: Charlie Lewis
 .INDENT 0.0
 .TP
 .B class hemlock.clients.hemlock_debugger.Hemlock_Debugger
+This class is responsible for printing out debug statements as well as
+write them to file.
 .INDENT 7.0
 .TP
 .B debug(debug, string)
+Prints and logs all debug statements.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBdebug\fP \-\- instance of
+\fBHemlock_Debugger\fP
+.IP \(bu 2
+\fBstring\fP \-\- stringified version of whatever is being debugged.
+.UNINDENT
+.UNINDENT
 .UNINDENT
 .UNINDENT
 .SS \fBhemlock_runner\fP Module
+.sp
+This module gets all needed credentials in preparation for getting data from
+clients and into Hemlock\(aqs metadata/data store.
+.sp
+Created on 26 August 2013
+@author: Charlie Lewis
 .INDENT 0.0
 .TP
 .B class hemlock.clients.hemlock_runner.Hemlock_Runner
+This class is responsible for pulling out the credentials from the Hemlock
+server for both the client system and the Hemlock metadata/data store.
 .INDENT 7.0
 .TP
 .B get_creds(debug, m_server, client_id, aes_key)
+Retrieves the credentials for both the client system as well as the
+Hemlock server that are stored in the Hemlock MySQL server.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBdebug\fP \-\- instance of
+\fBHemlock_Debugger\fP
+.IP \(bu 2
+\fBm_server\fP \-\- instance of MySQL connection
+.IP \(bu 2
+\fBclient_id\fP \-\- uuid of the client to get credentials for
+.IP \(bu 2
+\fBaes_key\fP \-\- AES key for decrypting the stored credentials
+.UNINDENT
+.TP
+.B Returns
+returns two dictionaries for the client system and Hemlock
+server credentials
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B mysql_server(debug, server, user, pw, db)
+Connects to the Hemlock MySQL server to get an instance for retrieving
+credentials.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBdebug\fP \-\- instance of
+\fBHemlock_Debugger\fP
+.IP \(bu 2
+\fBserver\fP \-\- server address of the Hemlock MySQL server
+.IP \(bu 2
+\fBuser\fP \-\- user account to connect to the Hemlock MySQL server
+.IP \(bu 2
+\fBpw\fP \-\- password of the user account
+.IP \(bu 2
+\fBdb\fP \-\- database to connect to in the Hemlock MySQL server
+.UNINDENT
+.TP
+.B Returns
+returns an instance of the mysql connection
+.UNINDENT
 .UNINDENT
 .UNINDENT
 .SS \fBhfs\fP Module
