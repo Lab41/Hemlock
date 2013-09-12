@@ -14,11 +14,26 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+"""
+Test module for hemlock.py
+
+Created on 19 August 2013
+@author: Charlie Lewis
+"""
+
 import hemlock, re
 import MySQLdb as mdb
 
 class TestClass:
+    """
+    Test class for hemlock.py
+    """
     def process_client_get(self):
+        """
+        Tests client-get action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -27,6 +42,11 @@ class TestClass:
         return x, error
 
     def process_client_list(self):
+        """
+        Tests client-list action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -35,6 +55,11 @@ class TestClass:
         return x, error
 
     def process_client_purge(self):
+        """
+        Tests client-purge action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -43,6 +68,11 @@ class TestClass:
         return x, error
 
     def process_client_run(self):
+        """
+        Tests client-run action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -51,6 +81,11 @@ class TestClass:
         return x, error
 
     def process_client_schedule(self):
+        """
+        Tests client-schedule action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -59,6 +94,11 @@ class TestClass:
         return x, error
 
     def process_client_store(self):
+        """
+        Tests client-store action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -67,6 +107,11 @@ class TestClass:
         return x, error
 
     def process_schedule_get(self):
+        """
+        Tests schedule-get action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -75,6 +120,11 @@ class TestClass:
         return x, error
 
     def process_schedule_list(self):
+        """
+        Tests schedule-list action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -83,6 +133,11 @@ class TestClass:
         return x, error
 
     def process_role_create(self):
+        """
+        Tests role-create action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -95,6 +150,11 @@ class TestClass:
         return x, y, error
 
     def process_tenant_create(self):
+        """
+        Tests tenant-create action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -138,6 +198,11 @@ class TestClass:
         return x, y, error
 
     def process_register_remote_system(self):
+        """
+        Tests register-remote-system action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -152,6 +217,11 @@ class TestClass:
         return x, y, error
 
     def process_role_list(self):
+        """
+        Tests role-list action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -169,6 +239,11 @@ class TestClass:
         return x, error
 
     def process_tenant_list(self):
+        """
+        Tests tenant-list action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -186,6 +261,11 @@ class TestClass:
         return x, error
 
     def process_user_list(self):
+        """
+        Tests user-list action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -213,6 +293,11 @@ class TestClass:
         return x, error
 
     def process_system_list(self):
+        """
+        Tests system-list action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -234,6 +319,11 @@ class TestClass:
         return x, error
 
     def process_list_all(self):
+        """
+        Tests list-all action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -254,6 +344,11 @@ class TestClass:
         return x, error
 
     def process_role_users_list(self):
+        """
+        Tests role-users-list action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -279,6 +374,11 @@ class TestClass:
         return x, error
 
     def process_system_tenants_list(self):
+        """
+        Tests system-tenants-list action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -298,6 +398,11 @@ class TestClass:
         return x, error
 
     def process_tenant_systems_list(self):
+        """
+        Tests tenant-systems-list action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -317,6 +422,11 @@ class TestClass:
         return x, error
 
     def process_tenant_users_list(self):
+        """
+        Tests tenant-users-list action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -342,6 +452,11 @@ class TestClass:
         return x, error
 
     def process_user_roles_list(self):
+        """
+        Tests user-roles-list action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -364,6 +479,11 @@ class TestClass:
         return x, error
 
     def process_user_tenants_list(self):
+        """
+        Tests user-tenants-list action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -386,6 +506,11 @@ class TestClass:
         return x, error
 
     def process_deregister_local_system(self):
+        """
+        Tests deregister-local-system action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -399,6 +524,11 @@ class TestClass:
         return x, error
 
     def process_deregister_remote_system(self):
+        """
+        Tests deregister-remote-system action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -412,6 +542,11 @@ class TestClass:
         return x, error
 
     def process_role_delete(self):
+        """
+        Tests role-delete action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -423,6 +558,11 @@ class TestClass:
         return x, error
 
     def process_system_add_tenant(self):
+        """
+        Tests system-add-tenant action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -438,6 +578,11 @@ class TestClass:
         return x, error
 
     def process_system_get(self):
+        """
+        Tests system-get action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -451,6 +596,11 @@ class TestClass:
         return x, error
 
     def process_system_remove_tenant(self):
+        """
+        Tests system-remove-tenant action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -470,6 +620,11 @@ class TestClass:
         return x, error
 
     def process_tenant_delete(self):
+        """
+        Tests tenant-delete action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -481,6 +636,11 @@ class TestClass:
         return x, error
 
     def process_tenant_get(self):
+        """
+        Tests tenant-get action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -492,6 +652,11 @@ class TestClass:
         return x, error
 
     def process_user_add_role(self):
+        """
+        Tests user-add-role action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -510,6 +675,11 @@ class TestClass:
         return x, error
 
     def process_user_add_tenant(self):
+        """
+        Tests user-add-tenant action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -528,6 +698,11 @@ class TestClass:
         return x, error
 
     def process_user_delete(self):
+        """
+        Tests user-delete action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -544,6 +719,11 @@ class TestClass:
         return x, error
 
     def process_user_get(self):
+        """
+        Tests user-get action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -560,6 +740,11 @@ class TestClass:
         return x, error
 
     def process_user_remove_role(self):
+        """
+        Tests user-remove-role action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -582,6 +767,11 @@ class TestClass:
         return x, error
 
     def process_user_remove_tenant(self):
+        """
+        Tests user-remove-tenant action.
+
+        :return: returns any data and a list of any errors
+        """
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
@@ -604,17 +794,30 @@ class TestClass:
         return x, error
 
     def process_start_scheduler(self):
+        """
+        Tests start-scheduler action.
+
+        :return: returns any data and a list of any errors
+        """
         x = ""
         error = ""
         return x, error
 
     def connect_mysql(self, debug, server, user, pw, db):
+        """
+        Makes a connection to the test Hemlock MySQL server.
+
+        :return: returns an instance of the MySQL connection
+        """
         a = hemlock.Hemlock()
         m_server = a.mysql_server(debug, server, user, pw, db)
         return m_server
 
     # call tests
     def test_connect_mysql(self):
+        """
+        Calls the test function for connecting to MySQL.
+        """
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
         cur = m_server.cursor()
         cur.execute("DROP TABLE IF EXISTS users_tenants")
@@ -634,6 +837,9 @@ class TestClass:
         assert 1
 
     def test_process_role_create(self):
+        """
+        Calls the test function for the role-create action.
+        """
         x, y, error = self.process_role_create()
         for err in error:
             assert err == 0
@@ -643,6 +849,9 @@ class TestClass:
         assert len(y)
 
     def test_process_tenant_create(self):
+        """
+        Calls the test function for the tenant-create action.
+        """
         x, y, error = self.process_tenant_create()
         for err in error:
             assert err == 0
@@ -652,6 +861,9 @@ class TestClass:
         assert len(y)
 
     def test_process_user_create(self):
+        """
+        Calls the test function for the user-create action.
+        """
         x, y, error = self.process_user_create()
         for err in error:
             assert err == 0
@@ -663,6 +875,9 @@ class TestClass:
         assert len(y)
 
     def test_process_register_local_system(self):
+        """
+        Calls the test function for the register-local-system action.
+        """
         x, y, error = self.process_register_local_system()
         for err in error:
             assert err == 0
@@ -679,6 +894,9 @@ class TestClass:
         assert len(y)
 
     def test_process_register_remote_system(self):
+        """
+        Calls the test function for the register-remote-system action.
+        """
         x, y, error = self.process_register_remote_system()
         for err in error:
             assert err == 0
@@ -696,181 +914,283 @@ class TestClass:
         assert len(y)
 
     def test_process_role_list(self):
+        """
+        Calls the test function for the role-list action.
+        """
         x, error = self.process_role_list()
         # !! TODO - handle case with nothing, one, and more than one
         for err in error:
             assert err == 0
 
     def test_process_tenant_list(self):
+        """
+        Calls the test function for the tenant-list action.
+        """
         x, error = self.process_tenant_list()
         # !! TODO - handle case with nothing, one, and more than one
         for err in error:
             assert err == 0
 
     def test_process_system_list(self):
+        """
+        Calls the test function for the system-list action.
+        """
         x, error = self.process_system_list()
         # !! TODO - handle case with nothing, one, and more than one
         for err in error:
             assert err == 0
 
     def test_process_user_list(self):
+        """
+        Calls the test function for the user-list action.
+        """
         x, error = self.process_user_list()
         # !! TODO - handle case with nothing, one, and more than one
         for err in error:
             assert err == 0
 
     def test_process_tenant_systems_list(self):
+        """
+        Calls the test function for the tenant-systems-list action.
+        """
         x, error = self.process_tenant_systems_list()
         # !! TODO - handle case with nothing, one, and more than one
         for err in error:
             assert err == 0
 
     def test_process_tenant_users_list(self):
+        """
+        Calls the test function for the tenant-users-list action.
+        """
         x, error = self.process_tenant_users_list()
         # !! TODO - handle case with nothing, one, and more than one
         for err in error:
             assert err == 0
 
     def test_process_system_tenants_list(self):
+        """
+        Calls the test function for the system-tenants-list action.
+        """
         x, error = self.process_system_tenants_list()
         # !! TODO - handle case with nothing, one, and more than one
         for err in error:
             assert err == 0
 
     def test_process_role_users_list(self):
+        """
+        Calls the test function for the role-users-list action.
+        """
         x, error = self.process_role_users_list()
         # !! TODO - handle case with nothing, one, and more than one
         for err in error:
             assert err == 0
 
     def test_process_user_roles_list(self):
+        """
+        Calls the test function for the user-roles-list action.
+        """
         x, error = self.process_user_roles_list()
         # !! TODO - handle case with nothing, one, and more than one
         for err in error:
             assert err == 0
 
     def test_process_user_tenants_list(self):
+        """
+        Calls the test function for the user-tenants-list action.
+        """
         x, error = self.process_user_tenants_list()
         # !! TODO - handle case with nothing, one, and more than one
         for err in error:
             assert err == 0
 
     def test_process_deregister_local_system(self):
+        """
+        Calls the test function for the deregister-local-system action.
+        """
         x, error = self.process_deregister_local_system()
         for err in error:
             assert err == 0
 
     def test_process_deregister_remote_system(self):
+        """
+        Calls the test function for the deregister-remote-system action.
+        """
         x, error = self.process_deregister_remote_system()
         for err in error:
             assert err == 0
 
     def test_process_role_delete(self):
+        """
+        Calls the test function for the role-delete action.
+        """
         x, error = self.process_role_delete()
         for err in error:
             assert err == 0
 
     def test_process_system_add_tenant(self):
+        """
+        Calls the test function for the system-add-tenant action.
+        """
         x, error = self.process_system_add_tenant()
         for err in error:
             assert err == 0
 
     def test_process_system_get(self):
+        """
+        Calls the test function for the system-get action.
+        """
         x, error = self.process_system_get()
         for err in error:
             assert err == 0
 
     def test_process_system_remove_tenant(self):
+        """
+        Calls the test function for the system-remove-tenant action.
+        """
         x, error = self.process_system_remove_tenant()
         for err in error:
             assert err == 0
 
     def test_process_tenant_delete(self):
+        """
+        Calls the test function for the tenant-delete action.
+        """
         x, error = self.process_tenant_delete()
         for err in error:
             assert err == 0
 
     def test_process_tenant_get(self):
+        """
+        Calls the test function for the tenant-get action.
+        """
         x, error = self.process_tenant_get()
         for err in error:
             assert err == 0
 
     def test_process_user_add_role(self):
+        """
+        Calls the test function for the user-add-role action.
+        """
         x, error = self.process_user_add_role()
         for err in error:
             assert err == 0
 
     def test_process_user_add_tenant(self):
+        """
+        Calls the test function for the user-add-tenant action.
+        """
         x, error = self.process_user_add_tenant()
         for err in error:
             assert err == 0
 
     def test_process_user_delete(self):
+        """
+        Calls the test function for the user-delete action.
+        """
         x, error = self.process_user_delete()
         for err in error:
             assert err == 0
 
     def test_process_user_get(self):
+        """
+        Calls the test function for the user-get action.
+        """
         x, error = self.process_user_get()
         for err in error:
             assert err == 0
 
     def test_process_user_remove_role(self):
+        """
+        Calls the test function for the user-remove-role action.
+        """
         x, error = self.process_user_remove_role()
         for err in error:
            assert err == 0
 
     def test_process_user_remove_tenant(self):
+        """
+        Calls the test function for the user-remove-tenant action.
+        """
         x, error = self.process_user_remove_tenant()
         for err in error:
             assert err == 0
 
     def test_process_list_all(self):
+        """
+        Calls the test function for list-all action.
+        """
         x, error = self.process_list_all()
         for err in error:
             assert err == 0
 
     def test_process_client_get(self):
+        """
+        Calls the test function for the client-get action.
+        """
         x, error = self.process_client_get()
         for err in error:
             assert err == 0
 
     def test_process_client_list(self):
+        """
+        Calls the test function for the client-list action.
+        """
         x, error = self.process_client_list()
         for err in error:
             assert err == 0
 
     def test_process_client_purge(self):
+        """
+        Calls the test function for the client-purge action.
+        """
         x, error = self.process_client_purge()
         for err in error:
             assert err == 0
 
     def test_process_client_run(self):
+        """
+        Calls the test function for the client-run action.
+        """
         x, error = self.process_client_run()
         for err in error:
             assert err == 0
 
     def test_process_client_schedule(self):
+        """
+        Calls the test function for the client-schedule action.
+        """
         x, error = self.process_client_schedule()
         for err in error:
             assert err == 0
 
     def test_process_client_store(self):
+        """
+        Calls the test function for the client-store action.
+        """
         x, error = self.process_client_store()
         for err in error:
             assert err == 0
 
     def test_process_schedule_get(self):
+        """
+        Calls the test function for the schedule-get action.
+        """
         x, error = self.process_schedule_get()
         for err in error:
             assert err == 0
 
     def test_process_schedule_list(self):
+        """
+        Calls the test function for the schedule-list action.
+        """
         x, error = self.process_schedule_list()
         for err in error:
             assert err == 0
 
     def test_process_start_scheduler(self):
+        """
+        Calls the test function for the start-scheduler action.
+        """
         x, error = self.process_start_scheduler()
         for err in error:
             assert err == 0
