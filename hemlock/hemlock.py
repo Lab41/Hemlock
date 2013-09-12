@@ -1010,6 +1010,16 @@ class Hemlock():
             sys.exit()
 
     def process_args(self, debug, args):
+        """
+        Processes arguments by directing the supplied action to the
+        proper function and ensure that all required fields are present.
+
+        :param debug: instance of
+            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
+        :param args: list of supplied arguments
+        :return: returns a dictionary of argument key/values and the API
+            action
+        """
         var_d = {}
 
         arg_actions = {
