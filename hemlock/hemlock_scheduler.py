@@ -55,6 +55,10 @@ class Hemlock_Scheduler():
             self.debug = 0
 
     def check_schedules(self):
+        """
+        Checks for existing schedules, cleans up ones that no longer need to
+        run, starts new ones that need to be scheduled.
+        """
         server_dict = {}
         #    check environment variables first, then check for creds file
         try:
@@ -122,6 +126,11 @@ class Hemlock_Scheduler():
         #    updates schedules
 
     def job_work(self, args):
+        """
+        Do the actual work that was scheduled at the scheduled tiem.
+
+        :param args: job arguments
+        """
         # DEBUG
         # do actual work here
         # !! TODO
@@ -134,6 +143,11 @@ class Hemlock_Scheduler():
         test_log2.close() 
 
     def init_schedule(self):
+        """
+        Initialize the scheduler.
+
+        :return: an instance of the scheduler.
+        """
         # DEBUG
         logging.basicConfig(filename='scheduler.log', level=logging.DEBUG)
         sched = Scheduler()
@@ -144,10 +158,29 @@ class Hemlock_Scheduler():
         return sched
 
     def schedule_job(self, function, periodicity, start_time):
+        """
+        Schedule a new job.
+
+        :param function: function to be called that does the work
+        :param periodicity: how often to run the scheduled work
+        :param start_time: when to start the job
+        """
         # DEBUG
         self.sched.add_interval_job(function, seconds=periodicity, start_date=start_time)
 
     def schedule_job_cron(self, function, args, name, minute, hour, day_of_month, month, day_of_week):
+        """
+        Schedule a new cron job.
+
+        :param function: function to be called that does the work
+        :param args: arguments to pass to the function that does the work
+        :param name: name of the job
+        :param minute: cron minute to run the job
+        :param hour: cron hour to run the job
+        :param day_of_month: cron day_of_month to run the job
+        :param month: cron month to run the job
+        :param day_of_week: cron day_of_week to run the job
+        """
         # DEBUG
         self.sched.add_cron_job(function, args=['foo'], name=name, minute=minute, hour=hour, day=day_of_month, month=month, day_of_week=day_of_week)
 
