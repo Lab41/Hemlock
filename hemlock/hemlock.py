@@ -1136,6 +1136,10 @@ class Hemlock():
         :param debug: instance of
             :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
         """
+        # !! TODO
+        #    this needs to be bypassed in cases like running the rest server,
+        #    where it will be broken while it sits and waits for an answer to
+        #    this question
         resp = ""
         while resp != 'y' and resp != 'n':
             resp = raw_input("Do you have a hemlock_creds file? (y/n)")
