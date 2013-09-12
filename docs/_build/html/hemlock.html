@@ -1278,7 +1278,7 @@ the local environment variables of the shell.</p>
 <span id="hemlock-options-parser-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hemlock_options_parser</span></tt> Module<a class="headerlink" href="#module-hemlock.hemlock_options_parser" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="hemlock.hemlock_options_parser.PassThroughOptionParser">
-<em class="property">class </em><tt class="descclassname">hemlock.hemlock_options_parser.</tt><tt class="descname">PassThroughOptionParser</tt><big>(</big><em>usage=None</em>, <em>option_list=None</em>, <em>option_class=&lt;class optparse.Option at 0x167c9a8&gt;</em>, <em>version=None</em>, <em>conflict_handler='error'</em>, <em>description=None</em>, <em>formatter=None</em>, <em>add_help_option=True</em>, <em>prog=None</em>, <em>epilog=None</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock_options_parser.html#PassThroughOptionParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock_options_parser.PassThroughOptionParser" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">hemlock.hemlock_options_parser.</tt><tt class="descname">PassThroughOptionParser</tt><big>(</big><em>usage=None</em>, <em>option_list=None</em>, <em>option_class=&lt;class optparse.Option at 0xd919a8&gt;</em>, <em>version=None</em>, <em>conflict_handler='error'</em>, <em>description=None</em>, <em>formatter=None</em>, <em>add_help_option=True</em>, <em>prog=None</em>, <em>epilog=None</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock_options_parser.html#PassThroughOptionParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock_options_parser.PassThroughOptionParser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">optparse.OptionParser</span></tt></p>
 <p>An unknown option pass-through implementation of OptionParser.</p>
 <p>When unknown arguments are encountered, bundle with largs and try again,
@@ -1290,33 +1290,92 @@ incorrectly (e.g. missing arguments or bad argument types, etc.)</p>
 </div>
 <div class="section" id="module-hemlock.hemlock_scheduler">
 <span id="hemlock-scheduler-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hemlock_scheduler</span></tt> Module<a class="headerlink" href="#module-hemlock.hemlock_scheduler" title="Permalink to this headline">¶</a></h2>
+<p>This module controlls and runs the scheduler for performing actions between
+client systems and the Hemlock server.</p>
+<p>Created on 30 August 2013
+&#64;author: Charlie Lewis</p>
 <dl class="class">
 <dt id="hemlock.hemlock_scheduler.Hemlock_Scheduler">
 <em class="property">class </em><tt class="descclassname">hemlock.hemlock_scheduler.</tt><tt class="descname">Hemlock_Scheduler</tt><a class="reference internal" href="_modules/hemlock/hemlock_scheduler.html#Hemlock_Scheduler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock_scheduler.Hemlock_Scheduler" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><p>This class is responsible for spawning and controlling the the scheduler
+and all operations that are scheduled in a cron-like fashion.</p>
+<dl class="method">
 <dt id="hemlock.hemlock_scheduler.Hemlock_Scheduler.check_schedules">
 <tt class="descname">check_schedules</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock_scheduler.html#Hemlock_Scheduler.check_schedules"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock_scheduler.Hemlock_Scheduler.check_schedules" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Checks for existing schedules, cleans up ones that no longer need to
+run, starts new ones that need to be scheduled.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock_scheduler.Hemlock_Scheduler.init_schedule">
 <tt class="descname">init_schedule</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock_scheduler.html#Hemlock_Scheduler.init_schedule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock_scheduler.Hemlock_Scheduler.init_schedule" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Initialize the scheduler.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an instance of the scheduler.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock_scheduler.Hemlock_Scheduler.job_work">
 <tt class="descname">job_work</tt><big>(</big><em>args</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock_scheduler.html#Hemlock_Scheduler.job_work"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock_scheduler.Hemlock_Scheduler.job_work" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Do the actual work that was scheduled at the scheduled tiem.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> &#8211; job arguments</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock_scheduler.Hemlock_Scheduler.schedule_job">
 <tt class="descname">schedule_job</tt><big>(</big><em>function</em>, <em>periodicity</em>, <em>start_time</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock_scheduler.html#Hemlock_Scheduler.schedule_job"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock_scheduler.Hemlock_Scheduler.schedule_job" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Schedule a new job.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>function</strong> &#8211; function to be called that does the work</li>
+<li><strong>periodicity</strong> &#8211; how often to run the scheduled work</li>
+<li><strong>start_time</strong> &#8211; when to start the job</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="hemlock.hemlock_scheduler.Hemlock_Scheduler.schedule_job_cron">
 <tt class="descname">schedule_job_cron</tt><big>(</big><em>function</em>, <em>args</em>, <em>name</em>, <em>minute</em>, <em>hour</em>, <em>day_of_month</em>, <em>month</em>, <em>day_of_week</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock_scheduler.html#Hemlock_Scheduler.schedule_job_cron"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock_scheduler.Hemlock_Scheduler.schedule_job_cron" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Schedule a new cron job.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>function</strong> &#8211; function to be called that does the work</li>
+<li><strong>args</strong> &#8211; arguments to pass to the function that does the work</li>
+<li><strong>name</strong> &#8211; name of the job</li>
+<li><strong>minute</strong> &#8211; cron minute to run the job</li>
+<li><strong>hour</strong> &#8211; cron hour to run the job</li>
+<li><strong>day_of_month</strong> &#8211; cron day_of_month to run the job</li>
+<li><strong>month</strong> &#8211; cron month to run the job</li>
+<li><strong>day_of_week</strong> &#8211; cron day_of_week to run the job</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
