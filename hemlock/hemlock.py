@@ -253,6 +253,8 @@ class Hemlock():
         """
         # !! TODO
         arg_d = [
+            '--user',
+            '--query'
         ]
         return self.check_args(args, arg_d, var_d)
 
