@@ -1110,7 +1110,7 @@ returns a list of the arguments supplied
 .SS \fBhemlock_options_parser\fP Module
 .INDENT 0.0
 .TP
-.B class hemlock.hemlock_options_parser.PassThroughOptionParser(usage=None, option_list=None, option_class=<class optparse.Option at 0x167c9a8>, version=None, conflict_handler=\(aqerror\(aq, description=None, formatter=None, add_help_option=True, prog=None, epilog=None)
+.B class hemlock.hemlock_options_parser.PassThroughOptionParser(usage=None, option_list=None, option_class=<class optparse.Option at 0x28609a8>, version=None, conflict_handler=\(aqerror\(aq, description=None, formatter=None, add_help_option=True, prog=None, epilog=None)
 Bases: \fBoptparse.OptionParser\fP
 .sp
 An unknown option pass\-through implementation of OptionParser.
@@ -1122,73 +1122,197 @@ sys.exit(status) will still be called if a known argument is passed
 incorrectly (e.g. missing arguments or bad argument types, etc.)
 .UNINDENT
 .SS \fBhemlock_scheduler\fP Module
+.sp
+This module controlls and runs the scheduler for performing actions between
+client systems and the Hemlock server.
+.sp
+Created on 30 August 2013
+@author: Charlie Lewis
 .INDENT 0.0
 .TP
 .B class hemlock.hemlock_scheduler.Hemlock_Scheduler
+This class is responsible for spawning and controlling the the scheduler
+and all operations that are scheduled in a cron\-like fashion.
 .INDENT 7.0
 .TP
 .B check_schedules()
+Checks for existing schedules, cleans up ones that no longer need to
+run, starts new ones that need to be scheduled.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B init_schedule()
+Initialize the scheduler.
+.INDENT 7.0
+.TP
+.B Returns
+an instance of the scheduler.
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B job_work(args)
+Do the actual work that was scheduled at the scheduled tiem.
+.INDENT 7.0
+.TP
+.B Parameters
+\fBargs\fP \-\- job arguments
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B schedule_job(function, periodicity, start_time)
+Schedule a new job.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBfunction\fP \-\- function to be called that does the work
+.IP \(bu 2
+\fBperiodicity\fP \-\- how often to run the scheduled work
+.IP \(bu 2
+\fBstart_time\fP \-\- when to start the job
+.UNINDENT
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B schedule_job_cron(function, args, name, minute, hour, day_of_month, month, day_of_week)
+Schedule a new cron job.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBfunction\fP \-\- function to be called that does the work
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass to the function that does the work
+.IP \(bu 2
+\fBname\fP \-\- name of the job
+.IP \(bu 2
+\fBminute\fP \-\- cron minute to run the job
+.IP \(bu 2
+\fBhour\fP \-\- cron hour to run the job
+.IP \(bu 2
+\fBday_of_month\fP \-\- cron day_of_month to run the job
+.IP \(bu 2
+\fBmonth\fP \-\- cron month to run the job
+.IP \(bu 2
+\fBday_of_week\fP \-\- cron day_of_week to run the job
+.UNINDENT
+.UNINDENT
 .UNINDENT
 .UNINDENT
 .SS \fBtest_hemlock\fP Module
+.sp
+Test module for hemlock.py
+.sp
+Created on 19 August 2013
+@author: Charlie Lewis
 .INDENT 0.0
 .TP
 .B class hemlock.test_hemlock.TestClass
+Test class for hemlock.py
 .INDENT 7.0
 .TP
 .B connect_mysql(debug, server, user, pw, db)
+Makes a connection to the test Hemlock MySQL server.
+.INDENT 7.0
+.TP
+.B Returns
+returns an instance of the MySQL connection
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_client_get()
+Tests client\-get action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_client_list()
+Tests client\-list action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_client_purge()
+Tests client\-purge action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_client_run()
+Tests client\-run action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_client_schedule()
+Tests client\-schedule action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_client_store()
+Tests client\-store action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_deregister_local_system()
+Tests deregister\-local\-system action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_deregister_remote_system()
+Tests deregister\-remote\-system action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_list_all()
+Tests list\-all action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
@@ -1197,86 +1321,212 @@ incorrectly (e.g. missing arguments or bad argument types, etc.)
 .INDENT 7.0
 .TP
 .B process_register_remote_system()
+Tests register\-remote\-system action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_role_create()
+Tests role\-create action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_role_delete()
+Tests role\-delete action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_role_list()
+Tests role\-list action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_role_users_list()
+Tests role\-users\-list action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_schedule_get()
+Tests schedule\-get action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_schedule_list()
+Tests schedule\-list action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_start_scheduler()
+Tests start\-scheduler action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_system_add_tenant()
+Tests system\-add\-tenant action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_system_get()
+Tests system\-get action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_system_list()
+Tests system\-list action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_system_remove_tenant()
+Tests system\-remove\-tenant action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_system_tenants_list()
+Tests system\-tenants\-list action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_tenant_create()
+Tests tenant\-create action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_tenant_delete()
+Tests tenant\-delete action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_tenant_get()
+Tests tenant\-get action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_tenant_list()
+Tests tenant\-list action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_tenant_systems_list()
+Tests tenant\-systems\-list action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_tenant_users_list()
+Tests tenant\-users\-list action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_user_add_role()
+Tests user\-add\-role action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_user_add_tenant()
+Tests user\-add\-tenant action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
@@ -1285,190 +1535,272 @@ incorrectly (e.g. missing arguments or bad argument types, etc.)
 .INDENT 7.0
 .TP
 .B process_user_delete()
+Tests user\-delete action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_user_get()
+Tests user\-get action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_user_list()
+Tests user\-list action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_user_remove_role()
+Tests user\-remove\-role action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_user_remove_tenant()
+Tests user\-remove\-tenant action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_user_roles_list()
+Tests user\-roles\-list action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B process_user_tenants_list()
+Tests user\-tenants\-list action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_connect_mysql()
+Calls the test function for connecting to MySQL.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_client_get()
+Calls the test function for the client\-get action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_client_list()
+Calls the test function for the client\-list action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_client_purge()
+Calls the test function for the client\-purge action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_client_run()
+Calls the test function for the client\-run action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_client_schedule()
+Calls the test function for the client\-schedule action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_client_store()
+Calls the test function for the client\-store action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_deregister_local_system()
+Calls the test function for the deregister\-local\-system action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_deregister_remote_system()
+Calls the test function for the deregister\-remote\-system action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_list_all()
+Calls the test function for list\-all action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_register_local_system()
+Calls the test function for the register\-local\-system action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_register_remote_system()
+Calls the test function for the register\-remote\-system action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_role_create()
+Calls the test function for the role\-create action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_role_delete()
+Calls the test function for the role\-delete action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_role_list()
+Calls the test function for the role\-list action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_role_users_list()
+Calls the test function for the role\-users\-list action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_schedule_get()
+Calls the test function for the schedule\-get action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_schedule_list()
+Calls the test function for the schedule\-list action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_start_scheduler()
+Calls the test function for the start\-scheduler action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_system_add_tenant()
+Calls the test function for the system\-add\-tenant action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_system_get()
+Calls the test function for the system\-get action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_system_list()
+Calls the test function for the system\-list action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_system_remove_tenant()
+Calls the test function for the system\-remove\-tenant action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_system_tenants_list()
+Calls the test function for the system\-tenants\-list action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_tenant_create()
+Calls the test function for the tenant\-create action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_tenant_delete()
+Calls the test function for the tenant\-delete action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_tenant_get()
+Calls the test function for the tenant\-get action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_tenant_list()
+Calls the test function for the tenant\-list action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_tenant_systems_list()
+Calls the test function for the tenant\-systems\-list action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_tenant_users_list()
+Calls the test function for the tenant\-users\-list action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_user_add_role()
+Calls the test function for the user\-add\-role action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_user_add_tenant()
+Calls the test function for the user\-add\-tenant action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_user_create()
+Calls the test function for the user\-create action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_user_delete()
+Calls the test function for the user\-delete action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_user_get()
+Calls the test function for the user\-get action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_user_list()
+Calls the test function for the user\-list action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_user_remove_role()
+Calls the test function for the user\-remove\-role action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_user_remove_tenant()
+Calls the test function for the user\-remove\-tenant action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_user_roles_list()
+Calls the test function for the user\-roles\-list action.
 .UNINDENT
 .INDENT 7.0
 .TP
 .B test_process_user_tenants_list()
+Calls the test function for the user\-tenants\-list action.
 .UNINDENT
 .UNINDENT
 .SS Subpackages
