@@ -851,6 +851,8 @@ class Hemlock():
             """,
             'query-data' : """
             query-data (query data in hemlock)
+                --user (username that is requesting the query)
+                --query (elasticsearch query)
             """,
             'register-local-system' : """
             register-local-system (from a system add it to Hemlock)
@@ -1125,6 +1127,7 @@ class Hemlock():
         parser.add_option("-b", "--couchbase-bucket", action="store", dest="bucket", help="Couchbase Bucket")
         parser.add_option("-n", "--couchbase-username", action="store", dest="c_user", help="Couchbase Username")
         parser.add_option("-w", "--couchbase-password", action="store", dest="c_pw", help="Couchbase Password")
+        parser.add_option("-e", "--elasticsearch-endpoint", action="store", dest="es", help="ElasticSearch Endpoint")
         parser.add_option("-D", "--debug", action="store_false", dest="debug", help="Debugging Mode")
         return parser.parse_args()
 
@@ -1350,6 +1353,23 @@ class Hemlock():
                 options.c_pw = getpass.getpass("Couchbase Password:")
                 self.log.debug(options.debug, "HEMLOCK_COUCHBASE_PW = "+str(options.c_pw))
 
+        try:
+            if options.es == None:
+                options.es = os.environ['HEMLOCK_ELASTICSEARCH_ENDPOINT']
+            self.log.debug(options.debug, "HEMLOCK_ELASTICSEARCH_ENDPOINT = "+str(options.es))
+        except:
+            if asked_for_creds == 0:
+                self.read_creds(options.debug)
+                asked_for_creds = 1
+                try:
+                    options.es = os.environ['HEMLOCK_ELASTICSEARCH_ENDPOINT']
+                except:
+                    options.es = getpass.getpass("ElasticSearch Endpoint:")
+                    self.log.debug(options.debug, "HEMLOCK_ELASTICSEARCH_ENDPOINT = "+str(options.es))
+            else:
+                options.es = getpass.getpass("ElasticSearch Endpoint:")
+                self.log.debug(options.debug, "HEMLOCK_ELASTICSEARCH_ENDPOINT = "+str(options.es))
+
         return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.bucket, options.c_pw, options.debug
 
     def mysql_server(self, debug, server, user, pw, db):
@@ -1474,6 +1494,10 @@ class Hemlock():
             props.append(key[2:])
             vals.append(var_d[key])
         if "user" in action_a and "create" in action_a:
+            props.append("password")
+            pw = getpass.getpass("User Password:")
+            vals.append(pw)
+        if "query" in action_a and "data" in action_a:
             props.append("password")
             pw = getpass.getpass("User Password:")
             vals.append(pw)
