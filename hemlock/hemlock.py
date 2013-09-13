@@ -32,6 +32,7 @@ import getpass
 import json
 import MySQLdb as mdb
 import os
+import requests
 import sys
 import texttable as tt
 import time
@@ -1370,7 +1371,7 @@ class Hemlock():
                 options.es = getpass.getpass("ElasticSearch Endpoint:")
                 self.log.debug(options.debug, "HEMLOCK_ELASTICSEARCH_ENDPOINT = "+str(options.es))
 
-        return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.bucket, options.c_pw, options.debug
+        return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.bucket, options.c_pw, options.es, options.debug
 
     def mysql_server(self, debug, server, user, pw, db):
         """
@@ -1395,7 +1396,7 @@ class Hemlock():
             sys.exit(0)
         return m_server
 
-    def process_action(self, debug, action, var_d, m_server):
+    def process_action(self, debug, action, var_d, m_server, es):
         """
         Processes the action that was supplied.
 
@@ -1510,7 +1511,19 @@ class Hemlock():
         if "query" in action_a:
             # query the data that resides in hemlock
             # !! TODO
-            junk = ""
+            print var_d 
+            print es
+            url = "http://"+es+":9200/hemlock/_search?q="+var_d['--query']
+            print url
+            r = requests.get(url)
+            print r.status_code
+            print r.text
+            print r.json()
+            results = r.json()
+            print
+            results = results['hits']['hits']
+            for result in results:
+                print result['_id']
         elif "system" in action_a:
             # update to systems/clients table
             if "deregister" in action_a:
@@ -2277,18 +2290,18 @@ class Hemlock():
         tab.set_cols_align(tab_align)
         tab.header(tab_header)
 
-        if "start" not in action_a and "remove" not in action_a and "delete" not in action_a and "deregister" not in action_a and "all" not in action_a and "run" not in action_a and "purge" not in action_a:
+        if "query" not in action_a and "start" not in action_a and "remove" not in action_a and "delete" not in action_a and "deregister" not in action_a and "all" not in action_a and "run" not in action_a and "purge" not in action_a:
             print tab.draw()
         return x, error
 
 if __name__ == "__main__":
     start_time = time.time()
     hemlock = Hemlock()
-    args, user, pw, db, server, c_server, bucket, c_pw, debug = hemlock.get_auth()
+    args, user, pw, db, server, c_server, bucket, c_pw, es, debug = hemlock.get_auth()
     var_d, action = hemlock.process_args(debug, args)
     m_server = hemlock.mysql_server(debug, server, user, pw, db)
 
-    x, error = hemlock.process_action(debug, action, var_d, m_server)
+    x, error = hemlock.process_action(debug, action, var_d, m_server, es)
     hemlock.log.debug(debug, "Rows: "+str(x))
     hemlock.log.debug(debug, "Errors encountered: "+str(error))
 
