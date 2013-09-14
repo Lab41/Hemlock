@@ -50,8 +50,16 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
-        # !! TODO
-        x = ""
+        b, error1 = a.process_action(0, "client-list", {}, m_server, "localhost")
+        error.append(error1)
+        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost")
+        error.append(error2)
+        d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost")
+        error.append(error3)
+        e, error4 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':d[9][1], '--credential_file':'/foo'}, m_server, "localhost")
+        error.append(error4)
+        x, error5 = a.process_action(0, "client-list", {}, m_server, "localhost")
+        error.append(error5)
         return x, error
 
     def process_client_purge(self):
@@ -102,9 +110,17 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
-        # !! TODO
-        x = ""
-        return x, error
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost")
+        error.append(error1)
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost")
+        error.append(error2)
+        x, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'/foo'}, m_server, "localhost")
+        error.append(error3)
+        cur = m_server.cursor()
+        str = "select * from clients where uuid = '"+x[2][1]+"'"
+        cur.execute(str)
+        y = cur.fetchall()
+        return x, y, error
 
     def process_schedule_get(self):
         """
