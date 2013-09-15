@@ -56,10 +56,8 @@ class TestClass:
         error.append(error2)
         d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost")
         error.append(error3)
-        # !! TODO
-        #    need to figure out issue when credentials file
-        #e, error4 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':d[9][1], '--credential_file':'/foo'}, m_server, "localhost")
-        #error.append(error4)
+        e, error4 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':d[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost")
+        error.append(error4)
         x, error5 = a.process_action(0, "client-list", {}, m_server, "localhost")
         error.append(error5)
         return x, error
@@ -116,8 +114,6 @@ class TestClass:
         error.append(error1)
         c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost")
         error.append(error2)
-        # !! TODO
-        #    need to figure out issue when credentials file
         x, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost")
         error.append(error3)
         cur = m_server.cursor()
@@ -125,8 +121,6 @@ class TestClass:
         cur.execute(str)
         y = cur.fetchall()
         return x, y, error
-        #x = ""
-        #return x, error
 
     def process_schedule_get(self):
         """
@@ -1199,7 +1193,7 @@ class TestClass:
         """
         Calls the test function for the client-store action.
         """
-        x, error = self.process_client_store()
+        x, y, error = self.process_client_store()
         for err in error:
             assert err == 0
 
