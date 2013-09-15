@@ -118,7 +118,7 @@ class TestClass:
         error.append(error2)
         # !! TODO
         #    need to figure out issue when credentials file
-        x, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'clients/mysql_creds_sample'}, m_server, "localhost")
+        x, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost")
         error.append(error3)
         cur = m_server.cursor()
         str = "select * from clients where uuid = '"+x[2][1]+"'"
