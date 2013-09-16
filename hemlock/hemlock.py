@@ -1620,6 +1620,7 @@ class Hemlock():
                     data_action = "INSERT INTO users_tenants(user_id, tenant_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--tenant_id']+"\")"
                     self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "schedule" in action_a:
+                    # !! TODO ensure that the same client is not added to the same schedule more than once
                     # client_add_schedule
                     if action_a[0] == "client":
                         data_action = "INSERT INTO schedules_clients(client_id, schedule_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--schedule_id']+"\")"
@@ -1901,6 +1902,7 @@ class Hemlock():
                         hemlock_base.update_hemlock(debug, system_uuid, server_dict)
                     # write
                     elif "schedule" in action_a:
+                        # !! TODO ensure that the same client is not added to the same schedule more than once
                         # create a schedule that is associated with a client
                         data_action = "INSERT INTO schedules("
                         data_action2 = "INSERT INTO schedules_"+action_a[0]+"s("

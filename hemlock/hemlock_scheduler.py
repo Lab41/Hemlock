@@ -28,6 +28,7 @@ from hemlock import Hemlock
 
 import logging
 import MySQLdb as mdb
+import os
 import signal
 import sys
 
@@ -107,40 +108,70 @@ class Hemlock_Scheduler():
         cur.execute("SELECT * FROM schedules")
         results = cur.fetchall()
         self.log.debug(self.debug, str(results))
+        m_server.commit()
+        m_server.close()
 
         # !! TODO
         #    remove schedules that are not stored
         jobs = self.sched.get_jobs()
         for job in jobs:
             test_log2 = open('scheduler.log', 'a')
-            test_log2.write(str(job)+"\n")
-            test_log2.write(str(job.name)+"\n")
+            test_log2.write("blah blah\n")
+            test_log2.write("foo "+str(job)+"\n")
+            test_log2.write("bar "+str(job.name)+"\n")
             test_log2.close() 
 
         #    read schedules that are stored
         for schedule in results:
-            self.schedule_job_cron(self.job_work, str(schedule[1]), str(schedule[1]), str(schedule[3]), str(schedule[4]), str(schedule[5]), str(schedule[6]), str(schedule[7]))
+            self.schedule_job_cron(self.job_work, server_dict, str(schedule[1]), str(schedule[3]), str(schedule[4]), str(schedule[5]), str(schedule[6]), str(schedule[7]))
 
         # !! TODO
         #    query to get everything in schedules
         #    updates schedules
 
-    def job_work(self, args):
+    def job_work(self, server_dict, name):
         """
         Do the actual work that was scheduled at the scheduled tiem.
 
-        :param args: job arguments
+        :param server_dict: dictionary of server credentials
+        :param name: uuid of the client
         """
         # DEBUG
         # do actual work here
         # !! TODO
         #    if streaming is already running and requested again, ignore
         #    if the job requested, regardless, is still running, skip this run, and log it
-        test_log2 = open('scheduler.log', 'a')
-        test_log2.write("test: ")
-        test_log2.write(str(args))
-        test_log2.write("\n")
-        test_log2.close() 
+
+        # connect to the mysql server
+        try:
+            m_server = mdb.connect(server_dict['HEMLOCK_MYSQL_SERVER'],
+                                   server_dict['HEMLOCK_MYSQL_USERNAME'],
+                                   server_dict['HEMLOCK_MYSQL_PW'],
+                                   "hemlock")
+
+            self.log.debug(self.debug, "MySQL Handle: "+str(m_server))
+        except:
+            self.log.debug(self.debug, sys.exc_info()[0])
+            print "MySQL server failure"
+            sys.exit(0)
+
+        cur = m_server.cursor()
+        self.log.debug(self.debug, "MySQL Cursor: "+str(cur))
+
+        cur.execute("SELECT * FROM schedules_clients WHERE schedule_id = '"+name+"'")
+        results = cur.fetchall()
+        self.log.debug(self.debug, str(results))
+        m_server.commit()
+        m_server.close()
+
+        try:
+            for cred in server_dict:
+                os.environ[cred] = server_dict[cred]
+        except:
+            print "Unable to source hemmlock server credentials"
+
+        cmd = "hemlock client-run --uuid "+results[0][1] 
+        result = os.system(cmd)
 
     def init_schedule(self):
         """
@@ -168,12 +199,12 @@ class Hemlock_Scheduler():
         # DEBUG
         self.sched.add_interval_job(function, seconds=periodicity, start_date=start_time)
 
-    def schedule_job_cron(self, function, args, name, minute, hour, day_of_month, month, day_of_week):
+    def schedule_job_cron(self, function, server_dict, name, minute, hour, day_of_month, month, day_of_week):
         """
         Schedule a new cron job.
 
         :param function: function to be called that does the work
-        :param args: arguments to pass to the function that does the work
+        :param server_dict: dictionary of server credentials
         :param name: name of the job
         :param minute: cron minute to run the job
         :param hour: cron hour to run the job
@@ -182,7 +213,7 @@ class Hemlock_Scheduler():
         :param day_of_week: cron day_of_week to run the job
         """
         # DEBUG
-        self.sched.add_cron_job(function, args=['foo'], name=name, minute=minute, hour=hour, day=day_of_month, month=month, day_of_week=day_of_week)
+        self.sched.add_cron_job(function, args=[server_dict, name], name=name, minute=minute, hour=hour, day=day_of_month, month=month, day_of_week=day_of_week)
 
 if __name__ == "__main__":
     hemlock_scheduler = Hemlock_Scheduler()
