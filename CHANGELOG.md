@@ -1,3 +1,12 @@
+### 0.1.3 (2013-09-16)
+
+- stubbed breaking out hfs into a more modular structure (incomplete)
+- added man page and lots more documentation
+- added query-data to API (incomplete)
+- added version to argument options
+- added lots of debugging and capability to get debugging statements using -D
+- bug fixes
+
 ### 0.1.2 (2013-09-03)
 
 - added storing of client and hemlock creds in mysql

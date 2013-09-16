@@ -1195,7 +1195,7 @@ class Hemlock():
             return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.bucket, options.c_pw, options.es, options.debug
 
         if options.version != None:
-            print "Version: 0.1.2"
+            print "Version: 0.1.3"
             sys.exit(0)
 
         if options.debug == None:

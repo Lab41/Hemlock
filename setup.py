@@ -27,7 +27,7 @@ class MyInstall(install):
 
 setup(
     name='hemlock',
-    version='0.1.2',
+    version='0.1.3',
     author=u'Charlie Lewis',
     author_email='charliel@lab41.org',
     description='Hemlock is a way of providing a common data access layer.',
