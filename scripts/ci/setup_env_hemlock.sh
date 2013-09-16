@@ -24,3 +24,6 @@ sudo pip install couchbase --upgrade
 
 # install mysql-python connector
 sudo apt-get install -y python-mysqldb
+
+# install hemlock man page
+sudo cp ../../docs/_build/man/hemlock.1 /usr/share/man/man1/hemlock.1.gz
