@@ -1130,6 +1130,7 @@ class Hemlock():
         parser.add_option("-w", "--couchbase-password", action="store", dest="c_pw", help="Couchbase Password")
         parser.add_option("-e", "--elasticsearch-endpoint", action="store", dest="es", help="ElasticSearch Endpoint")
         parser.add_option("-D", "--debug", action="store_false", dest="debug", help="Debugging Mode")
+        parser.add_option("-v", "--version", action="store_false", dest="version", help="Version")
         return parser.parse_args()
 
     def read_creds(self, debug):
@@ -1189,6 +1190,10 @@ class Hemlock():
         """
         # extract command-line switches
         (options, args_leftover) = Hemlock().parse_auth()
+
+        if options.version != None:
+            print "Version: 0.1.2"
+            sys.exit(0)
 
         if options.debug == None:
             options.debug = 0
