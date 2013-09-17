@@ -111,23 +111,15 @@ class Hemlock_Scheduler():
         m_server.commit()
         m_server.close()
 
-        # !! TODO
-        #    remove schedules that are not stored
-        jobs = self.sched.get_jobs()
-        for job in jobs:
-            test_log2 = open('scheduler.log', 'a')
-            test_log2.write("blah blah\n")
-            test_log2.write("foo "+str(job)+"\n")
-            test_log2.write("bar "+str(job.name)+"\n")
-            test_log2.close() 
+        # remove all jobs scheduled
+        try:
+            self.sched.unschedule_func(self.job_work)
+        except:
+            print "No jobs scheduled at this time, checking for new jobs to schedule."
 
-        #    read schedules that are stored
+        # read schedules that are stored
         for schedule in results:
             self.schedule_job_cron(self.job_work, server_dict, str(schedule[1]), str(schedule[3]), str(schedule[4]), str(schedule[5]), str(schedule[6]), str(schedule[7]))
-
-        # !! TODO
-        #    query to get everything in schedules
-        #    updates schedules
 
     def job_work(self, server_dict, name):
         """
@@ -137,11 +129,6 @@ class Hemlock_Scheduler():
         :param name: uuid of the client
         """
         # DEBUG
-        # do actual work here
-        # !! TODO
-        #    if streaming is already running and requested again, ignore
-        #    if the job requested, regardless, is still running, skip this run, and log it
-
         # connect to the mysql server
         try:
             m_server = mdb.connect(server_dict['HEMLOCK_MYSQL_SERVER'],
@@ -170,8 +157,19 @@ class Hemlock_Scheduler():
         except:
             print "Unable to source hemmlock server credentials"
 
-        cmd = "hemlock client-run --uuid "+results[0][1] 
-        result = os.system(cmd)
+        # check for the client already running a process
+        # if streaming is already running and requested again, ignore
+        # if the job requested, regardless, is still running, skip this run, and log it
+        cmd = "ps auxw | grep "+results[0][1]+" | grep -v color | wc -l"
+        result = os.popen(cmd).read()
+        if result[0] <= "1":
+            # only run the client if there isn't already one running
+            cmd = "hemlock client-run --uuid "+results[0][1] 
+            result = os.system(cmd)
+        else:
+            f = open('scheduler.log', 'a')
+            f.write("The client: "+results[0][1]+" is already running, skipping this run.\n")
+            f.close()
 
     def init_schedule(self):
         """
