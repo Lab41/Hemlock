@@ -1574,9 +1574,9 @@ class Hemlock():
             #       }
             #    }
             # }'
-            
+
             h_server = self.connect_server(debug, c_server, c_user, bucket, c_pw)
-          
+
             payload = "{\"size\":100,\"query\":{\"bool\":{\"must\":[{\"match\":{\"doc.hemlock-system\":{\"query\":\""
 
             # get the list of tenants this user belongs to
