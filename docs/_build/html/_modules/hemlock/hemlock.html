@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>hemlock.hemlock &mdash; Hemlock 0.1.2 documentation</title>
+    <title>hemlock.hemlock &mdash; Hemlock 0.1.3 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.1.2',
+        VERSION:     '0.1.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Hemlock 0.1.2 documentation" href="../../index.html" />
+    <link rel="top" title="Hemlock 0.1.3 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Hemlock 0.1.2 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Hemlock 0.1.3 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -64,6 +64,9 @@
 <span class="c">#   limitations under the License.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module is the main core of Hemlock and interfaces with and controls the</span>
+<span class="sd">majority of other modules in this package.</span>
+
 <span class="sd">Created on 19 August 2013</span>
 <span class="sd">@author: Charlie Lewis</span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -78,6 +81,7 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">MySQLdb</span> <span class="kn">as</span> <span class="nn">mdb</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">texttable</span> <span class="kn">as</span> <span class="nn">tt</span>
 <span class="kn">import</span> <span class="nn">time</span>
@@ -85,7 +89,8 @@
 
 <div class="viewcode-block" id="Hemlock"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock">[docs]</a><span class="k">class</span> <span class="nc">Hemlock</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Main class for driving the API</span>
+<span class="sd">    This class is responsible for driving the API and the core functionality of</span>
+<span class="sd">    Hemlock.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -93,6 +98,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">HELP_COUNTER</span> <span class="o">=</span> <span class="mi">0</span>
 
 <div class="viewcode-block" id="Hemlock.client_add_schedule"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.client_add_schedule">[docs]</a>    <span class="k">def</span> <span class="nf">client_add_schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a specific schedule to a specific client.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span><span class="p">,</span>
             <span class="s">&#39;--schedule_id&#39;</span>
@@ -100,23 +112,51 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.client_get"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.client_get">[docs]</a>    <span class="k">def</span> <span class="nf">client_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets a specific client.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.client_list"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.client_list">[docs]</a>    <span class="k">def</span> <span class="nf">client_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists all clients.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.client_purge"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.client_purge">[docs]</a>    <span class="k">def</span> <span class="nf">client_purge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Purges a specific client.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.client_remove_schedule"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.client_remove_schedule">[docs]</a>    <span class="k">def</span> <span class="nf">client_remove_schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Removes a specific schedule from a specific client.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span><span class="p">,</span>
             <span class="s">&#39;--schedule_id&#39;</span>
@@ -124,12 +164,26 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.client_run"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.client_run">[docs]</a>    <span class="k">def</span> <span class="nf">client_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Runs a client.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.client_schedule"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.client_schedule">[docs]</a>    <span class="k">def</span> <span class="nf">client_schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Schedules a client.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># !! TODO</span>
         <span class="c">#    consider having a way to activate schedules for clients,</span>
         <span class="c">#    perhaps one schedule to many clients, or many schedules</span>
@@ -146,12 +200,26 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.client_schedules_list"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.client_schedules_list">[docs]</a>    <span class="k">def</span> <span class="nf">client_schedules_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists all schedules assigned to a specific client.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.client_store"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.client_store">[docs]</a>    <span class="k">def</span> <span class="nf">client_store</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stores a client.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--name&#39;</span><span class="p">,</span>
             <span class="s">&#39;--type&#39;</span><span class="p">,</span>
@@ -161,35 +229,93 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.client_systems_list"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.client_systems_list">[docs]</a>    <span class="k">def</span> <span class="nf">client_systems_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists all systems assigned to a specific client.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.deregister_local_system"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.deregister_local_system">[docs]</a>    <span class="k">def</span> <span class="nf">deregister_local_system</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Deegisters a specific local system.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.deregister_remote_system"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.deregister_remote_system">[docs]</a>    <span class="k">def</span> <span class="nf">deregister_remote_system</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Deregisters a specific remote system.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.hemlock_server_store"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.hemlock_server_store">[docs]</a>    <span class="k">def</span> <span class="nf">hemlock_server_store</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stores Hemlock server credentials.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--credential_file&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.list_all"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.list_all">[docs]</a>    <span class="k">def</span> <span class="nf">list_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists everything that is stored.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
+<div class="viewcode-block" id="Hemlock.query_data"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.query_data">[docs]</a>    <span class="k">def</span> <span class="nf">query_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Queries data stored in Hemlock filtering based on the authenticated</span>
+<span class="sd">        user.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># !! TODO</span>
+        <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s">&#39;--user&#39;</span><span class="p">,</span>
+            <span class="s">&#39;--query&#39;</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="Hemlock.register_local_system"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.register_local_system">[docs]</a>    <span class="k">def</span> <span class="nf">register_local_system</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Registers a local system.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--name&#39;</span><span class="p">,</span>
             <span class="s">&#39;--data_type&#39;</span><span class="p">,</span>
@@ -203,6 +329,13 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.register_remote_system"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.register_remote_system">[docs]</a>    <span class="k">def</span> <span class="nf">register_remote_system</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Registers a remote system.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># !! TODO add map of operation vocabulary</span>
         <span class="c">#         is this needed?</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
@@ -219,35 +352,77 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.role_create"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.role_create">[docs]</a>    <span class="k">def</span> <span class="nf">role_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a role.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--name&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.role_delete"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.role_delete">[docs]</a>    <span class="k">def</span> <span class="nf">role_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Deletes a specific role.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.role_get"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.role_get">[docs]</a>    <span class="k">def</span> <span class="nf">role_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets a specific role.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.role_list"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.role_list">[docs]</a>    <span class="k">def</span> <span class="nf">role_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists all roles.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.role_users_list"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.role_users_list">[docs]</a>    <span class="k">def</span> <span class="nf">role_users_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists all users assigned to a specific role.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.schedule_add_client"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.schedule_add_client">[docs]</a>    <span class="k">def</span> <span class="nf">schedule_add_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a specific client to a specific schedule.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span><span class="p">,</span>
             <span class="s">&#39;--client_id&#39;</span>
@@ -255,29 +430,64 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.schedule_clients_list"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.schedule_clients_list">[docs]</a>    <span class="k">def</span> <span class="nf">schedule_clients_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists all clients assigned to a specific schedule.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.schedule_delete"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.schedule_delete">[docs]</a>    <span class="k">def</span> <span class="nf">schedule_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Deletes a specific schedule.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.schedule_get"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.schedule_get">[docs]</a>    <span class="k">def</span> <span class="nf">schedule_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets a specific schedule.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.schedule_list"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.schedule_list">[docs]</a>    <span class="k">def</span> <span class="nf">schedule_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets a specific schedule.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.schedule_remove_client"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.schedule_remove_client">[docs]</a>    <span class="k">def</span> <span class="nf">schedule_remove_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Removes a specific client from a specific schedule.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span><span class="p">,</span>
             <span class="s">&#39;--client_id&#39;</span>
@@ -285,6 +495,13 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.start_scheduler"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.start_scheduler">[docs]</a>    <span class="k">def</span> <span class="nf">start_scheduler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Starts the scheduler daemon.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># !! TODO this should not be required, if the creds are already stored</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--hemlock_creds_path&#39;</span>
@@ -292,6 +509,13 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.system_add_tenant"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.system_add_tenant">[docs]</a>    <span class="k">def</span> <span class="nf">system_add_tenant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a specific tenant to a specific system.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span><span class="p">,</span>
             <span class="s">&#39;--tenant_id&#39;</span>
@@ -299,23 +523,51 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.system_clients_list"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.system_clients_list">[docs]</a>    <span class="k">def</span> <span class="nf">system_clients_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists all clients assigned to a specific system.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.system_get"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.system_get">[docs]</a>    <span class="k">def</span> <span class="nf">system_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets a specific system.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.system_list"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.system_list">[docs]</a>    <span class="k">def</span> <span class="nf">system_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists all clients assigned to a specific system.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.system_remove_tenant"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.system_remove_tenant">[docs]</a>    <span class="k">def</span> <span class="nf">system_remove_tenant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Removes a specific tenant from a specific system.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span><span class="p">,</span>
             <span class="s">&#39;--tenant_id&#39;</span>
@@ -323,47 +575,103 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.system_tenants_list"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.system_tenants_list">[docs]</a>    <span class="k">def</span> <span class="nf">system_tenants_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists all tenants assigned to a specific system.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.tenant_create"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.tenant_create">[docs]</a>    <span class="k">def</span> <span class="nf">tenant_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a tenant.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--name&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.tenant_delete"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.tenant_delete">[docs]</a>    <span class="k">def</span> <span class="nf">tenant_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Deletes a specific tenant.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.tenant_get"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.tenant_get">[docs]</a>    <span class="k">def</span> <span class="nf">tenant_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets a specific tenant.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.tenant_list"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.tenant_list">[docs]</a>    <span class="k">def</span> <span class="nf">tenant_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists all tenants.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.tenant_systems_list"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.tenant_systems_list">[docs]</a>    <span class="k">def</span> <span class="nf">tenant_systems_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists all systems assigned to a specific tenant.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.tenant_users_list"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.tenant_users_list">[docs]</a>    <span class="k">def</span> <span class="nf">tenant_users_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists all users assigned to a specific tenant.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.user_add_role"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.user_add_role">[docs]</a>    <span class="k">def</span> <span class="nf">user_add_role</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a specific role to a specific user.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span><span class="p">,</span>
             <span class="s">&#39;--role_id&#39;</span>
@@ -371,6 +679,13 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.user_add_tenant"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.user_add_tenant">[docs]</a>    <span class="k">def</span> <span class="nf">user_add_tenant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a specific tenant to a specific user.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span><span class="p">,</span>
             <span class="s">&#39;--tenant_id&#39;</span>
@@ -378,6 +693,13 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.user_create"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.user_create">[docs]</a>    <span class="k">def</span> <span class="nf">user_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a user.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--name&#39;</span><span class="p">,</span>
             <span class="s">&#39;--username&#39;</span><span class="p">,</span>
@@ -388,23 +710,51 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.user_delete"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.user_delete">[docs]</a>    <span class="k">def</span> <span class="nf">user_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Deletes a specific user.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.user_get"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.user_get">[docs]</a>    <span class="k">def</span> <span class="nf">user_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets a specific user.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.user_list"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.user_list">[docs]</a>    <span class="k">def</span> <span class="nf">user_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists all users.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.user_remove_role"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.user_remove_role">[docs]</a>    <span class="k">def</span> <span class="nf">user_remove_role</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Removes a specific role from a specific user.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span><span class="p">,</span>
             <span class="s">&#39;--role_id&#39;</span>
@@ -412,6 +762,13 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.user_remove_tenant"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.user_remove_tenant">[docs]</a>    <span class="k">def</span> <span class="nf">user_remove_tenant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Removes a specific tenant from a specific user.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span><span class="p">,</span>
             <span class="s">&#39;--tenant_id&#39;</span>
@@ -419,18 +776,40 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.user_roles_list"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.user_roles_list">[docs]</a>    <span class="k">def</span> <span class="nf">user_roles_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists all roles assigned to a specific user.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.user_tenants_list"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.user_tenants_list">[docs]</a>    <span class="k">def</span> <span class="nf">user_tenants_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists all tenants assigned to a specific user.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a list of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arg_d</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s">&#39;--uuid&#39;</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock.check_args"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.check_args">[docs]</a>    <span class="k">def</span> <span class="nf">check_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">arg_d</span><span class="p">,</span> <span class="n">var_d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks arguments supplied.</span>
+
+<span class="sd">        :param args: arguments to pass in from API</span>
+<span class="sd">        :param arg_d: list of supplied arguments</span>
+<span class="sd">        :param var_d: dictionary of key/values made from the arguments</span>
+<span class="sd">        :return: returns a dictionary of the arguments supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
@@ -448,6 +827,11 @@
         <span class="k">return</span> <span class="n">var_d</span>
 </div>
 <div class="viewcode-block" id="Hemlock.print_help"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.print_help">[docs]</a>    <span class="k">def</span> <span class="nf">print_help</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prints out help.</span>
+
+<span class="sd">        :param action: list of API action parsed into elements</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">HELP_COUNTER</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">help_dict</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s">&#39;client-add-schedule&#39;</span> <span class="p">:</span> <span class="s">&quot;&quot;&quot;</span>
@@ -514,6 +898,11 @@
 <span class="s">            &quot;&quot;&quot;</span><span class="p">,</span>
             <span class="s">&#39;list-all&#39;</span> <span class="p">:</span> <span class="s">&quot;&quot;&quot;</span>
 <span class="s">            list-all (list everything)</span>
+<span class="s">            &quot;&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&#39;query-data&#39;</span> <span class="p">:</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">            query-data (query data in hemlock)</span>
+<span class="s">                --user (username that is requesting the query)</span>
+<span class="s">                --query (elasticsearch query)</span>
 <span class="s">            &quot;&quot;&quot;</span><span class="p">,</span>
             <span class="s">&#39;register-local-system&#39;</span> <span class="p">:</span> <span class="s">&quot;&quot;&quot;</span>
 <span class="s">            register-local-system (from a system add it to Hemlock)</span>
@@ -692,6 +1081,16 @@
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Hemlock.process_args"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.process_args">[docs]</a>    <span class="k">def</span> <span class="nf">process_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Processes arguments by directing the supplied action to the</span>
+<span class="sd">        proper function and ensure that all required fields are present.</span>
+
+<span class="sd">        :param debug: instance of</span>
+<span class="sd">            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`</span>
+<span class="sd">        :param args: list of supplied arguments</span>
+<span class="sd">        :return: returns a dictionary of argument key/values and the API</span>
+<span class="sd">            action</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">var_d</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="n">arg_actions</span> <span class="o">=</span> <span class="p">{</span>
@@ -709,6 +1108,7 @@
             <span class="s">&#39;deregister-remote-system&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">deregister_remote_system</span><span class="p">,</span>
             <span class="s">&#39;hemlock-server-store&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">hemlock_server_store</span><span class="p">,</span>
             <span class="s">&#39;list-all&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_all</span><span class="p">,</span>
+            <span class="s">&#39;query-data&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_data</span><span class="p">,</span>
             <span class="s">&#39;register-local-system&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">register_local_system</span><span class="p">,</span>
             <span class="s">&#39;register-remote-system&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">register_remote_system</span><span class="p">,</span>
             <span class="s">&#39;role-create&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">role_create</span><span class="p">,</span>
@@ -762,6 +1162,12 @@
     <span class="c"># use OptionParser to parse command-line switches for authentication variables</span>
     <span class="c"># return variables in options array, as well as leftover args that don&#39;t have switches</span></div>
 <div class="viewcode-block" id="Hemlock.parse_auth"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.parse_auth">[docs]</a>    <span class="k">def</span> <span class="nf">parse_auth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parses options for authentication if supplied as arguments.</span>
+
+<span class="sd">        :return: returns an instance of</span>
+<span class="sd">            :class:`~hemlock.hemlock_options_parser.PassThroughOptionParser`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">parser</span> <span class="o">=</span> <span class="n">hemlock_options_parser</span><span class="o">.</span><span class="n">PassThroughOptionParser</span><span class="p">()</span>
         <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-s&quot;</span><span class="p">,</span> <span class="s">&quot;--server-mysql&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;server&quot;</span><span class="p">,</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;MySQL Server&quot;</span><span class="p">)</span> <span class="c">#, default=&quot;localhost&quot;</span>
         <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-d&quot;</span><span class="p">,</span> <span class="s">&quot;--database&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;db&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;MySQL DB&quot;</span><span class="p">)</span>
@@ -771,37 +1177,75 @@
         <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-b&quot;</span><span class="p">,</span> <span class="s">&quot;--couchbase-bucket&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;bucket&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;Couchbase Bucket&quot;</span><span class="p">)</span>
         <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-n&quot;</span><span class="p">,</span> <span class="s">&quot;--couchbase-username&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;c_user&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;Couchbase Username&quot;</span><span class="p">)</span>
         <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-w&quot;</span><span class="p">,</span> <span class="s">&quot;--couchbase-password&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;c_pw&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;Couchbase Password&quot;</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-e&quot;</span><span class="p">,</span> <span class="s">&quot;--elasticsearch-endpoint&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;es&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;ElasticSearch Endpoint&quot;</span><span class="p">)</span>
         <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-D&quot;</span><span class="p">,</span> <span class="s">&quot;--debug&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store_false&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;debug&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;Debugging Mode&quot;</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-v&quot;</span><span class="p">,</span> <span class="s">&quot;--version&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store_false&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;version&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;Version&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Hemlock.read_creds"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.read_creds">[docs]</a>    <span class="k">def</span> <span class="nf">read_creds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">):</span>
-        <span class="n">resp</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
-        <span class="k">while</span> <span class="n">resp</span> <span class="o">!=</span> <span class="s">&#39;y&#39;</span> <span class="ow">and</span> <span class="n">resp</span> <span class="o">!=</span> <span class="s">&#39;n&#39;</span><span class="p">:</span>
-            <span class="n">resp</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;Do you have a hemlock_creds file? (y/n)&quot;</span><span class="p">)</span>
-            <span class="n">resp</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">resp</span> <span class="o">==</span> <span class="s">&#39;y&#39;</span><span class="p">:</span>
-            <span class="n">resp</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;Path to hemlock_creds file: &quot;</span><span class="p">)</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&quot;#&quot;</span> <span class="ow">and</span> <span class="s">&quot;=&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
-                        <span class="c"># split each line on the first &#39;=&#39;</span>
-                        <span class="n">line_a</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;=&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-                        <span class="k">try</span><span class="p">:</span>
-                            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">line_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">line_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-                        <span class="k">except</span><span class="p">:</span>
-                            <span class="k">print</span> <span class="s">&quot;Malformed Hemlock Creds file.&quot;</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span>
-                <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="k">print</span> <span class="s">&quot;Unable to open &quot;</span><span class="o">+</span><span class="n">resp</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reads in the credentials file for the Hemlock system and stores them in</span>
+<span class="sd">        the local environment variables of the shell.</span>
+
+<span class="sd">        :param debug: instance of</span>
+<span class="sd">            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># trying hemlock_creds in the current directory as a default, if that</span>
+        <span class="c"># fails, then ask for a file or parameters</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;hemlock_creds&#39;</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&quot;#&quot;</span> <span class="ow">and</span> <span class="s">&quot;=&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                    <span class="c"># split each line on the first &#39;=&#39;</span>
+                    <span class="n">line_a</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;=&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">line_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">line_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="k">print</span> <span class="s">&quot;Malformed Hemlock Creds file.&quot;</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+            <span class="k">while</span> <span class="n">resp</span> <span class="o">!=</span> <span class="s">&#39;y&#39;</span> <span class="ow">and</span> <span class="n">resp</span> <span class="o">!=</span> <span class="s">&#39;n&#39;</span><span class="p">:</span>
+                <span class="n">resp</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;Do you have a hemlock_creds file? (y/n)&quot;</span><span class="p">)</span>
+                <span class="n">resp</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">resp</span> <span class="o">==</span> <span class="s">&#39;y&#39;</span><span class="p">:</span>
+                <span class="n">resp</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;Path to hemlock_creds file: &quot;</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&quot;#&quot;</span> <span class="ow">and</span> <span class="s">&quot;=&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                            <span class="c"># split each line on the first &#39;=&#39;</span>
+                            <span class="n">line_a</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;=&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                            <span class="k">try</span><span class="p">:</span>
+                                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">line_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">line_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                            <span class="k">except</span><span class="p">:</span>
+                                <span class="k">print</span> <span class="s">&quot;Malformed Hemlock Creds file.&quot;</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="s">&quot;Unable to open &quot;</span><span class="o">+</span><span class="n">resp</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span>
         <span class="k">return</span>
 </div>
 <div class="viewcode-block" id="Hemlock.get_auth"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.get_auth">[docs]</a>    <span class="k">def</span> <span class="nf">get_auth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the authentication of supplied arguments, environment variables,</span>
+<span class="sd">        or sets them to defaults.</span>
+
+<span class="sd">        :return: returns each of the parsed out arguments</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># extract command-line switches</span>
         <span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">args_leftover</span><span class="p">)</span> <span class="o">=</span> <span class="n">Hemlock</span><span class="p">()</span><span class="o">.</span><span class="n">parse_auth</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">args_leftover</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">args_leftover</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">pw</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">server</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_server</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_pw</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">es</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">debug</span>
+
+        <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">version</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Version: 0.1.3&quot;</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">debug</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">options</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="mi">0</span>
@@ -967,9 +1411,38 @@
                 <span class="n">options</span><span class="o">.</span><span class="n">c_pw</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s">&quot;Couchbase Password:&quot;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_PW = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">c_pw</span><span class="p">))</span>
 
-        <span class="k">return</span> <span class="n">args_leftover</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">pw</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">server</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_server</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_pw</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">debug</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">es</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">options</span><span class="o">.</span><span class="n">es</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HEMLOCK_ELASTICSEARCH_ENDPOINT&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_ELASTICSEARCH_ENDPOINT = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">es</span><span class="p">))</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">asked_for_creds</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">read_creds</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">)</span>
+                <span class="n">asked_for_creds</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">options</span><span class="o">.</span><span class="n">es</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HEMLOCK_ELASTICSEARCH_ENDPOINT&#39;</span><span class="p">]</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">options</span><span class="o">.</span><span class="n">es</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s">&quot;ElasticSearch Endpoint:&quot;</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_ELASTICSEARCH_ENDPOINT = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">es</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">options</span><span class="o">.</span><span class="n">es</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s">&quot;ElasticSearch Endpoint:&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_ELASTICSEARCH_ENDPOINT = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">es</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">args_leftover</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">pw</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">server</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_server</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_pw</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">es</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">debug</span>
 </div>
 <div class="viewcode-block" id="Hemlock.mysql_server"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.mysql_server">[docs]</a>    <span class="k">def</span> <span class="nf">mysql_server</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pw</span><span class="p">,</span> <span class="n">db</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Connects to the Hemlock MySQL Server</span>
+
+<span class="sd">        :param debug: instance of</span>
+<span class="sd">            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`</span>
+<span class="sd">        :param server: server address of the Hemlock MySQL server</span>
+<span class="sd">        :param user: user account to connect to the Hemlock MySQL server</span>
+<span class="sd">        :param pw: password of the user account</span>
+<span class="sd">        :param db: database to connect to in the Hemlock MySQL server</span>
+<span class="sd">        :return: returns an instance of the mysql connection</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># !! TODO redundant of hemlock_runner.mysql_server</span>
         <span class="c"># connect to the mysql server</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">m_server</span> <span class="o">=</span> <span class="n">mdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">server</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pw</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
@@ -980,7 +1453,18 @@
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">m_server</span>
 </div>
-<div class="viewcode-block" id="Hemlock.process_action"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.process_action">[docs]</a>    <span class="k">def</span> <span class="nf">process_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">var_d</span><span class="p">,</span> <span class="n">m_server</span><span class="p">):</span>
+<div class="viewcode-block" id="Hemlock.process_action"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.process_action">[docs]</a>    <span class="k">def</span> <span class="nf">process_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">var_d</span><span class="p">,</span> <span class="n">m_server</span><span class="p">,</span> <span class="n">es</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Processes the action that was supplied.</span>
+
+<span class="sd">        :param debug: instance of</span>
+<span class="sd">            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`</span>
+<span class="sd">        :param action: action to be performed</span>
+<span class="sd">        :param var_d: dictionary of key/values that contain the parameters for</span>
+<span class="sd">            the action</span>
+<span class="sd">        :param m_server: instance of MySQL connection</span>
+<span class="sd">        :return: list of results and any errors that may have occurred.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">error</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="c"># !! TODO</span>
         <span class="c">#    check if scheduler is running, if not start it</span>
@@ -1071,13 +1555,33 @@
             <span class="n">props</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;password&quot;</span><span class="p">)</span>
             <span class="n">pw</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s">&quot;User Password:&quot;</span><span class="p">)</span>
             <span class="n">vals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pw</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s">&quot;query&quot;</span> <span class="ow">in</span> <span class="n">action_a</span> <span class="ow">and</span> <span class="s">&quot;data&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
+            <span class="n">props</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;password&quot;</span><span class="p">)</span>
+            <span class="n">pw</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s">&quot;User Password:&quot;</span><span class="p">)</span>
+            <span class="n">vals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pw</span><span class="p">)</span>
         <span class="k">if</span> <span class="s">&quot;add&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
             <span class="n">props</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;uuid&quot;</span><span class="p">)</span>
             <span class="n">props</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;created&quot;</span><span class="p">)</span>
             <span class="n">vals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">uid</span><span class="p">)</span>
             <span class="n">vals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="s">&quot;system&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s">&quot;query&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
+            <span class="c"># query the data that resides in hemlock</span>
+            <span class="c"># !! TODO</span>
+            <span class="k">print</span> <span class="n">var_d</span> 
+            <span class="k">print</span> <span class="n">es</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;http://&quot;</span><span class="o">+</span><span class="n">es</span><span class="o">+</span><span class="s">&quot;:9200/hemlock/_search?q=&quot;</span><span class="o">+</span><span class="n">var_d</span><span class="p">[</span><span class="s">&#39;--query&#39;</span><span class="p">]</span>
+            <span class="k">print</span> <span class="n">url</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+            <span class="k">print</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span>
+            <span class="k">print</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span>
+            <span class="k">print</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="k">print</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s">&#39;hits&#39;</span><span class="p">][</span><span class="s">&#39;hits&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+                <span class="k">print</span> <span class="n">result</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="s">&quot;system&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
             <span class="c"># update to systems/clients table</span>
             <span class="k">if</span> <span class="s">&quot;deregister&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
                 <span class="c"># delete</span>
@@ -1165,6 +1669,7 @@
                     <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO users_tenants(user_id, tenant_id) VALUES(</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="o">+</span><span class="n">var_d</span><span class="p">[</span><span class="s">&#39;--uuid&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">, </span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="o">+</span><span class="n">var_d</span><span class="p">[</span><span class="s">&#39;--tenant_id&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">)&quot;</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Getting ready to perform the following SQL query: &quot;</span><span class="o">+</span><span class="n">data_action</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="s">&quot;schedule&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
+                    <span class="c"># !! TODO ensure that the same client is not added to the same schedule more than once</span>
                     <span class="c"># client_add_schedule</span>
                     <span class="k">if</span> <span class="n">action_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;client&quot;</span><span class="p">:</span>
                         <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO schedules_clients(client_id, schedule_id) VALUES(</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="o">+</span><span class="n">var_d</span><span class="p">[</span><span class="s">&#39;--uuid&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">, </span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="o">+</span><span class="n">var_d</span><span class="p">[</span><span class="s">&#39;--schedule_id&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">)&quot;</span>
@@ -1446,6 +1951,7 @@
                         <span class="n">hemlock_base</span><span class="o">.</span><span class="n">update_hemlock</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">system_uuid</span><span class="p">,</span> <span class="n">server_dict</span><span class="p">)</span>
                     <span class="c"># write</span>
                     <span class="k">elif</span> <span class="s">&quot;schedule&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
+                        <span class="c"># !! TODO ensure that the same client is not added to the same schedule more than once</span>
                         <span class="c"># create a schedule that is associated with a client</span>
                         <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO schedules(&quot;</span>
                         <span class="n">data_action2</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO schedules_&quot;</span><span class="o">+</span><span class="n">action_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;s(&quot;</span>
@@ -1830,7 +2336,7 @@
                             <span class="k">if</span> <span class="n">desc_results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;name&#39;</span><span class="p">:</span>
                                 <span class="n">a</span> <span class="o">=</span> <span class="n">i</span>
                             <span class="k">if</span> <span class="n">desc_results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;uuid&#39;</span><span class="p">:</span>
-                                <span class="n">b</span> <span class="o">=</span> <span class="n">i</span> 
+                                <span class="n">b</span> <span class="o">=</span> <span class="n">i</span>
                             <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
                         <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
                         <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
@@ -1843,18 +2349,18 @@
         <span class="n">tab</span><span class="o">.</span><span class="n">set_cols_align</span><span class="p">(</span><span class="n">tab_align</span><span class="p">)</span>
         <span class="n">tab</span><span class="o">.</span><span class="n">header</span><span class="p">(</span><span class="n">tab_header</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="s">&quot;start&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">action_a</span> <span class="ow">and</span> <span class="s">&quot;remove&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">action_a</span> <span class="ow">and</span> <span class="s">&quot;delete&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">action_a</span> <span class="ow">and</span> <span class="s">&quot;deregister&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">action_a</span> <span class="ow">and</span> <span class="s">&quot;all&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">action_a</span> <span class="ow">and</span> <span class="s">&quot;run&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">action_a</span> <span class="ow">and</span> <span class="s">&quot;purge&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s">&quot;query&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">action_a</span> <span class="ow">and</span> <span class="s">&quot;start&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">action_a</span> <span class="ow">and</span> <span class="s">&quot;remove&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">action_a</span> <span class="ow">and</span> <span class="s">&quot;delete&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">action_a</span> <span class="ow">and</span> <span class="s">&quot;deregister&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">action_a</span> <span class="ow">and</span> <span class="s">&quot;all&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">action_a</span> <span class="ow">and</span> <span class="s">&quot;run&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">action_a</span> <span class="ow">and</span> <span class="s">&quot;purge&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
             <span class="k">print</span> <span class="n">tab</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">error</span>
 </div></div>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">hemlock</span> <span class="o">=</span> <span class="n">Hemlock</span><span class="p">()</span>
-    <span class="n">args</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pw</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">c_server</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">c_pw</span><span class="p">,</span> <span class="n">debug</span> <span class="o">=</span> <span class="n">hemlock</span><span class="o">.</span><span class="n">get_auth</span><span class="p">()</span>
+    <span class="n">args</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pw</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">c_server</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">c_pw</span><span class="p">,</span> <span class="n">es</span><span class="p">,</span> <span class="n">debug</span> <span class="o">=</span> <span class="n">hemlock</span><span class="o">.</span><span class="n">get_auth</span><span class="p">()</span>
     <span class="n">var_d</span><span class="p">,</span> <span class="n">action</span> <span class="o">=</span> <span class="n">hemlock</span><span class="o">.</span><span class="n">process_args</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
     <span class="n">m_server</span> <span class="o">=</span> <span class="n">hemlock</span><span class="o">.</span><span class="n">mysql_server</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pw</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
 
-    <span class="n">x</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">hemlock</span><span class="o">.</span><span class="n">process_action</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">var_d</span><span class="p">,</span> <span class="n">m_server</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">hemlock</span><span class="o">.</span><span class="n">process_action</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">var_d</span><span class="p">,</span> <span class="n">m_server</span><span class="p">,</span> <span class="n">es</span><span class="p">)</span>
     <span class="n">hemlock</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Rows: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
     <span class="n">hemlock</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Errors encountered: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
 
@@ -1899,7 +2405,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Hemlock 0.1.2 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Hemlock 0.1.3 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

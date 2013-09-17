@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>hemlock.clients.hemlock_runner &mdash; Hemlock 0.1.2 documentation</title>
+    <title>hemlock.clients.hemlock_runner &mdash; Hemlock 0.1.3 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.1.2',
+        VERSION:     '0.1.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Hemlock 0.1.2 documentation" href="../../../index.html" />
+    <link rel="top" title="Hemlock 0.1.3 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">Hemlock 0.1.2 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">Hemlock 0.1.3 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -63,6 +63,14 @@
 <span class="c">#   See the License for the specific language governing permissions and</span>
 <span class="c">#   limitations under the License.</span>
 
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module gets all needed credentials in preparation for getting data from</span>
+<span class="sd">clients and into Hemlock&#39;s metadata/data store.</span>
+
+<span class="sd">Created on 26 August 2013</span>
+<span class="sd">@author: Charlie Lewis</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">from</span> <span class="nn">hemlock_debugger</span> <span class="kn">import</span> <span class="n">Hemlock_Debugger</span>
 
 <span class="kn">import</span> <span class="nn">hemlock_base</span>
@@ -74,10 +82,27 @@
 <span class="kn">import</span> <span class="nn">time</span>
 
 <div class="viewcode-block" id="Hemlock_Runner"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_runner.Hemlock_Runner">[docs]</a><span class="k">class</span> <span class="nc">Hemlock_Runner</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class is responsible for pulling out the credentials from the Hemlock</span>
+<span class="sd">    server for both the client system and the Hemlock metadata/data store.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">Hemlock_Debugger</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Hemlock_Runner.mysql_server"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_runner.Hemlock_Runner.mysql_server">[docs]</a>    <span class="k">def</span> <span class="nf">mysql_server</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pw</span><span class="p">,</span> <span class="n">db</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Connects to the Hemlock MySQL server to get an instance for retrieving</span>
+<span class="sd">        credentials.</span>
+
+<span class="sd">        :param debug: instance of</span>
+<span class="sd">            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`</span>
+<span class="sd">        :param server: server address of the Hemlock MySQL server</span>
+<span class="sd">        :param user: user account to connect to the Hemlock MySQL server</span>
+<span class="sd">        :param pw: password of the user account</span>
+<span class="sd">        :param db: database to connect to in the Hemlock MySQL server</span>
+<span class="sd">        :return: returns an instance of the mysql connection</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># DEBUG</span>
         <span class="c"># connect to the mysql server</span>
         <span class="k">try</span><span class="p">:</span>
@@ -88,6 +113,18 @@
         <span class="k">return</span> <span class="n">m_server</span>
 </div>
 <div class="viewcode-block" id="Hemlock_Runner.get_creds"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_runner.Hemlock_Runner.get_creds">[docs]</a>    <span class="k">def</span> <span class="nf">get_creds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">m_server</span><span class="p">,</span> <span class="n">client_id</span><span class="p">,</span> <span class="n">aes_key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the credentials for both the client system as well as the</span>
+<span class="sd">        Hemlock server that are stored in the Hemlock MySQL server.</span>
+
+<span class="sd">        :param debug: instance of</span>
+<span class="sd">            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`</span>
+<span class="sd">        :param m_server: instance of MySQL connection</span>
+<span class="sd">        :param client_id: uuid of the client to get credentials for</span>
+<span class="sd">        :param aes_key: AES key for decrypting the stored credentials</span>
+<span class="sd">        :return: returns two dictionaries for the client system and Hemlock</span>
+<span class="sd">            server credentials</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># DEBUG</span>
         <span class="c"># get client_dict</span>
         <span class="n">cur</span> <span class="o">=</span> <span class="n">m_server</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
@@ -137,7 +174,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">Hemlock 0.1.2 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">Hemlock 0.1.3 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

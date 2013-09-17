@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "HEMLOCK" "1" "September 12, 2013" "0.1.2" "Hemlock"
+.TH "HEMLOCK" "1" "September 17, 2013" "0.1.3" "Hemlock"
 .SH NAME
 hemlock \- Hemlock Documentation
 .
@@ -403,7 +403,7 @@ Prints out help.
 .UNINDENT
 .INDENT 7.0
 .TP
-.B process_action(debug, action, var_d, m_server)
+.B process_action(debug, action, var_d, m_server, es)
 Processes the action that was supplied.
 .INDENT 7.0
 .TP
@@ -444,6 +444,25 @@ proper function and ensure that all required fields are present.
 .B Returns
 returns a dictionary of argument key/values and the API
 action
+.UNINDENT
+.UNINDENT
+.INDENT 7.0
+.TP
+.B query_data(args, var_d)
+Queries data stored in Hemlock filtering based on the authenticated
+user.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
 .UNINDENT
 .UNINDENT
 .INDENT 7.0
@@ -1110,7 +1129,7 @@ returns a list of the arguments supplied
 .SS \fBhemlock_options_parser\fP Module
 .INDENT 0.0
 .TP
-.B class hemlock.hemlock_options_parser.PassThroughOptionParser(usage=None, option_list=None, option_class=<class optparse.Option at 0x28609a8>, version=None, conflict_handler=\(aqerror\(aq, description=None, formatter=None, add_help_option=True, prog=None, epilog=None)
+.B class hemlock.hemlock_options_parser.PassThroughOptionParser(usage=None, option_list=None, option_class=<class optparse.Option at 0x19539a8>, version=None, conflict_handler=\(aqerror\(aq, description=None, formatter=None, add_help_option=True, prog=None, epilog=None)
 Bases: \fBoptparse.OptionParser\fP
 .sp
 An unknown option pass\-through implementation of OptionParser.
@@ -1151,12 +1170,17 @@ an instance of the scheduler.
 .UNINDENT
 .INDENT 7.0
 .TP
-.B job_work(args)
+.B job_work(server_dict, name)
 Do the actual work that was scheduled at the scheduled tiem.
 .INDENT 7.0
 .TP
 .B Parameters
-\fBargs\fP \-\- job arguments
+.INDENT 7.0
+.IP \(bu 2
+\fBserver_dict\fP \-\- dictionary of server credentials
+.IP \(bu 2
+\fBname\fP \-\- uuid of the client
+.UNINDENT
 .UNINDENT
 .UNINDENT
 .INDENT 7.0
@@ -1178,7 +1202,7 @@ Schedule a new job.
 .UNINDENT
 .INDENT 7.0
 .TP
-.B schedule_job_cron(function, args, name, minute, hour, day_of_month, month, day_of_week)
+.B schedule_job_cron(function, server_dict, name, minute, hour, day_of_month, month, day_of_week)
 Schedule a new cron job.
 .INDENT 7.0
 .TP
@@ -1187,7 +1211,7 @@ Schedule a new cron job.
 .IP \(bu 2
 \fBfunction\fP \-\- function to be called that does the work
 .IP \(bu 2
-\fBargs\fP \-\- arguments to pass to the function that does the work
+\fBserver_dict\fP \-\- dictionary of server credentials
 .IP \(bu 2
 \fBname\fP \-\- name of the job
 .IP \(bu 2
@@ -1308,6 +1332,16 @@ returns any data and a list of any errors
 .TP
 .B process_list_all()
 Tests list\-all action.
+.INDENT 7.0
+.TP
+.B Returns
+returns any data and a list of any errors
+.UNINDENT
+.UNINDENT
+.INDENT 7.0
+.TP
+.B process_query_data()
+Tests query\-data action.
 .INDENT 7.0
 .TP
 .B Returns
@@ -1651,6 +1685,11 @@ Calls the test function for the deregister\-remote\-system action.
 .TP
 .B test_process_list_all()
 Calls the test function for list\-all action.
+.UNINDENT
+.INDENT 7.0
+.TP
+.B test_process_query_data()
+Calls the test function for the query\-data action.
 .UNINDENT
 .INDENT 7.0
 .TP
