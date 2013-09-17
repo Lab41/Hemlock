@@ -1517,9 +1517,45 @@ class Hemlock():
             vals.append(timestamp)
 
         if "query" in action_a:
+            # curl example:
+            #
+            # curl -XPOST "http://l41-vsrv-es01.b.internal:9200/hemlock/_search" -d' 
+            # {
+            #   "size": 200,
+            #    "query": {
+            #       "bool": {
+            #          "must_not": [
+            #             {
+            #                "match": {
+            #                   "doc.hemlock-system": "4991f644-e94d-472e-8526-c7f08a656735"
+            #                }
+            #             },
+            #             {
+            #                "match": {
+            #                   "doc.hemlock-system": "59822f6b-4646-4dd8-9be9-038c2988375a"
+            #                }
+            #             }
+            #          ],
+            #          "should": [
+            #             {
+            #                "match": {
+            #                   "_all": "foo"
+            #                }
+            #             }
+            #          ]
+            #       }
+            #    }
+            # }'
+
             # query the data that resides in hemlock
             # !! TODO
-            print var_d 
+
+            # !! TODO
+            #    get the list of systems that the user has access to
+            #    add the list of systems that the user doesn't have access to
+            #    the 'must_not' list in the elasticsearch query
+
+            print var_d
             print es
             url = "http://"+es+":9200/hemlock/_search?q="+var_d['--query']
             print url
