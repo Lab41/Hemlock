@@ -28,6 +28,7 @@ from clients.hemlock_runner import Hemlock_Runner
 
 import hemlock_options_parser
 
+import couchbase
 import getpass
 import json
 import MySQLdb as mdb
@@ -852,7 +853,7 @@ class Hemlock():
             """,
             'query-data' : """
             query-data (query data in hemlock)
-                --user (username that is requesting the query)
+                --user (uuid of user that is requesting the query)
                 --query (elasticsearch query)
             """,
             'register-local-system' : """
@@ -1192,7 +1193,7 @@ class Hemlock():
         (options, args_leftover) = Hemlock().parse_auth()
 
         if not args_leftover:
-            return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.bucket, options.c_pw, options.es, options.debug
+            return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.c_user, options.bucket, options.c_pw, options.es, options.debug
 
         if options.version != None:
             print "Version: 0.1.3"
@@ -1379,7 +1380,7 @@ class Hemlock():
                 options.es = getpass.getpass("ElasticSearch Endpoint:")
                 self.log.debug(options.debug, "HEMLOCK_ELASTICSEARCH_ENDPOINT = "+str(options.es))
 
-        return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.bucket, options.c_pw, options.es, options.debug
+        return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.c_user, options.bucket, options.c_pw, options.es, options.debug
 
     def mysql_server(self, debug, server, user, pw, db):
         """
@@ -1404,7 +1405,36 @@ class Hemlock():
             sys.exit(0)
         return m_server
 
-    def process_action(self, debug, action, var_d, m_server, es):
+    def connect_server(self, debug, c_server, c_user, c_bucket, c_pw):
+        """
+        Connects to the Hemlock couchbase server.
+
+        :param debug: instance of
+            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
+        :param server_dict: credentials for connecting to the Hemlock server to
+            be able to verify the client system
+        :return: returns an instance of the couchbase connection
+        """
+        # connect to the hemlock server
+        # required fields in the server creds file are as follows:
+        #    HEMLOCK_COUCHBASE_SERVER
+        #    HEMLOCK_COUCHBASE_BUCKET
+        #    HEMLOCK_COUCHBASE_USERNAME
+        #    HEMLOCK_COUCHBASE_PW
+        h_server = ""
+        try:
+            h_server = couchbase.Couchbase.connect(host=c_server,
+                                 bucket=c_bucket, 
+                                 username=c_user,
+                                 password=c_pw)
+            self.log.debug(debug, "Couchbase connection handle: "+str(h_server)) 
+        except:
+            print "Failure connecting to the Hemlock server"
+            self.log.debug(debug, str(sys.exc_info()[0]))
+            sys.exit(0)
+        return h_server
+
+    def process_action(self, debug, action, var_d, m_server, c_server, c_user, bucket, c_pw, es):
         """
         Processes the action that was supplied.
 
@@ -1519,20 +1549,18 @@ class Hemlock():
         if "query" in action_a:
             # curl example:
             #
-            # curl -XPOST "http://l41-vsrv-es01.b.internal:9200/hemlock/_search" -d' 
+            # curl -XPOST "http://l41-vsrv-es01.b.internal:9200/hemlock/_search" -d'
             # {
-            #   "size": 200,
+            #    "size": 200,
             #    "query": {
             #       "bool": {
-            #          "must_not": [
+            #          "must": [
             #             {
             #                "match": {
-            #                   "doc.hemlock-system": "4991f644-e94d-472e-8526-c7f08a656735"
-            #                }
-            #             },
-            #             {
-            #                "match": {
-            #                   "doc.hemlock-system": "59822f6b-4646-4dd8-9be9-038c2988375a"
+            #                   "doc.hemlock-system": {
+            #                      "query": "4991f644-e94d-472e-8526-c7f08a656735 59822f6b-4646-4dd8-9be9-038c2988375a",
+            #                      "operator": "or"
+            #                   }
             #                }
             #             }
             #          ],
@@ -1546,28 +1574,40 @@ class Hemlock():
             #       }
             #    }
             # }'
+            
+            h_server = self.connect_server(debug, c_server, c_user, bucket, c_pw)
+          
+            payload = "{\"size\":100,\"query\":{\"bool\":{\"must\":[{\"match\":{\"doc.hemlock-system\":{\"query\":\""
 
-            # query the data that resides in hemlock
-            # !! TODO
+            # get the list of tenants this user belongs to
+            data_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--user']+"'"
+            cur.execute(data_action)
+            results = cur.fetchall()
+            for tenant in results:
+                # get the list of systems that the user has access to via tenants
+                data_action = "SELECT * FROM systems_tenants WHERE tenant_id = '"+tenant[1]+"'"
+                cur.execute(data_action)
+                systems = cur.fetchall()
+                for system in systems:
+                    payload += system[0]+" "
 
-            # !! TODO
-            #    get the list of systems that the user has access to
-            #    add the list of systems that the user doesn't have access to
-            #    the 'must_not' list in the elasticsearch query
+            payload = payload[:-1]
+            payload += "\",\"operator\":\"or\"}}}],\"should\":[{\"match\":{\"_all\":\""+var_d['--query']+"\"}}]}}}"
 
-            print var_d
-            print es
-            url = "http://"+es+":9200/hemlock/_search?q="+var_d['--query']
-            print url
-            r = requests.get(url)
-            print r.status_code
-            print r.text
-            print r.json()
+            url = "http://"+es+":9200/hemlock/_search"
+            r = requests.post(url, data=json.dumps(json.loads(payload)))
             results = r.json()
-            print
             results = results['hits']['hits']
+            result_list = []
             for result in results:
-                print result['_id']
+                result_list.append(result['_id'])
+
+            records = []
+            c = h_server.get_multi(result_list)
+            for key, result in c.items():
+                records.append(result.value)
+            print records
+
         elif "system" in action_a:
             # update to systems/clients table
             if "deregister" in action_a:
@@ -2343,11 +2383,11 @@ class Hemlock():
 if __name__ == "__main__":
     start_time = time.time()
     hemlock = Hemlock()
-    args, user, pw, db, server, c_server, bucket, c_pw, es, debug = hemlock.get_auth()
+    args, user, pw, db, server, c_server, c_user, bucket, c_pw, es, debug = hemlock.get_auth()
     var_d, action = hemlock.process_args(debug, args)
     m_server = hemlock.mysql_server(debug, server, user, pw, db)
 
-    x, error = hemlock.process_action(debug, action, var_d, m_server, es)
+    x, error = hemlock.process_action(debug, action, var_d, m_server, c_server, c_user, bucket, c_pw, es)
     hemlock.log.debug(debug, "Rows: "+str(x))
     hemlock.log.debug(debug, "Errors encountered: "+str(error))
 
