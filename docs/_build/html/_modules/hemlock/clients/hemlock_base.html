@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>hemlock.clients.hemlock_base &mdash; Hemlock 0.1.2 documentation</title>
+    <title>hemlock.clients.hemlock_base &mdash; Hemlock 0.1.3 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.1.2',
+        VERSION:     '0.1.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Hemlock 0.1.2 documentation" href="../../../index.html" />
+    <link rel="top" title="Hemlock 0.1.3 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">Hemlock 0.1.2 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">Hemlock 0.1.3 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -63,6 +63,14 @@
 <span class="c">#   See the License for the specific language governing permissions and</span>
 <span class="c">#   limitations under the License.</span>
 
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module is the main controller code for running clients that sit in this</span>
+<span class="sd">directory.</span>
+
+<span class="sd">Created on 19 August 2013</span>
+<span class="sd">@author: Charlie Lewis</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>
 <span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">hemlock_debugger</span> <span class="kn">import</span> <span class="n">Hemlock_Debugger</span>
@@ -76,11 +84,26 @@
 <span class="kn">import</span> <span class="nn">time</span>
 
 <div class="viewcode-block" id="Hemlock_Base"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base">[docs]</a><span class="k">class</span> <span class="nc">Hemlock_Base</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class is responsible for validating clients and controlling the</span>
+<span class="sd">    orchestration between clients the Hemlock metadata/data store.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">Hemlock_Debugger</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SERVER_CREDS_FILE</span> <span class="o">=</span> <span class="s">&#39;../hemlock_creds&#39;</span>
 
 <div class="viewcode-block" id="Hemlock_Base.client_import"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.client_import">[docs]</a>    <span class="k">def</span> <span class="nf">client_import</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">client</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Imports the client specific as a python module.</span>
+
+<span class="sd">        :param debug: instance of</span>
+<span class="sd">            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`</span>
+<span class="sd">        :param client: string containing the name of the technology of the</span>
+<span class="sd">            client i.e. mysql</span>
+<span class="sd">        :return: returns string name of client credential file and instance of</span>
+<span class="sd">            the client class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Importing: h&quot;</span><span class="o">+</span><span class="n">client</span><span class="p">)</span>
         <span class="k">exec</span> <span class="s">&quot;import h&quot;</span><span class="o">+</span><span class="n">client</span>
 
@@ -92,6 +115,16 @@
         <span class="k">return</span> <span class="n">client</span><span class="o">+</span><span class="s">&#39;_creds&#39;</span><span class="p">,</span> <span class="n">c_inst</span>
 </div>
 <div class="viewcode-block" id="Hemlock_Base.get_creds"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.get_creds">[docs]</a>    <span class="k">def</span> <span class="nf">get_creds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">CLIENT_CREDS_FILE</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the credentials for connecting the client and the credentials for</span>
+<span class="sd">        connecting to the Hemlock server.</span>
+
+<span class="sd">        :param debug: instance of</span>
+<span class="sd">            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`</span>
+<span class="sd">        :param CLIENT_CREDS_FILE: path to file containing the client</span>
+<span class="sd">            credentials</span>
+<span class="sd">        :return: returns two dictionaries of the client and server credentials</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">client_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">server_dict</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -141,6 +174,15 @@
         <span class="k">return</span> <span class="n">client_dict</span><span class="p">,</span> <span class="n">server_dict</span>
 </div>
 <div class="viewcode-block" id="Hemlock_Base.verify_system"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.verify_system">[docs]</a>    <span class="k">def</span> <span class="nf">verify_system</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">,</span> <span class="n">server_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies that the system supplied exists in the Hemlock system.</span>
+
+<span class="sd">        :param debug: instance of</span>
+<span class="sd">            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`</span>
+<span class="sd">        :param client_uuid: uuid of the client system that is being verified</span>
+<span class="sd">        :param server_dict: credentials for connecting to the Hemlock server to</span>
+<span class="sd">            be able to verify the client system</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># verify the client system is registered</span>
         <span class="c"># required fields in the server creds file are as follows:</span>
         <span class="c">#    HEMLOCK_MYSQL_SERVER</span>
@@ -170,6 +212,15 @@
         <span class="k">return</span>
 </div>
 <div class="viewcode-block" id="Hemlock_Base.connect_server"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.connect_server">[docs]</a>    <span class="k">def</span> <span class="nf">connect_server</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">server_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Connects to the Hemlock couchbase server.</span>
+
+<span class="sd">        :param debug: instance of</span>
+<span class="sd">            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`</span>
+<span class="sd">        :param server_dict: credentials for connecting to the Hemlock server to</span>
+<span class="sd">            be able to verify the client system</span>
+<span class="sd">        :return: returns an instance of the couchbase connection</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># connect to the hemlock server</span>
         <span class="c"># required fields in the server creds file are as follows:</span>
         <span class="c">#    HEMLOCK_COUCHBASE_SERVER</span>
@@ -190,6 +241,18 @@
         <span class="k">return</span> <span class="n">h_server</span>
 </div>
 <div class="viewcode-block" id="Hemlock_Base.send_data"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.send_data">[docs]</a>    <span class="k">def</span> <span class="nf">send_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">data_list</span><span class="p">,</span> <span class="n">desc_list</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sends data to the Hemlock couchbase server that is recieved from the</span>
+<span class="sd">        client system.</span>
+
+<span class="sd">        :param debug: instance of</span>
+<span class="sd">            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`</span>
+<span class="sd">        :param data_list: array of arrays containing data from the client</span>
+<span class="sd">        :param desc_list: list containing a corresponding schema to the data,</span>
+<span class="sd">            can be empty</span>
+<span class="sd">        :param h_server: instnace of the couchbase connection</span>
+<span class="sd">        :param client_uuid: uuid of the client system</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">j_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
@@ -237,6 +300,16 @@
         <span class="k">return</span>
 </div>
 <div class="viewcode-block" id="Hemlock_Base.update_hemlock"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.update_hemlock">[docs]</a>    <span class="k">def</span> <span class="nf">update_hemlock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">,</span> <span class="n">server_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sends data to the Hemlock couchbase server that is recieved from the</span>
+<span class="sd">        client system.</span>
+
+<span class="sd">        :param debug: instance of</span>
+<span class="sd">            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`</span>
+<span class="sd">        :param client_uuid: uuid of the client system</span>
+<span class="sd">        :param server_dict: credentials for connecting to the Hemlock server to</span>
+<span class="sd">            be able to verify the client system</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># update mysql record to say when data was last updated for this system</span>
         <span class="c"># DEBUG</span>
         <span class="k">try</span><span class="p">:</span>
@@ -255,9 +328,20 @@
         <span class="k">return</span>
 </div>
 <div class="viewcode-block" id="Hemlock_Base.stream_callback"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.stream_callback">[docs]</a>    <span class="k">def</span> <span class="nf">stream_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callback for hstream_odd, should only happen if something failed.</span>
+
+<span class="sd">        :param data: data that failed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">print</span> <span class="n">data</span>
 </div>
 <div class="viewcode-block" id="Hemlock_Base.stream_workers"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.stream_workers">[docs]</a>    <span class="k">def</span> <span class="nf">stream_workers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Spawns asyncronous workers when calling an hstream_odd client.</span>
+
+<span class="sd">        :param debug: instance of</span>
+<span class="sd">            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># DEBUG</span>
         <span class="n">objects</span><span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span>
         <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
@@ -269,12 +353,25 @@
         <span class="c">#    #Hemlock_Base().update_hemlock(client_uuid, server_dict)</span>
 </div>
 <div class="viewcode-block" id="Hemlock_Base.print_help"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.print_help">[docs]</a>    <span class="k">def</span> <span class="nf">print_help</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prints out help for the hemlock_base class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">print</span> <span class="s">&quot;--uuid </span><span class="se">\t</span><span class="s">&lt;uuid of system&gt; (use &#39;system-list&#39; on the Hemlock server)&quot;</span>
         <span class="k">print</span> <span class="s">&quot;--client </span><span class="se">\t</span><span class="s"> &lt;name of client&gt; (client file must exist in the clients folder)&quot;</span>
         <span class="k">print</span> <span class="s">&quot;-h </span><span class="se">\t</span><span class="s">help</span><span class="se">\n</span><span class="s">&quot;</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Hemlock_Base.process_args"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.process_args">[docs]</a>    <span class="k">def</span> <span class="nf">process_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Processes the arguments passed in to ensure that the right ones are</span>
+<span class="sd">        supplied before trying to execute against them.</span>
+
+<span class="sd">        :param debug: instance of</span>
+<span class="sd">            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`</span>
+<span class="sd">        :param args: list of arguments that are passed in</span>
+<span class="sd">        :return: returns client system uuid, the client technology to use, and</span>
+<span class="sd">            the number of splits (defaults to -1 if not supplied)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># process args</span>
         <span class="n">splits</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
         <span class="n">client</span> <span class="o">=</span> <span class="bp">None</span>
@@ -311,6 +408,13 @@
         <span class="k">return</span> <span class="n">client_uuid</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">splits</span>
 </div>
 <div class="viewcode-block" id="Hemlock_Base.get_args"><a class="viewcode-back" href="../../../hemlock.clients.html#hemlock.clients.hemlock_base.Hemlock_Base.get_args">[docs]</a>    <span class="k">def</span> <span class="nf">get_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the arguments from the command line.</span>
+
+<span class="sd">        :param debug: instance of</span>
+<span class="sd">            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`</span>
+<span class="sd">        :return: returns list of arguments</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># DEBUG</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">:</span>
@@ -349,7 +453,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">Hemlock 0.1.2 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">Hemlock 0.1.3 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
