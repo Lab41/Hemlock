@@ -49,12 +49,6 @@ class Hemlock():
         self.log = Hemlock_Debugger()
         self.HELP_COUNTER = 0
 
-    # !! TODO new api calls:
-    #         schedule_change_server
-    #         schedule_server_create
-    #         schedule_server_delete
-    #         schedule_server_get
-    #         schedule_server_list
     def client_add_schedule(self, args, var_d):
         """
         Adds a specific schedule to a specific client.
@@ -260,7 +254,6 @@ class Hemlock():
         :param var_d: dictionary of key/values made from the arguments
         :return: returns a list of the arguments supplied
         """
-        # !! TODO
         arg_d = [
             '--user',
             '--query'
@@ -429,7 +422,7 @@ class Hemlock():
 
     def schedule_list(self, args, var_d):
         """
-        Gets a specific schedule.
+        Lists all schedules.
 
         :param args: arguments to pass in from API
         :param var_d: dictionary of key/values made from the arguments
@@ -450,6 +443,71 @@ class Hemlock():
         arg_d = [
             '--uuid',
             '--client_id'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def schedule_change_server(self, args, var_d):
+        """
+        Changes the server that a specific schedule runs on.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
+        """
+        arg_d = [
+            '--uuid',
+            '--schedule_server_id'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def schedule_server_create(self, args, var_d):
+        """
+        Creates a schedule server.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
+        """
+        arg_d = [
+            '--name'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def schedule_server_delete(self, args, var_d):
+        """
+        Deletes a specific schedule server.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
+        """
+        arg_d = [
+            '--uuid'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def schedule_server_get(self, args, var_d):
+        """
+        Gets a specific scheduler server.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
+        """
+        arg_d = [
+            '--uuid'
+        ]
+        return self.check_args(args, arg_d, var_d)
+
+    def schedule_server_list(self, args, var_d):
+        """
+        Lists all schedule servers.
+
+        :param args: arguments to pass in from API
+        :param var_d: dictionary of key/values made from the arguments
+        :return: returns a list of the arguments supplied
+        """
+        arg_d = [
         ]
         return self.check_args(args, arg_d, var_d)
 
@@ -893,7 +951,7 @@ class Hemlock():
                 --name (name of role)
             """,
             'role-delete' : """
-            role-delete (delete role)
+            role-delete (delete a specific role)
                 --uuid (uuid of role)
             """,
             'role-get' : """
@@ -922,7 +980,7 @@ class Hemlock():
             """,
             'schedule-get' : """
             schedule-get (get a specific schedule)
-                --uuid (uuid of client)
+                --uuid (uuid of schedule)
             """,
             'schedule-list' : """
             schedule-list (list all schedules)
@@ -931,6 +989,26 @@ class Hemlock():
             schedule-remove-client (remove a client from a schedule)
                 --uuid (uuid of schedule)
                 --client_id (uuid of client)
+            """,
+            'schedule-change-server' : """
+            schedule-change-server (change schedule server a specific schedule runs on)
+                --uuid (uuid of schedule)
+                --schedule_server_id (uuid of schedule server)
+            """,
+            'schedule-server-create' : """
+            schedule-server-create (create new schedule server)
+                --name (name of schedule server)
+            """,
+            'schedule-server-delete' : """
+            schedule-server-delete (delete a specific schedule server)
+                --uuid (uuid of schedule server)
+            """,
+            'schedule-server-get' : """
+            schedule-server-get (get a specific schedule server)
+                --uuid (uuid of schedule server)
+            """,
+            'schedule-server-list' : """
+            schedule-server-list (list all schedule servers)
             """,
             'start-scheduler' : """
             start-scheduler (start the scheduler)
@@ -1084,6 +1162,11 @@ class Hemlock():
             'schedule-get' : self.schedule_get,
             'schedule-list' : self.schedule_list,
             'schedule-remove-client' : self.schedule_remove_client,
+            'schedule-change-server' : self.schedule_change_server,
+            'schedule-server-create' : self.schedule_server_create,
+            'schedule-server-delete' : self.schedule_server_delete,
+            'schedule-server-get' : self.schedule_server_get,
+            'schedule-server-list' : self.schedule_server_list,
             'start-scheduler' : self.start_scheduler,
             'system-add-tenant' : self.system_add_tenant,
             'system-clients-list' : self.system_clients_list,
@@ -1404,7 +1487,6 @@ class Hemlock():
         :param db: database to connect to in the Hemlock MySQL server
         :return: returns an instance of the mysql connection
         """
-        # !! TODO redundant of hemlock_runner.mysql_server
         # connect to the mysql server
         try:
             m_server = mdb.connect(server, user, pw, db)
@@ -1425,12 +1507,7 @@ class Hemlock():
             be able to verify the client system
         :return: returns an instance of the couchbase connection
         """
-        # connect to the hemlock server
-        # required fields in the server creds file are as follows:
-        #    HEMLOCK_COUCHBASE_SERVER
-        #    HEMLOCK_COUCHBASE_BUCKET
-        #    HEMLOCK_COUCHBASE_USERNAME
-        #    HEMLOCK_COUCHBASE_PW
+        # connect to the couchbase server
         h_server = ""
         try:
             h_server = couchbase.Couchbase.connect(host=c_server,
@@ -1479,7 +1556,6 @@ class Hemlock():
             i += 1
         self.log.debug(debug, "Tables: "+str(tables))
 
-        # !! TODO need to add a table for schedule_servers
         # create mysql tables that don't already exist
         if "clients" not in tables:
             client_table = "CREATE TABLE IF NOT EXISTS clients(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), type VARCHAR(50), credentials BLOB, created DATETIME, INDEX (uuid)) ENGINE = INNODB"
@@ -1510,6 +1586,10 @@ class Hemlock():
             system_table = "CREATE TABLE IF NOT EXISTS systems(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), data_type VARCHAR(50), description VARCHAR(200), endpoint VARCHAR(100), hostname VARCHAR(50), port VARCHAR(5), remote_uri VARCHAR(100), poc_name VARCHAR(50), poc_email VARCHAR(50), remote BOOL, created DATETIME, updated_data DATETIME, INDEX (uuid)) ENGINE = INNODB"
             cur.execute(system_table)
             self.log.debug(debug, "Created table: "+str(system_table))
+        if "schedule_servers" not in tables:
+            schedule_server_table = "CREATE TABLE IF NOT EXISTS schedule_servers(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
+            cur.execute(schedule_server_table)
+            self.log.debug(debug, "Created table: "+str(schedule_server_table))
         if "users_roles" not in tables:
             users_roles_table = "CREATE TABLE IF NOT EXISTS users_roles(user_id VARCHAR(36), role_id VARCHAR(36), INDEX (user_id), CONSTRAINT fkur_roles FOREIGN KEY (role_id) REFERENCES roles(uuid), CONSTRAINT fkur_users FOREIGN KEY (user_id) REFERENCES users(uuid) ON DELETE CASCADE) ENGINE = INNODB"
             cur.execute(users_roles_table)
@@ -1817,16 +1897,15 @@ class Hemlock():
             elif "start" in action_a:
                  # check if there is already a hemlock_scheduler running
                  # if there is already one running, don't spawn another one
-                 # !! TODO pass server argument to hemlock-scheduler
                  cmd = "ps cax | grep hemlock-sched | wc -l"
                  result = os.popen(cmd).read()
                  if result[0] == "0":
                      # DEBUG
                      # call hemlock-scheduler
                      if debug == 0:
-                         cmd = "hemlock-scheduler "+var_d['--hemlock_creds_path']+" >> scheduler.log &"
+                         cmd = "hemlock-scheduler "+var_d['--hemlock_creds_path']+" "+var_d['--schedule_server_id']+" >> scheduler.log &"
                      else:
-                         cmd = "hemlock-scheduler "+var_d['--hemlock_creds_path']+" -D >> scheduler.log &"
+                         cmd = "hemlock-scheduler "+var_d['--hemlock_creds_path']+" "+var_d['--schedule_server_id']+" -D >> scheduler.log &"
 
                      # result should be 0, otherwise error
                      result = os.system(cmd)
