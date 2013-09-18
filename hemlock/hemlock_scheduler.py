@@ -39,6 +39,7 @@ class Hemlock_Scheduler():
     """
 
     def __init__(self):
+        # !! TODO take the server argument
         self.log = Hemlock_Debugger()
         self.sched = self.init_schedule()
         args = []
@@ -105,6 +106,8 @@ class Hemlock_Scheduler():
         cur = m_server.cursor()
         self.log.debug(self.debug, "MySQL Cursor: "+str(cur))
 
+        # !! TODO limie this to just the jobs for the server that is running
+        #         this scheduler
         cur.execute("SELECT * FROM schedules")
         results = cur.fetchall()
         self.log.debug(self.debug, str(results))

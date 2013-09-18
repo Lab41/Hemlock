@@ -49,6 +49,12 @@ class Hemlock():
         self.log = Hemlock_Debugger()
         self.HELP_COUNTER = 0
 
+    # !! TODO new api calls:
+    #         schedule_change_server
+    #         schedule_server_create
+    #         schedule_server_delete
+    #         schedule_server_get
+    #         schedule_server_list
     def client_add_schedule(self, args, var_d):
         """
         Adds a specific schedule to a specific client.
@@ -147,7 +153,8 @@ class Hemlock():
             '--day_of_month',
             '--month',
             '--day_of_week',
-            '--client_id'
+            '--client_id',
+            '--schedule_server_id'
         ]
         return self.check_args(args, arg_d, var_d)
 
@@ -456,7 +463,8 @@ class Hemlock():
         """
         # !! TODO this should not be required, if the creds are already stored
         arg_d = [
-            '--hemlock_creds_path'
+            '--hemlock_creds_path',
+            '--schedule_server_id'
         ]
         return self.check_args(args, arg_d, var_d)
 
@@ -820,6 +828,7 @@ class Hemlock():
                 --month (cron month)
                 --day_of_week (cron day of week)
                 --client_id (uuid of the client this schedule will run on)
+                --schedule_server_id (uuid of the server that will run the schedule)
             """,
             'client-schedules-list' : """
             client-schedules-list (list schedules a client belongs to)
@@ -926,6 +935,7 @@ class Hemlock():
             'start-scheduler' : """
             start-scheduler (start the scheduler)
                 --hemlock_creds_path (file path to the hemlock_creds file)
+                --schedule_server_id (uuid of the server that will run the scheduler)
             """,
             'system-add-tenant' : """
             system-add-tenant (add a tenant to a system)
@@ -1469,6 +1479,7 @@ class Hemlock():
             i += 1
         self.log.debug(debug, "Tables: "+str(tables))
 
+        # !! TODO need to add a table for schedule_servers
         # create mysql tables that don't already exist
         if "clients" not in tables:
             client_table = "CREATE TABLE IF NOT EXISTS clients(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), type VARCHAR(50), credentials BLOB, created DATETIME, INDEX (uuid)) ENGINE = INNODB"
@@ -1482,6 +1493,7 @@ class Hemlock():
             role_table = "CREATE TABLE IF NOT EXISTS roles(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
             cur.execute(role_table)
             self.log.debug(debug, "Created table: "+str(role_table))
+        # !! TODO this needs to be updated with foreign key of schedule_servers
         if "schedules" not in tables:
             schedule_table = "CREATE TABLE IF NOT EXISTS schedules(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), minute VARCHAR(10), hour VARCHAR(10), day_of_month VARCHAR(10), month VARCHAR(10), day_of_week VARCHAR(10), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
             cur.execute(schedule_table)
@@ -1805,6 +1817,7 @@ class Hemlock():
             elif "start" in action_a:
                  # check if there is already a hemlock_scheduler running
                  # if there is already one running, don't spawn another one
+                 # !! TODO pass server argument to hemlock-scheduler
                  cmd = "ps cax | grep hemlock-sched | wc -l"
                  result = os.popen(cmd).read()
                  if result[0] == "0":
