@@ -110,9 +110,10 @@ class Hemlock_Scheduler():
         cur = m_server.cursor()
         self.log.debug(self.debug, "MySQL Cursor: "+str(cur))
 
-        # !! TODO limit this to just the jobs for the server that is running
-        #         this scheduler
-        cur.execute("SELECT * FROM schedules")
+        # limit this to just the jobs for the server that is running this
+        # scheduler
+        query = "SELECT * FROM schedules WHERE schedule_server_id = '"+self.server+"'"
+        cur.execute(query)
         results = cur.fetchall()
         self.log.debug(self.debug, str(results))
         m_server.commit()
