@@ -1569,6 +1569,10 @@ class Hemlock():
             role_table = "CREATE TABLE IF NOT EXISTS roles(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
             cur.execute(role_table)
             self.log.debug(debug, "Created table: "+str(role_table))
+        if "schedule_servers" not in tables:
+            schedule_server_table = "CREATE TABLE IF NOT EXISTS schedule_servers(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
+            cur.execute(schedule_server_table)
+            self.log.debug(debug, "Created table: "+str(schedule_server_table))
         if "schedules" not in tables:
             schedule_table = "CREATE TABLE IF NOT EXISTS schedules(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), minute VARCHAR(10), hour VARCHAR(10), day_of_month VARCHAR(10), month VARCHAR(10), day_of_week VARCHAR(10), created DATETIME, INDEX (uuid), CONSTRAINT fksch_server FOREIGN KEY (schedule_server_id) REFERENCES schedule_servers(uuid) ON DELETE CASCADE) ENGINE = INNODB"
             cur.execute(schedule_table)
@@ -1585,10 +1589,6 @@ class Hemlock():
             system_table = "CREATE TABLE IF NOT EXISTS systems(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), data_type VARCHAR(50), description VARCHAR(200), endpoint VARCHAR(100), hostname VARCHAR(50), port VARCHAR(5), remote_uri VARCHAR(100), poc_name VARCHAR(50), poc_email VARCHAR(50), remote BOOL, created DATETIME, updated_data DATETIME, INDEX (uuid)) ENGINE = INNODB"
             cur.execute(system_table)
             self.log.debug(debug, "Created table: "+str(system_table))
-        if "schedule_servers" not in tables:
-            schedule_server_table = "CREATE TABLE IF NOT EXISTS schedule_servers(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
-            cur.execute(schedule_server_table)
-            self.log.debug(debug, "Created table: "+str(schedule_server_table))
         if "users_roles" not in tables:
             users_roles_table = "CREATE TABLE IF NOT EXISTS users_roles(user_id VARCHAR(36), role_id VARCHAR(36), INDEX (user_id), CONSTRAINT fkur_roles FOREIGN KEY (role_id) REFERENCES roles(uuid), CONSTRAINT fkur_users FOREIGN KEY (user_id) REFERENCES users(uuid) ON DELETE CASCADE) ENGINE = INNODB"
             cur.execute(users_roles_table)
@@ -1896,6 +1896,7 @@ class Hemlock():
             elif "start" in action_a:
                  # check if there is already a hemlock_scheduler running
                  # if there is already one running, don't spawn another one
+                 # !! TODO validate that the schedule_server_id provided exists
                  cmd = "ps cax | grep hemlock-sched | wc -l"
                  result = os.popen(cmd).read()
                  if result[0] == "0":
