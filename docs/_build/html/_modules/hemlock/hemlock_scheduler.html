@@ -100,7 +100,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="s">&quot;hemlock_creds&quot;</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">server</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;No schedule server was provided.&quot;</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="mi">0</span>
 
@@ -154,29 +159,24 @@
         <span class="n">cur</span> <span class="o">=</span> <span class="n">m_server</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;MySQL Cursor: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">cur</span><span class="p">))</span>
 
-        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT * FROM schedules&quot;</span><span class="p">)</span>
+        <span class="c"># limit this to just the jobs for the server that is running this</span>
+        <span class="c"># scheduler</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="s">&quot;SELECT * FROM schedules WHERE schedule_server_id = &#39;&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">+</span><span class="s">&quot;&#39;&quot;</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
         <span class="n">results</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
         <span class="n">m_server</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
         <span class="n">m_server</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-        <span class="c"># !! TODO</span>
-        <span class="c">#    remove schedules that are not stored</span>
-        <span class="n">jobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sched</span><span class="o">.</span><span class="n">get_jobs</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">job</span> <span class="ow">in</span> <span class="n">jobs</span><span class="p">:</span>
-            <span class="n">test_log2</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;scheduler.log&#39;</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">)</span>
-            <span class="n">test_log2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;blah blah</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
-            <span class="n">test_log2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;foo &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">job</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
-            <span class="n">test_log2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;bar &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
-            <span class="n">test_log2</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> 
+        <span class="c"># remove all jobs scheduled</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sched</span><span class="o">.</span><span class="n">unschedule_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">job_work</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;No jobs scheduled at this time, checking for new jobs to schedule.&quot;</span>
 
-        <span class="c">#    read schedules that are stored</span>
+        <span class="c"># read schedules that are stored</span>
         <span class="k">for</span> <span class="n">schedule</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">schedule_job_cron</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">job_work</span><span class="p">,</span> <span class="n">server_dict</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">schedule</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">schedule</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">schedule</span><span class="p">[</span><span class="mi">4</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">schedule</span><span class="p">[</span><span class="mi">5</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">schedule</span><span class="p">[</span><span class="mi">6</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">schedule</span><span class="p">[</span><span class="mi">7</span><span class="p">]))</span>
-
-        <span class="c"># !! TODO</span>
-        <span class="c">#    query to get everything in schedules</span>
-        <span class="c">#    updates schedules</span>
 </div>
 <div class="viewcode-block" id="Hemlock_Scheduler.job_work"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock_scheduler.Hemlock_Scheduler.job_work">[docs]</a>    <span class="k">def</span> <span class="nf">job_work</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server_dict</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -186,11 +186,6 @@
 <span class="sd">        :param name: uuid of the client</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># DEBUG</span>
-        <span class="c"># do actual work here</span>
-        <span class="c"># !! TODO</span>
-        <span class="c">#    if streaming is already running and requested again, ignore</span>
-        <span class="c">#    if the job requested, regardless, is still running, skip this run, and log it</span>
-
         <span class="c"># connect to the mysql server</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">m_server</span> <span class="o">=</span> <span class="n">mdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">server_dict</span><span class="p">[</span><span class="s">&#39;HEMLOCK_MYSQL_SERVER&#39;</span><span class="p">],</span>
@@ -219,8 +214,19 @@
         <span class="k">except</span><span class="p">:</span>
             <span class="k">print</span> <span class="s">&quot;Unable to source hemmlock server credentials&quot;</span>
 
-        <span class="n">cmd</span> <span class="o">=</span> <span class="s">&quot;hemlock client-run --uuid &quot;</span><span class="o">+</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> 
-        <span class="n">result</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+        <span class="c"># check for the client already running a process</span>
+        <span class="c"># if streaming is already running and requested again, ignore</span>
+        <span class="c"># if the job requested, regardless, is still running, skip this run, and log it</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="s">&quot;ps auxw | grep &quot;</span><span class="o">+</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s">&quot; | grep -v color | wc -l&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="s">&quot;1&quot;</span><span class="p">:</span>
+            <span class="c"># only run the client if there isn&#39;t already one running</span>
+            <span class="n">cmd</span> <span class="o">=</span> <span class="s">&quot;hemlock client-run --uuid &quot;</span><span class="o">+</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> 
+            <span class="n">result</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;scheduler.log&#39;</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;The client: &quot;</span><span class="o">+</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s">&quot; is already running, skipping this run.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Hemlock_Scheduler.init_schedule"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock_scheduler.Hemlock_Scheduler.init_schedule">[docs]</a>    <span class="k">def</span> <span class="nf">init_schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

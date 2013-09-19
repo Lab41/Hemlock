@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "HEMLOCK" "1" "September 17, 2013" "0.1.3" "Hemlock"
+.TH "HEMLOCK" "1" "September 19, 2013" "0.1.3" "Hemlock"
 .SH NAME
 hemlock \- Hemlock Documentation
 .
@@ -274,6 +274,26 @@ returns a list of the arguments supplied
 .UNINDENT
 .INDENT 7.0
 .TP
+.B connect_server(debug, c_server, c_user, c_bucket, c_pw)
+Connects to the Hemlock couchbase server.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBdebug\fP \-\- instance of
+\fBHemlock_Debugger\fP
+.IP \(bu 2
+\fBserver_dict\fP \-\- credentials for connecting to the Hemlock server to
+be able to verify the client system
+.UNINDENT
+.TP
+.B Returns
+returns an instance of the couchbase connection
+.UNINDENT
+.UNINDENT
+.INDENT 7.0
+.TP
 .B deregister_local_system(args, var_d)
 Deegisters a specific local system.
 .INDENT 7.0
@@ -403,7 +423,7 @@ Prints out help.
 .UNINDENT
 .INDENT 7.0
 .TP
-.B process_action(debug, action, var_d, m_server, es)
+.B process_action(debug, action, var_d, m_server, c_server, c_user, bucket, c_pw, es)
 Processes the action that was supplied.
 .INDENT 7.0
 .TP
@@ -623,6 +643,24 @@ returns a list of the arguments supplied
 .UNINDENT
 .INDENT 7.0
 .TP
+.B schedule_change_server(args, var_d)
+Changes the server that a specific schedule runs on.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
+.UNINDENT
+.INDENT 7.0
+.TP
 .B schedule_clients_list(args, var_d)
 Lists all clients assigned to a specific schedule.
 .INDENT 7.0
@@ -678,7 +716,7 @@ returns a list of the arguments supplied
 .INDENT 7.0
 .TP
 .B schedule_list(args, var_d)
-Gets a specific schedule.
+Lists all schedules.
 .INDENT 7.0
 .TP
 .B Parameters
@@ -697,6 +735,78 @@ returns a list of the arguments supplied
 .TP
 .B schedule_remove_client(args, var_d)
 Removes a specific client from a specific schedule.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
+.UNINDENT
+.INDENT 7.0
+.TP
+.B schedule_server_create(args, var_d)
+Creates a schedule server.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
+.UNINDENT
+.INDENT 7.0
+.TP
+.B schedule_server_delete(args, var_d)
+Deletes a specific schedule server.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
+.UNINDENT
+.INDENT 7.0
+.TP
+.B schedule_server_get(args, var_d)
+Gets a specific scheduler server.
+.INDENT 7.0
+.TP
+.B Parameters
+.INDENT 7.0
+.IP \(bu 2
+\fBargs\fP \-\- arguments to pass in from API
+.IP \(bu 2
+\fBvar_d\fP \-\- dictionary of key/values made from the arguments
+.UNINDENT
+.TP
+.B Returns
+returns a list of the arguments supplied
+.UNINDENT
+.UNINDENT
+.INDENT 7.0
+.TP
+.B schedule_server_list(args, var_d)
+Lists all schedule servers.
 .INDENT 7.0
 .TP
 .B Parameters
@@ -1129,7 +1239,7 @@ returns a list of the arguments supplied
 .SS \fBhemlock_options_parser\fP Module
 .INDENT 0.0
 .TP
-.B class hemlock.hemlock_options_parser.PassThroughOptionParser(usage=None, option_list=None, option_class=<class optparse.Option at 0x19539a8>, version=None, conflict_handler=\(aqerror\(aq, description=None, formatter=None, add_help_option=True, prog=None, epilog=None)
+.B class hemlock.hemlock_options_parser.PassThroughOptionParser(usage=None, option_list=None, option_class=<class optparse.Option at 0xe42a78>, version=None, conflict_handler=\(aqerror\(aq, description=None, formatter=None, add_help_option=True, prog=None, epilog=None)
 Bases: \fBoptparse.OptionParser\fP
 .sp
 An unknown option pass\-through implementation of OptionParser.
@@ -2381,6 +2491,14 @@ returns an instance of the mysql connection
 .UNINDENT
 .SS www Package
 .SS \fBhemlock_web\fP Module
+.INDENT 0.0
+.TP
+.B class hemlock.www.hemlock_web.test
+.INDENT 7.0
+.TP
+.B GET()
+.UNINDENT
+.UNINDENT
 .INDENT 0.0
 .IP \(bu 2
 \fIgenindex\fP
