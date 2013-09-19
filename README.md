@@ -163,7 +163,13 @@ Getting started
    ```bash
    hemlock hemlock-server-store --credential_file /path/to/hemlock_creds
    ```
-6. Add a schedule for the data source system to run (optional)
+6. Create a schedule server (optional)
+   ```bash
+   hemlock schedule-server --name schedule_server_1
+
+   hemlock schedule-server-list
+   ```
+7. Add a schedule for the data source system to run (optional)
    ```bash
    hemlock client-schedule --name schedule1 \
                           --minute "54" \
@@ -172,15 +178,15 @@ Getting started
                           --month "*" \
                           --day_of_week "*" \
                           --client_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
+                          --schedule_server_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
 
    hemlock schedule-list
-
    ```
-7. Perform a test run for pulling data from the data source system
+8. Perform a test run for pulling data from the data source system
    ```bash
    hemlock client-run --uuid 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
    ```
-8. Search for data that has been loaded into Hemlock
+9. Search for data that has been loaded into Hemlock
    ```bash
    Full text search with elasticsearch:
 
