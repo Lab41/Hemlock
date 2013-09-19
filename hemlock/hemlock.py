@@ -1574,7 +1574,7 @@ class Hemlock():
             cur.execute(schedule_server_table)
             self.log.debug(debug, "Created table: "+str(schedule_server_table))
         if "schedules" not in tables:
-            schedule_table = "CREATE TABLE IF NOT EXISTS schedules(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), minute VARCHAR(10), hour VARCHAR(10), day_of_month VARCHAR(10), month VARCHAR(10), day_of_week VARCHAR(10), created DATETIME, INDEX (uuid), CONSTRAINT fksch_server FOREIGN KEY (schedule_server_id) REFERENCES schedule_servers(uuid) ON DELETE CASCADE) ENGINE = INNODB"
+            schedule_table = "CREATE TABLE IF NOT EXISTS schedules(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), minute VARCHAR(10), hour VARCHAR(10), day_of_month VARCHAR(10), month VARCHAR(10), day_of_week VARCHAR(10), schedule_server_id VARCHAR(36), created DATETIME, INDEX (uuid), CONSTRAINT fksch_server FOREIGN KEY (schedule_server_id) REFERENCES schedule_servers(uuid) ON DELETE CASCADE) ENGINE = INNODB"
             cur.execute(schedule_table)
             self.log.debug(debug, "Created table: "+str(schedule_table))
         if "tenants" not in tables:
