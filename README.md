@@ -188,7 +188,11 @@ Getting started
    ```
 9. Search for data that has been loaded into Hemlock
    ```bash
-   Full text search with elasticsearch:
+   hemlock query-data --user 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6 --query foo
+   ```
+   or
+   ```bash
+   Direct with elasticsearch:
 
    http://elasticsearch.fqdn:9200/hemlock/_search?q=foo
 
