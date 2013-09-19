@@ -1894,23 +1894,29 @@ class Hemlock():
                 self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action2)
             # start scheduler
             elif "start" in action_a:
-                 # check if there is already a hemlock_scheduler running
-                 # if there is already one running, don't spawn another one
-                 # !! TODO validate that the schedule_server_id provided exists
-                 cmd = "ps cax | grep hemlock-sched | wc -l"
-                 result = os.popen(cmd).read()
-                 if result[0] == "0":
-                     # DEBUG
-                     # call hemlock-scheduler
-                     if debug == 0:
-                         cmd = "hemlock-scheduler "+var_d['--hemlock_creds_path']+" "+var_d['--schedule_server_id']+" >> scheduler.log &"
-                     else:
-                         cmd = "hemlock-scheduler "+var_d['--hemlock_creds_path']+" "+var_d['--schedule_server_id']+" -D >> scheduler.log &"
+                # validate that the schedule_server_id provided exists
+                data_action = "SELECT uuid FROM schedule_servers WHERE uuid = '"+var_d['--schedule_server_id']+"'"
+                cur.execute(data_action)
+                results = cur.fetchall()
+                if results:
+                    # check if there is already a hemlock_scheduler running
+                    # if there is already one running, don't spawn another one
+                    cmd = "ps cax | grep hemlock-sched | wc -l"
+                    result = os.popen(cmd).read()
+                    if result[0] == "0":
+                        # DEBUG
+                        # call hemlock-scheduler
+                        if debug == 0:
+                            cmd = "hemlock-scheduler "+var_d['--hemlock_creds_path']+" "+var_d['--schedule_server_id']+" >> scheduler.log &"
+                        else:
+                            cmd = "hemlock-scheduler "+var_d['--hemlock_creds_path']+" "+var_d['--schedule_server_id']+" -D >> scheduler.log &"
 
-                     # result should be 0, otherwise error
-                     result = os.system(cmd)
-                 else: 
-                     print "There is already a Hemlock Scheduler running."
+                        # result should be 0, otherwise error
+                        result = os.system(cmd)
+                    else:
+                        print "There is already a Hemlock Scheduler running."
+                else:
+                    print "The schedule server '"+var_d['--schedule_server_id']+"' does not exist."
             else:
                 # read only
                 if "roles" in action_a:
