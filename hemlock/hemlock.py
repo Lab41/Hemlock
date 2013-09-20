@@ -1534,9 +1534,6 @@ class Hemlock():
         :return: list of results and any errors that may have occurred.
         """
         error = 0
-        # !! TODO
-        #    check if scheduler is running, if not start it
-        #    add service script to have scheduler start on reboot (check for ubuntu and centos)
 
         # !! TODO try/except
 
