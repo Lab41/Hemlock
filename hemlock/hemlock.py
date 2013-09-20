@@ -1836,8 +1836,7 @@ class Hemlock():
                         print "You can not remove the last tenant or role from a user."
                         sys.exit(0)
             elif "change" in action_a:
-                junk = 1
-                # !! TODO
+                data_action = "UPDATE schedules SET schedule_server_id = '"+var_d['--schedule_server_id']+"' where uuid = "+var_d['--uuid'] 
             elif "create" in action_a:
                 # write
                 if "server" in action_a:
