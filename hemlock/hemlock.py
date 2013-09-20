@@ -1625,9 +1625,14 @@ class Hemlock():
             pw = getpass.getpass("User Password:")
             vals.append(pw)
         if "query" in action_a and "data" in action_a:
-            props.append("password")
             pw = getpass.getpass("User Password:")
-            vals.append(pw)
+            # verify the user password
+            decrypt_action = "SELECT AES_DECRYPT(password, '"+aes_key+"') from users where uuid = '"+var_d['--user']+"'"
+            cur.execute(decrypt_action)
+            results = cur.fetchall()
+            if pw != results[0][0]:
+                print "Invalid password."
+                sys.exit(0)
         if "add" not in action_a:
             props.append("uuid")
             props.append("created")
@@ -1694,7 +1699,8 @@ class Hemlock():
             c = h_server.get_multi(result_list)
             for key, result in c.items():
                 records.append(result.value)
-            print records
+            for record in records:
+                print record
 
         elif "system" in action_a:
             # update to systems/clients table
