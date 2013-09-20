@@ -1932,6 +1932,11 @@ class Hemlock():
                 if "roles" in action_a:
                     data_action = "SELECT * FROM users_roles WHERE user_id = '"+var_d['--uuid']+"'"
                     self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
+                elif "schedule" in action_a and "server" in action_a:
+                    data_action = "SELECT * FROM schedule_servers"
+                    if "get" in action_a:
+                        data_action += " WHERE uuid = '"+var_d['--uuid']+"'"
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "tenants" in action_a and "user" in action_a:
                     data_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"'"
                     self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
@@ -2368,6 +2373,9 @@ class Hemlock():
                     # client
                     else:
                         data_action = "desc "+action_a[1]+"_clients"
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
+                elif "schedule" in action_a and "server" in action_a:
+                    data_action = "desc schedule_servers"
                     self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 else:
                     data_action = "desc "+action_a[0]+"s"
