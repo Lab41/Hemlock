@@ -1840,49 +1840,48 @@ class Hemlock():
                 # !! TODO
             elif "create" in action_a:
                 # write
-                if "schedule" in action_a:
-                    junk = 1
-                    # !! TODO
+                if "server" in action_a:
+                    data_action = "INSERT INTO schedule_servers("
                 else:
                     data_action = "INSERT INTO "+action_a[0]+"s("
-                    data_action2 = "INSERT INTO "+action_a[0]+"s_tenants("
-                    data_action3 = "INSERT INTO "+action_a[0]+"s_roles("
-                    i = 0
-                    j = -1
-                    k = -1
-                    l = -1
-                    for prop in props:
-                        if prop == "password":
-                            j = i
-                        if prop == "tenant_id":
-                            data_action2 += prop+", user_id) VALUES("
-                            k = i
-                        elif prop == "role_id":
-                            data_action3 += prop+", user_id) VALUES("
-                            l = i
-                        else:
-                            data_action += prop+", "
-                        i += 1
-                    data_action = data_action[:-2]+") VALUES("
-                    i = 0
-                    for val in vals:
-                        if j == i:
-                            data_action += "AES_ENCRYPT(\""+val+"\", \""+aes_key+"\"), "
-                        elif k == i:
-                            data_action2 += "\""+val+"\", \""+uid+"\")"
-                        elif l == i:
-                            data_action3 += "\""+val+"\", \""+uid+"\")"
-                        else:
-                            data_action += "\""+val+"\", "
-                        i += 1
-                    if k == -1:
-                        data_action2 = ""
-                    if l == -1:
-                        data_action3 = ""
-                    data_action = data_action[:-2]+")"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action2)
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action3)
+                data_action2 = "INSERT INTO "+action_a[0]+"s_tenants("
+                data_action3 = "INSERT INTO "+action_a[0]+"s_roles("
+                i = 0
+                j = -1
+                k = -1
+                l = -1
+                for prop in props:
+                    if prop == "password":
+                        j = i
+                    if prop == "tenant_id":
+                        data_action2 += prop+", user_id) VALUES("
+                        k = i
+                    elif prop == "role_id":
+                        data_action3 += prop+", user_id) VALUES("
+                        l = i
+                    else:
+                        data_action += prop+", "
+                    i += 1
+                data_action = data_action[:-2]+") VALUES("
+                i = 0
+                for val in vals:
+                    if j == i:
+                        data_action += "AES_ENCRYPT(\""+val+"\", \""+aes_key+"\"), "
+                    elif k == i:
+                        data_action2 += "\""+val+"\", \""+uid+"\")"
+                    elif l == i:
+                        data_action3 += "\""+val+"\", \""+uid+"\")"
+                    else:
+                        data_action += "\""+val+"\", "
+                    i += 1
+                if k == -1:
+                    data_action2 = ""
+                if l == -1:
+                    data_action3 = ""
+                data_action = data_action[:-2]+")"
+                self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
+                self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action2)
+                self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action3)
             elif "delete" in action_a:
                 # delete
                 if "tenants" in action_a:
@@ -1892,14 +1891,14 @@ class Hemlock():
                     data_action = "DELETE FROM "+action_a[0]+"s_roles WHERE "+action_a[0]+"_id = '"+var_d['--uuid']+"'"
                     self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "server" in action_a:
-                    junk = 1
-                    # !! TODO
+                    data_action = "DELETE FROM schedules WHERE schedule_server_id = '"+var_d['--uuid']+"'"
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "schedule" in action_a:
                     data_action = "DELETE FROM "+action_a[0]+"s_clients WHERE "+action_a[0]+"_id = '"+var_d['--uuid']+"'"
                     self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 if "server" in action_a:
-                    junk = 1
-                    # !! TODO
+                    data_action2 = "DELETE FROM schedule_servers WHERE uuid = '"+var_d['--uuid']+"'"
+                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action2)
                 else:
                     data_action2 = "DELETE FROM "+action_a[0]+"s WHERE uuid = '"+var_d['--uuid']+"'"
                     self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action2)
