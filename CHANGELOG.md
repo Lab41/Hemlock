@@ -1,3 +1,11 @@
+### 0.1.4 (2013-09-23)
+
+- finished query-data, including making results specific to users and the systems they have access to via the tenants they and the systems belong to
+- finished scheduler
+- added ability to make the scheduler distributed
+- added schedule-server api calls
+- bug fixes
+
 ### 0.1.3 (2013-09-16)
 
 - stubbed breaking out hfs into a more modular structure (incomplete)
