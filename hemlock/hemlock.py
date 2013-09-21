@@ -1285,12 +1285,12 @@ class Hemlock():
         # extract command-line switches
         (options, args_leftover) = Hemlock().parse_auth()
 
-        if not args_leftover:
-            return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.c_user, options.bucket, options.c_pw, options.es, options.debug
-
         if options.version != None:
             print "Version: 0.1.3"
             sys.exit(0)
+
+        if not args_leftover:
+            return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.c_user, options.bucket, options.c_pw, options.es, options.debug
 
         if options.debug == None:
             options.debug = 0
