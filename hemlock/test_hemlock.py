@@ -841,6 +841,56 @@ class TestClass:
         error = ""
         return x, error
 
+    def process_schedule_change_server(self):
+        """
+        Tests schedule-change-server action.
+
+        :return: returns any data and a list of any errors
+        """
+        x = ""
+        error = ""
+        return x, error
+
+    def process_schedule_server_create(self):
+        """
+        Tests schedule-server-create action.
+
+        :return: returns any data and a list of any errors
+        """
+        x = ""
+        error = ""
+        return x, error
+
+    def process_schedule_server_delete(self):
+        """
+        Tests schedule-server-delete action.
+
+        :return: returns any data and a list of any errors
+        """
+        x = ""
+        error = ""
+        return x, error
+
+    def process_schedule_server_get(self):
+        """
+        Tests schedule-server-get action.
+
+        :return: returns any data and a list of any errors
+        """
+        x = ""
+        error = ""
+        return x, error
+
+    def process_schedule_server_list(self):
+        """
+        Tests schedule-server-list action.
+
+        :return: returns any data and a list of any errors
+        """
+        x = ""
+        error = ""
+        return x, error
+
     def connect_mysql(self, debug, server, user, pw, db):
         """
         Makes a connection to the test Hemlock MySQL server.
@@ -1238,5 +1288,45 @@ class TestClass:
         Calls the test function for the query-data action.
         """
         x, error = self.process_query_data()
+        for err in error:
+            assert err == 0
+
+    def test_process_schedule_change_server(self):
+        """
+        Calls the test function for the schedule-change-server action.
+        """
+        x, error = self.process_schedule_change_server()
+        for err in error:
+            assert err == 0
+
+    def test_process_schedule_server_create(self):
+        """
+        Calls the test function for the schedule-server-create action.
+        """
+        x, error = self.process_schedule_server_create()
+        for err in error:
+            assert err == 0
+
+    def test_process_schedule_server_delete(self):
+        """
+        Calls the test function for the schedule-server-delete action.
+        """
+        x, error = self.process_schedule_server_delete()
+        for err in error:
+            assert err == 0
+
+    def test_process_schedule_server_get(self):
+        """
+        Calls the test function for the schedule-server-get action.
+        """
+        x, error = self.process_schedule_server_get()
+        for err in error:
+            assert err == 0
+
+    def test_process_schedule_server_list(self):
+        """
+        Calls the test function for the schedule-server-list action.
+        """
+        x, error = self.process_schedule_server_list()
         for err in error:
             assert err == 0
