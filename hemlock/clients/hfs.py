@@ -67,4 +67,10 @@ class HFs:
     def scan_file_types(self):
         pkgpath = os.path.dirname(hemlock.clients.file_types.__file__)
         fs_mods = [name for _, name, _ in pkgutil.iter_modules([pkgpath])]
-        print fs_mods
+        # !! TODO remove hgeneric, and do it last
+        for mod in fs_mods:
+            exec "from hemlock.clients.file_types import "+mod
+            cmd = "mod+"()"
+            c_inst = eval(cmd)
+            print c_inst
+            #c_inst.process_files(debug, file, file_mime, h_server, client_uuid)
