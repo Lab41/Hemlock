@@ -2,6 +2,7 @@
 
 - finished query-data, including making results specific to users and the systems they have access to via the tenants they and the systems belong to
 - finished scheduler
+- more progress on breaking out hfs, moving previous working hfs to hfs_old (untested)
 - added ability to make the scheduler distributed
 - added schedule-server api calls
 - bug fixes
