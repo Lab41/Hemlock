@@ -14,6 +14,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+import file_types
+from file_types import *
 from hemlock_debugger import Hemlock_Debugger
 
 import hemlock_base
@@ -67,10 +69,10 @@ class HFs:
     def scan_file_types(self, debug, c_server, h_server, client_uuid):
         # !! TODO
         #    this part needs to be fixed
-        #import hemlock
-        #from file_types import *
-        #pkgpath = os.path.dirname(hemlock.clients.file_types.__file__)
-        #fs_mods = [name for _, name, _ in pkgutil.iter_modules([pkgpath])]
+        pkgpath = os.path.dirname(file_types.__file__)
+        fs_mods = [name for _, name, _ in pkgutil.iter_modules([pkgpath])]
+        print fs_mods
+        sys.exit(0)
         #file_type_list = []
         #for mod in fs_mods:
         #    exec "from hemlock.clients.file_types import "+mod
