@@ -67,23 +67,23 @@ class HFs:
         return 
 
     def scan_file_types(self, debug, c_server, h_server, client_uuid):
-        # !! TODO
-        #    this part needs to be fixed
         pkgpath = os.path.dirname(file_types.__file__)
         fs_mods = [name for _, name, _ in pkgutil.iter_modules([pkgpath])]
         print fs_mods
-        sys.exit(0)
-        #file_type_list = []
-        #for mod in fs_mods:
-        #    exec "from hemlock.clients.file_types import "+mod
-        #    cmd = mod+"()"
-        #    c_inst = eval(cmd)
-        #    file_type_list.append(c_inst)
-        #    print c_inst
-        #    #c_inst.process_files(debug, file, file_mime, h_server, client_uuid)
+
+        file_type_list = []
+        for mod in fs_mods:
+            exec "from file_types import "+mod
+            cmd = mod+"."+mod.capitalize()+"()"
+            print cmd
+            c_inst = eval(cmd)
+            file_type_list.append(c_inst)
+            print c_inst
+            #c_inst.process_files(debug, file, file_mime, h_server, client_uuid)
 
         # !! TODO remove hgeneric, and do it last
-        #print file_type_list
+        print file_type_list
+        sys.exit(0)
 
         # DEBUG
         matches = []

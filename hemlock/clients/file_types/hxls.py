@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-from hemlock.clients import hfs
+from .. import hfs
 
 class Hxls:
     def process_files(self, debug, file, file_mime, h_server, client_uuid):
