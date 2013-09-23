@@ -20,6 +20,7 @@ from hemlock_debugger import Hemlock_Debugger
 
 import hemlock_base
 
+import ast
 import fnmatch
 import magic
 import os
@@ -69,20 +70,17 @@ class HFs:
     def scan_file_types(self, debug, c_server, h_server, client_uuid):
         pkgpath = os.path.dirname(file_types.__file__)
         fs_mods = [name for _, name, _ in pkgutil.iter_modules([pkgpath])]
-        print fs_mods
 
-        file_type_list = []
+        file_type_list = {}
         for mod in fs_mods:
             exec "from file_types import "+mod
             cmd = mod+"."+mod.capitalize()+"()"
-            print cmd
             c_inst = eval(cmd)
-            file_type_list.append(c_inst)
-            print c_inst
+            file_type_list[mod] = c_inst
             #c_inst.process_files(debug, file, file_mime, h_server, client_uuid)
 
-        # !! TODO remove hgeneric, and do it last
-        print file_type_list
+        # remove generic from the list
+        fs_mods.remove("hgeneric")
 
         # DEBUG
         matches = []
@@ -91,7 +89,6 @@ class HFs:
             for filename in fnmatch.filter(filenames, '*.*'):
                 matches.append(os.path.join(root, filename))
         i = 0
-        j_list = []
         # DEBUG
         for file in matches:
             file_mime = magic.from_file(file, mime=True)
@@ -101,15 +98,22 @@ class HFs:
                     try:
                         # try extensions first
                         if mod[1:] in file:
-                            print file, mod
                             flag = 0
+                            print file, mod
+                            file_type_list[mod].process_files(debug, file, file_mime, h_server, client_uuid)
                         # if no extensions match, try mimetype
                         if file_mime and flag:
                             if mod[1:] in file_mime:
-                                print file, mod
                                 flag = 0
+                                print file, mod
+                                file_type_list[mod].process_files(debug, file, file_mime, h_server, client_uuid)
                     except:
-                        # if no mimetypes match, use generic
+                        print sys.exc_info()[0]
                         print file + " failed."
+            if flag == 1:
+                # if no mimetypes match, use generic
+                junk = 1
+                file_type_list["hgeneric"].process_files(debug, file, file_mime, h_server, client_uuid)
+             
             i += 1
         print i

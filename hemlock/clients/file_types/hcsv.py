@@ -16,14 +16,17 @@
 
 from .. import hfs
 
+import csv
+import json
+
 class Hcsv:
     def process_files(self, debug, file, file_mime, h_server, client_uuid):
+        j_list = []
         # !! TODO try/catch
-        f = open(file, 'rb')
         h_inst = hfs.HFs()
+        i = 0
         # DEBUG
         try:
-            f.close()
             with open(file, 'rb') as csvfile:
                 reader = csv.reader(csvfile, delimiter=',', quotechar='"')
                 hrow = reader.next()
@@ -44,6 +47,7 @@ class Hcsv:
         except:
             f = open(file, 'rb')
             j_str = json.dumps( { "payload": f.read() } )
+            f.close()
             j_list.append(j_str)
             # !! TODO
             h_inst.format_lists(debug, j_list, h_server, client_uuid)

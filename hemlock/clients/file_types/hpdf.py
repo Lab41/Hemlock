@@ -15,9 +15,11 @@
 #   limitations under the License.
 
 from .. import hfs
+
 from pdfminer.pdfinterp import PDFResourceManager, process_pdf
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
+from cStringIO import StringIO
 
 import base64
 import json

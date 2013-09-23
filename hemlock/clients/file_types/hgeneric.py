@@ -16,13 +16,20 @@
 
 from .. import hfs
 
+import base64
+import json
+
 class Hgeneric:
     def process_files(self, debug, file, file_mime, h_server, client_uuid):
         # !! TODO try/catch
         f = open(file, 'rb')
         h_inst = hfs.HFs()
         # DEBUG
-        j_str = json.dumps( { "payload": f.read() } )
+        try:
+            j_str = json.dumps( { "payload": f.read() } )
+        except:
+            b64_text = base64.b64encode(f.read())
+            j_str = json.dumps( { "payload": b64_text } )
         j_list.append(j_str)
         h_inst.format_lists(debug, j_list, h_server, client_uuid)
         j_list = []

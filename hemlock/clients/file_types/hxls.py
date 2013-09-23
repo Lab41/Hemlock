@@ -16,6 +16,11 @@
 
 from .. import hfs
 
+import base64
+import json
+import xlrd
+import xmltodict
+
 class Hxls:
     def process_files(self, debug, file, file_mime, h_server, client_uuid):
         # !! TODO try/catch

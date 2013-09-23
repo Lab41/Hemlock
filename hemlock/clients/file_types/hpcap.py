@@ -16,6 +16,9 @@
 
 from .. import hfs
 
+import base64
+import json
+
 class Hpcap:
     def process_files(self, debug, file, file_mime, h_server, client_uuid):
         # !! TODO try/catch
