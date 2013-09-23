@@ -95,20 +95,19 @@ class HFs:
         # DEBUG
         for file in matches:
             file_mime = magic.from_file(file, mime=True)
-            #print file, file_mime 
-            # !! TODO fix for loop, shouldn't loop through if found, but should continue to loop through until found
             flag = 1
             for mod in fs_mods:
-                if flag = 1:
+                if flag == 1:
                     try:
                         # try extensions first
                         if mod[1:] in file:
                             print file, mod
                             flag = 0
                         # if no extensions match, try mimetype
-                        elif mod[1:] in file_mime:
-                            print file, mod
-                            flag = 0
+                        if file_mime and flag:
+                            if mod[1:] in file_mime:
+                                print file, mod
+                                flag = 0
                     except:
                         # if no mimetypes match, use generic
                         print file + " failed."
