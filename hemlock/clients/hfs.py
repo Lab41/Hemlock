@@ -16,9 +16,10 @@
 
 from hemlock_debugger import Hemlock_Debugger
 
-import hemlock.clients.file_types
 import hemlock_base
 
+import fnmatch
+import magic
 import os
 import pkgutil
 import sys
@@ -64,31 +65,37 @@ class HFs:
         return 
 
     def scan_file_types(self, debug, c_server, h_server, client_uuid):
-        pkgpath = os.path.dirname(hemlock.clients.file_types.__file__)
-        fs_mods = [name for _, name, _ in pkgutil.iter_modules([pkgpath])]
-        file_type_list = []
-        for mod in fs_mods:
-            exec "from hemlock.clients.file_types import "+mod
-            cmd = mod+"()"
-            c_inst = eval(cmd)
-            file_type_list.append(c_inst)
-            print c_inst
-            #c_inst.process_files(debug, file, file_mime, h_server, client_uuid)
+        # !! TODO
+        #    this part needs to be fixed
+        #import hemlock
+        #from file_types import *
+        #pkgpath = os.path.dirname(hemlock.clients.file_types.__file__)
+        #fs_mods = [name for _, name, _ in pkgutil.iter_modules([pkgpath])]
+        #file_type_list = []
+        #for mod in fs_mods:
+        #    exec "from hemlock.clients.file_types import "+mod
+        #    cmd = mod+"()"
+        #    c_inst = eval(cmd)
+        #    file_type_list.append(c_inst)
+        #    print c_inst
+        #    #c_inst.process_files(debug, file, file_mime, h_server, client_uuid)
 
         # !! TODO remove hgeneric, and do it last
-        print file_type_list
+        #print file_type_list
 
         # DEBUG
         matches = []
         errors = 0
-        for root, dirnames, filenames in os.walk(input):
+        for root, dirnames, filenames in os.walk(c_server):
             for filename in fnmatch.filter(filenames, '*.*'):
                 matches.append(os.path.join(root, filename))
         i = 0
         j_list = []
         # DEBUG
         for file in matches:
-            print file
             file_mime = magic.from_file(file, mime=True)
+            print file, file_mime 
             f = open(file, 'rb')
             f.close()
+            i += 1
+        print i
