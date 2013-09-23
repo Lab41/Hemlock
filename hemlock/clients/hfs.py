@@ -40,8 +40,7 @@ class HFs:
 
     def get_data(self, debug, client_dict, c_server, h_server, client_uuid):
         # DEBUG
-        self.scan_file_types()
-        #self.process_files(debug, c_server, h_server, client_uuid)
+        self.scan_file_types(debug, c_server, h_server, client_uuid)
         return [[]], []
 
     def format_lists(self, debug, j_list, h_server, client_uuid):
@@ -64,13 +63,13 @@ class HFs:
         h_inst.send_data(debug, data_list, desc_list, h_server, client_uuid)
         return 
 
-    def scan_file_types(self):
+    def scan_file_types(self, debug, c_server, h_server, client_uuid):
         pkgpath = os.path.dirname(hemlock.clients.file_types.__file__)
         fs_mods = [name for _, name, _ in pkgutil.iter_modules([pkgpath])]
         # !! TODO remove hgeneric, and do it last
         for mod in fs_mods:
             exec "from hemlock.clients.file_types import "+mod
-            cmd = "mod+"()"
+            cmd = mod+"()"
             c_inst = eval(cmd)
             print c_inst
             #c_inst.process_files(debug, file, file_mime, h_server, client_uuid)
