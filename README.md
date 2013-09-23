@@ -113,6 +113,7 @@ Getting started
    HEMLOCK_COUCHBASE_BUCKET=hemlock
    HEMLOCK_COUCHBASE_USERNAME=hemlock
    HEMLOCK_COUCHBASE_PW=pass
+   HEMLOCK_ELASTICSEARCH_ENDPOINT=192.168.1.30
    ```
 
    (if you'd like these to persist, consider adding export before each line and performing ``source`` on the file)
@@ -165,7 +166,7 @@ Getting started
    ```
 6. Create a schedule server (optional)
    ```bash
-   hemlock schedule-server --name schedule_server_1
+   hemlock schedule-server-create --name schedule_server_1
 
    hemlock schedule-server-list
    ```
