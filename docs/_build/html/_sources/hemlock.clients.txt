@@ -33,6 +33,14 @@ clients Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`hfs_old` Module
+---------------------
+
+.. automodule:: hemlock.clients.hfs_old
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 :mod:`hhbase` Module
 --------------------
 
@@ -85,6 +93,14 @@ clients Package
 -------------------------
 
 .. automodule:: hemlock.clients.hstream_odd
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`t` Module
+---------------
+
+.. automodule:: hemlock.clients.t
     :members:
     :undoc-members:
     :show-inheritance:
