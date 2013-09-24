@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>hemlock.hemlock &mdash; Hemlock 0.1.3 documentation</title>
+    <title>hemlock.hemlock &mdash; Hemlock 0.1.4 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.1.3',
+        VERSION:     '0.1.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Hemlock 0.1.3 documentation" href="../../index.html" />
+    <link rel="top" title="Hemlock 0.1.4 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Hemlock 0.1.3 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Hemlock 0.1.4 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -1334,12 +1334,12 @@
         <span class="c"># extract command-line switches</span>
         <span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">args_leftover</span><span class="p">)</span> <span class="o">=</span> <span class="n">Hemlock</span><span class="p">()</span><span class="o">.</span><span class="n">parse_auth</span><span class="p">()</span>
 
+        <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">version</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Version: 0.1.4&quot;</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="n">args_leftover</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">args_leftover</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">pw</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">server</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_server</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_user</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_pw</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">es</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">debug</span>
-
-        <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">version</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">print</span> <span class="s">&quot;Version: 0.1.3&quot;</span>
-            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">debug</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">options</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1583,9 +1583,6 @@
 <span class="sd">        :return: list of results and any errors that may have occurred.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">error</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="c"># !! TODO</span>
-        <span class="c">#    check if scheduler is running, if not start it</span>
-        <span class="c">#    add service script to have scheduler start on reboot (check for ubuntu and centos)</span>
 
         <span class="c"># !! TODO try/except</span>
 
@@ -1677,9 +1674,14 @@
             <span class="n">pw</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s">&quot;User Password:&quot;</span><span class="p">)</span>
             <span class="n">vals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pw</span><span class="p">)</span>
         <span class="k">if</span> <span class="s">&quot;query&quot;</span> <span class="ow">in</span> <span class="n">action_a</span> <span class="ow">and</span> <span class="s">&quot;data&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
-            <span class="n">props</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;password&quot;</span><span class="p">)</span>
             <span class="n">pw</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s">&quot;User Password:&quot;</span><span class="p">)</span>
-            <span class="n">vals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pw</span><span class="p">)</span>
+            <span class="c"># verify the user password</span>
+            <span class="n">decrypt_action</span> <span class="o">=</span> <span class="s">&quot;SELECT AES_DECRYPT(password, &#39;&quot;</span><span class="o">+</span><span class="n">aes_key</span><span class="o">+</span><span class="s">&quot;&#39;) from users where uuid = &#39;&quot;</span><span class="o">+</span><span class="n">var_d</span><span class="p">[</span><span class="s">&#39;--user&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;&#39;&quot;</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">decrypt_action</span><span class="p">)</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">pw</span> <span class="o">!=</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="k">print</span> <span class="s">&quot;Invalid password.&quot;</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">if</span> <span class="s">&quot;add&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
             <span class="n">props</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;uuid&quot;</span><span class="p">)</span>
             <span class="n">props</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;created&quot;</span><span class="p">)</span>
@@ -1746,7 +1748,8 @@
             <span class="n">c</span> <span class="o">=</span> <span class="n">h_server</span><span class="o">.</span><span class="n">get_multi</span><span class="p">(</span><span class="n">result_list</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-            <span class="k">print</span> <span class="n">records</span>
+            <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+                <span class="k">print</span> <span class="n">record</span>
 
         <span class="k">elif</span> <span class="s">&quot;system&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
             <span class="c"># update to systems/clients table</span>
@@ -1887,9 +1890,14 @@
                     <span class="k">if</span> <span class="s">&quot;schedule&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
                         <span class="k">print</span> <span class="s">&quot;You can not remove the last tenant or role from a user.&quot;</span>
                         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s">&quot;change&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
+                <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;UPDATE schedules SET schedule_server_id = &#39;&quot;</span><span class="o">+</span><span class="n">var_d</span><span class="p">[</span><span class="s">&#39;--schedule_server_id&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;&#39; where uuid = &quot;</span><span class="o">+</span><span class="n">var_d</span><span class="p">[</span><span class="s">&#39;--uuid&#39;</span><span class="p">]</span> 
             <span class="k">elif</span> <span class="s">&quot;create&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
                 <span class="c"># write</span>
-                <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO &quot;</span><span class="o">+</span><span class="n">action_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;s(&quot;</span>
+                <span class="k">if</span> <span class="s">&quot;server&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
+                    <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO schedule_servers(&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO &quot;</span><span class="o">+</span><span class="n">action_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;s(&quot;</span>
                 <span class="n">data_action2</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO &quot;</span><span class="o">+</span><span class="n">action_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;s_tenants(&quot;</span>
                 <span class="n">data_action3</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO &quot;</span><span class="o">+</span><span class="n">action_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;s_roles(&quot;</span>
                 <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1936,11 +1944,18 @@
                 <span class="k">elif</span> <span class="s">&quot;roles&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
                     <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;DELETE FROM &quot;</span><span class="o">+</span><span class="n">action_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;s_roles WHERE &quot;</span><span class="o">+</span><span class="n">action_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;_id = &#39;&quot;</span><span class="o">+</span><span class="n">var_d</span><span class="p">[</span><span class="s">&#39;--uuid&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;&#39;&quot;</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Getting ready to perform the following SQL query: &quot;</span><span class="o">+</span><span class="n">data_action</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="s">&quot;server&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
+                    <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;DELETE FROM schedules WHERE schedule_server_id = &#39;&quot;</span><span class="o">+</span><span class="n">var_d</span><span class="p">[</span><span class="s">&#39;--uuid&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;&#39;&quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Getting ready to perform the following SQL query: &quot;</span><span class="o">+</span><span class="n">data_action</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="s">&quot;schedule&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
                     <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;DELETE FROM &quot;</span><span class="o">+</span><span class="n">action_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;s_clients WHERE &quot;</span><span class="o">+</span><span class="n">action_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;_id = &#39;&quot;</span><span class="o">+</span><span class="n">var_d</span><span class="p">[</span><span class="s">&#39;--uuid&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;&#39;&quot;</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Getting ready to perform the following SQL query: &quot;</span><span class="o">+</span><span class="n">data_action</span><span class="p">)</span>
-                <span class="n">data_action2</span> <span class="o">=</span> <span class="s">&quot;DELETE FROM &quot;</span><span class="o">+</span><span class="n">action_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;s WHERE uuid = &#39;&quot;</span><span class="o">+</span><span class="n">var_d</span><span class="p">[</span><span class="s">&#39;--uuid&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;&#39;&quot;</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Getting ready to perform the following SQL query: &quot;</span><span class="o">+</span><span class="n">data_action2</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s">&quot;server&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
+                    <span class="n">data_action2</span> <span class="o">=</span> <span class="s">&quot;DELETE FROM schedule_servers WHERE uuid = &#39;&quot;</span><span class="o">+</span><span class="n">var_d</span><span class="p">[</span><span class="s">&#39;--uuid&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;&#39;&quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Getting ready to perform the following SQL query: &quot;</span><span class="o">+</span><span class="n">data_action2</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">data_action2</span> <span class="o">=</span> <span class="s">&quot;DELETE FROM &quot;</span><span class="o">+</span><span class="n">action_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;s WHERE uuid = &#39;&quot;</span><span class="o">+</span><span class="n">var_d</span><span class="p">[</span><span class="s">&#39;--uuid&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;&#39;&quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Getting ready to perform the following SQL query: &quot;</span><span class="o">+</span><span class="n">data_action2</span><span class="p">)</span>
             <span class="c"># start scheduler</span>
             <span class="k">elif</span> <span class="s">&quot;start&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
                 <span class="c"># validate that the schedule_server_id provided exists</span>
@@ -1970,6 +1985,11 @@
                 <span class="c"># read only</span>
                 <span class="k">if</span> <span class="s">&quot;roles&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
                     <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;SELECT * FROM users_roles WHERE user_id = &#39;&quot;</span><span class="o">+</span><span class="n">var_d</span><span class="p">[</span><span class="s">&#39;--uuid&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;&#39;&quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Getting ready to perform the following SQL query: &quot;</span><span class="o">+</span><span class="n">data_action</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="s">&quot;schedule&quot;</span> <span class="ow">in</span> <span class="n">action_a</span> <span class="ow">and</span> <span class="s">&quot;server&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
+                    <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;SELECT * FROM schedule_servers&quot;</span>
+                    <span class="k">if</span> <span class="s">&quot;get&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
+                        <span class="n">data_action</span> <span class="o">+=</span> <span class="s">&quot; WHERE uuid = &#39;&quot;</span><span class="o">+</span><span class="n">var_d</span><span class="p">[</span><span class="s">&#39;--uuid&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;&#39;&quot;</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Getting ready to perform the following SQL query: &quot;</span><span class="o">+</span><span class="n">data_action</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="s">&quot;tenants&quot;</span> <span class="ow">in</span> <span class="n">action_a</span> <span class="ow">and</span> <span class="s">&quot;user&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
                     <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;SELECT * FROM users_tenants WHERE user_id = &#39;&quot;</span><span class="o">+</span><span class="n">var_d</span><span class="p">[</span><span class="s">&#39;--uuid&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;&#39;&quot;</span>
@@ -2408,6 +2428,9 @@
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;desc &quot;</span><span class="o">+</span><span class="n">action_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;_clients&quot;</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Getting ready to perform the following SQL query: &quot;</span><span class="o">+</span><span class="n">data_action</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="s">&quot;schedule&quot;</span> <span class="ow">in</span> <span class="n">action_a</span> <span class="ow">and</span> <span class="s">&quot;server&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
+                    <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;desc schedule_servers&quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Getting ready to perform the following SQL query: &quot;</span><span class="o">+</span><span class="n">data_action</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;desc &quot;</span><span class="o">+</span><span class="n">action_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;s&quot;</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Getting ready to perform the following SQL query: &quot;</span><span class="o">+</span><span class="n">data_action</span><span class="p">)</span>
@@ -2579,7 +2602,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Hemlock 0.1.3 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Hemlock 0.1.4 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

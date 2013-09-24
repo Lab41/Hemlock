@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>clients Package &mdash; Hemlock 0.1.3 documentation</title>
+    <title>clients Package &mdash; Hemlock 0.1.4 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1.3',
+        VERSION:     '0.1.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Hemlock 0.1.3 documentation" href="index.html" />
+    <link rel="top" title="Hemlock 0.1.4 documentation" href="index.html" />
     <link rel="up" title="hemlock Package" href="hemlock.html" />
     <link rel="next" title="file_types Package" href="hemlock.clients.file_types.html" />
     <link rel="prev" title="hemlock Package" href="hemlock.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="hemlock.html" title="hemlock Package"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Hemlock 0.1.3 documentation</a> &raquo;</li>
+        <li><a href="index.html">Hemlock 0.1.4 documentation</a> &raquo;</li>
           <li><a href="hemlock.html" accesskey="U">hemlock Package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -393,11 +393,6 @@ credentials.</p>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="hemlock.clients.hfs.HFs.convert_pdf">
-<tt class="descname">convert_pdf</tt><big>(</big><em>debug</em>, <em>input</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hfs.html#HFs.convert_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hfs.HFs.convert_pdf" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
 <dt id="hemlock.clients.hfs.HFs.format_lists">
 <tt class="descname">format_lists</tt><big>(</big><em>debug</em>, <em>j_list</em>, <em>h_server</em>, <em>client_uuid</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hfs.html#HFs.format_lists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hfs.HFs.format_lists" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -408,8 +403,41 @@ credentials.</p>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="hemlock.clients.hfs.HFs.process_files">
-<tt class="descname">process_files</tt><big>(</big><em>debug</em>, <em>input</em>, <em>h_server</em>, <em>client_uuid</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hfs.html#HFs.process_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hfs.HFs.process_files" title="Permalink to this definition">¶</a></dt>
+<dt id="hemlock.clients.hfs.HFs.scan_file_types">
+<tt class="descname">scan_file_types</tt><big>(</big><em>debug</em>, <em>c_server</em>, <em>h_server</em>, <em>client_uuid</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hfs.html#HFs.scan_file_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hfs.HFs.scan_file_types" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hemlock.clients.hfs_old">
+<span id="hfs-old-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hfs_old</span></tt> Module<a class="headerlink" href="#module-hemlock.clients.hfs_old" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hemlock.clients.hfs_old.HFs">
+<em class="property">class </em><tt class="descclassname">hemlock.clients.hfs_old.</tt><tt class="descname">HFs</tt><a class="reference internal" href="_modules/hemlock/clients/hfs_old.html#HFs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hfs_old.HFs" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="hemlock.clients.hfs_old.HFs.connect_client">
+<tt class="descname">connect_client</tt><big>(</big><em>debug</em>, <em>client_dict</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hfs_old.html#HFs.connect_client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hfs_old.HFs.connect_client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hfs_old.HFs.convert_pdf">
+<tt class="descname">convert_pdf</tt><big>(</big><em>debug</em>, <em>input</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hfs_old.html#HFs.convert_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hfs_old.HFs.convert_pdf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hfs_old.HFs.format_lists">
+<tt class="descname">format_lists</tt><big>(</big><em>debug</em>, <em>j_list</em>, <em>h_server</em>, <em>client_uuid</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hfs_old.html#HFs.format_lists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hfs_old.HFs.format_lists" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hfs_old.HFs.get_data">
+<tt class="descname">get_data</tt><big>(</big><em>debug</em>, <em>client_dict</em>, <em>c_server</em>, <em>h_server</em>, <em>client_uuid</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hfs_old.html#HFs.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hfs_old.HFs.get_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hemlock.clients.hfs_old.HFs.process_files">
+<tt class="descname">process_files</tt><big>(</big><em>debug</em>, <em>input</em>, <em>h_server</em>, <em>client_uuid</em><big>)</big><a class="reference internal" href="_modules/hemlock/clients/hfs_old.html#HFs.process_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.clients.hfs_old.HFs.process_files" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -516,6 +544,9 @@ credentials.</p>
 <dd></dd></dl>
 
 </div>
+<div class="section" id="module-hemlock.clients.t">
+<span id="t-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">t</span></tt> Module<a class="headerlink" href="#module-hemlock.clients.t" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
@@ -551,6 +582,7 @@ credentials.</p>
 <li><a class="reference internal" href="#module-hemlock.clients.hemlock_debugger"><tt class="docutils literal"><span class="pre">hemlock_debugger</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-hemlock.clients.hemlock_runner"><tt class="docutils literal"><span class="pre">hemlock_runner</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-hemlock.clients.hfs"><tt class="docutils literal"><span class="pre">hfs</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-hemlock.clients.hfs_old"><tt class="docutils literal"><span class="pre">hfs_old</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-hemlock.clients.hhbase"><tt class="docutils literal"><span class="pre">hhbase</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-hemlock.clients.hhdfs"><tt class="docutils literal"><span class="pre">hhdfs</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-hemlock.clients.hmongo"><tt class="docutils literal"><span class="pre">hmongo</span></tt> Module</a></li>
@@ -558,6 +590,7 @@ credentials.</p>
 <li><a class="reference internal" href="#module-hemlock.clients.hredis"><tt class="docutils literal"><span class="pre">hredis</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-hemlock.clients.hrest"><tt class="docutils literal"><span class="pre">hrest</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-hemlock.clients.hstream_odd"><tt class="docutils literal"><span class="pre">hstream_odd</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-hemlock.clients.t"><tt class="docutils literal"><span class="pre">t</span></tt> Module</a></li>
 <li><a class="reference internal" href="#subpackages">Subpackages</a><ul>
 </ul>
 </li>
@@ -608,7 +641,7 @@ credentials.</p>
         <li class="right" >
           <a href="hemlock.html" title="hemlock Package"
              >previous</a> |</li>
-        <li><a href="index.html">Hemlock 0.1.3 documentation</a> &raquo;</li>
+        <li><a href="index.html">Hemlock 0.1.4 documentation</a> &raquo;</li>
           <li><a href="hemlock.html" >hemlock Package</a> &raquo;</li> 
       </ul>
     </div>
