@@ -25,43 +25,42 @@ class Hpcap:
         f = open(file, 'rb')
         h_inst = hfs.HFs()
         # DEBUG
-        if file_mime:
-            if "pcap" in file_mime:
-                # DEBUG
-                try:
-                    u = str(uuid.uuid4())
-                    cmd = "tshark -r "+file+" -T text -V > "+u
-                    junk = os.popen(cmd).read()
-                    g = open(u, 'rb')
-                    a = []
-                    b = {}
-                    for line in g:
-                        if line == "\n":
-                            # a frame
-                            for element in a:
-                                # DEBUG
-                                try:
-                                    e_list = element.split(":",1)
-                                    b[e_list[0].strip()] = e_list[1].strip()
-                                except:
-                                    # ignore junk
-                                    junk = element
-                            j_str = json.dumps(b)
-                            a = []
-                            b = {}
-                            j_list.append(j_str)
-                            h_inst.format_lists(debug, j_list, h_server, client_uuid)
-                            j_list = []
-                        a.append(line)
+        if "pcap" in file_mime:
+            # DEBUG
+            try:
+                u = str(uuid.uuid4())
+                cmd = "tshark -r "+file+" -T text -V > "+u
+                junk = os.popen(cmd).read()
+                g = open(u, 'rb')
+                a = []
+                b = {}
+                for line in g:
+                    if line == "\n":
+                        # a frame
+                        for element in a:
+                            # DEBUG
+                            try:
+                                e_list = element.split(":",1)
+                                b[e_list[0].strip()] = e_list[1].strip()
+                            except:
+                                # ignore junk
+                                junk = element
+                        j_str = json.dumps(b)
+                        a = []
+                        b = {}
+                        j_list.append(j_str)
+                        h_inst.format_lists(debug, j_list, h_server, client_uuid)
+                        j_list = []
+                    a.append(line)
+                g.close()
+                cmd = "rm -rf "+u
+                junk = os.popen(cmd).read()
+            except:
+                if g:
                     g.close()
                     cmd = "rm -rf "+u
                     junk = os.popen(cmd).read()
-                except:
-                    if g:
-                        g.close()
-                        cmd = "rm -rf "+u
-                        junk = os.popen(cmd).read()
-                    print sys.exc_info()[0]
-                    print "need tshark installed to process pcap files"
-                    b64_text = base64.b64encode(f.read())
-                    j_str = json.dumps( { "payload": b64_text } )
+                print sys.exc_info()[0]
+                print "need tshark installed to process pcap files"
+                b64_text = base64.b64encode(f.read())
+                j_str = json.dumps( { "payload": b64_text } )

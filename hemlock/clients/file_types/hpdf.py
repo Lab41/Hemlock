@@ -30,19 +30,17 @@ class Hpdf:
         f = open(file, 'rb')
         h_inst = hfs.HFs()
         # DEBUG
-        if file_mime:
-            if "pdf" in file_mime:
-                # DEBUG
-                try:
-                    text = self.convert_pdf(debug, file)
-                    j_str = json.dumps( { "payload" : text } )
-                except:
-                    b64_text = base64.b64encode(f.read())
-                    j_str = json.dumps( { "payload": b64_text } )
-                j_list.append(j_str)
-                h_inst.format_lists(debug, j_list, h_server, client_uuid)
-                j_list = []
-
+        if "pdf" in file_mime:
+            # DEBUG
+            try:
+                text = self.convert_pdf(debug, file)
+                j_str = json.dumps( { "payload" : text } )
+            except:
+                b64_text = base64.b64encode(f.read())
+                j_str = json.dumps( { "payload": b64_text } )
+            j_list.append(j_str)
+            h_inst.format_lists(debug, j_list, h_server, client_uuid)
+            j_list = []
 
     def convert_pdf(self, debug, input):
         # DEBUG

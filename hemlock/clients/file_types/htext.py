@@ -24,9 +24,8 @@ class Htext:
         f = open(file, 'rb')
         h_inst = hfs.HFs()
         # DEBUG
-        if file_mime:
-            if "text" in file_mime:
-                j_str = json.dumps( { "payload": repr(f.read()) } )
-                j_list.append(j_str)
-                h_inst.format_lists(debug, j_list, h_server, client_uuid)
-                j_list = []
+        if "text" in file_mime:
+            j_str = json.dumps( { "payload": repr(f.read()) } )
+            j_list.append(j_str)
+            h_inst.format_lists(debug, j_list, h_server, client_uuid)
+            j_list = []
