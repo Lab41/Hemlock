@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Example: Simple Multiple Files Uploader with Progress Tracking - YUI Library</title>
+
+    <meta name="viewport" content="width=960" id="meta-viewport">
+    <script>
+    if (screen.width < 768) {
+        document.getElementById('meta-viewport').setAttribute('content', 'width=768');
+    }
+    </script>
+
+
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic">
+
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.0/build/cssgrids/cssgrids-min.css">
+
+
+    <link rel="stylesheet" href="main-min.css">
+
+
+
+    <link rel="stylesheet" href="prettify-min.css">
+    <link rel="stylesheet" href="docs-min.css">
+
+
+
+
+        <script src="http://yui.yahooapis.com/3.12.0/build/yui/yui-min.js"></script>
+
+</head>
+<body class="yui3-skin-sam">
+
+
+<div id="doc">
+
+    <div id="bd" class="clearfix yui3-g">
+
+
+<div class="yui3-u-3-4 print-max-width">
+    <div id="docs-main" class="content">
+
+<div class="example yui3-skin-sam">
+    <style>
+#filelist {
+    margin-top: 15px;
+}
+
+#uploadFilesButtonContainer, #selectFilesButtonContainer, #overallProgress {
+    display: inline-block;
+}
+
+#overallProgress {
+    float: right;
+}
+</style>
+
+<div id="uploaderContainer">
+    <div id="selectFilesButtonContainer">
+    </div>
+    <div id="uploadFilesButtonContainer">
+      <button type="button" id="uploadFilesButton"
+              class="yui3-button" style="width:250px; height:35px;">Upload Files</button>
+    </div>
+    <div id="overallProgress">
+    </div>
+</div>
+
+<div id="filelist">
+  <table id="filenames">
+    <thead>
+       <tr><th>File name</th><th>File size</th><th>Percent uploaded</th></tr>
+       <tr id="nofiles">
+        <td colspan="3">
+            No files have been selected.
+        </td>
+       </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
+<script>
+
+YUI({filter:"raw"}).use("uploader", function(Y) {
+   if (Y.Uploader.TYPE != "none" && !Y.UA.ios) {
+       var uploader = new Y.Uploader({width: "250px",
+                                      height: "35px",
+                                      multipleFiles: true,
+                                      swfURL: "http://yui.yahooapis.com/3.12.0/build/uploader/assets/flashuploader.swf?t=" + Math.random(),
+                                      uploadURL: "http://yuilibrary.com/sandbox/upload/",
+                                      simLimit: 2,
+                                      withCredentials: false
+                                     });
+       var uploadDone = false;
+
+       uploader.render("#selectFilesButtonContainer");
+
+       uploader.after("fileselect", function (event) {
+
+          var fileList = event.fileList;
+          var fileTable = Y.one("#filenames tbody");
+          if (fileList.length > 0 && Y.one("#nofiles")) {
+            Y.one("#nofiles").remove();
+          }
+
+          if (uploadDone) {
+            uploadDone = false;
+            fileTable.setHTML("");
+          }
+
+          Y.each(fileList, function (fileInstance) {
+              fileTable.append("<tr id='" + fileInstance.get("id") + "_row" + "'>" +
+                                    "<td class='filename'>" + fileInstance.get("name") + "</td>" +
+                                    "<td class='filesize'>" + fileInstance.get("size") + "</td>" +
+                                    "<td class='percentdone'>Hasn't started yet</td>");
+                             });
+       });
+
+       uploader.on("uploadprogress", function (event) {
+            var fileRow = Y.one("#" + event.file.get("id") + "_row");
+                fileRow.one(".percentdone").set("text", event.percentLoaded + "%");
+       });
+
+       uploader.on("uploadstart", function (event) {
+            uploader.set("enabled", false);
+            Y.one("#uploadFilesButton").addClass("yui3-button-disabled");
+            Y.one("#uploadFilesButton").detach("click");
+       });
+
+       uploader.on("uploadcomplete", function (event) {
+            var fileRow = Y.one("#" + event.file.get("id") + "_row");
+                fileRow.one(".percentdone").set("text", "Finished!");
+       });
+
+       uploader.on("totaluploadprogress", function (event) {
+                Y.one("#overallProgress").setHTML("Total uploaded: <strong>" + event.percentLoaded + "%" + "</strong>");
+       });
+
+       uploader.on("alluploadscomplete", function (event) {
+                     uploader.set("enabled", true);
+                     uploader.set("fileList", []);
+                     Y.one("#uploadFilesButton").removeClass("yui3-button-disabled");
+                     Y.one("#uploadFilesButton").on("click", function () {
+                          if (!uploadDone && uploader.get("fileList").length > 0) {
+                             uploader.uploadAll();
+                          }
+                     });
+                     Y.one("#overallProgress").set("text", "Uploads complete!");
+                     uploadDone = true;
+       });
+
+       Y.one("#uploadFilesButton").on("click", function () {
+         if (!uploadDone && uploader.get("fileList").length > 0) {
+            uploader.uploadAll();
+         }
+       });
+   }
+   else {
+       Y.one("#uploaderContainer").set("text", "We are sorry, but to use the uploader, you either need a browser that support HTML5 or have the Flash player installed on your computer.");
+   }
+
+
+});
+
+</script>
+
+</div>
+
+
+    </div>
+</div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+    <script src="js-min.js"></script>
+
+
+
+    <script src="prettify-min.js"></script>
+    <script>prettyPrint();</script>
+
+
+</body>
+</html>
