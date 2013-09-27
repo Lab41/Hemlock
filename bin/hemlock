@@ -19,7 +19,7 @@ from hemlock.hemlock import Hemlock
 class HemlockCLI():
     def __init__(self):
         hemlock = Hemlock()
-        args, user, pw, db, server, c_server, c_user, bucket, c_pw, es, debug = hemlock.get_auth()
+        args, user, pw, db, server, c_server, c_user, bucket, c_pw, es, debug, no_couchbase = hemlock.get_auth()
         var_d, action = hemlock.process_args(debug, args)
         m_server = hemlock.mysql_server(debug, server, user, pw, db)
         x, error = hemlock.process_action(debug, action, var_d, m_server, c_server, c_user, bucket, c_pw, es)

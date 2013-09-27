@@ -1224,6 +1224,7 @@ class Hemlock():
         parser.add_option("-w", "--couchbase-password", action="store", dest="c_pw", help="Couchbase Password")
         parser.add_option("-e", "--elasticsearch-endpoint", action="store", dest="es", help="ElasticSearch Endpoint")
         parser.add_option("-D", "--debug", action="store_false", dest="debug", help="Debugging Mode")
+        parser.add_option("-z", "--no-couchbase", action="store_false", dest="no_couchbase", help="Don't use Couchbase")
         parser.add_option("-v", "--version", action="store_false", dest="version", help="Version")
         return parser.parse_args()
 
@@ -1290,12 +1291,17 @@ class Hemlock():
             sys.exit(0)
 
         if not args_leftover:
-            return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.c_user, options.bucket, options.c_pw, options.es, options.debug
+            return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.c_user, options.bucket, options.c_pw, options.es, options.debug, options.no_couchbase
 
         if options.debug == None:
             options.debug = 0
         else:
             options.debug = 1
+
+        if options.no_couchbase == None:
+            options.no_couchbase = 1
+        else:
+            options.no_couchbase = 0
 
         asked_for_creds = 0
 
@@ -1376,6 +1382,7 @@ class Hemlock():
                 options.pw = getpass.getpass("MySQL Password:")
                 self.log.debug(options.debug, "HEMLOCK_MYSQL_PW = "+str(options.pw))
 
+        # !! TODO only need couchbase creds if options.no_couchbase
         try:
             if options.c_server == None:
                 options.c_server = os.environ['HEMLOCK_COUCHBASE_SERVER']
@@ -1473,7 +1480,7 @@ class Hemlock():
                 options.es = getpass.getpass("ElasticSearch Endpoint:")
                 self.log.debug(options.debug, "HEMLOCK_ELASTICSEARCH_ENDPOINT = "+str(options.es))
 
-        return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.c_user, options.bucket, options.c_pw, options.es, options.debug
+        return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.c_user, options.bucket, options.c_pw, options.es, options.debug, options.no_couchbase
 
     def mysql_server(self, debug, server, user, pw, db):
         """
@@ -2505,7 +2512,7 @@ class Hemlock():
 if __name__ == "__main__":
     start_time = time.time()
     hemlock = Hemlock()
-    args, user, pw, db, server, c_server, c_user, bucket, c_pw, es, debug = hemlock.get_auth()
+    args, user, pw, db, server, c_server, c_user, bucket, c_pw, es, debug, no_couchbase = hemlock.get_auth()
     var_d, action = hemlock.process_args(debug, args)
     m_server = hemlock.mysql_server(debug, server, user, pw, db)
 
