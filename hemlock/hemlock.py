@@ -1507,6 +1507,7 @@ class Hemlock():
             be able to verify the client system
         :return: returns an instance of the couchbase connection
         """
+        # !! TODO make using couchbase optional
         # connect to the couchbase server
         h_server = ""
         try:

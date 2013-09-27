@@ -172,6 +172,7 @@ class Hemlock_Base():
             be able to verify the client system
         :return: returns an instance of the couchbase connection
         """
+        # !! TODO make using couchbase optional
         # connect to the hemlock server
         # required fields in the server creds file are as follows:
         #    HEMLOCK_COUCHBASE_SERVER
