@@ -28,7 +28,6 @@ from clients.hemlock_runner import Hemlock_Runner
 
 import hemlock_options_parser
 
-import couchbase
 import getpass
 import json
 import MySQLdb as mdb
@@ -1522,6 +1521,7 @@ class Hemlock():
             #    connection for elasticsearch
             print "not supported yet."
         else:
+            import couchbase
             # connect to the couchbase server
             try:
                 h_server = couchbase.Couchbase.connect(host=c_server,

@@ -27,7 +27,6 @@ from socket import *
 from hemlock_debugger import Hemlock_Debugger
 
 import ast
-import couchbase
 import datetime
 import hashlib
 import MySQLdb as mdb
@@ -180,16 +179,22 @@ class Hemlock_Base():
         #    HEMLOCK_COUCHBASE_USERNAME
         #    HEMLOCK_COUCHBASE_PW
         h_server = ""
-        try:
-            h_server = couchbase.Couchbase.connect(host=server_dict['HEMLOCK_COUCHBASE_SERVER'],
-                                 bucket=server_dict['HEMLOCK_COUCHBASE_BUCKET'],
-                                 username=server_dict['HEMLOCK_COUCHBASE_USERNAME'],
-                                 password=server_dict['HEMLOCK_COUCHBASE_PW'])
-            self.log.debug(debug, "Couchbase connection handle: "+str(h_server))
-        except:
-            print "Failure connecting to the Hemlock server"
-            self.log.debug(debug, str(sys.exc_info()[0]))
-            sys.exit(0)
+        no_couchbase = 0
+        if no_couchbase == 1:
+            # !! TODO
+            print "not supported yet."
+        else:
+            import couchbase
+            try:
+                h_server = couchbase.Couchbase.connect(host=server_dict['HEMLOCK_COUCHBASE_SERVER'],
+                                     bucket=server_dict['HEMLOCK_COUCHBASE_BUCKET'],
+                                     username=server_dict['HEMLOCK_COUCHBASE_USERNAME'],
+                                     password=server_dict['HEMLOCK_COUCHBASE_PW'])
+                self.log.debug(debug, "Couchbase connection handle: "+str(h_server))
+            except:
+                print "Failure connecting to the Hemlock server"
+                self.log.debug(debug, str(sys.exc_info()[0]))
+                sys.exit(0)
         return h_server
 
     def send_data(self, debug, data_list, desc_list, h_server, client_uuid):
