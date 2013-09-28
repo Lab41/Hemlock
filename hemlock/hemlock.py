@@ -1299,9 +1299,9 @@ class Hemlock():
             options.debug = 1
 
         if options.no_couchbase == None:
-            options.no_couchbase = 1
-        else:
             options.no_couchbase = 0
+        else:
+            options.no_couchbase = 1
 
         asked_for_creds = 0
 
@@ -1382,86 +1382,87 @@ class Hemlock():
                 options.pw = getpass.getpass("MySQL Password:")
                 self.log.debug(options.debug, "HEMLOCK_MYSQL_PW = "+str(options.pw))
 
-        # !! TODO only need couchbase creds if options.no_couchbase
-        try:
-            if options.c_server == None:
-                options.c_server = os.environ['HEMLOCK_COUCHBASE_SERVER']
-            self.log.debug(options.debug, "HEMLOCK_COUCHBASE_SERVER = "+str(options.c_server))
-        except:
-            if asked_for_creds == 0:
-                self.read_creds(options.debug)
-                asked_for_creds = 1
-                try:
+        # only need couchbase creds if options.no_couchbase isn't set
+        if options.no_couchbase == 0:
+            try:
+                if options.c_server == None:
                     options.c_server = os.environ['HEMLOCK_COUCHBASE_SERVER']
-                except:
+                self.log.debug(options.debug, "HEMLOCK_COUCHBASE_SERVER = "+str(options.c_server))
+            except:
+                if asked_for_creds == 0:
+                    self.read_creds(options.debug)
+                    asked_for_creds = 1
+                    try:
+                        options.c_server = os.environ['HEMLOCK_COUCHBASE_SERVER']
+                    except:
+                        options.c_server = raw_input("Couchbase Server (default is localhost):")
+                        if options.c_server == "":
+                            options.c_server = "localhost"
+                        self.log.debug(options.debug, "HEMLOCK_COUCHBASE_SERVER = "+str(options.c_server))
+                else:
                     options.c_server = raw_input("Couchbase Server (default is localhost):")
                     if options.c_server == "":
                         options.c_server = "localhost"
                     self.log.debug(options.debug, "HEMLOCK_COUCHBASE_SERVER = "+str(options.c_server))
-            else:
-                options.c_server = raw_input("Couchbase Server (default is localhost):")
-                if options.c_server == "":
-                    options.c_server = "localhost"
-                self.log.debug(options.debug, "HEMLOCK_COUCHBASE_SERVER = "+str(options.c_server))
 
-        try:
-            if options.bucket == None:
-                options.bucket = os.environ['HEMLOCK_COUCHBASE_BUCKET']
-            self.log.debug(options.debug, "HEMLOCK_COUCHBASE_BUCKET = "+str(options.bucket))
-        except:
-            if asked_for_creds == 0:
-                self.read_creds(options.debug)
-                asked_for_creds = 1
-                try:
+            try:
+                if options.bucket == None:
                     options.bucket = os.environ['HEMLOCK_COUCHBASE_BUCKET']
-                except:
+                self.log.debug(options.debug, "HEMLOCK_COUCHBASE_BUCKET = "+str(options.bucket))
+            except:
+                if asked_for_creds == 0:
+                    self.read_creds(options.debug)
+                    asked_for_creds = 1
+                    try:
+                        options.bucket = os.environ['HEMLOCK_COUCHBASE_BUCKET']
+                    except:
+                        options.bucket = raw_input("Couchbase Bucket (default is hemlock):")
+                        if options.bucket == "":
+                            options.bucket = "hemlock"
+                        self.log.debug(options.debug, "HEMLOCK_COUCHBASE_BUCKET = "+str(options.bucket))
+                else:
                     options.bucket = raw_input("Couchbase Bucket (default is hemlock):")
                     if options.bucket == "":
                         options.bucket = "hemlock"
                     self.log.debug(options.debug, "HEMLOCK_COUCHBASE_BUCKET = "+str(options.bucket))
-            else:
-                options.bucket = raw_input("Couchbase Bucket (default is hemlock):")
-                if options.bucket == "":
-                    options.bucket = "hemlock"
-                self.log.debug(options.debug, "HEMLOCK_COUCHBASE_BUCKET = "+str(options.bucket))
 
-        try:
-            if options.c_user == None:
-                options.c_user = os.environ['HEMLOCK_COUCHBASE_USERNAME']
-            self.log.debug(options.debug, "HEMLOCK_COUCHBASE_USERNAME = "+str(options.c_user))
-        except:
-            if asked_for_creds == 0:
-                self.read_creds(options.debug)
-                asked_for_creds = 1
-                try:
+            try:
+                if options.c_user == None:
                     options.c_user = os.environ['HEMLOCK_COUCHBASE_USERNAME']
-                except:
+                self.log.debug(options.debug, "HEMLOCK_COUCHBASE_USERNAME = "+str(options.c_user))
+            except:
+                if asked_for_creds == 0:
+                    self.read_creds(options.debug)
+                    asked_for_creds = 1
+                    try:
+                        options.c_user = os.environ['HEMLOCK_COUCHBASE_USERNAME']
+                    except:
+                        options.bucket = raw_input("Couchbase Username (default is hemlock):")
+                        if options.bucket == "":
+                            options.bucket = "hemlock"
+                        self.log.debug(options.debug, "HEMLOCK_COUCHBASE_USERNAME = "+str(options.c_user))
+                else:
                     options.bucket = raw_input("Couchbase Username (default is hemlock):")
                     if options.bucket == "":
                         options.bucket = "hemlock"
                     self.log.debug(options.debug, "HEMLOCK_COUCHBASE_USERNAME = "+str(options.c_user))
-            else:
-                options.bucket = raw_input("Couchbase Username (default is hemlock):")
-                if options.bucket == "":
-                    options.bucket = "hemlock"
-                self.log.debug(options.debug, "HEMLOCK_COUCHBASE_USERNAME = "+str(options.c_user))
 
-        try:
-            if options.c_pw == None:
-                options.c_pw = os.environ['HEMLOCK_COUCHBASE_PW']
-            self.log.debug(options.debug, "HEMLOCK_COUCHBASE_PW = "+str(options.c_pw))
-        except:
-            if asked_for_creds == 0:
-                self.read_creds(options.debug)
-                asked_for_creds = 1
-                try:
+            try:
+                if options.c_pw == None:
                     options.c_pw = os.environ['HEMLOCK_COUCHBASE_PW']
-                except:
+                self.log.debug(options.debug, "HEMLOCK_COUCHBASE_PW = "+str(options.c_pw))
+            except:
+                if asked_for_creds == 0:
+                    self.read_creds(options.debug)
+                    asked_for_creds = 1
+                    try:
+                        options.c_pw = os.environ['HEMLOCK_COUCHBASE_PW']
+                    except:
+                        options.c_pw = getpass.getpass("Couchbase Password:")
+                        self.log.debug(options.debug, "HEMLOCK_COUCHBASE_PW = "+str(options.c_pw))
+                else:
                     options.c_pw = getpass.getpass("Couchbase Password:")
                     self.log.debug(options.debug, "HEMLOCK_COUCHBASE_PW = "+str(options.c_pw))
-            else:
-                options.c_pw = getpass.getpass("Couchbase Password:")
-                self.log.debug(options.debug, "HEMLOCK_COUCHBASE_PW = "+str(options.c_pw))
 
         try:
             if options.es == None:
@@ -1504,7 +1505,7 @@ class Hemlock():
             sys.exit(0)
         return m_server
 
-    def connect_server(self, debug, c_server, c_user, c_bucket, c_pw):
+    def connect_server(self, debug, c_server, c_user, c_bucket, c_pw, no_couchbase):
         """
         Connects to the Hemlock couchbase server.
 
@@ -1514,22 +1515,27 @@ class Hemlock():
             be able to verify the client system
         :return: returns an instance of the couchbase connection
         """
-        # !! TODO make using couchbase optional
-        # connect to the couchbase server
         h_server = ""
-        try:
-            h_server = couchbase.Couchbase.connect(host=c_server,
-                                 bucket=c_bucket, 
-                                 username=c_user,
-                                 password=c_pw)
-            self.log.debug(debug, "Couchbase connection handle: "+str(h_server)) 
-        except:
-            print "Failure connecting to the Hemlock server"
-            self.log.debug(debug, str(sys.exc_info()[0]))
-            sys.exit(0)
+        # !! TODO make using couchbase optional
+        if no_couchbase == 1:
+            # !! TODO
+            #    connection for elasticsearch
+            print "not supported yet."
+        else:
+            # connect to the couchbase server
+            try:
+                h_server = couchbase.Couchbase.connect(host=c_server,
+                                     bucket=c_bucket,
+                                     username=c_user,
+                                     password=c_pw)
+                self.log.debug(debug, "Couchbase connection handle: "+str(h_server)) 
+            except:
+                print "Failure connecting to the Hemlock server"
+                self.log.debug(debug, str(sys.exc_info()[0]))
+                sys.exit(0)
         return h_server
 
-    def process_action(self, debug, action, var_d, m_server, c_server, c_user, bucket, c_pw, es):
+    def process_action(self, debug, action, var_d, m_server, c_server, c_user, bucket, c_pw, no_couchbase, es):
         """
         Processes the action that was supplied.
 
@@ -1676,7 +1682,7 @@ class Hemlock():
             #    }
             # }'
 
-            h_server = self.connect_server(debug, c_server, c_user, bucket, c_pw)
+            h_server = self.connect_server(debug, c_server, c_user, bucket, c_pw, no_couchbase)
 
             payload = "{\"size\":100,\"query\":{\"bool\":{\"must\":[{\"match\":{\"doc.hemlock-system\":{\"query\":\""
 
@@ -1684,6 +1690,7 @@ class Hemlock():
             data_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--user']+"'"
             cur.execute(data_action)
             results = cur.fetchall()
+            system_flag = 0
             for tenant in results:
                 # get the list of systems that the user has access to via tenants
                 data_action = "SELECT * FROM systems_tenants WHERE tenant_id = '"+tenant[1]+"'"
@@ -1691,11 +1698,17 @@ class Hemlock():
                 systems = cur.fetchall()
                 for system in systems:
                     payload += system[0]+" "
+                    system_flag = 1
 
-            # !! TODO if no systems
+            # if no systems
+            if system_flag == 0:
+                print "No systems have been added the tenants this user belongs to."
+                sys.exit(0)
+
             payload = payload[:-1]
             payload += "\",\"operator\":\"or\"}}}],\"should\":[{\"match\":{\"_all\":\""+var_d['--query']+"\"}}]}}}"
 
+            # !! TODO fix error when there are no results
             url = "http://"+es+":9200/hemlock/_search"
             r = requests.post(url, data=json.dumps(json.loads(payload)))
             results = r.json()
@@ -2073,7 +2086,7 @@ class Hemlock():
                             args.append(key)
                             args.append(var_d[key])
                         client_uuid, client, splits = hemlock_base.process_args(debug, args)
-                        
+
                         CLIENT_CREDS_FILE, c_inst = hemlock_base.client_import(debug, client)
 
                         # using the client_uuid get the system_id
@@ -2517,7 +2530,7 @@ if __name__ == "__main__":
     var_d, action = hemlock.process_args(debug, args)
     m_server = hemlock.mysql_server(debug, server, user, pw, db)
 
-    x, error = hemlock.process_action(debug, action, var_d, m_server, c_server, c_user, bucket, c_pw, es)
+    x, error = hemlock.process_action(debug, action, var_d, m_server, c_server, c_user, bucket, c_pw, no_couchbase, es)
     hemlock.log.debug(debug, "Rows: "+str(x))
     hemlock.log.debug(debug, "Errors encountered: "+str(error))
 
