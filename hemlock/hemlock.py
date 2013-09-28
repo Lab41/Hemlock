@@ -1692,6 +1692,7 @@ class Hemlock():
                 for system in systems:
                     payload += system[0]+" "
 
+            # !! TODO if no systems
             payload = payload[:-1]
             payload += "\",\"operator\":\"or\"}}}],\"should\":[{\"match\":{\"_all\":\""+var_d['--query']+"\"}}]}}}"
 
