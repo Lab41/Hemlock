@@ -1708,7 +1708,6 @@ class Hemlock():
             payload = payload[:-1]
             payload += "\",\"operator\":\"or\"}}}],\"should\":[{\"match\":{\"_all\":\""+var_d['--query']+"\"}}]}}}"
 
-            # !! TODO fix error when there are no results
             url = "http://"+es+":9200/hemlock/_search"
             r = requests.post(url, data=json.dumps(json.loads(payload)))
             results = r.json()
@@ -1717,12 +1716,16 @@ class Hemlock():
             for result in results:
                 result_list.append(result['_id'])
 
-            records = []
-            c = h_server.get_multi(result_list)
-            for key, result in c.items():
-                records.append(result.value)
-            for record in records:
-                print record
+            if result_list:
+                records = []
+                c = h_server.get_multi(result_list)
+                for key, result in c.items():
+                    records.append(result.value)
+                for record in records:
+                    print record
+            else:
+                print "No results."
+                sys.exit(0)
 
         elif "system" in action_a:
             # update to systems/clients table
