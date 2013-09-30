@@ -1517,6 +1517,7 @@ class Hemlock():
         h_server = ""
         # !! TODO make using couchbase optional
         if no_couchbase == 1:
+            import pyes
             # !! TODO
             #    connection for elasticsearch
             print "not supported yet."

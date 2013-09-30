@@ -181,6 +181,7 @@ class Hemlock_Base():
         h_server = ""
         no_couchbase = 0
         if no_couchbase == 1:
+            import pyes
             # !! TODO
             print "not supported yet."
         else:
