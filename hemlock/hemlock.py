@@ -1504,7 +1504,7 @@ class Hemlock():
             sys.exit(0)
         return m_server
 
-    def connect_server(self, debug, c_server, c_user, c_bucket, c_pw, no_couchbase):
+    def connect_server(self, debug, c_server, c_user, c_bucket, c_pw, es, no_couchbase):
         """
         Connects to the Hemlock couchbase server.
 
@@ -1515,12 +1515,17 @@ class Hemlock():
         :return: returns an instance of the couchbase connection
         """
         h_server = ""
-        # !! TODO make using couchbase optional
         if no_couchbase == 1:
             import pyes
-            # !! TODO
-            #    connection for elasticsearch
+            # connect to the elasticsearch server
             print "not supported yet."
+            try:
+                h_server = pyes.ES(("http", es, "9200"))
+                self.log.debug(debug, "ElasticSearch connection handle: "+str(h_server)) 
+            except:
+                print "Failure connecting to the Hemlock server"
+                self.log.debug(debug, str(sys.exc_info()[0]))
+                sys.exit(0)
         else:
             import couchbase
             # connect to the couchbase server
@@ -1683,7 +1688,7 @@ class Hemlock():
             #    }
             # }'
 
-            h_server = self.connect_server(debug, c_server, c_user, bucket, c_pw, no_couchbase)
+            h_server = self.connect_server(debug, c_server, c_user, bucket, c_pw, es, no_couchbase)
 
             payload = "{\"size\":100,\"query\":{\"bool\":{\"must\":[{\"match\":{\"doc.hemlock-system\":{\"query\":\""
 

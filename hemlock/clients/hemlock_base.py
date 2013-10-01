@@ -184,6 +184,16 @@ class Hemlock_Base():
             import pyes
             # !! TODO
             print "not supported yet."
+            import pyes
+            # connect to the elasticsearch server
+            print "not supported yet."
+            try:
+                h_server = pyes.ES(("http", server_dict['HEMLOCK_ELASTICSEARCH_ENDPOINT'], "9200"))
+                self.log.debug(debug, "ElasticSearch connection handle: "+str(h_server))·
+            except:
+                print "Failure connecting to the Hemlock server"
+                self.log.debug(debug, str(sys.exc_info()[0]))
+                sys.exit(0)
         else:
             import couchbase
             try:
