@@ -1521,7 +1521,7 @@ class Hemlock():
             print "not supported yet."
             try:
                 h_server = pyes.ES(("http", es, "9200"))
-                self.log.debug(debug, "ElasticSearch connection handle: "+str(h_server)) 
+                self.log.debug(debug, "ElasticSearch connection handle: "+str(h_server))
             except:
                 print "Failure connecting to the Hemlock server"
                 self.log.debug(debug, str(sys.exc_info()[0]))
@@ -1534,7 +1534,7 @@ class Hemlock():
                                      bucket=c_bucket,
                                      username=c_user,
                                      password=c_pw)
-                self.log.debug(debug, "Couchbase connection handle: "+str(h_server)) 
+                self.log.debug(debug, "Couchbase connection handle: "+str(h_server))
             except:
                 print "Failure connecting to the Hemlock server"
                 self.log.debug(debug, str(sys.exc_info()[0]))

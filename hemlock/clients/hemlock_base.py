@@ -171,7 +171,6 @@ class Hemlock_Base():
             be able to verify the client system
         :return: returns an instance of the couchbase connection
         """
-        # !! TODO make using couchbase optional
         # connect to the hemlock server
         # required fields in the server creds file are as follows:
         #    HEMLOCK_COUCHBASE_SERVER
@@ -179,17 +178,14 @@ class Hemlock_Base():
         #    HEMLOCK_COUCHBASE_USERNAME
         #    HEMLOCK_COUCHBASE_PW
         h_server = ""
+        # !! TODO make using couchbase optional
         no_couchbase = 0
         if no_couchbase == 1:
             import pyes
-            # !! TODO
-            print "not supported yet."
-            import pyes
             # connect to the elasticsearch server
-            print "not supported yet."
             try:
                 h_server = pyes.ES(("http", server_dict['HEMLOCK_ELASTICSEARCH_ENDPOINT'], "9200"))
-                self.log.debug(debug, "ElasticSearch connection handle: "+str(h_server))·
+                self.log.debug(debug, "ElasticSearch connection handle: "+str(h_server))
             except:
                 print "Failure connecting to the Hemlock server"
                 self.log.debug(debug, str(sys.exc_info()[0]))
