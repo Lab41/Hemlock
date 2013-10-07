@@ -238,6 +238,12 @@ class Hemlock_Base():
                 j_dict['hemlock-date'] = time.strftime('%Y-%m-%d %H:%M:%S')
                 t_dict[uid.hexdigest()] = j_dict
                 # requires couchbase 1.0 client
+
+                # !! TODO check if couchbase or elasticsearch
+                #h_server.index(j_dict, 'hemlock', 'couchbaseDocument', uid, bulk=True)
+                # !! TODO put some kind of counter here and then refresh
+                #h_server.refresh()
+
                 # !! TODO this should be a parameter, not hardcoded
                 if len(t_dict) > 250000:
                     try:
