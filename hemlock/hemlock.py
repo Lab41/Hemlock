@@ -1514,6 +1514,7 @@ class Hemlock():
             be able to verify the client system
         :return: returns an instance of the couchbase connection
         """
+        # !! TODO update comments above with correct params
         h_server = ""
         if no_couchbase == 1:
             import pyes
@@ -1552,6 +1553,7 @@ class Hemlock():
         :param m_server: instance of MySQL connection
         :return: list of results and any errors that may have occurred.
         """
+        # !! TODO update comments above with correct params
         error = 0
 
         # !! TODO try/except
