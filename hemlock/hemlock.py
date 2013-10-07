@@ -1518,7 +1518,6 @@ class Hemlock():
         if no_couchbase == 1:
             import pyes
             # connect to the elasticsearch server
-            print "not supported yet."
             try:
                 h_server = pyes.ES(("http", es, "9200"))
                 self.log.debug(debug, "ElasticSearch connection handle: "+str(h_server))
@@ -1722,16 +1721,26 @@ class Hemlock():
             for result in results:
                 result_list.append(result['_id'])
 
-            if result_list:
-                records = []
-                c = h_server.get_multi(result_list)
-                for key, result in c.items():
-                    records.append(result.value)
-                for record in records:
-                    print record
+            if no_couchbase:
+                if results:
+                    # !! TODO
+                    #    format this the same way that it would get output if
+                    #    it was couchbase so it's consistent.
+                    print results
+                else:
+                    print "No results."
+                    sys.exit(0)
             else:
-                print "No results."
-                sys.exit(0)
+                if result_list:
+                    records = []
+                    c = h_server.get_multi(result_list)
+                    for key, result in c.items():
+                        records.append(result.value)
+                    for record in records:
+                        print record
+                else:
+                    print "No results."
+                    sys.exit(0)
 
         elif "system" in action_a:
             # update to systems/clients table
@@ -2112,7 +2121,7 @@ class Hemlock():
                         # verify that the system exists and is properly associated
                         hemlock_base.verify_system(debug, system_uuid, server_dict)
 
-                        h_server = hemlock_base.connect_server(debug, server_dict)
+                        h_server = hemlock_base.connect_server(debug, server_dict, no_couchbase)
 
                         if not client.startswith("stream"):
                             c_server = c_inst.connect_client(debug, client_dict)
@@ -2129,6 +2138,8 @@ class Hemlock():
                     elif "schedule" in action_a:
                         # !! TODO ensure that the same client is not added to the same schedule more than once
                         # create a schedule that is associated with a client
+
+                        # !! TODO add a parameter that has the no_couchbase flag
                         data_action = "INSERT INTO schedules("
                         data_action2 = "INSERT INTO schedules_"+action_a[0]+"s("
                         i = 0

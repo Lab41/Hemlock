@@ -161,7 +161,7 @@ class Hemlock_Base():
             sys.exit(0)
         return
 
-    def connect_server(self, debug, server_dict):
+    def connect_server(self, debug, server_dict, no_couchbase):
         """
         Connects to the Hemlock couchbase server.
 
@@ -178,8 +178,7 @@ class Hemlock_Base():
         #    HEMLOCK_COUCHBASE_USERNAME
         #    HEMLOCK_COUCHBASE_PW
         h_server = ""
-        # !! TODO make using couchbase optional
-        no_couchbase = 0
+        # make using couchbase optional
         if no_couchbase == 1:
             import pyes
             # connect to the elasticsearch server
@@ -241,6 +240,7 @@ class Hemlock_Base():
                 # !! TODO this should be a parameter, not hardcoded
                 if len(t_dict) > 250000:
                     try:
+                        # !! TODO check if couchbase or elasticsearch
                         h_server.set_multi(t_dict, format=couchbase.FMT_JSON)
                     except:
                         print "Failure."
@@ -254,6 +254,7 @@ class Hemlock_Base():
             # requires couchbase 1.0 client
             if t_dict:
                 try:
+                    # !! TODO check if couchbase or elasticsearch
                     h_server.set_multi(t_dict, format=couchbase.FMT_JSON)
                 except:
                     print "Failure."

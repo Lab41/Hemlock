@@ -172,6 +172,7 @@ class Hemlock_Scheduler():
         result = os.popen(cmd).read()
         if result[0] <= "1":
             # only run the client if there isn't already one running
+            # !! TODO run with no_couchbase flag
             cmd = "hemlock client-run --uuid "+results[0][1] 
             result = os.system(cmd)
         else:
