@@ -2139,7 +2139,6 @@ class Hemlock():
                         # !! TODO ensure that the same client is not added to the same schedule more than once
                         # create a schedule that is associated with a client
 
-                        # !! TODO add a parameter that has the no_couchbase flag
                         data_action = "INSERT INTO schedules("
                         data_action2 = "INSERT INTO schedules_"+action_a[0]+"s("
                         i = 0
@@ -2166,6 +2165,7 @@ class Hemlock():
                         self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action2)
                     # write
                     elif "store" in action_a:
+                        # !! TODO add a parameter that has the no_couchbase flag
                         # store client credentials
                         data_action = "INSERT INTO "+action_a[0]+"s("
                         data_action2 = "INSERT INTO systems_"+action_a[0]+"s("
