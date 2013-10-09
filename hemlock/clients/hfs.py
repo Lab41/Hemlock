@@ -42,12 +42,12 @@ class HFs:
             sys.exit(0)
         return input
 
-    def get_data(self, debug, client_dict, c_server, h_server, client_uuid):
+    def get_data(self, debug, client_dict, c_server, h_server, client_uuid, no_couchbase):
         # DEBUG
-        self.scan_file_types(debug, c_server, h_server, client_uuid)
+        self.scan_file_types(debug, c_server, h_server, client_uuid, no_couchbase)
         return [[]], []
 
-    def format_lists(self, debug, j_list, h_server, client_uuid):
+    def format_lists(self, debug, j_list, h_server, client_uuid, no_couchbase):
         # DEBUG
         data_list = [[]]
         desc_list = []
@@ -64,10 +64,10 @@ class HFs:
                 desc_list[i].append([str(key)])
             i += 1
         h_inst = hemlock_base.Hemlock_Base()
-        h_inst.send_data(debug, data_list, desc_list, h_server, client_uuid)
+        h_inst.send_data(debug, data_list, desc_list, h_server, client_uuid, no_couchbase)
         return 
 
-    def scan_file_types(self, debug, c_server, h_server, client_uuid):
+    def scan_file_types(self, debug, c_server, h_server, client_uuid, no_couchbase):
         pkgpath = os.path.dirname(file_types.__file__)
         fs_mods = [name for _, name, _ in pkgutil.iter_modules([pkgpath])]
 

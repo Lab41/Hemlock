@@ -50,12 +50,12 @@ class HFs:
             sys.exit(0)
         return input
 
-    def get_data(self, debug, client_dict, c_server, h_server, client_uuid):
+    def get_data(self, debug, client_dict, c_server, h_server, client_uuid, no_couchbase):
         # DEBUG
-        self.process_files(debug, c_server, h_server, client_uuid)
+        self.process_files(debug, c_server, h_server, client_uuid, no_couchbase)
         return [[]], []
 
-    def format_lists(self, debug, j_list, h_server, client_uuid):
+    def format_lists(self, debug, j_list, h_server, client_uuid, no_couchbase):
         # DEBUG
         data_list = [[]]
         desc_list = []
@@ -72,10 +72,10 @@ class HFs:
                 desc_list[i].append([str(key)])
             i += 1
         h_inst = hemlock_base.Hemlock_Base()
-        h_inst.send_data(debug, data_list, desc_list, h_server, client_uuid)
+        h_inst.send_data(debug, data_list, desc_list, h_server, client_uuid, no_couchbase)
         return 
 
-    def process_files(self, debug, input, h_server, client_uuid):
+    def process_files(self, debug, input, h_server, client_uuid, no_couchbase):
         # !! TODO
         #    check by file extension first, import from file_types should match
         #    extension name. second check mimetype, again file_types should 
@@ -119,14 +119,14 @@ class HFs:
                                 if j_str != "}":
                                     j_str = json.dumps(repr(j_str))
                                     j_list.append(j_str)
-                                    self.format_lists(debug, j_list, h_server, client_uuid)
+                                    self.format_lists(debug, j_list, h_server, client_uuid, no_couchbase)
                                     j_list = []
                                     i += 1
                     except:
                         f = open(file, 'rb')
                         j_str = json.dumps( { "payload": f.read() } )
                         j_list.append(j_str)
-                        self.format_lists(debug, j_list, h_server, client_uuid)
+                        self.format_lists(debug, j_list, h_server, client_uuid, no_couchbase)
                         j_list = []
                         i += 1
                 elif "xls" in file:
@@ -161,20 +161,20 @@ class HFs:
                                 if j_str != "}":
                                     j_str = json.dumps(j_str)
                                     j_list.append(j_str)
-                                    self.format_lists(debug, j_list, h_server, client_uuid)
+                                    self.format_lists(debug, j_list, h_server, client_uuid, no_couchbase)
                                     j_list = []
                                     i += 1
                     except:
                         b64_text = base64.b64encode(f.read())
                         j_str = json.dumps( { "payload": b64_text } )
                         j_list.append(j_str)
-                        self.format_lists(debug, j_list, h_server, client_uuid)
+                        self.format_lists(debug, j_list, h_server, client_uuid, no_couchbase)
                         j_list = []
                         i += 1
                 else:
                     j_str = json.dumps( { "payload": f.read() } )
                     j_list.append(j_str)
-                    self.format_lists(debug, j_list, h_server, client_uuid)
+                    self.format_lists(debug, j_list, h_server, client_uuid, no_couchbase)
                     j_list = []
                     i += 1
             except:
@@ -218,7 +218,7 @@ class HFs:
                                     a = []
                                     b = {}
                                     j_list.append(j_str)
-                                    self.format_lists(debug, j_list, h_server, client_uuid)
+                                    self.format_lists(debug, j_list, h_server, client_uuid, no_couchbase)
                                     j_list = []
                                 a.append(line)
                             g.close()
@@ -239,7 +239,7 @@ class HFs:
                         j_str = json.dumps( { "payload": b64_text } )
                     i += 1
                     j_list.append(j_str)
-                    self.format_lists(debug, j_list, h_server, client_uuid)
+                    self.format_lists(debug, j_list, h_server, client_uuid, no_couchbase)
                     j_list = []
                 else:
                     print file, "no mimetype"

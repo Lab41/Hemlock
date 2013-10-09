@@ -42,7 +42,7 @@ class HMongo:
             sys.exit(0)
         return c_collection
 
-    def get_data(self, debug, client_dict, c_server, h_server, client_uuid):
+    def get_data(self, debug, client_dict, c_server, h_server, client_uuid, no_couchbase):
         data_list = [[]]
         desc_list = []
 

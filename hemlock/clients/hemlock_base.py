@@ -204,7 +204,7 @@ class Hemlock_Base():
                 sys.exit(0)
         return h_server
 
-    def send_data(self, debug, data_list, desc_list, h_server, client_uuid):
+    def send_data(self, debug, data_list, desc_list, h_server, client_uuid, no_couchbase):
         """
         Sends data to the Hemlock couchbase server that is recieved from the
         client system.
@@ -217,10 +217,17 @@ class Hemlock_Base():
         :param h_server: instnace of the couchbase connection
         :param client_uuid: uuid of the client system
         """
+        # !! TODO update comments above with correct params
         j_dict = {}
         j = 0
         i = 0
         e = 0
+
+        if no_couchbase:
+            import pyes
+        else:
+            import couchbase
+
         # DEBUG
         for table_data in data_list:
             t_dict = {}

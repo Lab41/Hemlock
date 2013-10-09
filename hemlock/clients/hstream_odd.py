@@ -25,7 +25,7 @@ import multiprocessing
 import socket
 import sys
 
-def handle(debug, connection, address, h_server, client_uuid):
+def handle(debug, connection, address, h_server, client_uuid, no_couchbase):
     h_inst = hemlock_base.Hemlock_Base()
     data_list = [[]]
     desc_list = []
@@ -63,7 +63,7 @@ def handle(debug, connection, address, h_server, client_uuid):
             # !! TODO
             #    should be this moved so that it doesn't send data
             #    for every piece recieved, will it be too slow?
-            h_inst.send_data(debug, data_list, desc_list, h_server, client_uuid)
+            h_inst.send_data(debug, data_list, desc_list, h_server, client_uuid, no_couchbase)
     except:
         logger.exception("Problem handling request")
     finally:
@@ -75,7 +75,7 @@ class HStream_Odd:
         self.log = Hemlock_Debugger()
         self.logger = logging.getLogger("server")
 
-    def connect_client(self, debug, client_dict, h_server, client_uuid):
+    def connect_client(self, debug, client_dict, h_server, client_uuid, no_couchbase):
         # connect to the stream server
         # required fields in the client creds file are as follows:
         #    HOST
@@ -86,7 +86,7 @@ class HStream_Odd:
         logging.basicConfig(filename='scheduler.log', level=logging.DEBUG)
         try:
             logging.info("Listening")
-            self.start(debug, hostname, port, h_server, client_uuid)
+            self.start(debug, hostname, port, h_server, client_uuid, no_couchbase)
         except:
             logging.exception("Unexpected exception")
         finally:
@@ -99,7 +99,7 @@ class HStream_Odd:
 
         return ""
 
-    def start(self, debug, hostname, port, h_server, client_uuid):
+    def start(self, debug, hostname, port, h_server, client_uuid, no_couchbase):
         self.logger.debug("listening")
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.bind((hostname, port))
@@ -108,7 +108,7 @@ class HStream_Odd:
         while True:
             conn, address = self.socket.accept()
             self.logger.debug("Got connection")
-            process = multiprocessing.Process(target=handle, args=(debug, conn, address, h_server, client_uuid))
+            process = multiprocessing.Process(target=handle, args=(debug, conn, address, h_server, client_uuid, no_couchbase))
             process.daemon = True
             process.start()
             self.logger.debug("Started process %r", process)

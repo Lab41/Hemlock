@@ -49,7 +49,7 @@ class HMysql:
             sys.exit(0)
         return c_server
 
-    def get_data(self, debug, client_dict, c_server, h_server, client_uuid):
+    def get_data(self, debug, client_dict, c_server, h_server, client_uuid, no_couchbase):
         # DEBUG
         h_inst = hemlock_base.Hemlock_Base()
         query_list = []
@@ -83,7 +83,7 @@ class HMysql:
             while result:
                 result = cur.fetchmany(1000)
                 data_list.append(result)
-                h_inst.send_data(debug, data_list, desc_list, h_server, client_uuid)
+                h_inst.send_data(debug, data_list, desc_list, h_server, client_uuid, no_couchbase)
                 data_list = []
             desc_list = []
 

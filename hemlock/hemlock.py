@@ -2133,8 +2133,8 @@ class Hemlock():
                         desc_list = []
 
                         if not client.startswith("stream"):
-                            data_list, desc_list = c_inst.get_data(debug, client_dict, c_server, h_server, system_uuid)
-                        hemlock_base.send_data(debug, data_list, desc_list, h_server, system_uuid)
+                            data_list, desc_list = c_inst.get_data(debug, client_dict, c_server, h_server, system_uuid, no_couchbase)
+                        hemlock_base.send_data(debug, data_list, desc_list, h_server, system_uuid, no_couchbase)
                         hemlock_base.update_hemlock(debug, system_uuid, server_dict)
                     # write
                     elif "schedule" in action_a:

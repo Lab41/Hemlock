@@ -58,7 +58,7 @@ class HRest:
             sys.exit(0)
         return auth_token
 
-    def get_data(self, debug, client_dict, c_server, h_server, client_uuid):
+    def get_data(self, debug, client_dict, c_server, h_server, client_uuid, no_couchbase):
         data_list = [[]]
         desc_list = []
 
