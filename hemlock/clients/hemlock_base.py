@@ -245,7 +245,7 @@ class Hemlock_Base():
                 j_dict['hemlock-date'] = time.strftime('%Y-%m-%d %H:%M:%S')
 
                 if no_couchbase:
-                    h_server.index(j_dict, 'hemlock', 'couchbaseDocument', uid, bulk=True)
+                    h_server.index(j_dict, 'hemlock', 'hemlockDocument', uid.hexdigest(), bulk=True)
                     # !! TODO this should be a parameter, not hardcoded
                     if i % 250000 == 0:
                         h_server.refresh()
