@@ -1510,11 +1510,16 @@ class Hemlock():
 
         :param debug: instance of
             :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
-        :param server_dict: credentials for connecting to the Hemlock server to
-            be able to verify the client system
-        :return: returns an instance of the couchbase connection
+        :param c_server: couchbase server ip address
+        :param c_user: couchbase username
+        :param c_bucket: couchbase bucket
+        :param c_pw: couchbase password
+        :param es: elasticsearch server ip address
+        :param no_couchbase: flag of whether or not to use a couchbase
+            connection or an elasticsearch connection
+        :return: returns an instance of the couchbase or elasticsearch
+            connection
         """
-        # !! TODO update comments above with correct params
         h_server = ""
         if no_couchbase == 1:
             import pyes
@@ -1551,9 +1556,15 @@ class Hemlock():
         :param var_d: dictionary of key/values that contain the parameters for
             the action
         :param m_server: instance of MySQL connection
+        :param c_server: couchbase server ip address
+        :param c_user: couchbase username
+        :param bucket: couchbase bucket
+        :param c_pw: couchbase password
+        :param no_couchbase: flag of whether or not to use a couchbase
+            connection or an elasticsearch connection
+        :param es: elasticsearch server ip address
         :return: list of results and any errors that may have occurred.
         """
-        # !! TODO update comments above with correct params
         error = 0
 
         # !! TODO try/except

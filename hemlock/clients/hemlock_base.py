@@ -169,9 +169,10 @@ class Hemlock_Base():
             :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
         :param server_dict: credentials for connecting to the Hemlock server to
             be able to verify the client system
+        :param no_couchbase: flag of whether or not to use a couchbase
+            connection or an elasticsearch connection
         :return: returns an instance of the couchbase connection
         """
-        # !! TODO update comments above with correct params
         # connect to the hemlock server
         # required fields in the server creds file are as follows:
         #    HEMLOCK_COUCHBASE_SERVER
@@ -216,8 +217,9 @@ class Hemlock_Base():
             can be empty
         :param h_server: instnace of the couchbase connection
         :param client_uuid: uuid of the client system
+        :param no_couchbase: flag of whether or not to use a couchbase
+            connection or an elasticsearch connection
         """
-        # !! TODO update comments above with correct params
         j_dict = {}
         j = 0
         i = 0
