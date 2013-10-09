@@ -243,39 +243,34 @@ class Hemlock_Base():
                 uid = hashlib.sha1(repr(sorted(j_dict.items())))
                 j_dict['hemlock-system'] = client_uuid
                 j_dict['hemlock-date'] = time.strftime('%Y-%m-%d %H:%M:%S')
-                # !! TODO only for couchbase
-                t_dict[uid.hexdigest()] = j_dict
+
+                if no_couchbase:
+                    h_server.index(j_dict, 'hemlock', 'couchbaseDocument', uid, bulk=True)
+                    # !! TODO this should be a parameter, not hardcoded
+                    if i % 250000 == 0:
+                        h_server.refresh()
+                else:
+                    t_dict[uid.hexdigest()] = j_dict
+                    # requires couchbase 1.0 client
+                    # !! TODO this should be a parameter, not hardcoded
+                    if len(t_dict) > 250000:
+                        try:
+                            h_server.set_multi(t_dict, format=couchbase.FMT_JSON)
+                        except:
+                            e += 1
+                            print "Failure."
+                        t_dict = {}
+                i += 1
+            if no_couchbase:
+                h_server.refresh()
+            else:
                 # requires couchbase 1.0 client
-
-                # !! TODO check if couchbase or elasticsearch
-                # !! TODO only for elasticsearch
-                #h_server.index(j_dict, 'hemlock', 'couchbaseDocument', uid, bulk=True)
-                # !! TODO this should be a parameter, not hardcoded
-                #if i % 250000 == 0:
-                #    h_server.refresh()
-
-                # !! TODO only for couchbase
-                # !! TODO this should be a parameter, not hardcoded
-                if len(t_dict) > 250000:
+                if t_dict:
                     try:
-                        # !! TODO check if couchbase or elasticsearch
                         h_server.set_multi(t_dict, format=couchbase.FMT_JSON)
                     except:
+                        e += 1
                         print "Failure."
-                    t_dict = {}
-                #try:
-                #    h_server.set(uid.hexdigest(), j_dict, format=couchbase.FMT_JSON)
-                #except:
-                #    print "Failed to send record."
-                #    e += 1
-                i += 1
-            # requires couchbase 1.0 client
-            # !! TODO only for couchbase
-            if t_dict:
-                try:
-                    h_server.set_multi(t_dict, format=couchbase.FMT_JSON)
-                except:
-                    print "Failure."
             j += 1
         # DEBUG
         print i,"records"
