@@ -1587,7 +1587,7 @@ class Hemlock():
 
         # create mysql tables that don't already exist
         if "clients" not in tables:
-            client_table = "CREATE TABLE IF NOT EXISTS clients(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), type VARCHAR(50), credentials BLOB, created DATETIME, INDEX (uuid)) ENGINE = INNODB"
+            client_table = "CREATE TABLE IF NOT EXISTS clients(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), no_couchbase VARCHAR(1), name VARCHAR(50), type VARCHAR(50), credentials BLOB, created DATETIME, INDEX (uuid)) ENGINE = INNODB"
             cur.execute(client_table)
             self.log.debug(debug, "Created table: "+str(client_table))
         if "hemlock_server" not in tables:
@@ -2185,6 +2185,10 @@ class Hemlock():
                         i = 0
                         j = -1
                         k = -1
+
+                        # add couchbase flag for use with scheduling
+                        data_action += "no_couchbase, "
+
                         for prop in props:
                             if prop == "credential_file": 
                                 data_action += "credentials, "
@@ -2196,6 +2200,10 @@ class Hemlock():
                                 data_action += prop+", "
                             i += 1
                         data_action = data_action[:-2]+") VALUES("
+
+                        # add couchbase flag for use with scheduling
+                        data_action += "\""+str(no_couchbase)+"\", "
+
                         i = 0
                         for val in vals:
                             if j == i:

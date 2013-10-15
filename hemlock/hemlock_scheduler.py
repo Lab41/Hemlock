@@ -150,14 +150,13 @@ class Hemlock_Scheduler():
             print "MySQL server failure"
             sys.exit(0)
 
+        # !! TODO try/except
         cur = m_server.cursor()
         self.log.debug(self.debug, "MySQL Cursor: "+str(cur))
 
         cur.execute("SELECT * FROM schedules_clients WHERE schedule_id = '"+name+"'")
         results = cur.fetchall()
         self.log.debug(self.debug, str(results))
-        m_server.commit()
-        m_server.close()
 
         try:
             for cred in server_dict:
@@ -172,13 +171,25 @@ class Hemlock_Scheduler():
         result = os.popen(cmd).read()
         if result[0] <= "1":
             # only run the client if there isn't already one running
-            # !! TODO run with no_couchbase flag
-            cmd = "hemlock client-run --uuid "+results[0][1] 
+            cur.execute("SELECT * FROM clients WHERE uuid = '"+results[0][1]+"'")
+            client_results = cur.fetchall()
+            self.log.debug(self.debug, str(client_results))
+
+            if client_results[0][2] == "0":
+                cmd = "hemlock client-run --uuid "+results[0][1] 
+            # run without couchbase
+            else:
+                cmd = "hemlock client-run --uuid "+results[0][1]+" -z" 
             result = os.system(cmd)
         else:
+            # !! TODO try/except
             f = open('scheduler.log', 'a')
             f.write("The client: "+results[0][1]+" is already running, skipping this run.\n")
             f.close()
+
+        # !! TODO try/except
+        m_server.commit()
+        m_server.close()
 
     def init_schedule(self):
         """
