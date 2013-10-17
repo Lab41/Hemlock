@@ -1,3 +1,8 @@
+### 0.1.5 (2013-10-17)
+
+- made couchbase optional using the -z flag
+- bug fixes
+
 ### 0.1.4 (2013-09-23)
 
 - finished query-data, including making results specific to users and the systems they have access to via the tenants they and the systems belong to
