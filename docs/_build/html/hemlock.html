@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>hemlock Package &mdash; Hemlock 0.1.4 documentation</title>
+    <title>hemlock Package &mdash; Hemlock 0.1.5 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1.4',
+        VERSION:     '0.1.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Hemlock 0.1.4 documentation" href="index.html" />
+    <link rel="top" title="Hemlock 0.1.5 documentation" href="index.html" />
     <link rel="next" title="clients Package" href="hemlock.clients.html" />
     <link rel="prev" title="Welcome to hemlock’s documentation!" href="index.html" /> 
   </head>
@@ -43,7 +43,7 @@
         <li class="right" >
           <a href="index.html" title="Welcome to hemlock’s documentation!"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Hemlock 0.1.4 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Hemlock 0.1.5 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -299,7 +299,7 @@ Hemlock.</p>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.connect_server">
-<tt class="descname">connect_server</tt><big>(</big><em>debug</em>, <em>c_server</em>, <em>c_user</em>, <em>c_bucket</em>, <em>c_pw</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.connect_server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.connect_server" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">connect_server</tt><big>(</big><em>debug</em>, <em>c_server</em>, <em>c_user</em>, <em>c_bucket</em>, <em>c_pw</em>, <em>es</em>, <em>no_couchbase</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.connect_server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.connect_server" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connects to the Hemlock couchbase server.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -308,12 +308,18 @@ Hemlock.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>debug</strong> &#8211; instance of
 <a class="reference internal" href="hemlock.clients.html#hemlock.clients.hemlock_debugger.Hemlock_Debugger" title="hemlock.clients.hemlock_debugger.Hemlock_Debugger"><tt class="xref py py-class docutils literal"><span class="pre">Hemlock_Debugger</span></tt></a></li>
-<li><strong>server_dict</strong> &#8211; credentials for connecting to the Hemlock server to
-be able to verify the client system</li>
+<li><strong>c_server</strong> &#8211; couchbase server ip address</li>
+<li><strong>c_user</strong> &#8211; couchbase username</li>
+<li><strong>c_bucket</strong> &#8211; couchbase bucket</li>
+<li><strong>c_pw</strong> &#8211; couchbase password</li>
+<li><strong>es</strong> &#8211; elasticsearch server ip address</li>
+<li><strong>no_couchbase</strong> &#8211; flag of whether or not to use a couchbase
+connection or an elasticsearch connection</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns an instance of the couchbase connection</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns an instance of the couchbase or elasticsearch
+connection</p>
 </td>
 </tr>
 </tbody>
@@ -475,7 +481,7 @@ or sets them to defaults.</p>
 
 <dl class="method">
 <dt id="hemlock.hemlock.Hemlock.process_action">
-<tt class="descname">process_action</tt><big>(</big><em>debug</em>, <em>action</em>, <em>var_d</em>, <em>m_server</em>, <em>c_server</em>, <em>c_user</em>, <em>bucket</em>, <em>c_pw</em>, <em>es</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.process_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.process_action" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">process_action</tt><big>(</big><em>debug</em>, <em>action</em>, <em>var_d</em>, <em>m_server</em>, <em>c_server</em>, <em>c_user</em>, <em>bucket</em>, <em>c_pw</em>, <em>no_couchbase</em>, <em>es</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock.html#Hemlock.process_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock.Hemlock.process_action" title="Permalink to this definition">¶</a></dt>
 <dd><p>Processes the action that was supplied.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -488,6 +494,13 @@ or sets them to defaults.</p>
 <li><strong>var_d</strong> &#8211; dictionary of key/values that contain the parameters for
 the action</li>
 <li><strong>m_server</strong> &#8211; instance of MySQL connection</li>
+<li><strong>c_server</strong> &#8211; couchbase server ip address</li>
+<li><strong>c_user</strong> &#8211; couchbase username</li>
+<li><strong>bucket</strong> &#8211; couchbase bucket</li>
+<li><strong>c_pw</strong> &#8211; couchbase password</li>
+<li><strong>no_couchbase</strong> &#8211; flag of whether or not to use a couchbase
+connection or an elasticsearch connection</li>
+<li><strong>es</strong> &#8211; elasticsearch server ip address</li>
 </ul>
 </td>
 </tr>
@@ -1428,7 +1441,7 @@ the local environment variables of the shell.</p>
 <span id="hemlock-options-parser-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">hemlock_options_parser</span></tt> Module<a class="headerlink" href="#module-hemlock.hemlock_options_parser" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="hemlock.hemlock_options_parser.PassThroughOptionParser">
-<em class="property">class </em><tt class="descclassname">hemlock.hemlock_options_parser.</tt><tt class="descname">PassThroughOptionParser</tt><big>(</big><em>usage=None</em>, <em>option_list=None</em>, <em>option_class=&lt;class optparse.Option at 0x12549a8&gt;</em>, <em>version=None</em>, <em>conflict_handler='error'</em>, <em>description=None</em>, <em>formatter=None</em>, <em>add_help_option=True</em>, <em>prog=None</em>, <em>epilog=None</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock_options_parser.html#PassThroughOptionParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock_options_parser.PassThroughOptionParser" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">hemlock.hemlock_options_parser.</tt><tt class="descname">PassThroughOptionParser</tt><big>(</big><em>usage=None</em>, <em>option_list=None</em>, <em>option_class=&lt;class optparse.Option at 0x1b21a78&gt;</em>, <em>version=None</em>, <em>conflict_handler='error'</em>, <em>description=None</em>, <em>formatter=None</em>, <em>add_help_option=True</em>, <em>prog=None</em>, <em>epilog=None</em><big>)</big><a class="reference internal" href="_modules/hemlock/hemlock_options_parser.html#PassThroughOptionParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hemlock.hemlock_options_parser.PassThroughOptionParser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">optparse.OptionParser</span></tt></p>
 <p>An unknown option pass-through implementation of OptionParser.</p>
 <p>When unknown arguments are encountered, bundle with largs and try again,
@@ -2465,7 +2478,6 @@ run, starts new ones that need to be scheduled.</p>
 <li class="toctree-l2"><a class="reference internal" href="hemlock.clients.html#module-hemlock.clients.hredis"><tt class="docutils literal"><span class="pre">hredis</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hemlock.clients.html#module-hemlock.clients.hrest"><tt class="docutils literal"><span class="pre">hrest</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hemlock.clients.html#module-hemlock.clients.hstream_odd"><tt class="docutils literal"><span class="pre">hstream_odd</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hemlock.clients.html#module-hemlock.clients.t"><tt class="docutils literal"><span class="pre">t</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hemlock.clients.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="hemlock.clients.file_types.html">file_types Package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="hemlock.clients.file_types.html#module-hemlock.clients.file_types.hcsv"><tt class="docutils literal"><span class="pre">hcsv</span></tt> Module</a></li>
@@ -2562,7 +2574,7 @@ run, starts new ones that need to be scheduled.</p>
         <li class="right" >
           <a href="index.html" title="Welcome to hemlock’s documentation!"
              >previous</a> |</li>
-        <li><a href="index.html">Hemlock 0.1.4 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Hemlock 0.1.5 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

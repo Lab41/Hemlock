@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>hemlock.clients.file_types.htext &mdash; Hemlock 0.1.4 documentation</title>
+    <title>hemlock.clients.file_types.htext &mdash; Hemlock 0.1.5 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.1.4',
+        VERSION:     '0.1.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="Hemlock 0.1.4 documentation" href="../../../../index.html" />
+    <link rel="top" title="Hemlock 0.1.5 documentation" href="../../../../index.html" />
     <link rel="up" title="Module code" href="../../../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../index.html">Hemlock 0.1.4 documentation</a> &raquo;</li>
+        <li><a href="../../../../index.html">Hemlock 0.1.5 documentation</a> &raquo;</li>
           <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -73,12 +73,11 @@
         <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span>
         <span class="n">h_inst</span> <span class="o">=</span> <span class="n">hfs</span><span class="o">.</span><span class="n">HFs</span><span class="p">()</span>
         <span class="c"># DEBUG</span>
-        <span class="k">if</span> <span class="n">file_mime</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s">&quot;text&quot;</span> <span class="ow">in</span> <span class="n">file_mime</span><span class="p">:</span>
-                <span class="n">j_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span> <span class="p">{</span> <span class="s">&quot;payload&quot;</span><span class="p">:</span> <span class="nb">repr</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span> <span class="p">}</span> <span class="p">)</span>
-                <span class="n">j_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j_str</span><span class="p">)</span>
-                <span class="n">h_inst</span><span class="o">.</span><span class="n">format_lists</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">j_list</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">)</span>
-                <span class="n">j_list</span> <span class="o">=</span> <span class="p">[]</span></div></div>
+        <span class="k">if</span> <span class="s">&quot;text&quot;</span> <span class="ow">in</span> <span class="n">file_mime</span><span class="p">:</span>
+            <span class="n">j_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span> <span class="p">{</span> <span class="s">&quot;payload&quot;</span><span class="p">:</span> <span class="nb">repr</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span> <span class="p">}</span> <span class="p">)</span>
+            <span class="n">j_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j_str</span><span class="p">)</span>
+            <span class="n">h_inst</span><span class="o">.</span><span class="n">format_lists</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">j_list</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">client_uuid</span><span class="p">)</span>
+            <span class="n">j_list</span> <span class="o">=</span> <span class="p">[]</span></div></div>
 </pre></div>
 
           </div>
@@ -112,7 +111,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../index.html">Hemlock 0.1.4 documentation</a> &raquo;</li>
+        <li><a href="../../../../index.html">Hemlock 0.1.5 documentation</a> &raquo;</li>
           <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
