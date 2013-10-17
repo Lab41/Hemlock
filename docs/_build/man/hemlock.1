@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "HEMLOCK" "1" "September 24, 2013" "0.1.4" "Hemlock"
+.TH "HEMLOCK" "1" "October 17, 2013" "0.1.5" "Hemlock"
 .SH NAME
 hemlock \- Hemlock Documentation
 .
@@ -274,7 +274,7 @@ returns a list of the arguments supplied
 .UNINDENT
 .INDENT 7.0
 .TP
-.B connect_server(debug, c_server, c_user, c_bucket, c_pw)
+.B connect_server(debug, c_server, c_user, c_bucket, c_pw, es, no_couchbase)
 Connects to the Hemlock couchbase server.
 .INDENT 7.0
 .TP
@@ -284,12 +284,23 @@ Connects to the Hemlock couchbase server.
 \fBdebug\fP \-\- instance of
 \fBHemlock_Debugger\fP
 .IP \(bu 2
-\fBserver_dict\fP \-\- credentials for connecting to the Hemlock server to
-be able to verify the client system
+\fBc_server\fP \-\- couchbase server ip address
+.IP \(bu 2
+\fBc_user\fP \-\- couchbase username
+.IP \(bu 2
+\fBc_bucket\fP \-\- couchbase bucket
+.IP \(bu 2
+\fBc_pw\fP \-\- couchbase password
+.IP \(bu 2
+\fBes\fP \-\- elasticsearch server ip address
+.IP \(bu 2
+\fBno_couchbase\fP \-\- flag of whether or not to use a couchbase
+connection or an elasticsearch connection
 .UNINDENT
 .TP
 .B Returns
-returns an instance of the couchbase connection
+returns an instance of the couchbase or elasticsearch
+connection
 .UNINDENT
 .UNINDENT
 .INDENT 7.0
@@ -423,7 +434,7 @@ Prints out help.
 .UNINDENT
 .INDENT 7.0
 .TP
-.B process_action(debug, action, var_d, m_server, c_server, c_user, bucket, c_pw, es)
+.B process_action(debug, action, var_d, m_server, c_server, c_user, bucket, c_pw, no_couchbase, es)
 Processes the action that was supplied.
 .INDENT 7.0
 .TP
@@ -439,6 +450,19 @@ Processes the action that was supplied.
 the action
 .IP \(bu 2
 \fBm_server\fP \-\- instance of MySQL connection
+.IP \(bu 2
+\fBc_server\fP \-\- couchbase server ip address
+.IP \(bu 2
+\fBc_user\fP \-\- couchbase username
+.IP \(bu 2
+\fBbucket\fP \-\- couchbase bucket
+.IP \(bu 2
+\fBc_pw\fP \-\- couchbase password
+.IP \(bu 2
+\fBno_couchbase\fP \-\- flag of whether or not to use a couchbase
+connection or an elasticsearch connection
+.IP \(bu 2
+\fBes\fP \-\- elasticsearch server ip address
 .UNINDENT
 .TP
 .B Returns
@@ -1239,7 +1263,7 @@ returns a list of the arguments supplied
 .SS \fBhemlock_options_parser\fP Module
 .INDENT 0.0
 .TP
-.B class hemlock.hemlock_options_parser.PassThroughOptionParser(usage=None, option_list=None, option_class=<class optparse.Option at 0x12549a8>, version=None, conflict_handler=\(aqerror\(aq, description=None, formatter=None, add_help_option=True, prog=None, epilog=None)
+.B class hemlock.hemlock_options_parser.PassThroughOptionParser(usage=None, option_list=None, option_class=<class optparse.Option at 0x1b21a78>, version=None, conflict_handler=\(aqerror\(aq, description=None, formatter=None, add_help_option=True, prog=None, epilog=None)
 Bases: \fBoptparse.OptionParser\fP
 .sp
 An unknown option pass\-through implementation of OptionParser.
@@ -2064,7 +2088,7 @@ the client class
 .UNINDENT
 .INDENT 7.0
 .TP
-.B connect_server(debug, server_dict)
+.B connect_server(debug, server_dict, no_couchbase)
 Connects to the Hemlock couchbase server.
 .INDENT 7.0
 .TP
@@ -2076,6 +2100,9 @@ Connects to the Hemlock couchbase server.
 .IP \(bu 2
 \fBserver_dict\fP \-\- credentials for connecting to the Hemlock server to
 be able to verify the client system
+.IP \(bu 2
+\fBno_couchbase\fP \-\- flag of whether or not to use a couchbase
+connection or an elasticsearch connection
 .UNINDENT
 .TP
 .B Returns
@@ -2145,7 +2172,7 @@ the number of splits (defaults to \-1 if not supplied)
 .UNINDENT
 .INDENT 7.0
 .TP
-.B send_data(debug, data_list, desc_list, h_server, client_uuid)
+.B send_data(debug, data_list, desc_list, h_server, client_uuid, no_couchbase)
 Sends data to the Hemlock couchbase server that is recieved from the
 client system.
 .INDENT 7.0
@@ -2164,6 +2191,9 @@ can be empty
 \fBh_server\fP \-\- instnace of the couchbase connection
 .IP \(bu 2
 \fBclient_uuid\fP \-\- uuid of the client system
+.IP \(bu 2
+\fBno_couchbase\fP \-\- flag of whether or not to use a couchbase
+connection or an elasticsearch connection
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -2330,15 +2360,15 @@ returns an instance of the mysql connection
 .UNINDENT
 .INDENT 7.0
 .TP
-.B format_lists(debug, j_list, h_server, client_uuid)
+.B format_lists(debug, j_list, h_server, client_uuid, no_couchbase)
 .UNINDENT
 .INDENT 7.0
 .TP
-.B get_data(debug, client_dict, c_server, h_server, client_uuid)
+.B get_data(debug, client_dict, c_server, h_server, client_uuid, no_couchbase)
 .UNINDENT
 .INDENT 7.0
 .TP
-.B scan_file_types(debug, c_server, h_server, client_uuid)
+.B scan_file_types(debug, c_server, h_server, client_uuid, no_couchbase)
 .UNINDENT
 .UNINDENT
 .SS \fBhfs_old\fP Module
@@ -2355,15 +2385,15 @@ returns an instance of the mysql connection
 .UNINDENT
 .INDENT 7.0
 .TP
-.B format_lists(debug, j_list, h_server, client_uuid)
+.B format_lists(debug, j_list, h_server, client_uuid, no_couchbase)
 .UNINDENT
 .INDENT 7.0
 .TP
-.B get_data(debug, client_dict, c_server, h_server, client_uuid)
+.B get_data(debug, client_dict, c_server, h_server, client_uuid, no_couchbase)
 .UNINDENT
 .INDENT 7.0
 .TP
-.B process_files(debug, input, h_server, client_uuid)
+.B process_files(debug, input, h_server, client_uuid, no_couchbase)
 .UNINDENT
 .UNINDENT
 .SS \fBhhbase\fP Module
@@ -2378,7 +2408,7 @@ returns an instance of the mysql connection
 .UNINDENT
 .INDENT 7.0
 .TP
-.B get_data(debug, client_dict, c_server, h_server, client_uuid)
+.B get_data(debug, client_dict, c_server, h_server, client_uuid, no_couchbase)
 .UNINDENT
 .UNINDENT
 .SS \fBhmysql\fP Module
@@ -2391,7 +2421,7 @@ returns an instance of the mysql connection
 .UNINDENT
 .INDENT 7.0
 .TP
-.B get_data(debug, client_dict, c_server, h_server, client_uuid)
+.B get_data(debug, client_dict, c_server, h_server, client_uuid, no_couchbase)
 .UNINDENT
 .UNINDENT
 .SS \fBhredis\fP Module
@@ -2404,7 +2434,7 @@ returns an instance of the mysql connection
 .UNINDENT
 .INDENT 7.0
 .TP
-.B get_data(debug, client_dict, c_server, h_server, client_uuid)
+.B get_data(debug, client_dict, c_server, h_server, client_uuid, no_couchbase)
 .UNINDENT
 .UNINDENT
 .SS \fBhrest\fP Module
@@ -2417,7 +2447,7 @@ returns an instance of the mysql connection
 .UNINDENT
 .INDENT 7.0
 .TP
-.B get_data(debug, client_dict, c_server, h_server, client_uuid)
+.B get_data(debug, client_dict, c_server, h_server, client_uuid, no_couchbase)
 .UNINDENT
 .UNINDENT
 .SS \fBhstream_odd\fP Module
@@ -2426,18 +2456,17 @@ returns an instance of the mysql connection
 .B class hemlock.clients.hstream_odd.HStream_Odd
 .INDENT 7.0
 .TP
-.B connect_client(debug, client_dict, h_server, client_uuid)
+.B connect_client(debug, client_dict, h_server, client_uuid, no_couchbase)
 .UNINDENT
 .INDENT 7.0
 .TP
-.B start(debug, hostname, port, h_server, client_uuid)
+.B start(debug, hostname, port, h_server, client_uuid, no_couchbase)
 .UNINDENT
 .UNINDENT
 .INDENT 0.0
 .TP
-.B hemlock.clients.hstream_odd.handle(debug, connection, address, h_server, client_uuid)
+.B hemlock.clients.hstream_odd.handle(debug, connection, address, h_server, client_uuid, no_couchbase)
 .UNINDENT
-.SS \fBt\fP Module
 .SS Subpackages
 .SS file_types Package
 .SS \fBhcsv\fP Module

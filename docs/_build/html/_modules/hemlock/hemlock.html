@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>hemlock.hemlock &mdash; Hemlock 0.1.4 documentation</title>
+    <title>hemlock.hemlock &mdash; Hemlock 0.1.5 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.1.4',
+        VERSION:     '0.1.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Hemlock 0.1.4 documentation" href="../../index.html" />
+    <link rel="top" title="Hemlock 0.1.5 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Hemlock 0.1.4 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Hemlock 0.1.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -77,7 +77,6 @@
 
 <span class="kn">import</span> <span class="nn">hemlock_options_parser</span>
 
-<span class="kn">import</span> <span class="nn">couchbase</span>
 <span class="kn">import</span> <span class="nn">getpass</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">MySQLdb</span> <span class="kn">as</span> <span class="nn">mdb</span>
@@ -1273,6 +1272,7 @@
         <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-w&quot;</span><span class="p">,</span> <span class="s">&quot;--couchbase-password&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;c_pw&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;Couchbase Password&quot;</span><span class="p">)</span>
         <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-e&quot;</span><span class="p">,</span> <span class="s">&quot;--elasticsearch-endpoint&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;es&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;ElasticSearch Endpoint&quot;</span><span class="p">)</span>
         <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-D&quot;</span><span class="p">,</span> <span class="s">&quot;--debug&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store_false&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;debug&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;Debugging Mode&quot;</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-z&quot;</span><span class="p">,</span> <span class="s">&quot;--no-couchbase&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store_false&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;no_couchbase&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;Don&#39;t use Couchbase&quot;</span><span class="p">)</span>
         <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-v&quot;</span><span class="p">,</span> <span class="s">&quot;--version&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store_false&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;version&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;Version&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 </div>
@@ -1335,16 +1335,21 @@
         <span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">args_leftover</span><span class="p">)</span> <span class="o">=</span> <span class="n">Hemlock</span><span class="p">()</span><span class="o">.</span><span class="n">parse_auth</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">version</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">print</span> <span class="s">&quot;Version: 0.1.4&quot;</span>
+            <span class="k">print</span> <span class="s">&quot;Version: 0.1.5&quot;</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">args_leftover</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">args_leftover</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">pw</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">server</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_server</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_user</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_pw</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">es</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">debug</span>
+            <span class="k">return</span> <span class="n">args_leftover</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">pw</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">server</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_server</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_user</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_pw</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">es</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">no_couchbase</span>
 
         <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">debug</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">options</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">options</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">no_couchbase</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">options</span><span class="o">.</span><span class="n">no_couchbase</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">options</span><span class="o">.</span><span class="n">no_couchbase</span> <span class="o">=</span> <span class="mi">1</span>
 
         <span class="n">asked_for_creds</span> <span class="o">=</span> <span class="mi">0</span>
 
@@ -1425,85 +1430,87 @@
                 <span class="n">options</span><span class="o">.</span><span class="n">pw</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s">&quot;MySQL Password:&quot;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_MYSQL_PW = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">pw</span><span class="p">))</span>
 
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">c_server</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="n">options</span><span class="o">.</span><span class="n">c_server</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HEMLOCK_COUCHBASE_SERVER&#39;</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_SERVER = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">c_server</span><span class="p">))</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">asked_for_creds</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">read_creds</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">)</span>
-                <span class="n">asked_for_creds</span> <span class="o">=</span> <span class="mi">1</span>
-                <span class="k">try</span><span class="p">:</span>
+        <span class="c"># only need couchbase creds if options.no_couchbase isn&#39;t set</span>
+        <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">no_couchbase</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">c_server</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
                     <span class="n">options</span><span class="o">.</span><span class="n">c_server</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HEMLOCK_COUCHBASE_SERVER&#39;</span><span class="p">]</span>
-                <span class="k">except</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_SERVER = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">c_server</span><span class="p">))</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">asked_for_creds</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">read_creds</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">)</span>
+                    <span class="n">asked_for_creds</span> <span class="o">=</span> <span class="mi">1</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">options</span><span class="o">.</span><span class="n">c_server</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HEMLOCK_COUCHBASE_SERVER&#39;</span><span class="p">]</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="n">options</span><span class="o">.</span><span class="n">c_server</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;Couchbase Server (default is localhost):&quot;</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">c_server</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+                            <span class="n">options</span><span class="o">.</span><span class="n">c_server</span> <span class="o">=</span> <span class="s">&quot;localhost&quot;</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_SERVER = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">c_server</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
                     <span class="n">options</span><span class="o">.</span><span class="n">c_server</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;Couchbase Server (default is localhost):&quot;</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">c_server</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
                         <span class="n">options</span><span class="o">.</span><span class="n">c_server</span> <span class="o">=</span> <span class="s">&quot;localhost&quot;</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_SERVER = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">c_server</span><span class="p">))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">options</span><span class="o">.</span><span class="n">c_server</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;Couchbase Server (default is localhost):&quot;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">c_server</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
-                    <span class="n">options</span><span class="o">.</span><span class="n">c_server</span> <span class="o">=</span> <span class="s">&quot;localhost&quot;</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_SERVER = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">c_server</span><span class="p">))</span>
 
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HEMLOCK_COUCHBASE_BUCKET&#39;</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_BUCKET = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">bucket</span><span class="p">))</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">asked_for_creds</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">read_creds</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">)</span>
-                <span class="n">asked_for_creds</span> <span class="o">=</span> <span class="mi">1</span>
-                <span class="k">try</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
                     <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HEMLOCK_COUCHBASE_BUCKET&#39;</span><span class="p">]</span>
-                <span class="k">except</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_BUCKET = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">bucket</span><span class="p">))</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">asked_for_creds</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">read_creds</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">)</span>
+                    <span class="n">asked_for_creds</span> <span class="o">=</span> <span class="mi">1</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HEMLOCK_COUCHBASE_BUCKET&#39;</span><span class="p">]</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;Couchbase Bucket (default is hemlock):&quot;</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+                            <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="s">&quot;hemlock&quot;</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_BUCKET = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">bucket</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
                     <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;Couchbase Bucket (default is hemlock):&quot;</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
                         <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="s">&quot;hemlock&quot;</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_BUCKET = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">bucket</span><span class="p">))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;Couchbase Bucket (default is hemlock):&quot;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
-                    <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="s">&quot;hemlock&quot;</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_BUCKET = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">bucket</span><span class="p">))</span>
 
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">c_user</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="n">options</span><span class="o">.</span><span class="n">c_user</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HEMLOCK_COUCHBASE_USERNAME&#39;</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_USERNAME = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">c_user</span><span class="p">))</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">asked_for_creds</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">read_creds</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">)</span>
-                <span class="n">asked_for_creds</span> <span class="o">=</span> <span class="mi">1</span>
-                <span class="k">try</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">c_user</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
                     <span class="n">options</span><span class="o">.</span><span class="n">c_user</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HEMLOCK_COUCHBASE_USERNAME&#39;</span><span class="p">]</span>
-                <span class="k">except</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_USERNAME = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">c_user</span><span class="p">))</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">asked_for_creds</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">read_creds</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">)</span>
+                    <span class="n">asked_for_creds</span> <span class="o">=</span> <span class="mi">1</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">options</span><span class="o">.</span><span class="n">c_user</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HEMLOCK_COUCHBASE_USERNAME&#39;</span><span class="p">]</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;Couchbase Username (default is hemlock):&quot;</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+                            <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="s">&quot;hemlock&quot;</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_USERNAME = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">c_user</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
                     <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;Couchbase Username (default is hemlock):&quot;</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
                         <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="s">&quot;hemlock&quot;</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_USERNAME = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">c_user</span><span class="p">))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;Couchbase Username (default is hemlock):&quot;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
-                    <span class="n">options</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="s">&quot;hemlock&quot;</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_USERNAME = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">c_user</span><span class="p">))</span>
 
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">c_pw</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="n">options</span><span class="o">.</span><span class="n">c_pw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HEMLOCK_COUCHBASE_PW&#39;</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_PW = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">c_pw</span><span class="p">))</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">asked_for_creds</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">read_creds</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">)</span>
-                <span class="n">asked_for_creds</span> <span class="o">=</span> <span class="mi">1</span>
-                <span class="k">try</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">c_pw</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
                     <span class="n">options</span><span class="o">.</span><span class="n">c_pw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HEMLOCK_COUCHBASE_PW&#39;</span><span class="p">]</span>
-                <span class="k">except</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_PW = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">c_pw</span><span class="p">))</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">asked_for_creds</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">read_creds</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">)</span>
+                    <span class="n">asked_for_creds</span> <span class="o">=</span> <span class="mi">1</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">options</span><span class="o">.</span><span class="n">c_pw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HEMLOCK_COUCHBASE_PW&#39;</span><span class="p">]</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="n">options</span><span class="o">.</span><span class="n">c_pw</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s">&quot;Couchbase Password:&quot;</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_PW = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">c_pw</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
                     <span class="n">options</span><span class="o">.</span><span class="n">c_pw</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s">&quot;Couchbase Password:&quot;</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_PW = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">c_pw</span><span class="p">))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">options</span><span class="o">.</span><span class="n">c_pw</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s">&quot;Couchbase Password:&quot;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_COUCHBASE_PW = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">c_pw</span><span class="p">))</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">es</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
@@ -1522,7 +1529,7 @@
                 <span class="n">options</span><span class="o">.</span><span class="n">es</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s">&quot;ElasticSearch Endpoint:&quot;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;HEMLOCK_ELASTICSEARCH_ENDPOINT = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">es</span><span class="p">))</span>
 
-        <span class="k">return</span> <span class="n">args_leftover</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">pw</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">server</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_server</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_user</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_pw</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">es</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">debug</span>
+        <span class="k">return</span> <span class="n">args_leftover</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">pw</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">server</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_server</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_user</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">c_pw</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">es</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">no_couchbase</span>
 </div>
 <div class="viewcode-block" id="Hemlock.mysql_server"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.mysql_server">[docs]</a>    <span class="k">def</span> <span class="nf">mysql_server</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pw</span><span class="p">,</span> <span class="n">db</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1546,31 +1553,49 @@
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">m_server</span>
 </div>
-<div class="viewcode-block" id="Hemlock.connect_server"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.connect_server">[docs]</a>    <span class="k">def</span> <span class="nf">connect_server</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">c_server</span><span class="p">,</span> <span class="n">c_user</span><span class="p">,</span> <span class="n">c_bucket</span><span class="p">,</span> <span class="n">c_pw</span><span class="p">):</span>
+<div class="viewcode-block" id="Hemlock.connect_server"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.connect_server">[docs]</a>    <span class="k">def</span> <span class="nf">connect_server</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">c_server</span><span class="p">,</span> <span class="n">c_user</span><span class="p">,</span> <span class="n">c_bucket</span><span class="p">,</span> <span class="n">c_pw</span><span class="p">,</span> <span class="n">es</span><span class="p">,</span> <span class="n">no_couchbase</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Connects to the Hemlock couchbase server.</span>
 
 <span class="sd">        :param debug: instance of</span>
 <span class="sd">            :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`</span>
-<span class="sd">        :param server_dict: credentials for connecting to the Hemlock server to</span>
-<span class="sd">            be able to verify the client system</span>
-<span class="sd">        :return: returns an instance of the couchbase connection</span>
+<span class="sd">        :param c_server: couchbase server ip address</span>
+<span class="sd">        :param c_user: couchbase username</span>
+<span class="sd">        :param c_bucket: couchbase bucket</span>
+<span class="sd">        :param c_pw: couchbase password</span>
+<span class="sd">        :param es: elasticsearch server ip address</span>
+<span class="sd">        :param no_couchbase: flag of whether or not to use a couchbase</span>
+<span class="sd">            connection or an elasticsearch connection</span>
+<span class="sd">        :return: returns an instance of the couchbase or elasticsearch</span>
+<span class="sd">            connection</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c"># connect to the couchbase server</span>
         <span class="n">h_server</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">h_server</span> <span class="o">=</span> <span class="n">couchbase</span><span class="o">.</span><span class="n">Couchbase</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">c_server</span><span class="p">,</span>
-                                 <span class="n">bucket</span><span class="o">=</span><span class="n">c_bucket</span><span class="p">,</span> 
-                                 <span class="n">username</span><span class="o">=</span><span class="n">c_user</span><span class="p">,</span>
-                                 <span class="n">password</span><span class="o">=</span><span class="n">c_pw</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Couchbase connection handle: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">h_server</span><span class="p">))</span> 
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">print</span> <span class="s">&quot;Failure connecting to the Hemlock server&quot;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span>
-            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">no_couchbase</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">pyes</span>
+            <span class="c"># connect to the elasticsearch server</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">h_server</span> <span class="o">=</span> <span class="n">pyes</span><span class="o">.</span><span class="n">ES</span><span class="p">((</span><span class="s">&quot;http&quot;</span><span class="p">,</span> <span class="n">es</span><span class="p">,</span> <span class="s">&quot;9200&quot;</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;ElasticSearch connection handle: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">h_server</span><span class="p">))</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&quot;Failure connecting to the Hemlock server&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">couchbase</span>
+            <span class="c"># connect to the couchbase server</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">h_server</span> <span class="o">=</span> <span class="n">couchbase</span><span class="o">.</span><span class="n">Couchbase</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">c_server</span><span class="p">,</span>
+                                     <span class="n">bucket</span><span class="o">=</span><span class="n">c_bucket</span><span class="p">,</span>
+                                     <span class="n">username</span><span class="o">=</span><span class="n">c_user</span><span class="p">,</span>
+                                     <span class="n">password</span><span class="o">=</span><span class="n">c_pw</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Couchbase connection handle: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">h_server</span><span class="p">))</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&quot;Failure connecting to the Hemlock server&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">h_server</span>
 </div>
-<div class="viewcode-block" id="Hemlock.process_action"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.process_action">[docs]</a>    <span class="k">def</span> <span class="nf">process_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">var_d</span><span class="p">,</span> <span class="n">m_server</span><span class="p">,</span> <span class="n">c_server</span><span class="p">,</span> <span class="n">c_user</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">c_pw</span><span class="p">,</span> <span class="n">es</span><span class="p">):</span>
+<div class="viewcode-block" id="Hemlock.process_action"><a class="viewcode-back" href="../../hemlock.html#hemlock.hemlock.Hemlock.process_action">[docs]</a>    <span class="k">def</span> <span class="nf">process_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">var_d</span><span class="p">,</span> <span class="n">m_server</span><span class="p">,</span> <span class="n">c_server</span><span class="p">,</span> <span class="n">c_user</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">c_pw</span><span class="p">,</span> <span class="n">no_couchbase</span><span class="p">,</span> <span class="n">es</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Processes the action that was supplied.</span>
 
@@ -1580,6 +1605,13 @@
 <span class="sd">        :param var_d: dictionary of key/values that contain the parameters for</span>
 <span class="sd">            the action</span>
 <span class="sd">        :param m_server: instance of MySQL connection</span>
+<span class="sd">        :param c_server: couchbase server ip address</span>
+<span class="sd">        :param c_user: couchbase username</span>
+<span class="sd">        :param bucket: couchbase bucket</span>
+<span class="sd">        :param c_pw: couchbase password</span>
+<span class="sd">        :param no_couchbase: flag of whether or not to use a couchbase</span>
+<span class="sd">            connection or an elasticsearch connection</span>
+<span class="sd">        :param es: elasticsearch server ip address</span>
 <span class="sd">        :return: list of results and any errors that may have occurred.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">error</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1604,7 +1636,7 @@
 
         <span class="c"># create mysql tables that don&#39;t already exist</span>
         <span class="k">if</span> <span class="s">&quot;clients&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
-            <span class="n">client_table</span> <span class="o">=</span> <span class="s">&quot;CREATE TABLE IF NOT EXISTS clients(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), type VARCHAR(50), credentials BLOB, created DATETIME, INDEX (uuid)) ENGINE = INNODB&quot;</span>
+            <span class="n">client_table</span> <span class="o">=</span> <span class="s">&quot;CREATE TABLE IF NOT EXISTS clients(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), no_couchbase VARCHAR(1), name VARCHAR(50), type VARCHAR(50), credentials BLOB, created DATETIME, INDEX (uuid)) ENGINE = INNODB&quot;</span>
             <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">client_table</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Created table: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">client_table</span><span class="p">))</span>
         <span class="k">if</span> <span class="s">&quot;hemlock_server&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
@@ -1717,7 +1749,7 @@
             <span class="c">#    }</span>
             <span class="c"># }&#39;</span>
 
-            <span class="n">h_server</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connect_server</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">c_server</span><span class="p">,</span> <span class="n">c_user</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">c_pw</span><span class="p">)</span>
+            <span class="n">h_server</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connect_server</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">c_server</span><span class="p">,</span> <span class="n">c_user</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">c_pw</span><span class="p">,</span> <span class="n">es</span><span class="p">,</span> <span class="n">no_couchbase</span><span class="p">)</span>
 
             <span class="n">payload</span> <span class="o">=</span> <span class="s">&quot;{</span><span class="se">\&quot;</span><span class="s">size</span><span class="se">\&quot;</span><span class="s">:100,</span><span class="se">\&quot;</span><span class="s">query</span><span class="se">\&quot;</span><span class="s">:{</span><span class="se">\&quot;</span><span class="s">bool</span><span class="se">\&quot;</span><span class="s">:{</span><span class="se">\&quot;</span><span class="s">must</span><span class="se">\&quot;</span><span class="s">:[{</span><span class="se">\&quot;</span><span class="s">match</span><span class="se">\&quot;</span><span class="s">:{</span><span class="se">\&quot;</span><span class="s">doc.hemlock-system</span><span class="se">\&quot;</span><span class="s">:{</span><span class="se">\&quot;</span><span class="s">query</span><span class="se">\&quot;</span><span class="s">:</span><span class="se">\&quot;</span><span class="s">&quot;</span>
 
@@ -1725,6 +1757,7 @@
             <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;SELECT * FROM users_tenants WHERE user_id = &#39;&quot;</span><span class="o">+</span><span class="n">var_d</span><span class="p">[</span><span class="s">&#39;--user&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;&#39;&quot;</span>
             <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">data_action</span><span class="p">)</span>
             <span class="n">results</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+            <span class="n">system_flag</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">for</span> <span class="n">tenant</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
                 <span class="c"># get the list of systems that the user has access to via tenants</span>
                 <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;SELECT * FROM systems_tenants WHERE tenant_id = &#39;&quot;</span><span class="o">+</span><span class="n">tenant</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;&#39;&quot;</span>
@@ -1732,6 +1765,12 @@
                 <span class="n">systems</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
                 <span class="k">for</span> <span class="n">system</span> <span class="ow">in</span> <span class="n">systems</span><span class="p">:</span>
                     <span class="n">payload</span> <span class="o">+=</span> <span class="n">system</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot; &quot;</span>
+                    <span class="n">system_flag</span> <span class="o">=</span> <span class="mi">1</span>
+
+            <span class="c"># if no systems</span>
+            <span class="k">if</span> <span class="n">system_flag</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&quot;No systems have been added the tenants this user belongs to.&quot;</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
             <span class="n">payload</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">payload</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">,</span><span class="se">\&quot;</span><span class="s">operator</span><span class="se">\&quot;</span><span class="s">:</span><span class="se">\&quot;</span><span class="s">or</span><span class="se">\&quot;</span><span class="s">}}}],</span><span class="se">\&quot;</span><span class="s">should</span><span class="se">\&quot;</span><span class="s">:[{</span><span class="se">\&quot;</span><span class="s">match</span><span class="se">\&quot;</span><span class="s">:{</span><span class="se">\&quot;</span><span class="s">_all</span><span class="se">\&quot;</span><span class="s">:</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="o">+</span><span class="n">var_d</span><span class="p">[</span><span class="s">&#39;--query&#39;</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">}}]}}}&quot;</span>
@@ -1744,12 +1783,26 @@
             <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
                 <span class="n">result_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">])</span>
 
-            <span class="n">records</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">c</span> <span class="o">=</span> <span class="n">h_server</span><span class="o">.</span><span class="n">get_multi</span><span class="p">(</span><span class="n">result_list</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
-                <span class="k">print</span> <span class="n">record</span>
+            <span class="k">if</span> <span class="n">no_couchbase</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">results</span><span class="p">:</span>
+                    <span class="c"># !! TODO</span>
+                    <span class="c">#    format this the same way that it would get output if</span>
+                    <span class="c">#    it was couchbase so it&#39;s consistent.</span>
+                    <span class="k">print</span> <span class="n">results</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="s">&quot;No results.&quot;</span>
+                    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">result_list</span><span class="p">:</span>
+                    <span class="n">records</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">c</span> <span class="o">=</span> <span class="n">h_server</span><span class="o">.</span><span class="n">get_multi</span><span class="p">(</span><span class="n">result_list</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+                        <span class="k">print</span> <span class="n">record</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="s">&quot;No results.&quot;</span>
+                    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="k">elif</span> <span class="s">&quot;system&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
             <span class="c"># update to systems/clients table</span>
@@ -2113,7 +2166,7 @@
                             <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
                             <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var_d</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
                         <span class="n">client_uuid</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">splits</span> <span class="o">=</span> <span class="n">hemlock_base</span><span class="o">.</span><span class="n">process_args</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
-                        
+
                         <span class="n">CLIENT_CREDS_FILE</span><span class="p">,</span> <span class="n">c_inst</span> <span class="o">=</span> <span class="n">hemlock_base</span><span class="o">.</span><span class="n">client_import</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">client</span><span class="p">)</span>
 
                         <span class="c"># using the client_uuid get the system_id</span>
@@ -2130,7 +2183,7 @@
                         <span class="c"># verify that the system exists and is properly associated</span>
                         <span class="n">hemlock_base</span><span class="o">.</span><span class="n">verify_system</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">system_uuid</span><span class="p">,</span> <span class="n">server_dict</span><span class="p">)</span>
 
-                        <span class="n">h_server</span> <span class="o">=</span> <span class="n">hemlock_base</span><span class="o">.</span><span class="n">connect_server</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">server_dict</span><span class="p">)</span>
+                        <span class="n">h_server</span> <span class="o">=</span> <span class="n">hemlock_base</span><span class="o">.</span><span class="n">connect_server</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">server_dict</span><span class="p">,</span> <span class="n">no_couchbase</span><span class="p">)</span>
 
                         <span class="k">if</span> <span class="ow">not</span> <span class="n">client</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;stream&quot;</span><span class="p">):</span>
                             <span class="n">c_server</span> <span class="o">=</span> <span class="n">c_inst</span><span class="o">.</span><span class="n">connect_client</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">client_dict</span><span class="p">)</span>
@@ -2140,13 +2193,14 @@
                         <span class="n">desc_list</span> <span class="o">=</span> <span class="p">[]</span>
 
                         <span class="k">if</span> <span class="ow">not</span> <span class="n">client</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;stream&quot;</span><span class="p">):</span>
-                            <span class="n">data_list</span><span class="p">,</span> <span class="n">desc_list</span> <span class="o">=</span> <span class="n">c_inst</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">client_dict</span><span class="p">,</span> <span class="n">c_server</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">system_uuid</span><span class="p">)</span>
-                        <span class="n">hemlock_base</span><span class="o">.</span><span class="n">send_data</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">data_list</span><span class="p">,</span> <span class="n">desc_list</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">system_uuid</span><span class="p">)</span>
+                            <span class="n">data_list</span><span class="p">,</span> <span class="n">desc_list</span> <span class="o">=</span> <span class="n">c_inst</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">client_dict</span><span class="p">,</span> <span class="n">c_server</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">system_uuid</span><span class="p">,</span> <span class="n">no_couchbase</span><span class="p">)</span>
+                        <span class="n">hemlock_base</span><span class="o">.</span><span class="n">send_data</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">data_list</span><span class="p">,</span> <span class="n">desc_list</span><span class="p">,</span> <span class="n">h_server</span><span class="p">,</span> <span class="n">system_uuid</span><span class="p">,</span> <span class="n">no_couchbase</span><span class="p">)</span>
                         <span class="n">hemlock_base</span><span class="o">.</span><span class="n">update_hemlock</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">system_uuid</span><span class="p">,</span> <span class="n">server_dict</span><span class="p">)</span>
                     <span class="c"># write</span>
                     <span class="k">elif</span> <span class="s">&quot;schedule&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
                         <span class="c"># !! TODO ensure that the same client is not added to the same schedule more than once</span>
                         <span class="c"># create a schedule that is associated with a client</span>
+
                         <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO schedules(&quot;</span>
                         <span class="n">data_action2</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO schedules_&quot;</span><span class="o">+</span><span class="n">action_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;s(&quot;</span>
                         <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
@@ -2173,12 +2227,17 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Getting ready to perform the following SQL query: &quot;</span><span class="o">+</span><span class="n">data_action2</span><span class="p">)</span>
                     <span class="c"># write</span>
                     <span class="k">elif</span> <span class="s">&quot;store&quot;</span> <span class="ow">in</span> <span class="n">action_a</span><span class="p">:</span>
+                        <span class="c"># !! TODO add a parameter that has the no_couchbase flag</span>
                         <span class="c"># store client credentials</span>
                         <span class="n">data_action</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO &quot;</span><span class="o">+</span><span class="n">action_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;s(&quot;</span>
                         <span class="n">data_action2</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO systems_&quot;</span><span class="o">+</span><span class="n">action_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;s(&quot;</span>
                         <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
                         <span class="n">j</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
                         <span class="n">k</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+                        <span class="c"># add couchbase flag for use with scheduling</span>
+                        <span class="n">data_action</span> <span class="o">+=</span> <span class="s">&quot;no_couchbase, &quot;</span>
+
                         <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">props</span><span class="p">:</span>
                             <span class="k">if</span> <span class="n">prop</span> <span class="o">==</span> <span class="s">&quot;credential_file&quot;</span><span class="p">:</span> 
                                 <span class="n">data_action</span> <span class="o">+=</span> <span class="s">&quot;credentials, &quot;</span>
@@ -2190,6 +2249,10 @@
                                 <span class="n">data_action</span> <span class="o">+=</span> <span class="n">prop</span><span class="o">+</span><span class="s">&quot;, &quot;</span>
                             <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
                         <span class="n">data_action</span> <span class="o">=</span> <span class="n">data_action</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;) VALUES(&quot;</span>
+
+                        <span class="c"># add couchbase flag for use with scheduling</span>
+                        <span class="n">data_action</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">no_couchbase</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">, &quot;</span>
+
                         <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
                         <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">vals</span><span class="p">:</span>
                             <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="n">i</span><span class="p">:</span>
@@ -2553,11 +2616,11 @@
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">hemlock</span> <span class="o">=</span> <span class="n">Hemlock</span><span class="p">()</span>
-    <span class="n">args</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pw</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">c_server</span><span class="p">,</span> <span class="n">c_user</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">c_pw</span><span class="p">,</span> <span class="n">es</span><span class="p">,</span> <span class="n">debug</span> <span class="o">=</span> <span class="n">hemlock</span><span class="o">.</span><span class="n">get_auth</span><span class="p">()</span>
+    <span class="n">args</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pw</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">c_server</span><span class="p">,</span> <span class="n">c_user</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">c_pw</span><span class="p">,</span> <span class="n">es</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">no_couchbase</span> <span class="o">=</span> <span class="n">hemlock</span><span class="o">.</span><span class="n">get_auth</span><span class="p">()</span>
     <span class="n">var_d</span><span class="p">,</span> <span class="n">action</span> <span class="o">=</span> <span class="n">hemlock</span><span class="o">.</span><span class="n">process_args</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
     <span class="n">m_server</span> <span class="o">=</span> <span class="n">hemlock</span><span class="o">.</span><span class="n">mysql_server</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pw</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
 
-    <span class="n">x</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">hemlock</span><span class="o">.</span><span class="n">process_action</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">var_d</span><span class="p">,</span> <span class="n">m_server</span><span class="p">,</span> <span class="n">c_server</span><span class="p">,</span> <span class="n">c_user</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">c_pw</span><span class="p">,</span> <span class="n">es</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">hemlock</span><span class="o">.</span><span class="n">process_action</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">var_d</span><span class="p">,</span> <span class="n">m_server</span><span class="p">,</span> <span class="n">c_server</span><span class="p">,</span> <span class="n">c_user</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">c_pw</span><span class="p">,</span> <span class="n">no_couchbase</span><span class="p">,</span> <span class="n">es</span><span class="p">)</span>
     <span class="n">hemlock</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Rows: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
     <span class="n">hemlock</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="s">&quot;Errors encountered: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
 
@@ -2602,7 +2665,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Hemlock 0.1.4 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Hemlock 0.1.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

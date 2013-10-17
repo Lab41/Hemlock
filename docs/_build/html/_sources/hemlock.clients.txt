@@ -97,14 +97,6 @@ clients Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`t` Module
----------------
-
-.. automodule:: hemlock.clients.t
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Subpackages
 -----------
 
