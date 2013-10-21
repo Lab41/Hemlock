@@ -22,7 +22,7 @@ class HemlockCLI():
         args, user, pw, db, server, c_server, c_user, bucket, c_pw, es, debug, no_couchbase = hemlock.get_auth()
         var_d, action = hemlock.process_args(debug, args)
         m_server = hemlock.mysql_server(debug, server, user, pw, db)
-        x, error = hemlock.process_action(debug, action, var_d, m_server, c_server, c_user, bucket, c_pw, es)
+        x, error = hemlock.process_action(debug, action, var_d, m_server, c_server, c_user, bucket, c_pw, no_couchbase, es)
         m_server.commit()
         m_server.close()
 

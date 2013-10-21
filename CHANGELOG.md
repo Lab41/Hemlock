@@ -1,3 +1,7 @@
+### 0.1.6 (2013-10-21)
+
+- fixed bug that caused hemlock.py to throw an exception
+
 ### 0.1.5 (2013-10-17)
 
 - made couchbase optional using the -z flag

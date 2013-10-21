@@ -1286,7 +1286,7 @@ class Hemlock():
         (options, args_leftover) = Hemlock().parse_auth()
 
         if options.version != None:
-            print "Version: 0.1.5"
+            print "Version: 0.1.6"
             sys.exit(0)
 
         if not args_leftover:
