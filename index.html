@@ -142,6 +142,7 @@ systems.</p>
 <span class="nv">HEMLOCK_COUCHBASE_BUCKET</span><span class="o">=</span>hemlock
 <span class="nv">HEMLOCK_COUCHBASE_USERNAME</span><span class="o">=</span>hemlock
 <span class="nv">HEMLOCK_COUCHBASE_PW</span><span class="o">=</span>pass
+<span class="nv">HEMLOCK_ELASTICSEARCH_ENDPOINT</span><span class="o">=</span>192.168.1.30
 </pre></div>
 
 <p>(if you'd like these to persist, consider adding export before each line and performing <code>source</code> on the file)</p>
@@ -202,6 +203,14 @@ hemlock client-list
 </pre></div>
 </li>
 <li>
+<p>Create a schedule server (optional)</p>
+
+<div class="highlight highlight-bash"><pre>hemlock schedule-server-create --name schedule_server_1
+
+hemlock schedule-server-list
+</pre></div>
+</li>
+<li>
 <p>Add a schedule for the data source system to run (optional)</p>
 
 <div class="highlight highlight-bash"><pre>hemlock client-schedule --name schedule1 <span class="se">\</span>
@@ -211,9 +220,9 @@ hemlock client-list
                       --month <span class="s2">"*"</span> <span class="se">\</span>
                       --day_of_week <span class="s2">"*"</span> <span class="se">\</span>
                       --client_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
+                      --schedule_server_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
 
 hemlock schedule-list
-
 </pre></div>
 </li>
 <li>
@@ -225,7 +234,12 @@ hemlock schedule-list
 <li>
 <p>Search for data that has been loaded into Hemlock</p>
 
-<div class="highlight highlight-bash"><pre>Full text search with elasticsearch:
+<div class="highlight highlight-bash"><pre>hemlock query-data --user 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6 --query foo
+</pre></div>
+
+<p>or</p>
+
+<div class="highlight highlight-bash"><pre>Direct with elasticsearch:
 
 http://elasticsearch.fqdn:9200/hemlock/_search?q<span class="o">=</span>foo
 
@@ -432,6 +446,8 @@ classes will need two methods defined: <code>connect_client</code> and <code>get
 <a name="contributing-to-hemlock" class="anchor" href="#contributing-to-hemlock"><span class="octicon octicon-link"></span></a>Contributing to Hemlock</h1>
 
 <p>What to contribute?  Awesome!  Issue a pull request or see more details <a href="https://github.com/Lab41/Hemlock/blob/master/CONTRIBUTING.md">here</a>.</p>
+
+<p><a href="https://bitdeli.com/free" title="Bitdeli Badge"><img src="https://d2weczhvl823v0.cloudfront.net/Lab41/hemlock/trend.png" alt="Bitdeli Badge"></a></p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/Lab41">Lab41</a></p>
