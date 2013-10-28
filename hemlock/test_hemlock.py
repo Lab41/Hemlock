@@ -28,6 +28,19 @@ class TestClass:
     """
     Test class for hemlock.py
     """
+    def process_debug(self):
+        """
+        Tests debugging.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
+        x, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost", "-D")
+        error.append(error2)
+        return x, error
+
     def process_client_get(self):
         """
         Tests client-get action.
@@ -923,6 +936,14 @@ class TestClass:
         m_server.commit()
         m_server.close()
         assert 1
+
+    def test_process_debug(self):
+        """
+        Calls the test function for debugging.
+        """
+        x, error = self.process_debug()
+        for err in error:
+            assert err == 0
 
     def test_process_role_create(self):
         """
