@@ -28,6 +28,19 @@ class TestClass:
     """
     Test class for hemlock.py
     """
+    def process_print_help(self):
+        """
+        Tests printing help.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        a = hemlock.Hemlock()
+        a.HELP_COUNTER = 2
+        a.print_help("foo")
+        a.print_help("user-tenants-list")
+        return error
+
     def process_debug(self):
         """
         Tests debugging.
@@ -936,6 +949,14 @@ class TestClass:
         m_server.commit()
         m_server.close()
         assert 1
+
+    def test_process_print_help(self):
+        """
+        Calls the test function for print_help.
+        """
+        error = self.process_print_help()
+        for err in error:
+            assert err == 0
 
     def test_process_debug(self):
         """
