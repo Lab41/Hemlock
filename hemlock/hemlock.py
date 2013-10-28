@@ -1117,7 +1117,7 @@ class Hemlock():
                 for key in sorted(help_dict.iterkeys()):
                     print help_dict[key]
 
-            sys.exit()
+            sys.exit(0)
 
     def process_args(self, debug, args):
         """
