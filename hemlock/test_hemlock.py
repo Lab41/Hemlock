@@ -37,7 +37,7 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
-        x, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost", "-D")
+        x, error2 = a.process_action(1, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
         error.append(error2)
         return x, error
 
