@@ -1118,7 +1118,6 @@ class Hemlock():
                     print help_dict[key]
 
             sys.exit(0)
-            #os._exit(1)
 
     def process_args(self, debug, args):
         """
