@@ -976,7 +976,7 @@ class TestClass:
         Calls the test function for print_help.
         """
         with pytest.raises(SystemExit):
-            error = self.process_print_help()
+            error = self.process_print_help_specific()
             for err in error:
                 assert err == 0
 
