@@ -21,9 +21,12 @@ Created on 19 August 2013
 @author: Charlie Lewis
 """
 
-import hemlock, re
+from clients.hfs_old import HFs
+
+import hemlock
 import MySQLdb as mdb
 import pytest
+import re
 
 class TestClass:
     """
@@ -940,6 +943,9 @@ class TestClass:
         return m_server
 
     # call tests
+    def test_instanciate(self):
+        a = HFs()
+        
     def test_connect_mysql(self):
         """
         Calls the test function for connecting to MySQL.
