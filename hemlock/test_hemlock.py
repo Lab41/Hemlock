@@ -950,13 +950,13 @@ class TestClass:
         m_server.close()
         assert 1
 
-    def test_process_print_help(self):
-        """
-        Calls the test function for print_help.
-        """
-        error = self.process_print_help()
-        for err in error:
-            assert err == 0
+    #def test_process_print_help(self):
+    #    """
+    #    Calls the test function for print_help.
+    #    """
+    #    error = self.process_print_help()
+    #    for err in error:
+    #        assert err == 0
 
     def test_process_debug(self):
         """
