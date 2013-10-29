@@ -23,6 +23,7 @@ Created on 19 August 2013
 
 import hemlock, re
 import MySQLdb as mdb
+import pytest
 
 class TestClass:
     """
