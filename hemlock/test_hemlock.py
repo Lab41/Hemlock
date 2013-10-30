@@ -998,8 +998,6 @@ class TestClass:
         a.client_import(0, "mysql")
         a.get_creds(0, "hemlock/clients/mysql_creds_sample")
         a.stream_callback("data")
-        #a.stream_workers(0)
-        a.print_help()
         a.process_args(0, [])
         a.get_args(0)
 
