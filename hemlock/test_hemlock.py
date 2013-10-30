@@ -21,8 +21,8 @@ Created on 19 August 2013
 @author: Charlie Lewis
 """
 
-import clients.hfs_old.HFs
-import clients.hfs.HFs
+from clients.hfs_old import HFs as hfs_old
+from clients.hfs import HFs as hfs
 
 import hemlock
 import MySQLdb as mdb
@@ -945,8 +945,8 @@ class TestClass:
 
     # call tests
     def test_instanciate(self):
-        a = clients.hfs_old.HFs()
-        a = clients.hfs.HFs()
+        a = hfs_old()
+        a = hfs()
 
     def test_connect_mysql(self):
         """
