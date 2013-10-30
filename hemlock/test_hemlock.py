@@ -978,7 +978,8 @@ class TestClass:
         a = Hxls()
         a = Hxml()
         a = test()
-        a = Hemlock_Scheduler()
+        with pytest.raises(SystemExit):
+            a = Hemlock_Scheduler()
 
     def test_connect_mysql(self):
         """
