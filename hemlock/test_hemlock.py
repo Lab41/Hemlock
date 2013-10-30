@@ -990,8 +990,7 @@ class TestClass:
         """
         Calls the test function for hemlock_scheduler.
         """
-        with pytest.raises(SystemExit):
-            self.process_hemlock_scheduler()
+        self.process_hemlock_scheduler()
 
     def test_connect_mysql(self):
         """
