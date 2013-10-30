@@ -2134,6 +2134,10 @@ class Hemlock():
 
                         # get client_dict and server_dict that are stored in mysql
                         client_dict, server_dict = hemlock_runner.get_creds(debug, m_server, client_uuid, aes_key)
+                        print "before call:"
+                        print server_dict
+                        print
+
                         # verify that the system exists and is properly associated
                         hemlock_base.verify_system(debug, system_uuid, server_dict)
 
