@@ -1473,8 +1473,9 @@ class TestClass:
         """
         Calls the test function for the schedule-server-list action.
         """
-        x, error = self.process_base_args1()
-        for err in error: assert err == 0
+        with pytest.raises(SystemExit):
+            x, error = self.process_base_args1()
+            for err in error: assert err == 0
 
     def test_process_base_args2(self):
         """
