@@ -138,12 +138,13 @@ class Hemlock_Base():
         #    HEMLOCK_MYSQL_SERVER
         #    HEMLOCK_MYSQL_USERNAME
         #    HEMLOCK_MYSQL_PW
+        #    HEMLOCK_MYSQL_DB
         print server_dict
         try:
             h_server = mdb.connect(server_dict['HEMLOCK_MYSQL_SERVER'],
                                    server_dict['HEMLOCK_MYSQL_USERNAME'],
                                    server_dict['HEMLOCK_MYSQL_PW'],
-                                   "hemlock")
+                                   server_dict['HEMLOCK_MYSQL_DB'])
             self.log.debug(debug, "MySQL connection handle: "+str(h_server))
             cur = h_server.cursor()
             self.log.debug(debug, "MySQL cursor handle: "+str(cur))
