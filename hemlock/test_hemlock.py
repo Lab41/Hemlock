@@ -1011,7 +1011,7 @@ class TestClass:
         error = []
         a = Hemlock_Base()
         a, b, c = a.process_args(0, ['--uuid', 'asdf', '--client', 'asdf', '--splits',10])
-        x = a+b+int(c)
+        x = a+b+str(c)
         return x, error
 
     # call tests
