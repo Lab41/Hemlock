@@ -20,7 +20,6 @@ install:
   - pip install pytest-cov
   - pip install python-coveralls
   - pip install pdfminer
-  - pip install magic
   - pip install xmltodict
   - pip install hemlock
 before_script:
