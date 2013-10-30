@@ -1386,8 +1386,9 @@ class TestClass:
         """
         Calls the test function for the query-data action.
         """
-        x, error = self.process_query_data_elasticsearch()
-        for err in error: assert err == 0
+        with pytest.raises(SystemExit):
+            x, error = self.process_query_data_elasticsearch()
+            for err in error: assert err == 0
 
     def test_process_schedule_change_server(self):
         """
