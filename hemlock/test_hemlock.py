@@ -991,14 +991,39 @@ class TestClass:
         m_server = a.mysql_server(debug, server, user, pw, db)
         return m_server
 
+    def process_base_args1(self):
+        """
+        Tests hemlock_base without args.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        a = Hemlock_Base()
+        x = a.process_args(0, [])
+        return x, error
+
+    def process_base_args2(self):
+        """
+        Tests hemlock_base with args.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        a = Hemlock_Base()
+        a, b, c = a.process_args(0, ['--uuid', 'asdf', '--client', 'asdf', '--splits',10])
+        x = a+b+int(c)
+        return x, error
+
     # call tests
     def test_instanciate(self):
+        """
+        Calls the test function for instanciation.
+        """
         a = Hemlock_Base()
         a.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
         a.client_import(0, "mysql")
         a.get_creds(0, "hemlock/clients/mysql_creds_sample")
         a.stream_callback("data")
-        a.process_args(0, [])
         a.get_args(0)
 
         a = hfs_old()
@@ -1442,4 +1467,18 @@ class TestClass:
         Calls the test function for the schedule-server-list action.
         """
         x, error = self.process_schedule_server_list()
+        for err in error: assert err == 0
+
+    def test_process_base_args1(self):
+        """
+        Calls the test function for the schedule-server-list action.
+        """
+        x, error = self.process_base_args1()
+        for err in error: assert err == 0
+
+    def test_process_base_args2(self):
+        """
+        Calls the test function for the schedule-server-list action.
+        """
+        x, error = self.process_base_args2()
         for err in error: assert err == 0
