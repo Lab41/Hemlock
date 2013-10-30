@@ -43,7 +43,6 @@ class TestClass:
         a = hemlock.Hemlock()
         a.HELP_COUNTER = 2
         a.print_help("foo")
-        return error
 
     def process_print_help_specific(self):
         """
@@ -55,7 +54,6 @@ class TestClass:
         a = hemlock.Hemlock()
         a.HELP_COUNTER = 2
         a.print_help("user-tenants-list")
-        return error
 
     def process_debug(self):
         """
@@ -975,16 +973,14 @@ class TestClass:
         Calls the test function for print_help.
         """
         with pytest.raises(SystemExit):
-            error = self.process_print_help()
-            for err in error: assert err == 0
+            self.process_print_help()
 
     def test_process_print_help_specific(self):
         """
         Calls the test function for print_help.
         """
         with pytest.raises(SystemExit):
-            error = self.process_print_help_specific()
-            for err in error: assert err == 0
+            self.process_print_help_specific()
 
     def test_process_debug(self):
         """
