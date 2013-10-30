@@ -23,6 +23,8 @@ install:
   - pip install python-magic
   - pip install xlrd
   - pip install xmltodict
+  - pip install pymongo
+  - pip install redis
   - pip install hemlock
 before_script:
   - py.test --cov=hemlock
