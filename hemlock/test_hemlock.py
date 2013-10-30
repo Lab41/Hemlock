@@ -948,6 +948,13 @@ class TestClass:
         error = ""
         return x, error
 
+    def process_hemlock_scheduler(self):
+        """
+        Tests hemlock_scheduler.py.
+
+        """
+        a = Hemlock_Scheduler()
+
     def connect_mysql(self, debug, server, user, pw, db):
         """
         Makes a connection to the test Hemlock MySQL server.
@@ -978,8 +985,13 @@ class TestClass:
         a = Hxls()
         a = Hxml()
         a = test()
+
+    def test_process_hemlock_scheduler(self):
+        """
+        Calls the test function for hemlock_scheduler.
+        """
         with pytest.raises(SystemExit):
-            a = Hemlock_Scheduler()
+            self.process_hemlock_scheduler()
 
     def test_connect_mysql(self):
         """
