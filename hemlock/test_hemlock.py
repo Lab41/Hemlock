@@ -1345,9 +1345,9 @@ class TestClass:
         """
         Calls the test function for the client-run action.
         """
-        with pytest.raises(SystemExit):
-            x, error = self.process_client_run()
-            for err in error: assert err == 0
+        #with pytest.raises(SystemExit):
+        x, error = self.process_client_run()
+        for err in error: assert err == 0
 
     def test_process_client_schedule(self):
         """

@@ -138,6 +138,7 @@ class Hemlock_Base():
         #    HEMLOCK_MYSQL_SERVER
         #    HEMLOCK_MYSQL_USERNAME
         #    HEMLOCK_MYSQL_PW
+        print server_dict
         try:
             h_server = mdb.connect(server_dict['HEMLOCK_MYSQL_SERVER'],
                                    server_dict['HEMLOCK_MYSQL_USERNAME'],
