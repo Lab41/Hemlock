@@ -21,6 +21,7 @@ Created on 19 August 2013
 @author: Charlie Lewis
 """
 
+from clients.hemlock_base import Hemlock_Base
 from clients.hfs_old import HFs as hfs_old
 from clients.hfs import HFs as hfs
 from clients.hmongo import HMongo
@@ -992,6 +993,16 @@ class TestClass:
 
     # call tests
     def test_instanciate(self):
+        a = Hemlock_Base()
+        a.SERVER_CREDS_FILE = "hemlock/hemlock_creds"
+        a.client_import(0, "mysql")
+        a.get_creds(0, "hemlock/clients/mysql_creds_sample")
+        a.stream_callback("data")
+        a.stream_workers(0)
+        a.print_help()
+        a.process_args(0, [])
+        a.get_args(0)
+
         a = hfs_old()
         a = hfs()
         a = HMongo()
