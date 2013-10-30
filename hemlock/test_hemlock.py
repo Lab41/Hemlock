@@ -994,7 +994,7 @@ class TestClass:
     # call tests
     def test_instanciate(self):
         a = Hemlock_Base()
-        a.SERVER_CREDS_FILE = "hemlock/hemlock_creds"
+        a.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
         a.client_import(0, "mysql")
         a.get_creds(0, "hemlock/clients/mysql_creds_sample")
         a.stream_callback("data")
