@@ -1662,9 +1662,12 @@ class Hemlock():
             decrypt_action = "SELECT AES_DECRYPT(password, '"+aes_key+"') from users where uuid = '"+var_d['--user']+"'"
             cur.execute(decrypt_action)
             results = cur.fetchall()
-            if pw != results[0][0]:
-                print "Invalid password."
-                sys.exit(0)
+            try:
+                if pw != results[0][0]:
+                    print "Invalid password."
+                    sys.exit(0)
+            except:
+                print "no results"
         if "add" not in action_a:
             props.append("uuid")
             props.append("created")
