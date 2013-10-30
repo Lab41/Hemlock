@@ -151,6 +151,7 @@ class TestClass:
         :return: returns any data and a list of any errors
         """
         error = []
+        hemlock.raw_input = lambda _: 'y'
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
         c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
@@ -161,7 +162,6 @@ class TestClass:
         error.append(error4)
         f, error5 = a.process_action(0, "hemlock-server-store", {'--credential_file':'hemlock/hemlock_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
         error.append(error5)
-        hemlock.raw_input = lambda _: 'y'
         x, error6 = a.process_action(0, "client-run", {'--uuid':e[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
         error.append(error6)
         return x, error
@@ -189,6 +189,8 @@ class TestClass:
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
         b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error1)
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
         error.append(error2)
         x, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
         error.append(error3)
