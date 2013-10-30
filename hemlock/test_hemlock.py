@@ -894,8 +894,11 @@ class TestClass:
 
         :return: returns any data and a list of any errors
         """
-        x = ""
-        error = ""
+        error = []
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
+        x, error1 = a.process_action(0, "query-data", {'--user':'asdf', '--query':'foo'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error1)
         return x, error
 
     def process_schedule_change_server(self):
