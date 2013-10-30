@@ -888,7 +888,7 @@ class TestClass:
         error = ""
         return x, error
 
-    def process_query_data(self):
+    def process_query_data_couchbase(self):
         """
         Tests query-data action.
 
@@ -898,6 +898,19 @@ class TestClass:
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
         x, error1 = a.process_action(0, "query-data", {'--user':'asdf', '--query':'foo'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error1)
+        return x, error
+
+    def process_query_data_elasticsearch(self):
+        """
+        Tests query-data action.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql(0, "localhost", "travis", "", "hemlock_test")
+        x, error1 = a.process_action(0, "query-data", {'--user':'asdf', '--query':'foo'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
         error.append(error1)
         return x, error
 
@@ -1361,13 +1374,20 @@ class TestClass:
         x, error = self.process_start_scheduler()
         for err in error: assert err == 0
 
-    def test_process_query_data(self):
+    def test_process_query_data_couchbase(self):
         """
         Calls the test function for the query-data action.
         """
         with pytest.raises(SystemExit):
             x, error = self.process_query_data()
             for err in error: assert err == 0
+
+    def test_process_query_data_elasticsearch(self):
+        """
+        Calls the test function for the query-data action.
+        """
+        x, error = self.process_query_data()
+        for err in error: assert err == 0
 
     def test_process_schedule_change_server(self):
         """
