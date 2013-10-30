@@ -159,8 +159,10 @@ class TestClass:
         error.append(error3)
         e, error4 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':d[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
         error.append(error4)
-        x, error5 = a.process_action(0, "client-run", {'--uuid':e[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        f, error5 = a.process_action(0, "hemlock-server-store", {'--credential_file':'hemlock/hemlock_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
         error.append(error5)
+        x, error6 = a.process_action(0, "client-run", {'--uuid':e[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error6)
         return x, error
 
     def process_client_schedule(self):
