@@ -23,6 +23,23 @@ Created on 19 August 2013
 
 from clients.hfs_old import HFs as hfs_old
 from clients.hfs import HFs as hfs
+from clients.hmongo import HMongo
+from clients.hmysql import HMysql
+from clients.hredis import HRedis
+from clients.hrest import HRest
+from clients.hstream_odd import HStream_Odd
+from clients.file_types.hcsv import Hcsv
+from clients.file_types.hdoc import Hdoc
+from clients.file_types.hgeneric import Hgeneric
+from clients.file_types.hjson import Hjson
+from clients.file_types.hpcap import Hpcap
+from clients.file_types.hpdf import Hpdf
+from clients.file_types.hppt import Hppt
+from clients.file_types.htext import Htext
+from clients.file_types.hxls import Hxls
+from clients.file_types.hmxl import Hxml
+from www.hemlock_web import test
+from hemlock_scheduler import Hemlock_Scheduler
 
 import hemlock
 import MySQLdb as mdb
@@ -945,6 +962,23 @@ class TestClass:
     def test_instanciate(self):
         a = hfs_old()
         a = hfs()
+        a = HMongo()
+        a = HMysql()
+        a = HRedis()
+        a = HRest()
+        a = HStream_Odd()
+        a = Hcsv()
+        a = Hdoc()
+        a = Hgeneric()
+        a = Hjson()
+        a = Hpcap()
+        a = Hpdf()
+        a = Hppt()
+        a = Htext()
+        a = Hxls()
+        a = Hxml()
+        a = test()
+        a = Hemlock_Scheduler()
 
     def test_connect_mysql(self):
         """
