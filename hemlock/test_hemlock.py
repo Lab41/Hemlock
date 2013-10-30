@@ -1379,14 +1379,14 @@ class TestClass:
         Calls the test function for the query-data action.
         """
         with pytest.raises(SystemExit):
-            x, error = self.process_query_data()
+            x, error = self.process_query_data_couchbase()
             for err in error: assert err == 0
 
     def test_process_query_data_elasticsearch(self):
         """
         Calls the test function for the query-data action.
         """
-        x, error = self.process_query_data()
+        x, error = self.process_query_data_elasticsearch()
         for err in error: assert err == 0
 
     def test_process_schedule_change_server(self):
