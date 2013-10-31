@@ -1590,4 +1590,5 @@ class TestClass:
         Calls the test function for process_hemlock_get_auth.
         """
         a = hemlock.Hemlock()
-        a.get_auth()
+        with pytest.raises(SystemExit):
+            a.get_auth()
