@@ -1601,5 +1601,5 @@ class TestClass:
         """
         Calls the test function for process_hemlock_get_auth.
         """
-        with pytest.raises(SystemExit):
-            x, error = self.process_hemlock_get_auth()
+        x, error = self.process_hemlock_get_auth()
+        for err in error: assert err == 0
