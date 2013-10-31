@@ -1042,18 +1042,6 @@ class TestClass:
         h_server = a.connect_server(0, server_dict, 0)
         return x, error
 
-    def process_hemlock_get_auth(self):
-        """
-        Tests hemlock get_auth function.
-
-        :return: returns any data and a list of any errors
-        """
-        error = []
-        x = ""
-        a = hemlock.Hemlock()
-        a.get_auth()
-        return x, error
-
     # call tests
     def test_instanciate(self):
         """
@@ -1597,10 +1585,9 @@ class TestClass:
             x, error = self.process_base_connect_server_couchbase()
             for err in error: assert err == 0
 
-    # TODO doesn't behave as expected
-    #def test_process_hemlock_get_auth(self):
-    #    """
-    #    Calls the test function for process_hemlock_get_auth.
-    #    """
-    #    x, error = self.process_hemlock_get_auth()
-    #    for err in error: assert err == 0
+    def test_process_hemlock_get_auth(self, server_mysql, database, mysql_username, mysql_password, couchbase_server, couchbase_bucket, couchbase_username, couchbase_password, elasticsearch_endpoint, debug, no_couchbase, version):
+        """
+        Calls the test function for process_hemlock_get_auth.
+        """
+        a = hemlock.Hemlock()
+        a.get_auth()
