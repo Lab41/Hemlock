@@ -233,7 +233,7 @@ class Hemlock_Scheduler():
         # DEBUG
         self.sched.add_cron_job(function, args=[server_dict, name], name=name, minute=minute, hour=hour, day=day_of_month, month=month, day_of_week=day_of_week)
 
-if __name__ == "__main__":
+if __name__ == "__main__": # pragma: no cover
     hemlock_scheduler = Hemlock_Scheduler()
     logging.basicConfig(filename='scheduler.log', level=logging.DEBUG)
 
