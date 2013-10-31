@@ -19,11 +19,11 @@ def pytest_addoption(parser):
         help="Couchbase Password")
     parser.addoption("--elasticsearch-endpoint", action="store", default="localhost",
         help="ElasticSearch Endpoint")
-    parser.addoption("--debug", action="store_false", default=None,
+    parser.addoption("--hemlock-debug", action="store_false", default=None,
         help="Debugging Mode")
     parser.addoption("--no-couchbase", action="store_false", default=None,
         help="Don't use Couchbase")
-    parser.addoption("--version", action="store_true", default=None,
+    parser.addoption("--hemlock-version", action="store_true", default=None,
         help="Version")
 
 @pytest.fixture
@@ -63,8 +63,8 @@ def elasticsearch_endpoint(request):
     return request.config.getoption("--elasticsearch-endpoint")
 
 @pytest.fixture
-def debug(request):
-    return request.config.getoption("--debug")
+def hemlock_debug(request):
+    return request.config.getoption("--hemlock-debug")
 
 @pytest.fixture
 def no_couchbase(request):
@@ -72,4 +72,4 @@ def no_couchbase(request):
 
 @pytest.fixture
 def version(request):
-    return request.config.getoption("--version")
+    return request.config.getoption("--hemlock-version")

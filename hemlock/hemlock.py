@@ -1222,9 +1222,9 @@ class Hemlock():
         parser.add_option("-n", "--couchbase-username", action="store", dest="c_user", help="Couchbase Username")
         parser.add_option("-w", "--couchbase-password", action="store", dest="c_pw", help="Couchbase Password")
         parser.add_option("-e", "--elasticsearch-endpoint", action="store", dest="es", help="ElasticSearch Endpoint")
-        parser.add_option("-D", "--debug", action="store_false", dest="debug", help="Debugging Mode")
+        parser.add_option("-D", "--debug", "--hemlock-debug", action="store_false", dest="debug", help="Debugging Mode")
         parser.add_option("-z", "--no-couchbase", action="store_false", dest="no_couchbase", help="Don't use Couchbase")
-        parser.add_option("-v", "--version", action="store_true", dest="version", help="Version")
+        parser.add_option("-v", "--version", "--hemlock-version",  action="store_true", dest="version", help="Version")
         return parser.parse_args()
 
     def read_creds(self, debug):
