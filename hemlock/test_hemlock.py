@@ -1024,8 +1024,8 @@ class TestClass:
         a = Hemlock_Base()
         a.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
         client_dict, server_dict = a.get_creds(0, "hemlock/clients/mysql_creds_sample")
-        h_server = connect_server(0, server_dict, 0)
-        x = send_data(0, [[]], [], h_server, "asdf", 0)
+        h_server = a.connect_server(0, server_dict, 0)
+        x = a.send_data(0, [[]], [], h_server, "asdf", 0)
         return x, error
 
     # call tests
