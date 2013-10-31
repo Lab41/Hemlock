@@ -1235,10 +1235,10 @@ class Hemlock():
         :param debug: instance of
             :class:`~hemlock.clients.hemlock_debugger.Hemlock_Debugger`
         """
-        # trying hemlock_creds in the current directory as a default, if that
+        # trying sample hemlock_creds as a default, if that
         # fails, then ask for a file or parameters
         try:
-            f = open('hemlock_creds', 'r')
+            f = open('hemlock/hemlock_creds_sample', 'r')
             for line in f:
                 self.log.debug(debug, line)
                 if len(line) > 0 and line[0] != "#" and "=" in line:
