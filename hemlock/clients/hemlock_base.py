@@ -265,7 +265,12 @@ class Hemlock_Base():
                         t_dict = {}
                 i += 1
             if no_couchbase:
-                h_server.refresh()
+                if t_dict:
+                    try:
+                        h_server.refresh()
+                    except:
+                        e += 1
+                        print "Failure."
             else:
                 # requires couchbase 1.0 client
                 if t_dict:
