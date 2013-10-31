@@ -1603,4 +1603,3 @@ class TestClass:
         """
         with pytest.raises(SystemExit):
             x, error = self.process_hemlock_get_auth()
-            for err in error: assert err == 0
