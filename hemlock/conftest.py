@@ -71,5 +71,5 @@ def no_couchbase(request):
     return request.config.getoption("--no-couchbase")
 
 @pytest.fixture
-def version(request):
+def hemlock_version(request):
     return request.config.getoption("--hemlock-version")
