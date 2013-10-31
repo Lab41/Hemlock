@@ -1,4 +1,4 @@
 MYSQL_SERVER=localhost
 MYSQL_DB=hemlock_test
 MYSQL_USERNAME=travis
-MYSQL_PW=
+MYSQL_PW=password
