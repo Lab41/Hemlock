@@ -1014,6 +1014,20 @@ class TestClass:
         x = a+b+str(c)
         return x, error
 
+    def process_base_send_data(self):
+        """
+        Tests hemlock_base send_data.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        a = Hemlock_Base()
+        a.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
+        client_dict, server_dict = a.get_creds(0, "hemlock/clients/mysql_creds_sample")
+        h_server = connect_server(0, server_dict, 0)
+        x = send_data(0, [[]], [], h_server, "asdf", 0)
+        return x, error
+
     # call tests
     def test_instanciate(self):
         """
@@ -1471,7 +1485,7 @@ class TestClass:
 
     def test_process_base_args1(self):
         """
-        Calls the test function for the schedule-server-list action.
+        Calls the test function for the hemlock_base without arguments.
         """
         with pytest.raises(SystemExit):
             x, error = self.process_base_args1()
@@ -1479,7 +1493,14 @@ class TestClass:
 
     def test_process_base_args2(self):
         """
-        Calls the test function for the schedule-server-list action.
+        Calls the test function for the hemlock_base with arguments.
         """
         x, error = self.process_base_args2()
+        for err in error: assert err == 0
+
+    def test_process_base_send_data(self):
+        """
+        Calls the test function for the hemlock_base send_data.
+        """
+        x, error = self.process_base_send_data()
         for err in error: assert err == 0
