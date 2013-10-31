@@ -1205,7 +1205,7 @@ class Hemlock():
 
     # use OptionParser to parse command-line switches for authentication variables
     # return variables in options array, as well as leftover args that don't have switches
-    def parse_auth(self):  
+    def parse_auth(self):
         """
         Parses options for authentication if supplied as arguments.
 
