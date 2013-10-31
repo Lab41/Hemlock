@@ -2568,7 +2568,7 @@ class Hemlock():
             print tab.draw()
         return x, error
 
-if __name__ == "__main__":
+if __name__ == "__main__": # pragma: no cover
     start_time = time.time()
     hemlock = Hemlock()
     args, user, pw, db, server, c_server, c_user, bucket, c_pw, es, debug, no_couchbase = hemlock.get_auth()
