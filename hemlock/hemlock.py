@@ -1224,7 +1224,7 @@ class Hemlock():
         parser.add_option("-e", "--elasticsearch-endpoint", action="store", dest="es", help="ElasticSearch Endpoint")
         parser.add_option("-D", "--debug", action="store_false", dest="debug", help="Debugging Mode")
         parser.add_option("-z", "--no-couchbase", action="store_false", dest="no_couchbase", help="Don't use Couchbase")
-        parser.add_option("-v", "--version", action="store_false", dest="version", help="Version")
+        parser.add_option("-v", "--version", action="store_true", dest="version", help="Version")
         return parser.parse_args()
 
     def read_creds(self, debug):
@@ -1286,7 +1286,7 @@ class Hemlock():
         (options, args_leftover) = Hemlock().parse_auth()
 
         print options
-        if options.version != None:
+        if options.version != None and options.version != False:
             print "Version: 0.1.6"
             sys.exit(0)
 
