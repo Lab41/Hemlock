@@ -1024,8 +1024,22 @@ class TestClass:
         a = Hemlock_Base()
         a.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
         client_dict, server_dict = a.get_creds(0, "hemlock/clients/mysql_creds_sample")
+        h_server = a.connect_server(0, server_dict, 1)
+        x = a.send_data(0, [[]], [], h_server, "asdf", 1)
+        return x, error
+
+    def process_base_connect_server_couchbase(self):
+        """
+        Tests hemlock_base connect_server with couchbase.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        x = ""
+        a = Hemlock_Base()
+        a.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
+        client_dict, server_dict = a.get_creds(0, "hemlock/clients/mysql_creds_sample")
         h_server = a.connect_server(0, server_dict, 0)
-        x = a.send_data(0, [[]], [], h_server, "asdf", 0)
         return x, error
 
     # call tests
@@ -1504,3 +1518,11 @@ class TestClass:
         """
         x, error = self.process_base_send_data()
         for err in error: assert err == 0
+
+    def test_process_base_connect_server_couchbase(self):
+        """
+        Calls the test function for the hemlock_base connect_server with couchbase.
+        """
+        with pytest.raises(SystemExit):
+            x, error = self.process_base_connect_server_couchbase()
+            for err in error: assert err == 0
