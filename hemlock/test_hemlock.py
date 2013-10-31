@@ -1104,6 +1104,7 @@ class TestClass:
         a.user_remove_tenant([], {})
         a.user_roles_list([], {})
         a.user_tenants_list([], {})
+        hemlock.raw_input = lambda _: 'y'
         a.get_auth()
 
         a = Hemlock_Base()
