@@ -16,5 +16,5 @@ class PassThroughOptionParser(OptionParser):
         while rargs:
             try:
                 OptionParser._process_args(self,largs,rargs,values)
-            except (BadOptionError,AmbiguousOptionError), e:
+            except (BadOptionError,AmbiguousOptionError), e: # pragma: no cover
                 largs.append(e.opt_str)
