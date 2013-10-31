@@ -1042,6 +1042,18 @@ class TestClass:
         h_server = a.connect_server(0, server_dict, 0)
         return x, error
 
+    def process_hemlock_get_auth(self):
+        """
+        Tests hemlock get_auth function.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        x = ""
+        a = hemlock.Hemlock()
+        a.get_auth()
+        return x, error
+
     # call tests
     def test_instanciate(self):
         """
@@ -1104,7 +1116,6 @@ class TestClass:
         a.user_remove_tenant([], {})
         a.user_roles_list([], {})
         a.user_tenants_list([], {})
-        a.get_auth()
 
         a = Hemlock_Base()
         a.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
@@ -1584,4 +1595,12 @@ class TestClass:
         """
         with pytest.raises(SystemExit):
             x, error = self.process_base_connect_server_couchbase()
+            for err in error: assert err == 0
+
+    def test_process_hemlock_get_auth(self):
+        """
+        Calls the test function for process_hemlock_get_auth.
+        """
+        with pytest.raises(SystemExit):
+            x, error = self.process_hemlock_get_auth()
             for err in error: assert err == 0
