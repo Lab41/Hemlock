@@ -1285,6 +1285,7 @@ class Hemlock():
         # extract command-line switches
         (options, args_leftover) = Hemlock().parse_auth()
 
+        print options
         if options.version != None:
             print "Version: 0.1.6"
             sys.exit(0)
