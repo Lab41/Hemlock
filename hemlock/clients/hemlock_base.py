@@ -186,7 +186,7 @@ class Hemlock_Base():
             import pyes
             # connect to the elasticsearch server
             try:
-                h_server = pyes.ES(("http", server_dict['HEMLOCK_ELASTICSEARCH_ENDPOINT'], "9200"))
+                h_server = pyes.ES(server=[("http", server_dict['HEMLOCK_ELASTICSEARCH_ENDPOINT'], "9200")])
                 self.log.debug(debug, "ElasticSearch connection handle: "+str(h_server))
             except:
                 print "Failure connecting to the Hemlock server"
