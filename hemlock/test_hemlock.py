@@ -1104,6 +1104,7 @@ class TestClass:
         a.user_remove_tenant([], {})
         a.user_roles_list([], {})
         a.user_tenants_list([], {})
+        a.process_args(0, ["client"])
 
         a = Hemlock_Base()
         a.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
