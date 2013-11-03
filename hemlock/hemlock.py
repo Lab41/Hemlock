@@ -1500,7 +1500,7 @@ class Hemlock():
         try:
             m_server = mdb.connect(server, user, pw, db)
             self.log.debug(debug, "MySQL Handle: "+str(m_server))
-        except:
+        except: # pragma: no cover
             self.log.debug(debug, str(sys.exc_info()[0]))
             print "MySQL server failure"
             sys.exit(0)
@@ -1529,7 +1529,7 @@ class Hemlock():
             try:
                 h_server = pyes.ES(("http", es, "9200"))
                 self.log.debug(debug, "ElasticSearch connection handle: "+str(h_server))
-            except:
+            except: # pragma: no cover
                 print "Failure connecting to the Hemlock server"
                 self.log.debug(debug, str(sys.exc_info()[0]))
                 sys.exit(0)
@@ -1601,6 +1601,7 @@ class Hemlock():
             cur.execute(role_table)
             self.log.debug(debug, "Created table: "+str(role_table))
         if "schedule_servers" not in tables:
+            # !! TODO not being called in tests, why?
             schedule_server_table = "CREATE TABLE IF NOT EXISTS schedule_servers(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
             cur.execute(schedule_server_table)
             self.log.debug(debug, "Created table: "+str(schedule_server_table))
