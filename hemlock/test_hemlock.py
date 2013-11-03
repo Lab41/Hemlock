@@ -991,6 +991,17 @@ class TestClass:
         m_server = a.mysql_server(debug, server, user, pw, db)
         return m_server
 
+    def process_hemlock_process_args(self):
+        """
+        Tests hemlock process_args.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        a = hemlock.Hemlock()
+        x = a.process_args(0, ["client"])
+        return x, error
+
     def process_base_args1(self):
         """
         Tests hemlock_base without args.
@@ -1104,7 +1115,6 @@ class TestClass:
         a.user_remove_tenant([], {})
         a.user_roles_list([], {})
         a.user_tenants_list([], {})
-        a.process_args(0, ["client"])
 
         a = Hemlock_Base()
         a.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
@@ -1584,6 +1594,14 @@ class TestClass:
         """
         with pytest.raises(SystemExit):
             x, error = self.process_base_connect_server_couchbase()
+            for err in error: assert err == 0
+
+    def test_process_hemlock_process_args(self):
+        """
+        Calls the test function for the hemlock process_args.
+        """
+        with pytest.raises(SystemExit):
+            x, error = self.process_hemlock_process_args()
             for err in error: assert err == 0
 
     #def test_process_hemlock_get_auth(self, server_mysql, database, mysql_username, mysql_password, couchbase_server, couchbase_bucket, couchbase_username, couchbase_password, elasticsearch_endpoint, hemlock_debug, no_couchbase, hemlock_version):
