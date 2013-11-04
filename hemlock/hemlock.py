@@ -1285,8 +1285,6 @@ class Hemlock():
         # extract command-line switches
         (options, args_leftover) = Hemlock().parse_auth()
 
-        print options
-
         if options.version != None and options.version != False:
             print "Version: 0.1.6"
             sys.exit(0)
@@ -1671,7 +1669,7 @@ class Hemlock():
                     sys.exit(0)
             except:
                 print "no results"
-        if "add" not in action_a:
+        if "add" not in action_a and "change" not in action_a:
             props.append("uuid")
             props.append("created")
             vals.append(uid)
@@ -1901,7 +1899,7 @@ class Hemlock():
                         print "You can not remove the last tenant or role from a user."
                         sys.exit(0)
             elif "change" in action_a:
-                data_action = "UPDATE schedules SET schedule_server_id = '"+var_d['--schedule_server_id']+"' where uuid = "+var_d['--uuid'] 
+                data_action = "UPDATE schedules SET schedules.schedule_server_id = '"+var_d['--schedule_server_id']+"' where schedules.uuid = '"+var_d['--uuid']+"'"
             elif "create" in action_a:
                 # write
                 if "server" in action_a:

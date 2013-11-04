@@ -974,7 +974,7 @@ class TestClass:
         error.append(error5)
         g, error6 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
         error.append(error6)
-        x = error7 = a.process_action(0, "schedule-change-server", {'--uuid':f[9][1], '--schedule_server_id':g[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        x, error7 = a.process_action(0, "schedule-change-server", {'--uuid':f[9][1], '--schedule_server_id':g[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
         error.append(error7)
         return x, error
 
@@ -1222,6 +1222,7 @@ class TestClass:
         cur.execute("DROP TABLE IF EXISTS schedules")
         cur.execute("DROP TABLE IF EXISTS hemlock_server")
         cur.execute("DROP TABLE IF EXISTS clients")
+        cur.execute("DROP TABLE IF EXISTS schedule_servers")
         m_server.commit()
         m_server.close()
         assert 1
