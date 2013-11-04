@@ -176,8 +176,16 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        # !! TODO
-        x = ""
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error1)
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error2)
+        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error3)
+        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        error.append(error4)
+        x, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[2][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        error.append(error5)
         return x, error
 
     def process_client_store(self):
@@ -942,9 +950,11 @@ class TestClass:
 
         :return: returns any data and a list of any errors
         """
-        # !! TODO
-        x = ""
-        error = ""
+        error = []
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
+        x, error1 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        error.append(error1)
         return x, error
 
     def process_schedule_server_delete(self):
