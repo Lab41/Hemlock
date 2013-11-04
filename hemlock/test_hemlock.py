@@ -184,7 +184,7 @@ class TestClass:
         error.append(error3)
         e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
         error.append(error4)
-        x, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[2][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        x, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
         error.append(error5)
         return x, error
 
