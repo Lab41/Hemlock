@@ -1250,7 +1250,7 @@ class Hemlock():
                         print "Malformed Hemlock Creds file."
                         self.log.debug(debug, str(sys.exc_info()[0]))
             f.close()
-        except:
+        except: # pragma: no cover
             resp = ""
             while resp != 'y' and resp != 'n':
                 resp = raw_input("Do you have a hemlock_creds file? (y/n)")
@@ -1312,7 +1312,7 @@ class Hemlock():
             if options.server == None:
                 options.server = os.environ['HEMLOCK_MYSQL_SERVER']
             self.log.debug(options.debug, "HEMLOCK_MYSQL_SERVER = "+str(options.server))
-        except:
+        except: # pragma: no cover
             if asked_for_creds == 0:
                 self.read_creds(options.debug)
                 asked_for_creds = 1
@@ -1333,7 +1333,7 @@ class Hemlock():
             if options.db == None:
                 options.db = os.environ['HEMLOCK_MYSQL_DB']
             self.log.debug(options.debug, "HEMLOCK_MYSQL_DB = "+str(options.db))
-        except:
+        except: # pragma: no cover 
             if asked_for_creds == 0:
                 self.read_creds(options.debug)
                 asked_for_creds = 1
@@ -1354,7 +1354,7 @@ class Hemlock():
             if options.user == None:
                 options.user = os.environ['HEMLOCK_MYSQL_USERNAME']
             self.log.debug(options.debug, "HEMLOCK_MYSQL_USERNAME = "+str(options.user))
-        except:
+        except: # pragma: no cover
             if asked_for_creds == 0:
                 self.read_creds(options.debug)
                 asked_for_creds = 1
@@ -1371,7 +1371,7 @@ class Hemlock():
             if options.pw == None:
                 options.pw = os.environ['HEMLOCK_MYSQL_PW']
             self.log.debug(options.debug, "HEMLOCK_MYSQL_PW = "+str(options.pw))
-        except:
+        except: # pragma: no cover
             if asked_for_creds == 0:
                 self.read_creds(options.debug)
                 asked_for_creds = 1
@@ -1390,7 +1390,7 @@ class Hemlock():
                 if options.c_server == None:
                     options.c_server = os.environ['HEMLOCK_COUCHBASE_SERVER']
                 self.log.debug(options.debug, "HEMLOCK_COUCHBASE_SERVER = "+str(options.c_server))
-            except:
+            except: # pragma: no cover
                 if asked_for_creds == 0:
                     self.read_creds(options.debug)
                     asked_for_creds = 1
@@ -1411,7 +1411,7 @@ class Hemlock():
                 if options.bucket == None:
                     options.bucket = os.environ['HEMLOCK_COUCHBASE_BUCKET']
                 self.log.debug(options.debug, "HEMLOCK_COUCHBASE_BUCKET = "+str(options.bucket))
-            except:
+            except: # pragma: no cover
                 if asked_for_creds == 0:
                     self.read_creds(options.debug)
                     asked_for_creds = 1
@@ -1432,7 +1432,7 @@ class Hemlock():
                 if options.c_user == None:
                     options.c_user = os.environ['HEMLOCK_COUCHBASE_USERNAME']
                 self.log.debug(options.debug, "HEMLOCK_COUCHBASE_USERNAME = "+str(options.c_user))
-            except:
+            except: # pragma: no cover
                 if asked_for_creds == 0:
                     self.read_creds(options.debug)
                     asked_for_creds = 1
@@ -1453,7 +1453,7 @@ class Hemlock():
                 if options.c_pw == None:
                     options.c_pw = os.environ['HEMLOCK_COUCHBASE_PW']
                 self.log.debug(options.debug, "HEMLOCK_COUCHBASE_PW = "+str(options.c_pw))
-            except:
+            except: # pragma: no cover
                 if asked_for_creds == 0:
                     self.read_creds(options.debug)
                     asked_for_creds = 1
@@ -1470,7 +1470,7 @@ class Hemlock():
             if options.es == None:
                 options.es = os.environ['HEMLOCK_ELASTICSEARCH_ENDPOINT']
             self.log.debug(options.debug, "HEMLOCK_ELASTICSEARCH_ENDPOINT = "+str(options.es))
-        except:
+        except: # pragma: no cover
             if asked_for_creds == 0:
                 self.read_creds(options.debug)
                 asked_for_creds = 1
