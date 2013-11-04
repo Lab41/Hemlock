@@ -1599,7 +1599,6 @@ class Hemlock():
             cur.execute(role_table)
             self.log.debug(debug, "Created table: "+str(role_table))
         if "schedule_servers" not in tables:
-            # !! TODO not being called in tests, why?
             schedule_server_table = "CREATE TABLE IF NOT EXISTS schedule_servers(id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), name VARCHAR(50), created DATETIME, INDEX (uuid)) ENGINE = INNODB"
             cur.execute(schedule_server_table)
             self.log.debug(debug, "Created table: "+str(schedule_server_table))
