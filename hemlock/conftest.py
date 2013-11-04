@@ -23,7 +23,7 @@ def pytest_addoption(parser):
         help="Debugging Mode")
     parser.addoption("--no-couchbase", action="store_false", default=None,
         help="Don't use Couchbase")
-    parser.addoption("--hemlock-version", action="store_true", default=None,
+    parser.addoption("--hemlock-version", action="store_false", default=None,
         help="Version")
 
 @pytest.fixture

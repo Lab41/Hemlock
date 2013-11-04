@@ -1663,5 +1663,4 @@ class TestClass:
         Calls the test function for process_hemlock_get_auth.
         """
         a = hemlock.Hemlock()
-        # !! TODO still broken on travis
-        #a.get_auth()
+        a.get_auth()

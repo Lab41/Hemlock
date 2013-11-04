@@ -1223,8 +1223,8 @@ class Hemlock():
         parser.add_option("-w", "--couchbase-password", action="store", dest="c_pw", help="Couchbase Password")
         parser.add_option("-e", "--elasticsearch-endpoint", action="store", dest="es", help="ElasticSearch Endpoint")
         parser.add_option("-D", "--debug", "--hemlock-debug", action="store_false", dest="debug", help="Debugging Mode", default=None)
+        parser.add_option("-V", "--version", "--hemlock-version",  action="store_false", dest="hemlock_version", help="Version", default=None)
         parser.add_option("-z", "--no-couchbase", action="store_false", dest="no_couchbase", help="Don't use Couchbase", default=None)
-        parser.add_option("-v", "--version", "--hemlock-version",  action="store_true", dest="version", help="Version", default=None)
         return parser.parse_args()
 
     def read_creds(self, debug):
@@ -1285,7 +1285,10 @@ class Hemlock():
         # extract command-line switches
         (options, args_leftover) = Hemlock().parse_auth()
 
-        if options.version != None and options.version != False:
+        if options.hemlock_version == None:
+            options.hemlock_version = 0
+        else:
+            options.version = 1
             print "Version: 0.1.6"
             sys.exit(0)
 
