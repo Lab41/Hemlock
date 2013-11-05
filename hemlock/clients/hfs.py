@@ -65,7 +65,7 @@ class HFs:
             i += 1
         h_inst = hemlock_base.Hemlock_Base()
         h_inst.send_data(debug, data_list, desc_list, h_server, client_uuid, no_couchbase)
-        return 
+        return
 
     def scan_file_types(self, debug, c_server, h_server, client_uuid, no_couchbase):
         pkgpath = os.path.dirname(file_types.__file__)

@@ -1183,6 +1183,22 @@ class TestClass:
         x = a.get_data(0, client_dict, c_server, h_server, "asdf", 0)
         return x, error
 
+    def process_hfs_format_lists(self):
+        """
+        Tests hfs format_lists.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        x = ""
+        a = Hemlock_Base()
+        a.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
+        client_dict, server_dict = a.get_creds(0, "hemlock/clients/fs_creds_sample")
+        h_server = a.connect_server(0, server_dict, 1)
+        a = hfs()
+        a.format_lists(0, ["[0]"], h_server, "asdf", 0)
+        return x, error
+
     def process_hstream_odd_start(self):
         """
         Tests hstream_odd start.
@@ -1803,6 +1819,13 @@ class TestClass:
         Calls the test function for the hfs get_data.
         """
         x, error = self.process_hfs_get_data()
+        for err in error: assert err == 0
+
+    def test_process_hfs_format_lists(self):
+        """
+        Calls the test function for the hfs format_lists.
+        """
+        x, error = self.process_hfs_format_lists()
         for err in error: assert err == 0
 
     def test_process_hstream_odd_start(self):
