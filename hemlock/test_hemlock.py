@@ -1122,6 +1122,22 @@ class TestClass:
         h_server = a.connect_server(0, server_dict, 0)
         return x, error
 
+    def process_hfs_old_process_files(self):
+        """
+        Tests hfs_old process_files.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        x = ""
+        a = Hemlock_Base()
+        a.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
+        client_dict, server_dict = a.get_creds(0, "hemlock/clients/mysql_creds_sample")
+        h_server = a.connect_server(0, server_dict, 1)
+        a = hfs_old()
+        a.process_files(0, "docs/_build/", h_server, "asdf", 0)
+        return x, error
+
     # call tests
     def test_instanciate(self):
         """
@@ -1675,6 +1691,13 @@ class TestClass:
         with pytest.raises(SystemExit):
             x, error = self.process_hemlock_process_args()
             for err in error: assert err == 0
+
+    def test_process_hfs_old_process_files(self):
+        """
+        Calls the test function for the hfs_old process_files.
+        """
+        x, error = self.process_hfs_old_process_files()
+        for err in error: assert err == 0
 
     def test_process_hemlock_get_auth(self, server_mysql, database, mysql_username, mysql_password, couchbase_server, couchbase_bucket, couchbase_username, couchbase_password, elasticsearch_endpoint, hemlock_debug, no_couchbase, hemlock_version):
         """

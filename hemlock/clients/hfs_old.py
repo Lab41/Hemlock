@@ -66,10 +66,13 @@ class HFs:
             while record[0] == '"' or record[0] == "'":
                 record = record.decode('unicode-escape')[1:-1]
             record = record.encode('ascii', 'ignore')
-            record = ast.literal_eval(record)
-            for key in record:
-                data_list[0][i].append(str(record[key]))
-                desc_list[i].append([str(key)])
+            try:
+                record = ast.literal_eval(record)
+                for key in record:
+                    data_list[0][i].append(str(record[key]))
+                    desc_list[i].append([str(key)])
+            except:
+                record = ""
             i += 1
         h_inst = hemlock_base.Hemlock_Base()
         h_inst.send_data(debug, data_list, desc_list, h_server, client_uuid, no_couchbase)
