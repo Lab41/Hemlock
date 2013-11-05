@@ -1062,8 +1062,9 @@ class TestClass:
 	b = Hemlock_Base()
 	b.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
 	client_dict, server_dict = b.get_creds(0, "hemlock/clients/mysql_creds_sample")
-	a.job_work(server_dict, "foo")
+        sys.argv = ["", "hemlock_creds", "asdf"]
         a = Hemlock_Scheduler()
+	a.job_work(server_dict, "foo")
 
     def connect_mysql(self, debug, server, user, pw, db):
         """
