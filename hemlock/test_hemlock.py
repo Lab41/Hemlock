@@ -936,8 +936,17 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        x, error1 = a.process_action(0, "query-data", {'--user':'asdf', '--query':'foo'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
         error.append(error1)
+        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error2)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
+        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':c[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error3)
+        e, error4 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error4)
+        x, error5 = a.process_action(0, "query-data", {'--user':d[7][1], '--query':'foo'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error5)
         return x, error
 
     def process_query_data_elasticsearch(self):
@@ -949,8 +958,17 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        x, error1 = a.process_action(0, "query-data", {'--user':'asdf', '--query':'foo'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        b, error1 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
         error.append(error1)
+        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error2)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
+        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':c[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error3)
+        e, error4 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error4)
+        x, error5 = a.process_action(0, "query-data", {'--user':d[7][1], '--query':'foo'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        error.append(error5)
         return x, error
 
     def process_schedule_change_server(self):

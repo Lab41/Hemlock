@@ -1726,7 +1726,7 @@ class Hemlock():
 
             # if no systems
             if system_flag == 0:
-                print "No systems have been added the tenants this user belongs to."
+                print "No systems have been added to tenants this user belongs to."
                 sys.exit(0)
 
             payload = payload[:-1]
