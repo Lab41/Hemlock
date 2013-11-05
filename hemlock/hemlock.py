@@ -1733,9 +1733,13 @@ class Hemlock():
             payload += "\",\"operator\":\"or\"}}}],\"should\":[{\"match\":{\"_all\":\""+var_d['--query']+"\"}}]}}}"
 
             url = "http://"+es+":9200/hemlock/_search"
-            r = requests.post(url, data=json.dumps(json.loads(payload)))
-            results = r.json()
-            results = results['hits']['hits']
+            try:
+                r = requests.post(url, data=json.dumps(json.loads(payload)))
+                results = r.json()
+                results = results['hits']['hits']
+            except:
+                results = [] 
+
             result_list = []
             for result in results:
                 result_list.append(result['_id'])
