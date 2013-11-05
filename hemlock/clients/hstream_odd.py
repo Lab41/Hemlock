@@ -33,7 +33,7 @@ def handle(debug, connection, address, h_server, client_uuid, no_couchbase):
     logger = logging.getLogger("process-%r" % (address,))
     try:
         logger.debug("Connected %r at %r", connection, address)
-        while True:
+        while True: # pragma: no cover
             data = connection.recv(1024)
             if data == "":
                 logger.debug("Socket closed remotely")
@@ -86,7 +86,8 @@ class HStream_Odd:
         logging.basicConfig(filename='scheduler.log', level=logging.DEBUG)
         try:
             logging.info("Listening")
-            self.start(debug, hostname, port, h_server, client_uuid, no_couchbase)
+            flag = 1
+            self.start(debug, hostname, port, h_server, client_uuid, no_couchbase, flag)
         except:
             logging.exception("Unexpected exception")
         finally:
@@ -99,13 +100,13 @@ class HStream_Odd:
 
         return ""
 
-    def start(self, debug, hostname, port, h_server, client_uuid, no_couchbase):
+    def start(self, debug, hostname, port, h_server, client_uuid, no_couchbase, flag):
         self.logger.debug("listening")
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.bind((hostname, port))
         self.socket.listen(1)
 
-        while True:
+        while flag: # pragma: no cover
             conn, address = self.socket.accept()
             self.logger.debug("Got connection")
             process = multiprocessing.Process(target=handle, args=(debug, conn, address, h_server, client_uuid, no_couchbase))
