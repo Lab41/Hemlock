@@ -21,6 +21,7 @@ Created on 19 August 2013
 @author: Charlie Lewis
 """
 
+from clients.hemlock_runner import Hemlock_Runner
 from clients.hemlock_base import Hemlock_Base
 from clients.hfs_old import HFs as hfs_old
 from clients.hfs import HFs as hfs
@@ -1170,6 +1171,30 @@ class TestClass:
         a.start(0, "localhost", 50000, h_server, "asdf", 0, 0)
         return x, error
 
+    def process_hemlock_runner_mysql_server(self):
+        """
+        Tests hemlock_runner mysql_server.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        x = ""
+        a = Hemlock_Runner()
+        x = a.mysql_server(0, "localhost", "travis", "password", "hemlock_test")
+        return x, error
+
+    def process_hemlock_runner_mysql_server2(self):
+        """
+        Tests hemlock_runner mysql_server.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        x = ""
+        a = Hemlock_Runner()
+        x = a.mysql_server(0, "localhost", "travis", "bad_password", "hemlock_test")
+        return x, error
+
     # call tests
     def test_instanciate(self):
         """
@@ -1242,6 +1267,7 @@ class TestClass:
         a.stream_callback("data")
         a.get_args(0)
 
+        a = Hemlock_Runner()
         a = hfs_old()
         a = hfs()
         a = HMongo()
@@ -1742,6 +1768,21 @@ class TestClass:
         """
         x, error = self.process_hstream_odd_start()
         for err in error: assert err == 0
+
+    def test_process_hemlock_runner_mysql_server(self):
+        """
+        Calls the test function for the hemlock_runner mysql_server.
+        """
+        x, error = self.process_hemlock_runner_mysql_server()
+        for err in error: assert err == 0
+
+    def test_process_hemlock_runner_mysql_server2(self):
+        """
+        Calls the test function for the hemlock_runner mysql_server.
+        """
+        with pytest.raises(SystemExit):
+            x, error = self.process_hemlock_runner_mysql_server2()
+            for err in error: assert err == 0
 
     def test_process_hemlock_get_auth(self, server_mysql, database, mysql_username, mysql_password, couchbase_server, couchbase_bucket, couchbase_username, couchbase_password, elasticsearch_endpoint, hemlock_debug, no_couchbase, hemlock_version):
         """
