@@ -114,6 +114,6 @@ class HFs:
                 # if no mimetypes match, use generic
                 junk = 1
                 file_type_list["hgeneric"].process_files(debug, file, file_mime, h_server, client_uuid)
-             
+
             i += 1
         print i

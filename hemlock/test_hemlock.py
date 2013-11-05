@@ -1155,6 +1155,34 @@ class TestClass:
         a.process_files(0, "docs/_build/", h_server, "asdf", 0)
         return x, error
 
+    def process_hfs_connect_client(self):
+        """
+        Tests hfs connect_client.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        a = hfs()
+        x = a.connect_client(0, {'FILE_PATH':'docs/_build/'})
+        x = a.connect_client(0, {})
+        return x, error
+
+    def process_hfs_get_data(self):
+        """
+        Tests hfs get_data.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        a = Hemlock_Base()
+        a.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
+        client_dict, server_dict = a.get_creds(0, "hemlock/clients/fs_creds_sample")
+        h_server = a.connect_server(0, server_dict, 1)
+        a = hfs()
+        c_server = a.connect_client(0, {'FILE_PATH':'docs/_build/'})
+        x = a.get_data(0, client_dict, c_server, h_server, "asdf", 0)
+        return x, error
+
     def process_hstream_odd_start(self):
         """
         Tests hstream_odd start.
@@ -1760,6 +1788,21 @@ class TestClass:
         Calls the test function for the hfs_old process_files.
         """
         x, error = self.process_hfs_old_process_files()
+        for err in error: assert err == 0
+
+    def test_process_hfs_connect_client(self):
+        """
+        Calls the test function for the hfs connect_client.
+        """
+        with pytest.raises(SystemExit):
+            x, error = self.process_hfs_connect_client()
+            for err in error: assert err == 0
+
+    def test_process_hfs_get_data(self):
+        """
+        Calls the test function for the hfs get_data.
+        """
+        x, error = self.process_hfs_get_data()
         for err in error: assert err == 0
 
     def test_process_hstream_odd_start(self):
