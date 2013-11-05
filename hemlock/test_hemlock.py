@@ -46,6 +46,7 @@ import hemlock
 import MySQLdb as mdb
 import pytest
 import re
+import sys
 
 class TestClass:
     """
@@ -1048,7 +1049,10 @@ class TestClass:
 
         """
         # !! TODO
+        sys.argv = ["", "hemlock_creds", "asdf"]
         a = Hemlock_Scheduler()
+        a.init_schedule()
+        a.check_schedules()
 
     def connect_mysql(self, debug, server, user, pw, db):
         """
@@ -1233,10 +1237,8 @@ class TestClass:
         """
         Calls the test function for hemlock_scheduler.
         """
-        junk = 1
-        # !! TODO
-        # fails on travis for some reason
-        #self.process_hemlock_scheduler()
+        with pytest.raises(SystemExit):
+            self.process_hemlock_scheduler()
 
     def test_connect_mysql(self):
         """
