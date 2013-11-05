@@ -46,6 +46,7 @@ import hemlock
 import MySQLdb as mdb
 import pytest
 import re
+import requests
 
 class TestClass:
     """
@@ -1599,7 +1600,7 @@ class TestClass:
         """
         Calls the test function for the query-data action.
         """
-        with pytest.raises(SystemExit):
+        with pytest.raises(requests.exceptions.ConnectionError):
             x, error = self.process_query_data_elasticsearch()
             for err in error: assert err == 0
 
