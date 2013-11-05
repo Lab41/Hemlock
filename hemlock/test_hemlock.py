@@ -1048,15 +1048,22 @@ class TestClass:
         Tests hemlock_scheduler.py.
 
         """
-        # !! TODO
         sys.argv = ["", "hemlock_creds", "asdf"]
         a = Hemlock_Scheduler()
         a.init_schedule()
-        b = Hemlock_Base()
-        b.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
-        client_dict, server_dict = b.get_creds(0, "hemlock/clients/mysql_creds_sample")
-        a.job_work(server_dict, "foo")
         a.check_schedules()
+
+    def process_hemlock_scheduler2(self):
+        """
+        Tests hemlock_scheduler.py.
+
+        """
+        sys.argv = ["", "hemlock_creds", "asdf"]
+	b = Hemlock_Base()
+	b.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
+	client_dict, server_dict = b.get_creds(0, "hemlock/clients/mysql_creds_sample")
+	a.job_work(server_dict, "foo")
+        a = Hemlock_Scheduler()
 
     def connect_mysql(self, debug, server, user, pw, db):
         """
@@ -1243,6 +1250,13 @@ class TestClass:
         """
         with pytest.raises(SystemExit):
             self.process_hemlock_scheduler()
+
+    def test_process_hemlock_scheduler2(self):
+        """
+        Calls the test function for hemlock_scheduler.
+        """
+        with pytest.raises(SystemExit):
+            self.process_hemlock_scheduler2()
 
     def test_connect_mysql(self):
         """
