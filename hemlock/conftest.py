@@ -1,6 +1,6 @@
 import pytest
 
-def pytest_addoption(parser):
+def pytest_addoption(parser): # pragma: no cover
     parser.addoption("--server-mysql", action="store", default="localhost",
         help="MySQL Server")
     parser.addoption("--database", action="store", default="hemlock_test",
@@ -26,50 +26,50 @@ def pytest_addoption(parser):
     parser.addoption("--hemlock-version", action="store_false", default=None,
         help="Version")
 
-@pytest.fixture
+@pytest.fixture # pragma: no cover
 def server_mysql(request):
     return request.config.getoption("--server-mysql")
 
-@pytest.fixture
+@pytest.fixture # pragma: no cover
 def database(request):
     return request.config.getoption("--database")
 
-@pytest.fixture
+@pytest.fixture # pragma: no cover
 def mysql_username(request):
     return request.config.getoption("--mysql-username")
 
-@pytest.fixture
+@pytest.fixture # pragma: no cover
 def mysql_password(request):
     return request.config.getoption("--mysql-password")
 
-@pytest.fixture
+@pytest.fixture # pragma: no cover
 def couchbase_server(request):
     return request.config.getoption("--couchbase-server")
 
-@pytest.fixture
+@pytest.fixture # pragma: no cover
 def couchbase_bucket(request):
     return request.config.getoption("--couchbase-bucket")
 
-@pytest.fixture
+@pytest.fixture # pragma: no cover
 def couchbase_username(request):
     return request.config.getoption("--couchbase-username")
 
-@pytest.fixture
+@pytest.fixture # pragma: no cover
 def couchbase_password(request):
     return request.config.getoption("--couchbase-password")
 
-@pytest.fixture
+@pytest.fixture # pragma: no cover
 def elasticsearch_endpoint(request):
     return request.config.getoption("--elasticsearch-endpoint")
 
-@pytest.fixture
+@pytest.fixture # pragma: no cover
 def hemlock_debug(request):
     return request.config.getoption("--hemlock-debug")
 
-@pytest.fixture
+@pytest.fixture # pragma: no cover
 def no_couchbase(request):
     return request.config.getoption("--no-couchbase")
 
-@pytest.fixture
+@pytest.fixture # pragma: no cover
 def hemlock_version(request):
     return request.config.getoption("--hemlock-version")
