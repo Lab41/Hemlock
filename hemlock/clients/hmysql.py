@@ -44,7 +44,7 @@ class HMysql:
                                    client_dict['MYSQL_PW'],
                                    client_dict['MYSQL_DB'],
                                    cursorclass = MySQLdb.cursors.SSCursor)
-        except:
+        except: # pragma: no cover
             print "Failure connecting to the client server"
             sys.exit(0)
         return c_server
@@ -92,7 +92,7 @@ class HMysql:
             c_server.commit()
             cur.close()
             c_server.close()
-        except:
+        except: # pragma: no cover
             print "Failed to close MySQL connection."
 
         return data_list, desc_list
