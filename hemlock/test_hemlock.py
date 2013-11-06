@@ -1196,7 +1196,7 @@ class TestClass:
         client_dict, server_dict = a.get_creds(0, "hemlock/clients/fs_creds_sample")
         h_server = a.connect_server(0, server_dict, 1)
         a = hfs()
-        a.format_lists(0, ["'", "['']"], h_server, "asdf", 0)
+        a.format_lists(0, ["'1'", "['']"], h_server, "asdf", 0)
         return x, error
 
     def process_hstream_odd_start(self):
