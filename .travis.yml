@@ -3,6 +3,8 @@ python:
   - "2.7"
 service:
   - elasticsearch
+  - mongodb
+  - redis-server
 before_install:
   - mysql -e 'create database hemlock_test;'
   - source ./scripts/ci/setup_env_hemlock.sh
