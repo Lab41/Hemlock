@@ -1400,6 +1400,16 @@ class TestClass:
         m_server.close()
         assert 1
 
+    def test_connect_redis(self):
+        """
+        Ensures that redis is running on the server running the tests.
+        """
+        import redis
+        r = redis.Redis(host='localhost', port=6379, db=0)
+        assert r.set('foo', 'bar')
+        b = r.get('foo')
+        assert b == "bar"
+
     def test_process_print_help(self):
         """
         Calls the test function for print_help.
