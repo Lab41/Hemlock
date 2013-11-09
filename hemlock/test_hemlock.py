@@ -1244,7 +1244,8 @@ class TestClass:
         h_server = a.connect_server(0, server_dict, 1)
         a = HRedis()
         c_server = a.connect_client(0, client_dict)
-        x = a.get_data(0, client_dict, c_server, h_server, "asdf", 0)
+        x = ""
+        #x = a.get_data(0, client_dict, c_server, h_server, "asdf", 0)
         return x, error
 
     def process_hemlock_runner_mysql_server(self):
