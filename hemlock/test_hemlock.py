@@ -1246,7 +1246,22 @@ class TestClass:
         h_server = a.connect_server(0, server_dict, 1)
         a = HRedis()
         c_server = a.connect_client(0, client_dict)
-        x = ""
+        x = a.get_data(0, client_dict, c_server, h_server, "asdf", 0)
+        return x, error
+
+    def process_hmongo_connect_client(self):
+        """
+        Tests hmongo connect_client.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        a = Hemlock_Base()
+        a.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
+        client_dict, server_dict = a.get_creds(0, "hemlock/clients/mongo_creds_sample")
+        h_server = a.connect_server(0, server_dict, 1)
+        a = HMongo()
+        c_server = a.connect_client(0, client_dict)
         x = a.get_data(0, client_dict, c_server, h_server, "asdf", 0)
         return x, error
 
@@ -1911,6 +1926,13 @@ class TestClass:
         Calls the test function for the hredis connect_client.
         """
         x, error = self.process_hredis_connect_client()
+        for err in error: assert err == 0
+
+    def test_process_hmongo_connect_client(self):
+        """
+        Calls the test function for the hmongo connect_client.
+        """
+        x, error = self.process_hmongo_connect_client()
         for err in error: assert err == 0
 
     def test_process_hemlock_get_auth(self, server_mysql, database, mysql_username, mysql_password, couchbase_server, couchbase_bucket, couchbase_username, couchbase_password, elasticsearch_endpoint, hemlock_debug, no_couchbase, hemlock_version):
