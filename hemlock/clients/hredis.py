@@ -33,7 +33,7 @@ class HRedis:
         # DEBUG
         try:
             c_server = redis.Redis(host=client_dict['REDIS_SERVER'], port=int(client_dict['REDIS_PORT']), db=int(client_dict['REDIS_DB']))
-        except:
+        except: # pragma: no cover
             print "Failure connecting to the client server"
             sys.exit(0)
         return c_server
@@ -60,16 +60,16 @@ class HRedis:
             elif key_type == "string":
                 # !! TODO
                 print "Unsupported object type."
-            elif key_type == "list":
+            elif key_type == "list": # pragma: no cover
                 # !! TODO
                 print "Unsupported object type."
-            elif key_type == "set":
+            elif key_type == "set": # pragma: no cover
                 # !! TODO
                 print "Unsupported object type."
-            elif key_type == "zset":
+            elif key_type == "zset": # pragma: no cover
                 # !! TODO
                 print "Unsupported object type."
-            else:
+            else: # pragma: no cover
                 # ignore - shouldn't ever get here
                 print "Key doesn't exist."
 
