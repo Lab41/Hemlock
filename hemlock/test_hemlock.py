@@ -1245,7 +1245,7 @@ class TestClass:
         a = HRedis()
         c_server = a.connect_client(0, client_dict)
         x = ""
-        #x = a.get_data(0, client_dict, c_server, h_server, "asdf", 0)
+        x = a.get_data(0, client_dict, c_server, h_server, "asdf", 0)
         return x, error
 
     def process_hemlock_runner_mysql_server(self):
@@ -1904,7 +1904,7 @@ class TestClass:
         """
         Calls the test function for the hredis connect_client.
         """
-        x, error = self.process_hmysql_connect_client()
+        x, error = self.process_hredis_connect_client()
         for err in error: assert err == 0
 
     def test_process_hemlock_get_auth(self, server_mysql, database, mysql_username, mysql_password, couchbase_server, couchbase_bucket, couchbase_username, couchbase_password, elasticsearch_endpoint, hemlock_debug, no_couchbase, hemlock_version):
