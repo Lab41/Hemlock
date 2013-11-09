@@ -2,8 +2,8 @@ language: python
 python:
   - "2.7"
 service:
-  - elasticsearch
   - mongodb
+  - elasticsearch
   - redis-server
 before_install:
   - mysql -e 'create database hemlock_test;'
