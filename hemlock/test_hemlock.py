@@ -45,8 +45,10 @@ from hemlock_scheduler import Hemlock_Scheduler
 
 import hemlock
 import MySQLdb as mdb
+import pymongo
 import pytest
 import re
+import redis
 import sys
 
 class TestClass:
@@ -1422,7 +1424,6 @@ class TestClass:
         """
         Ensures that redis is running on the server running the tests.
         """
-        import redis
         r = redis.Redis(host='localhost', port=6379, db=0)
         assert r.set('foo', 'bar')
         r.hset('test-hash', 'test-field', 'test')
@@ -1430,6 +1431,15 @@ class TestClass:
         c = r.hget('test-hash', 'test-field')
         assert b == "bar"
         assert c == "test"
+
+    def test_connect_mongo(self):
+        """
+        Ensures that mongo is running on the server running the tests.
+        """
+        connection = pymongo.Connection(localhost, 27017)
+        db = connection['test-database']
+        collection = db['test-collection']
+        assert 1
 
     def test_process_print_help(self):
         """
