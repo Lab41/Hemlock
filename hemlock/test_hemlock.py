@@ -1750,6 +1750,7 @@ class TestClass:
         """
         Calls the test function for the start-scheduler action.
         """
+        assert 0
         x, error = self.process_start_scheduler()
         for err in error: assert err == 0
 
