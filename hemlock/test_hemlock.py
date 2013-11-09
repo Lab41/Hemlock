@@ -947,6 +947,7 @@ class TestClass:
         error.append(error3)
         e, error4 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
         error.append(error4)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
         x, error5 = a.process_action(0, "query-data", {'--user':d[7][1], '--query':'foo'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
         error.append(error5)
         return x, error
@@ -969,6 +970,7 @@ class TestClass:
         error.append(error3)
         e, error4 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
         error.append(error4)
+        hemlock.getpass.getpass = lambda _: 'boguspw'
         x, error5 = a.process_action(0, "query-data", {'--user':d[7][1], '--query':'foo'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
         error.append(error5)
         return x, error
@@ -1757,10 +1759,9 @@ class TestClass:
         """
         Calls the test function for the query-data action.
         """
-        assert 1
-        #with pytest.raises(SystemExit):
-        #    x, error = self.process_query_data_couchbase()
-        #    for err in error: assert err == 0
+        with pytest.raises(SystemExit):
+            x, error = self.process_query_data_couchbase()
+            for err in error: assert err == 0
 
     def test_process_query_data_elasticsearch(self):
         """
