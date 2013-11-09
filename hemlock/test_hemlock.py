@@ -1410,7 +1410,7 @@ class TestClass:
         import redis
         r = redis.Redis(host='localhost', port=6379, db=0)
         assert r.set('foo', 'bar')
-        assert r.hset('test-hash', 'test-field', 'test')
+        r.hset('test-hash', 'test-field', 'test')
         b = r.get('foo')
         c = r.hget('test-hash', 'test-field')
         assert b == "bar"
