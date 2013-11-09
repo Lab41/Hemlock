@@ -1751,8 +1751,8 @@ class TestClass:
         Calls the test function for the start-scheduler action.
         """
         assert 0
-        x, error = self.process_start_scheduler()
-        for err in error: assert err == 0
+        #x, error = self.process_start_scheduler()
+        #for err in error: assert err == 0
 
     def test_process_query_data_couchbase(self):
         """
