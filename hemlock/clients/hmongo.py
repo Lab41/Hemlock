@@ -15,7 +15,7 @@
 #   limitations under the License.
 
 from hemlock_debugger import Hemlock_Debugger
-from pymongo import Connection
+from pymongo import MongoClient
 
 import sys
 
@@ -33,7 +33,7 @@ class HMongo:
         c_server = ""
         # DEBUG
         try:
-            c_server = Connection(client_dict['MONGO_SERVER'],
+            c_server = MongoClient(client_dict['MONGO_SERVER'],
                                    int(client_dict['MONGO_PORT']))
             c_database = c_server[client_dict['MONGO_DB']]
             c_collection = c_database[client_dict['MONGO_COLLECTION']]
