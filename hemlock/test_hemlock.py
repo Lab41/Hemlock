@@ -1439,6 +1439,7 @@ class TestClass:
         connection = pymongo.MongoClient("127.0.0.1", 27017)
         db = connection['test-database']
         collection = db['test-collection']
+        collection.insert([{"foo":"bar"}])
         assert 1
 
     def test_process_print_help(self):

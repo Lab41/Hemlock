@@ -37,7 +37,7 @@ class HMongo:
                                    int(client_dict['MONGO_PORT']))
             c_database = c_server[client_dict['MONGO_DB']]
             c_collection = c_database[client_dict['MONGO_COLLECTION']]
-        except:
+        except: # pragma: no cover
             print "Failure connecting to the client server"
             sys.exit(0)
         return c_collection
