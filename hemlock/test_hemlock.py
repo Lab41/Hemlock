@@ -1436,7 +1436,7 @@ class TestClass:
         """
         Ensures that mongo is running on the server running the tests.
         """
-        connection = pymongo.Connection(localhost, 27017)
+        connection = pymongo.Connection("localhost", 27017)
         db = connection['test-database']
         collection = db['test-collection']
         assert 1
