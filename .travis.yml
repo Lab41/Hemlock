@@ -8,6 +8,7 @@ service:
 before_install:
   - mysql -e 'create database hemlock_test;'
   - source ./scripts/ci/setup_env_hemlock.sh
+  - sudo service mongodb restart
   - sudo apt-get update -qq
   # - sudo apt-get install -y libssl0.9.8
   # - sudo wget http://packages.couchbase.com/releases/2.0.0/couchbase-server-enterprise_x86_64_2.0.0.deb
