@@ -1,5 +1,5 @@
 MYSQL_SERVER=localhost
 MYSQL_DB=hemlock_test
 MYSQL_USERNAME=travis
-MYSQL_TABLE=hemlock_test
+MYSQL_TABLE=tenants
 MYSQL_PW=password
