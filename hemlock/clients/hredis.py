@@ -27,10 +27,12 @@ class HRedis:
         # connect to the redis server
         # required fields in the client creds file are as follows:
         #    REDIS_SERVER
+        #    REDIS_PORT
+        #    REDIS_DB
         c_server = ""
         # DEBUG
         try:
-            c_server = redis.Redis(client_dict['REDIS_SERVER'])
+            c_server = redis.Redis(host=client_dict['REDIS_SERVER'], port=int(client_dict['REDIS_PORT']), db=int(client_dict['REDIS_DB']))
         except:
             print "Failure connecting to the client server"
             sys.exit(0)
