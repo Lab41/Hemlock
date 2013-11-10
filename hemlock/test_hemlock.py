@@ -1216,6 +1216,7 @@ class TestClass:
         client_dict, server_dict = a.get_creds(0, "hemlock/clients/stream_odd_creds_sample")
         h_server = a.connect_server(0, server_dict, 1)
         a = HStream_Odd()
+        a.flag = 0
         a.connect_client(0, client_dict, h_server, "asdf", 0)
         a.start(0, "localhost", 50000, h_server, "asdf", 0, 0)
         return x, error

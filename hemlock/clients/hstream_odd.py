@@ -74,6 +74,7 @@ class HStream_Odd:
     def __init__(self):
         self.log = Hemlock_Debugger()
         self.logger = logging.getLogger("server")
+        self.flag = 1
 
     def connect_client(self, debug, client_dict, h_server, client_uuid, no_couchbase):
         # connect to the stream server
@@ -86,7 +87,6 @@ class HStream_Odd:
         logging.basicConfig(filename='scheduler.log', level=logging.DEBUG)
         try:
             logging.info("Listening")
-            flag = 1
             self.start(debug, hostname, port, h_server, client_uuid, no_couchbase, flag)
         except: # pragma: no cover
             logging.exception("Unexpected exception")
