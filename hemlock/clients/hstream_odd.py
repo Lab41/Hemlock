@@ -25,7 +25,7 @@ import multiprocessing
 import socket
 import sys
 
-def handle(debug, connection, address, h_server, client_uuid, no_couchbase):
+def handle(debug, connection, address, h_server, client_uuid, no_couchbase, flag):
     h_inst = hemlock_base.Hemlock_Base()
     data_list = [[]]
     desc_list = []
@@ -33,7 +33,7 @@ def handle(debug, connection, address, h_server, client_uuid, no_couchbase):
     logger = logging.getLogger("process-%r" % (address,))
     try:
         logger.debug("Connected %r at %r", connection, address)
-        while True: # pragma: no cover
+        while flag: # pragma: no cover
             data = connection.recv(1024)
             if data == "":
                 logger.debug("Socket closed remotely")
@@ -109,7 +109,7 @@ class HStream_Odd:
         while flag: # pragma: no cover
             conn, address = self.socket.accept()
             self.logger.debug("Got connection")
-            process = multiprocessing.Process(target=handle, args=(debug, conn, address, h_server, client_uuid, no_couchbase))
+            process = multiprocessing.Process(target=handle, args=(debug, conn, address, h_server, client_uuid, no_couchbase, flag))
             process.daemon = True
             process.start()
             self.logger.debug("Started process %r", process)

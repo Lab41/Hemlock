@@ -30,6 +30,7 @@ from clients.hmysql import HMysql
 from clients.hredis import HRedis
 from clients.hrest import HRest
 from clients.hstream_odd import HStream_Odd
+from clients.hstream_odd import handle
 from clients.file_types.hcsv import Hcsv
 from clients.file_types.hdoc import Hdoc
 from clients.file_types.hgeneric import Hgeneric
@@ -49,6 +50,7 @@ import pymongo
 import pytest
 import re
 import redis
+import socket
 import sys
 
 class TestClass:
@@ -1219,6 +1221,11 @@ class TestClass:
         a.flag = 0
         a.connect_client(0, client_dict, h_server, "asdf", 0)
         a.start(0, "localhost", 50000, h_server, "asdf", 0, 0)
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.bind(("localhost", 50002))
+        s.listen(1)
+        conn, address = s.accept()
+        handle(0, conn, address, h_server, "asdf", 0, 0)
         return x, error
 
     def process_hmysql_connect_client(self):
