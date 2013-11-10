@@ -1771,7 +1771,6 @@ class TestClass:
         """
         with pytest.raises(SystemExit):
             x, error = self.process_client_run()
-            for err in error: assert err == 0
 
     def test_process_client_schedule(self):
         """
@@ -1821,7 +1820,6 @@ class TestClass:
         """
         with pytest.raises(SystemExit):
             x, error = self.process_query_data_elasticsearch()
-            for err in error: assert err == 0
 
     def test_process_schedule_change_server(self):
         """
@@ -1864,7 +1862,6 @@ class TestClass:
         """
         with pytest.raises(SystemExit):
             x, error = self.process_base_args1()
-            for err in error: assert err == 0
 
     def test_process_base_args2(self):
         """
@@ -1886,7 +1883,6 @@ class TestClass:
         """
         with pytest.raises(SystemExit):
             x, error = self.process_base_connect_server_couchbase()
-            for err in error: assert err == 0
 
     def test_process_hemlock_process_args(self):
         """
@@ -1894,7 +1890,6 @@ class TestClass:
         """
         with pytest.raises(SystemExit):
             x, error = self.process_hemlock_process_args()
-            for err in error: assert err == 0
 
     def test_process_hfs_old_process_files(self):
         """
@@ -1909,7 +1904,6 @@ class TestClass:
         """
         with pytest.raises(SystemExit):
             x, error = self.process_hfs_connect_client()
-            for err in error: assert err == 0
 
     def test_process_hfs_get_data(self):
         """
@@ -1945,7 +1939,6 @@ class TestClass:
         """
         with pytest.raises(SystemExit):
             x, error = self.process_hemlock_runner_mysql_server2()
-            for err in error: assert err == 0
 
     def test_process_hmysql_connect_client(self):
         """
