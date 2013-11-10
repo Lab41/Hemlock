@@ -88,9 +88,9 @@ class HStream_Odd:
             logging.info("Listening")
             flag = 1
             self.start(debug, hostname, port, h_server, client_uuid, no_couchbase, flag)
-        except:
+        except: # pragma: no cover
             logging.exception("Unexpected exception")
-        finally:
+        finally: # pragma: no cover
             logging.info("Shutting down")
             for process in multiprocessing.active_children():
                 logging.info("Shutting down process %r", process)
