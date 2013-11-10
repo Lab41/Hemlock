@@ -67,8 +67,11 @@ def handle(debug, connection, address, h_server, client_uuid, no_couchbase, flag
     except:
         logger.exception("Problem handling request")
     finally:
-        logger.debug("Closing socket")
-        connection.close()
+        try:
+            logger.debug("Closing socket")
+            connection.close()
+        except:
+            print "failed to close the connection."
 
 class HStream_Odd:
     def __init__(self):
