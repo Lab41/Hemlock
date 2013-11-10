@@ -1094,7 +1094,6 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         x = a.process_args(0, ["client"])
-        return x, error
 
     def process_base_args1(self):
         """
@@ -1105,7 +1104,6 @@ class TestClass:
         error = []
         a = Hemlock_Base()
         x = a.process_args(0, [])
-        return x, error
 
     def process_base_args2(self):
         """
@@ -1145,7 +1143,6 @@ class TestClass:
         a.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
         client_dict, server_dict = a.get_creds(0, "hemlock/clients/mysql_creds_sample")
         h_server = a.connect_server(0, server_dict, 0)
-        return x, error
 
     def process_hfs_old_process_files(self):
         """
@@ -1173,7 +1170,6 @@ class TestClass:
         a = hfs()
         x = a.connect_client(0, {'FILE_PATH':'docs/_build/'})
         x = a.connect_client(0, {})
-        return x, error
 
     def process_hfs_get_data(self):
         """
@@ -1313,7 +1309,6 @@ class TestClass:
         x = ""
         a = Hemlock_Runner()
         x = a.mysql_server(0, "localhost", "travis", "bad_password", "hemlock_test")
-        return x, error
 
     # call tests
     def test_instanciate(self):
