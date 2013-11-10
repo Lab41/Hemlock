@@ -837,7 +837,7 @@ class Hemlock():
                     self.HELP_COUNTER += 1
                     i = len(args)
                 i += 2
-            except:
+            except: # pragma: no cover
                 self.HELP_COUNTER += 1
         if arg_d:
             self.HELP_COUNTER += 1
@@ -1246,7 +1246,7 @@ class Hemlock():
                     line_a = line.split("=",1)
                     try:
                         os.environ[line_a[0]] = line_a[1].strip()
-                    except:
+                    except: # pragma: no cover
                         print "Malformed Hemlock Creds file."
                         self.log.debug(debug, str(sys.exc_info()[0]))
             f.close()
@@ -1669,7 +1669,7 @@ class Hemlock():
                 if pw != results[0][0]:
                     print "Invalid password."
                     sys.exit(0)
-            except:
+            except: # pragma: no cover
                 print "no results"
         if "add" not in action_a and "change" not in action_a:
             props.append("uuid")
@@ -2077,7 +2077,7 @@ class Hemlock():
                                         f.close()
                                         creds = json.dumps(cred_dict)
                                         data_action += "AES_ENCRYPT(\""+creds.replace('"','\\"')+"\", \""+aes_key+"\"), "
-                                    except:
+                                    except: # pragma: no cover
                                         error = 1
                                         print "Unable to read credentials file"
                                         sys.exit(0)
@@ -2231,7 +2231,7 @@ class Hemlock():
                                     f.close()
                                     creds = json.dumps(cred_dict)
                                     data_action += "AES_ENCRYPT(\""+creds.replace('"','\\"')+"\", \""+aes_key+"\"), "
-                                except:
+                                except: # pragma: no cover
                                     error = 1
                                     self.log.debug(debug, str(sys.exc_info()[0]))
                                     print "Unable to read credentials file"
@@ -2403,7 +2403,7 @@ class Hemlock():
                 if data_action3:
                     cur.execute(data_action3)
                     self.log.debug(debug, "Successfully executed the following SQL query: "+data_action3)
-            except:
+            except: # pragma: no cover
                 error = 1
                 print "not valid"
                 sys.exit(0)
