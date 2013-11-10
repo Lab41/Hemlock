@@ -44,6 +44,7 @@ from clients.file_types.hxml import Hxml
 from www.hemlock_web import test
 from hemlock_scheduler import Hemlock_Scheduler
 
+import conftest
 import hemlock
 import MySQLdb as mdb
 import pymongo
@@ -1068,12 +1069,12 @@ class TestClass:
 
         """
         sys.argv = ["", "hemlock_creds", "asdf"]
-	b = Hemlock_Base()
-	b.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
-	client_dict, server_dict = b.get_creds(0, "hemlock/clients/mysql_creds_sample")
+        b = Hemlock_Base()
+        b.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
+        client_dict, server_dict = b.get_creds(0, "hemlock/clients/mysql_creds_sample")
         sys.argv = ["", "hemlock_creds", "asdf"]
         a = Hemlock_Scheduler()
-	a.job_work(server_dict, "foo")
+        a.job_work(server_dict, "foo")
 
     def connect_mysql(self, debug, server, user, pw, db):
         """
@@ -1378,9 +1379,10 @@ class TestClass:
         a = Hemlock_Base()
         a.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
         a.client_import(0, "mysql")
-        a.get_creds(0, "hemlock/clients/mysql_creds_sample")
+        client_dict, server_dict = a.get_creds(0, "hemlock/clients/mysql_creds_sample")
         a.stream_callback("data")
         a.get_args(0)
+        a.update_hemlock(0, "asdf", server_dict)
 
         a = Hemlock_Runner()
         a = hfs_old()
@@ -1401,6 +1403,7 @@ class TestClass:
         a = Hxls()
         a = Hxml()
         a = test()
+        a.GET()
 
     def test_process_hemlock_scheduler(self):
         """

@@ -90,12 +90,12 @@ class Hemlock_Base():
                     line = line.split("=",1)
                     try:
                         client_dict[line[0]] = line[1].strip()
-                    except:
+                    except: # pragma: no cover
                         print "Malformed Client Creds file."
                         self.log.debug(debug, str(sys.exc_info()[0]))
                         sys.exit(0)
             f.close()
-        except:
+        except: # pragma: no cover
             print "Unable to open "+CLIENT_CREDS_FILE
             self.log.debug(debug, str(sys.exc_info()[0]))
             sys.exit(0)
@@ -112,12 +112,12 @@ class Hemlock_Base():
                     line = line.split("=",1)
                     try:
                         server_dict[line[0]] = line[1].strip()
-                    except:
+                    except: # pragma: no cover
                         print "Malformed Server Creds file."
                         self.log.debug(debug, str(sys.exc_info()[0]))
                         sys.exit(0)
             f.close()
-        except:
+        except: # pragma: no cover
             print "Unable to open "+self.SERVER_CREDS_FILE
             self.log.debug(debug, str(sys.exc_info()[0]))
             sys.exit(0)
@@ -156,7 +156,7 @@ class Hemlock_Base():
             h_server.commit()
             h_server.close()
             self.log.debug(debug, "Successfully closed the mysql connection.")
-        except:
+        except: # pragma: no cover
             print "Failure connecting to the Hemlock server"
             self.log.debug(debug, str(sys.exc_info()[0]))
             sys.exit(0)
@@ -188,7 +188,7 @@ class Hemlock_Base():
             try:
                 h_server = pyes.ES(server=[("http", server_dict['HEMLOCK_ELASTICSEARCH_ENDPOINT'], "9200")])
                 self.log.debug(debug, "ElasticSearch connection handle: "+str(h_server))
-            except:
+            except: # pragma: no cover
                 print "Failure connecting to the Hemlock server"
                 self.log.debug(debug, str(sys.exc_info()[0]))
                 sys.exit(0)
@@ -268,7 +268,7 @@ class Hemlock_Base():
                 if t_dict:
                     try:
                         h_server.refresh()
-                    except:
+                    except: # pragma: no cover
                         e += 1
                         print "Failure."
             else:
@@ -276,7 +276,7 @@ class Hemlock_Base():
                 if t_dict:
                     try:
                         h_server.set_multi(t_dict, format=couchbase.FMT_JSON)
-                    except:
+                    except: # pragma: no cover
                         e += 1
                         print "Failure."
             j += 1
@@ -371,19 +371,19 @@ class Hemlock_Base():
                 try:
                     client_uuid = args[i+1]
                     i += 1
-                except:
+                except: # pragma: no cover
                     self.print_help()
             elif args[i] == "--client":
                 try:
                     client = args[i+1]
                     i += 1
-                except:
+                except: # pragma: no cover
                     self.print_help()
             elif args[i] == "--splits":
                 try:
                     splits = args[i+1]
                     i += 1
-                except:
+                except: # pragma: no cover
                     splits = -1
             else:
                 self.print_help()

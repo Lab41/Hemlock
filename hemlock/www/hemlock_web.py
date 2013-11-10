@@ -23,5 +23,5 @@ class test:
     def GET(self):
         return 'test'
 
-if __name__ == "__main__":
+if __name__ == "__main__": # pragma: no cover
     app.run()
