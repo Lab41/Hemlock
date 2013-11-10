@@ -1288,6 +1288,18 @@ class TestClass:
         x = a.get_data(0, client_dict, c_server, h_server, "asdf", 0)
         return x, error
 
+    def process_hemlock_base_update_hemlock(self):
+        """
+        Tests hemlock_base update_hemlock.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        a = Hemlock_Base()
+        a.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
+        client_dict, server_dict = a.get_creds(0, "hemlock/clients/mongo_creds_sample")
+        a.update_hemlock(0, "asdf", server_dict)
+
     def process_hemlock_runner_mysql_server(self):
         """
         Tests hemlock_runner mysql_server.
@@ -1382,7 +1394,6 @@ class TestClass:
         client_dict, server_dict = a.get_creds(0, "hemlock/clients/mysql_creds_sample")
         a.stream_callback("data")
         a.get_args(0)
-        a.update_hemlock(0, "asdf", server_dict)
 
         a = Hemlock_Runner()
         a = hfs_old()
@@ -1965,6 +1976,13 @@ class TestClass:
         """
         x, error = self.process_hmongo_connect_client()
         for err in error: assert err == 0
+
+    def test_process_hemlock_base_update_hemlock(self):
+        """
+        Calls the test function for the hemlock_base update_hemlock.
+        """
+        with pytest.raises(SystemExit):
+            x, error = self.process_hemlock_base_update_hemlock()
 
     def test_process_hemlock_get_auth(self, server_mysql, database, mysql_username, mysql_password, couchbase_server, couchbase_bucket, couchbase_username, couchbase_password, elasticsearch_endpoint, hemlock_debug, no_couchbase, hemlock_version):
         """
