@@ -64,7 +64,7 @@ def handle(debug, connection, address, h_server, client_uuid, no_couchbase, flag
             #    should be this moved so that it doesn't send data
             #    for every piece recieved, will it be too slow?
             h_inst.send_data(debug, data_list, desc_list, h_server, client_uuid, no_couchbase)
-    except:
+    except: # pragma: no cover
         logger.exception("Problem handling request")
     finally:
         try:
