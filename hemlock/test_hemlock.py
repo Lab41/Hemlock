@@ -1396,7 +1396,13 @@ class TestClass:
         a.get_args(0)
 
         a = Hemlock_Runner()
-        a = hfs_old()
+
+        b = hfs_old()
+        a = Hemlock_Base()
+        a.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
+        client_dict, server_dict = a.get_creds(0, "hemlock/clients/fs_creds_sample")
+        b.connect_client(0, client_dict)
+
         a = hfs()
         a = HMongo()
         a = HMysql()

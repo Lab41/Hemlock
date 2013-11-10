@@ -45,7 +45,7 @@ class HFs:
         input = "/mnt/"
         try:
             input = client_dict['FILE_PATH']
-        except:
+        except: # pragma: no cover
             print "Failure with the creds file"
             sys.exit(0)
         return input
