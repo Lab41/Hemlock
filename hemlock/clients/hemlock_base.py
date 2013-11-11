@@ -308,7 +308,7 @@ class Hemlock_Base():
             cur.execute(query)
             h_server.commit()
             h_server.close()
-        except:
+        except: # pragma: no cover
             print "Failure connecting to the Hemlock server"
             sys.exit(0)
         return
