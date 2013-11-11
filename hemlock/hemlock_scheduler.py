@@ -113,12 +113,16 @@ class Hemlock_Scheduler():
 
         # limit this to just the jobs for the server that is running this
         # scheduler
-        query = "SELECT * FROM schedules WHERE schedule_server_id = '"+self.server+"'"
-        cur.execute(query)
-        results = cur.fetchall()
-        self.log.debug(self.debug, str(results))
-        m_server.commit()
-        m_server.close()
+        try:
+            query = "SELECT * FROM schedules WHERE schedule_server_id = '"+self.server+"'"
+            cur.execute(query)
+            results = cur.fetchall()
+            self.log.debug(self.debug, str(results))
+            m_server.commit()
+            m_server.close()
+        except:
+            print "A schedule needs to be created first."
+            sys.exit(0)
 
         # remove all jobs scheduled
         try:
@@ -155,9 +159,13 @@ class Hemlock_Scheduler():
         cur = m_server.cursor()
         self.log.debug(self.debug, "MySQL Cursor: "+str(cur))
 
-        cur.execute("SELECT * FROM schedules_clients WHERE schedule_id = '"+name+"'")
-        results = cur.fetchall()
-        self.log.debug(self.debug, str(results))
+        try:
+            cur.execute("SELECT * FROM schedules_clients WHERE schedule_id = '"+name+"'")
+            results = cur.fetchall()
+            self.log.debug(self.debug, str(results))
+        except:
+            print "A schedule needs to be associated with a client first."
+            sys.exit(0)
 
         try:
             for cred in server_dict:
