@@ -1341,6 +1341,8 @@ class TestClass:
         Calls the test function for instanciation.
         """
         a = hemlock.Hemlock()
+        a.check_args(["tenant-list"], [], {})
+        a.check_args(["tenant-list"], ["tenant-list"], {})
         a.client_add_schedule([], {})
         a.client_get([], {})
         a.client_list([], {})
