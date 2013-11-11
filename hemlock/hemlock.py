@@ -2394,20 +2394,23 @@ class Hemlock():
                     if "get" in action_a:
                         data_action += " WHERE uuid = '"+var_d['--uuid']+"'"
                     self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
-            try:
-                if data_action:
-                    cur.execute(data_action)
-                    self.log.debug(debug, "Successfully executed the following SQL query: "+data_action)
-                if data_action2:
-                    cur.execute(data_action2)
-                    self.log.debug(debug, "Successfully executed the following SQL query: "+data_action2)
-                if data_action3:
-                    cur.execute(data_action3)
-                    self.log.debug(debug, "Successfully executed the following SQL query: "+data_action3)
-            except: # pragma: no cover
-                error = 1
-                print "not valid"
-                sys.exit(0)
+            #try:
+            if data_action:
+                print data_action
+                cur.execute(data_action)
+                self.log.debug(debug, "Successfully executed the following SQL query: "+data_action)
+            if data_action2:
+                print data_action2
+                cur.execute(data_action2)
+                self.log.debug(debug, "Successfully executed the following SQL query: "+data_action2)
+            if data_action3:
+                print data_action3
+                cur.execute(data_action3)
+                self.log.debug(debug, "Successfully executed the following SQL query: "+data_action3)
+            #except: # pragma: no cover
+            #    error = 1
+            #    print "not valid"
+            #    sys.exit(0)
 
         results = cur.fetchall()
         self.log.debug(debug, "Results: "+str(results))
