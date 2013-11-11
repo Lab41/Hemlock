@@ -1026,9 +1026,13 @@ class TestClass:
 
         :return: returns any data and a list of any errors
         """
-        # !! TODO
-        x = ""
-        error = ""
+        error = []
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
+        b, error1 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        error.append(error1)
+        x, error2 = a.process_action(0, "schedule-server-delete", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        error.append(error2)
         return x, error
 
     def process_schedule_server_get(self):
@@ -1037,9 +1041,13 @@ class TestClass:
 
         :return: returns any data and a list of any errors
         """
-        # !! TODO
-        x = ""
-        error = ""
+        error = []
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
+        b, error1 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        error.append(error1)
+        x, error2 = a.process_action(0, "schedule-server-get", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        error.append(error2)
         return x, error
 
     def process_schedule_server_list(self):
@@ -1048,9 +1056,13 @@ class TestClass:
 
         :return: returns any data and a list of any errors
         """
-        # !! TODO
-        x = ""
-        error = ""
+        error = []
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
+        b, error1 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        error.append(error1)
+        x, error2 = a.process_action(0, "schedule-server-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        error.append(error2)
         return x, error
 
     def process_hemlock_scheduler(self):

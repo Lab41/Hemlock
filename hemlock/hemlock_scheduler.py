@@ -69,9 +69,10 @@ class Hemlock_Scheduler():
         #    check environment variables first, then check for creds file
         try:
             server_dict['HEMLOCK_MYSQL_SERVER'] = os.environ['HEMLOCK_MYSQL_SERVER']
+            server_dict['HEMLOCK_MYSQL_DB'] = os.environ['HEMLOCK_MYSQL_DB']
             server_dict['HEMLOCK_MYSQL_USERNAME'] = os.environ['HEMLOCK_MYSQL_USERNAME']
             server_dict['HEMLOCK_MYSQL_PW'] = os.environ['HEMLOCK_MYSQL_PW']
-        except:
+        except: # pragma: no cover
             # read in hemlock server creds file
             try:
                 self.log.debug(self.debug, "Opening server_creds file: "+self.path)
@@ -84,12 +85,12 @@ class Hemlock_Scheduler():
                         line = line.split("=",1)
                         try:
                             server_dict[line[0]] = line[1].strip()
-                        except:
+                        except: # pragma: no cover
                             print "Malformed Server Creds file."
                             self.log.debug(self.debug, sys.exc_info()[0])
                             sys.exit(0)
                 f.close()
-            except:
+            except: # pragma: no cover
                 print "Unable to open "+self.path
                 self.log.debug(self.debug, sys.exc_info()[0])
                 sys.exit(0)
@@ -99,7 +100,7 @@ class Hemlock_Scheduler():
             m_server = mdb.connect(server_dict['HEMLOCK_MYSQL_SERVER'],
                                    server_dict['HEMLOCK_MYSQL_USERNAME'],
                                    server_dict['HEMLOCK_MYSQL_PW'],
-                                   "hemlock")
+                                   server_dict['HEMLOCK_MYSQL_DB'])
 
             self.log.debug(self.debug, "MySQL Handle: "+str(m_server))
         except:
@@ -122,7 +123,7 @@ class Hemlock_Scheduler():
         # remove all jobs scheduled
         try:
             self.sched.unschedule_func(self.job_work)
-        except:
+        except: # pragma: no cover
             print "No jobs scheduled at this time, checking for new jobs to schedule."
 
         # read schedules that are stored
@@ -142,7 +143,7 @@ class Hemlock_Scheduler():
             m_server = mdb.connect(server_dict['HEMLOCK_MYSQL_SERVER'],
                                    server_dict['HEMLOCK_MYSQL_USERNAME'],
                                    server_dict['HEMLOCK_MYSQL_PW'],
-                                   "hemlock")
+                                   server_dict['HEMLOCK_MYSQL_DB'])
 
             self.log.debug(self.debug, "MySQL Handle: "+str(m_server))
         except:
