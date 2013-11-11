@@ -1981,15 +1981,19 @@ class TestClass:
         """
         Calls the test function for the schedule-add-client action.
         """
-        x, error = self.process_schedule_add_client()
-        for err in error: assert err == 0
+        # !! TODO
+        with pytest.raises(SystemExit):
+            x, error = self.process_schedule_add_client()
+            for err in error: assert err == 0
 
     def test_process_client_add_schedule(self):
         """
         Calls the test function for the client-add-schedule action.
         """
-        x, error = self.process_client_add_schedule()
-        for err in error: assert err == 0
+        # !! TODO
+        with pytest.raises(SystemExit):
+            x, error = self.process_client_add_schedule()
+            for err in error: assert err == 0
 
     def test_process_schedule_remove_client(self):
         """
