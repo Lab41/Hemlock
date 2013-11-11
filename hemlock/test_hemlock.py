@@ -953,8 +953,9 @@ class TestClass:
         e, error4 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
         error.append(error4)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        x, error5 = a.process_action(0, "query-data", {'--user':d[7][1], '--query':'foo'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
-        error.append(error5)
+        #x, error5 = a.process_action(0, "query-data", {'--user':d[7][1], '--query':'foo'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        #error.append(error5)
+        x = ""
         return x, error
 
     def process_query_data_elasticsearch(self):
