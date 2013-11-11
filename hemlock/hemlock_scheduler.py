@@ -66,6 +66,7 @@ class Hemlock_Scheduler():
         run, starts new ones that need to be scheduled.
         """
         server_dict = {}
+        results = []
         #    check environment variables first, then check for creds file
         try:
             server_dict['HEMLOCK_MYSQL_SERVER'] = os.environ['HEMLOCK_MYSQL_SERVER']
