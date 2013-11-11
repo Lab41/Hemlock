@@ -122,7 +122,6 @@ class Hemlock_Scheduler():
             m_server.close()
         except:
             print "A schedule needs to be created first."
-            sys.exit(0)
 
         # remove all jobs scheduled
         try:
