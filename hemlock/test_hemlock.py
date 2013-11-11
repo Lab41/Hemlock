@@ -1064,6 +1064,101 @@ class TestClass:
         error.append(error2)
         return x, error
 
+    def process_schedule_add_client(self):
+        """
+        Tests schedule-add-client action.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        x = ""
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error1)
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error2)
+        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error3)
+        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error4)
+        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error5)
+        g, error6 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error6)
+        x, error7 = a.process_action(0, "schedule-add-client", {'--uuid':g[2][1], '--client_id':d[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error7)
+        return x, error
+
+    def process_client_add_schedule(self):
+        """
+        Tests client-add-schedule action.
+
+        :return: returns any data and a list of any errors
+        """
+        # !! TODO
+        error = []
+        x = ""
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error1)
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error2)
+        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error3)
+        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        error.append(error4)
+        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        error.append(error5)
+        return x, error
+
+    def process_schedule_remove_client(self):
+        """
+        Tests schedule-remove-client action.
+
+        :return: returns any data and a list of any errors
+        """
+        # !! TODO
+        error = []
+        x = ""
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error1)
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error2)
+        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error3)
+        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        error.append(error4)
+        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        error.append(error5)
+        return x, error
+
+    def process_client_remove_schedule(self):
+        """
+        Tests client-remove-schedule action.
+
+        :return: returns any data and a list of any errors
+        """
+        # !! TODO
+        error = []
+        x = ""
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error1)
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error2)
+        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error3)
+        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        error.append(error4)
+        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        error.append(error5)
+        return x, error
+
     def process_hemlock_scheduler(self):
         """
         Tests hemlock_scheduler.py.
@@ -1882,6 +1977,34 @@ class TestClass:
         Calls the test function for the schedule-server-list action.
         """
         x, error = self.process_schedule_server_list()
+        for err in error: assert err == 0
+
+    def test_process_schedule_add_client(self):
+        """
+        Calls the test function for the schedule-add-client action.
+        """
+        x, error = self.process_schedule_add_client()
+        for err in error: assert err == 0
+
+    def test_process_client_add_schedule(self):
+        """
+        Calls the test function for the client-add-schedule action.
+        """
+        x, error = self.process_client_add_schedule()
+        for err in error: assert err == 0
+
+    def test_process_schedule_remove_client(self):
+        """
+        Calls the test function for the schedule-remove-client action.
+        """
+        x, error = self.process_schedule_remove_client()
+        for err in error: assert err == 0
+
+    def test_process_client_remove_schedule(self):
+        """
+        Calls the test function for the client-remove-schedule action.
+        """
+        x, error = self.process_client_remove_schedule()
         for err in error: assert err == 0
 
     def test_process_base_args1(self):
