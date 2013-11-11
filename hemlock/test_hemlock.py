@@ -1084,10 +1084,8 @@ class TestClass:
         error.append(error4)
         f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
         error.append(error5)
-        g, error6 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        x, error6 = a.process_action(0, "schedule-add-client", {'--uuid':f[2][1], '--client_id':d[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
         error.append(error6)
-        x, error7 = a.process_action(0, "schedule-add-client", {'--uuid':g[2][1], '--client_id':d[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
-        error.append(error7)
         return x, error
 
     def process_client_add_schedule(self):
