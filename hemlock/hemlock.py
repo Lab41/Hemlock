@@ -839,6 +839,7 @@ class Hemlock():
                 i += 2
             except: # pragma: no cover
                 self.HELP_COUNTER += 1
+                i += 2
         if arg_d:
             self.HELP_COUNTER += 1
         return var_d
