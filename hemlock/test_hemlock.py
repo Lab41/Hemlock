@@ -1392,6 +1392,34 @@ class TestClass:
         x = a.get_data(0, client_dict, c_server, h_server, "asdf", 0)
         return x, error
 
+    def process_hrest_connect_client(self):
+        """
+        Tests hrest connect_client.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        a = Hemlock_Base()
+        a.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
+        client_dict, server_dict = a.get_creds(0, "hemlock/clients/rest_creds_sample")
+        h_server = a.connect_server(0, server_dict, 1)
+        a = HRest()
+        a.connect_client(0, client_dict)
+
+    def process_hrest_get_data(self):
+        """
+        Tests hrest get_data.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        a = Hemlock_Base()
+        a.SERVER_CREDS_FILE = "hemlock/hemlock_creds_sample"
+        client_dict, server_dict = a.get_creds(0, "hemlock/clients/rest_creds_sample")
+        h_server = a.connect_server(0, server_dict, 1)
+        a = HRest()
+        a.get_data(0, client_dict, "bogus", h_server, "asdf", 0)
+
     def process_hemlock_base_update_hemlock(self):
         """
         Tests hemlock_base update_hemlock.
@@ -2118,6 +2146,20 @@ class TestClass:
         """
         x, error = self.process_hmongo_connect_client()
         for err in error: assert err == 0
+
+    def test_process_hrest_connect_client(self):
+        """
+        Calls the test function for the hrest connect_client.
+        """
+        with pytest.raises(SystemExit):
+            x, error = self.process_hrest_connect_client()
+
+    def test_process_hrest_get_data(self):
+        """
+        Calls the test function for the hrest get_data.
+        """
+        with pytest.raises(SystemExit):
+            x, error = self.process_hrest_get_data()
 
     def test_process_hemlock_base_update_hemlock(self):
         """
