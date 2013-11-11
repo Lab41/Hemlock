@@ -159,13 +159,14 @@ class Hemlock_Scheduler():
         cur = m_server.cursor()
         self.log.debug(self.debug, "MySQL Cursor: "+str(cur))
 
+        results = []
+
         try:
             cur.execute("SELECT * FROM schedules_clients WHERE schedule_id = '"+name+"'")
             results = cur.fetchall()
             self.log.debug(self.debug, str(results))
         except:
             print "A schedule needs to be associated with a client first."
-            sys.exit(0)
 
         try:
             for cred in server_dict:
