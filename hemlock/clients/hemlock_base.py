@@ -302,7 +302,7 @@ class Hemlock_Base():
             h_server = mdb.connect(server_dict['HEMLOCK_MYSQL_SERVER'],
                                    server_dict['HEMLOCK_MYSQL_USERNAME'],
                                    server_dict['HEMLOCK_MYSQL_PW'],
-                                   "hemlock")
+                                   server_dict["HEMLOCK_MYSQL_DB"])
             cur = h_server.cursor()
             query = "UPDATE systems SET updated_data='"+time.strftime('%Y-%m-%d %H:%M:%S')+"' WHERE uuid='"+client_uuid+"'"
             cur.execute(query)
