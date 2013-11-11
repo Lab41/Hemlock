@@ -176,29 +176,33 @@ class Hemlock_Scheduler():
         # check for the client already running a process
         # if streaming is already running and requested again, ignore
         # if the job requested, regardless, is still running, skip this run, and log it
-        cmd = "ps auxw | grep "+results[0][1]+" | grep -v color | wc -l"
-        result = os.popen(cmd).read()
-        if result[0] <= "1":
-            # only run the client if there isn't already one running
-            cur.execute("SELECT * FROM clients WHERE uuid = '"+results[0][1]+"'")
-            client_results = cur.fetchall()
-            self.log.debug(self.debug, str(client_results))
+        try:
+            cmd = "ps auxw | grep "+results[0][1]+" | grep -v color | wc -l"
+            result = os.popen(cmd).read()
+            if result[0] <= "1":
+                # only run the client if there isn't already one running
+                cur.execute("SELECT * FROM clients WHERE uuid = '"+results[0][1]+"'")
+                client_results = cur.fetchall()
+                self.log.debug(self.debug, str(client_results))
 
-            if client_results[0][2] == "0":
-                cmd = "hemlock client-run --uuid "+results[0][1] 
-            # run without couchbase
+                if client_results[0][2] == "0":
+                    cmd = "hemlock client-run --uuid "+results[0][1] 
+                # run without couchbase
+                else:
+                    cmd = "hemlock client-run --uuid "+results[0][1]+" -z" 
+                result = os.system(cmd)
             else:
-                cmd = "hemlock client-run --uuid "+results[0][1]+" -z" 
-            result = os.system(cmd)
-        else:
-            # !! TODO try/except
-            f = open('scheduler.log', 'a')
-            f.write("The client: "+results[0][1]+" is already running, skipping this run.\n")
-            f.close()
+                # !! TODO try/except
+                f = open('scheduler.log', 'a')
+                f.write("The client: "+results[0][1]+" is already running, skipping this run.\n")
+                f.close()
 
-        # !! TODO try/except
-        m_server.commit()
-        m_server.close()
+            # !! TODO try/except
+            m_server.commit()
+            m_server.close()
+        except:
+            print "failure."
+            sys.exit(0)
 
     def init_schedule(self):
         """
