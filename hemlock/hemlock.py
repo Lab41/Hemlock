@@ -2009,9 +2009,10 @@ class Hemlock():
                 elif "tenants" in action_a and "user" in action_a:
                     data_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--uuid']+"'"
                     self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
-                elif "tenants" in action_a and "system" in action_a:
-                    data_action = "SELECT * FROM systems_tenants WHERE system_id = '"+var_d['--uuid']+"'"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
+                # !! TODO need to verify this never gets called or needs to be
+                #elif "tenants" in action_a and "system" in action_a:
+                #    data_action = "SELECT * FROM systems_tenants WHERE system_id = '"+var_d['--uuid']+"'"
+                #    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "users" in action_a and "tenant" in action_a:
                     data_action = "SELECT * FROM users_tenants WHERE tenant_id = '"+var_d['--uuid']+"'"
                     self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
@@ -2021,9 +2022,10 @@ class Hemlock():
                 elif "clients" in action_a and "schedule" in action_a:
                     data_action = "SELECT * FROM schedules_clients WHERE schedule_id = '"+var_d['--uuid']+"'"
                     self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
-                elif "clients" in action_a and "system" in action_a:
-                    data_action = "SELECT * FROM systems_clients WHERE system_id = '"+var_d['--uuid']+"'"
-                    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
+                # !! TODO need to verify this never gets called or needs to be
+                #elif "clients" in action_a and "system" in action_a:
+                #    data_action = "SELECT * FROM systems_clients WHERE system_id = '"+var_d['--uuid']+"'"
+                #    self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 elif "schedules" in action_a and "client" in action_a:
                     data_action = "SELECT * FROM schedules_clients WHERE client_id = '"+var_d['--uuid']+"'"
                     self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
