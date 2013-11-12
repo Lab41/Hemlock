@@ -1892,10 +1892,10 @@ class Hemlock():
                     elif "schedule" in action_a:
                         # client_remove_schedule
                         if action_a[0] == "client":
-                            data_action = "DELETE FROM schedules_clients WHERE client_id = '"+var_d['--uuid']+"' and system_id = '"+var_d['--system_id']+"'"
+                            data_action = "DELETE FROM schedules_clients WHERE client_id = '"+var_d['--uuid']+"' and schedule_id = '"+var_d['--schedule_id']+"'"
                         # schedule_remove_client
                         else:
-                            data_action = "DELETE FROM schedules_clients WHERE system_id = '"+var_d['--uuid']+"' and client_id = '"+var_d['--client_id']+"'"
+                            data_action = "DELETE FROM schedules_clients WHERE schedule_id = '"+var_d['--uuid']+"' and client_id = '"+var_d['--client_id']+"'"
                         self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                     else: # roles
                         data_action = "DELETE FROM users_roles WHERE user_id = '"+var_d['--uuid']+"' and role_id = '"+var_d['--role_id']+"'"
@@ -2405,7 +2405,6 @@ class Hemlock():
                     cur.execute(data_action3)
                     self.log.debug(debug, "Successfully executed the following SQL query: "+data_action3)
             except: # pragma: no cover
-                print sys.exc_info()[0]
                 error = 1
                 print "not valid"
                 m_server.commit()
