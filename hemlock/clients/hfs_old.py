@@ -227,7 +227,7 @@ class HFs:
                             g.close()
                             cmd = "rm -rf "+u
                             junk = os.popen(cmd).read()
-                        except:
+                        except: # pragma: no cover
                             if g:
                                 g.close()
                                 cmd = "rm -rf "+u
