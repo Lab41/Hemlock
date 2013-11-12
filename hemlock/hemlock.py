@@ -2405,6 +2405,7 @@ class Hemlock():
                     cur.execute(data_action3)
                     self.log.debug(debug, "Successfully executed the following SQL query: "+data_action3)
             except: # pragma: no cover
+                print sys.exc_info()[0]
                 error = 1
                 print "not valid"
                 sys.exit(0)
