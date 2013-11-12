@@ -1860,7 +1860,7 @@ class Hemlock():
                         data_action = "INSERT INTO schedules_clients(client_id, schedule_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--schedule_id']+"\")"
                     # schedule_add_client
                     else:
-                        data_action = "INSERT INTO schedules_clients(client_id, schedule_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--client_id']+"\")"
+                        data_action = "INSERT INTO schedules_clients(schedule_id, client_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--client_id']+"\")"
                     self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
                 else: # roles
                     data_action = "INSERT INTO users_roles(user_id, role_id) VALUES(\""+var_d['--uuid']+"\", \""+var_d['--role_id']+"\")"
@@ -2405,10 +2405,6 @@ class Hemlock():
                     cur.execute(data_action3)
                     self.log.debug(debug, "Successfully executed the following SQL query: "+data_action3)
             except: # pragma: no cover
-                print data_action
-                print data_action2
-                print data_action3
-                print sys.exc_info()[0]
                 error = 1
                 print "not valid"
                 m_server.commit()
