@@ -1122,9 +1122,7 @@ class TestClass:
 
         :return: returns any data and a list of any errors
         """
-        # !! TODO
         error = []
-        x = ""
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
         b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
@@ -1137,6 +1135,12 @@ class TestClass:
         error.append(error4)
         f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
         error.append(error5)
+        g, error6 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error6)
+        h, error7 = a.process_action(0, "schedule-add-client", {'--uuid':f[9][1], '--client_id':g[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error7)
+        x, error8 = a.process_action(0, "schedule-remove-client", {'--uuid':f[9][1], '--client_id':g[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error8)
         return x, error
 
     def process_client_remove_schedule(self):
@@ -1145,9 +1149,7 @@ class TestClass:
 
         :return: returns any data and a list of any errors
         """
-        # !! TODO
         error = []
-        x = ""
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
         b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
@@ -1160,6 +1162,14 @@ class TestClass:
         error.append(error4)
         f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
         error.append(error5)
+        g, error6 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error6)
+        h, error7 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':g[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error7)
+        i, error8 = a.process_action(0, "client-add-schedule", {'--uuid':d[5][1], '--schedule_id':h[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error8)
+        x, error9 = a.process_action(0, "client-remove-schedule", {'--uuid':d[5][1], '--schedule_id':h[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error9)
         return x, error
 
     def process_hemlock_scheduler(self):
