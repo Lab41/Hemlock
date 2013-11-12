@@ -1989,6 +1989,20 @@ class TestClass:
         x, error = self.process_client_schedule()
         for err in error: assert err == 0
 
+    def test_process_client_schedules_list(self):
+        """
+        Calls the test function for the client-schedules-list action.
+        """
+        x, error = self.process_client_schedules_list()
+        for err in error: assert err == 0
+
+    def test_process_schedule_clients_list(self):
+        """
+        Calls the test function for the schedule_clients-list action.
+        """
+        x, error = self.process_schedule_clients_list()
+        for err in error: assert err == 0
+
     def test_process_client_store(self):
         """
         Calls the test function for the client-store action.
