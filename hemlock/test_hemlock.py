@@ -133,6 +133,48 @@ class TestClass:
         error.append(error5)
         return x, error
 
+    def process_client_systems_list(self):
+        """
+        Tests client-systems-list action.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
+        b, error1 = a.process_action(0, "client-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error1)
+        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error2)
+        d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error3)
+        e, error4 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':d[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error4)
+        x, error5 = a.process_action(0, "client-systems-list", {'--uuid':e[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error5)
+        return x, error
+
+    def process_system_clients_list(self):
+        """
+        Tests system-clients-list action.
+
+        :return: returns any data and a list of any errors
+        """
+        error = []
+        a = hemlock.Hemlock()
+        m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
+        b, error1 = a.process_action(0, "client-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error1)
+        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error2)
+        d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error3)
+        e, error4 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':d[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error4)
+        x, error5 = a.process_action(0, "system-clients-list", {'--uuid':d[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        error.append(error5)
+        return x, error
+
     def process_client_purge(self):
         """
         Tests client-purge action.
@@ -1966,6 +2008,20 @@ class TestClass:
         Calls the test function for the client-list action.
         """
         x, error = self.process_client_list()
+        for err in error: assert err == 0
+
+    def test_process_client_systems_list(self):
+        """
+        Calls the test function for the client-systems-list action.
+        """
+        x, error = self.process_client_systems_list()
+        for err in error: assert err == 0
+
+    def test_process_system_clients_list(self):
+        """
+        Calls the test function for the system_clients-list action.
+        """
+        x, error = self.process_system_clients_list()
         for err in error: assert err == 0
 
     def test_process_client_purge(self):
