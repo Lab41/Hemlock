@@ -89,7 +89,7 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        x, error2 = a.process_action(1, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error2 = a.process_action(1, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
         return x, error
 
@@ -102,13 +102,13 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':d[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':d[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        x, error5 = a.process_action(0, "client-get", {'--uuid':e[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error5 = a.process_action(0, "client-get", {'--uuid':e[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
         return x, error
 
@@ -121,15 +121,15 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "client-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "client-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':d[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':d[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        x, error5 = a.process_action(0, "client-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error5 = a.process_action(0, "client-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
         return x, error
 
@@ -142,15 +142,15 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "client-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "client-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':d[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':d[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        x, error5 = a.process_action(0, "client-systems-list", {'--uuid':e[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error5 = a.process_action(0, "client-systems-list", {'--uuid':e[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
         return x, error
 
@@ -163,15 +163,15 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "client-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "client-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':d[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':d[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        x, error5 = a.process_action(0, "system-clients-list", {'--uuid':d[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error5 = a.process_action(0, "system-clients-list", {'--uuid':d[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
         return x, error
 
@@ -184,13 +184,13 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':d[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':d[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        x, error5 = a.process_action(0, "client-purge", {'--uuid':e[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error5 = a.process_action(0, "client-purge", {'--uuid':e[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
         return x, error
 
@@ -204,15 +204,15 @@ class TestClass:
         hemlock.raw_input = lambda _: 'y'
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':d[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':d[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "hemlock-server-store", {'--credential_file':'hemlock/hemlock_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        f, error5 = a.process_action(0, "hemlock-server-store", {'--credential_file':'hemlock/hemlock_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
-        x, error6 = a.process_action(0, "client-run", {'--uuid':e[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error6 = a.process_action(0, "client-run", {'--uuid':e[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error6)
         return x, error
 
@@ -225,15 +225,15 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error4)
-        x, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        x, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error5)
         return x, error
 
@@ -246,17 +246,17 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error5)
-        x, error6 = a.process_action(0, "schedule-delete", {'--uuid':f[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        x, error6 = a.process_action(0, "schedule-delete", {'--uuid':f[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error6)
         return x, error
 
@@ -269,17 +269,17 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error5)
-        x, error6 = a.process_action(0, "client-schedules-list", {'--uuid':d[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        x, error6 = a.process_action(0, "client-schedules-list", {'--uuid':d[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error6)
         return x, error
 
@@ -292,17 +292,17 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error5)
-        x, error6 = a.process_action(0, "schedule-clients-list", {'--uuid':f[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        x, error6 = a.process_action(0, "schedule-clients-list", {'--uuid':f[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error6)
         return x, error
 
@@ -315,11 +315,11 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        x, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
         cur = m_server.cursor()
         str = "select * from clients where uuid = '"+x[2][1]+"'"
@@ -336,17 +336,17 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error5)
-        x, error6 = a.process_action(0, "schedule-get", {'--uuid':f[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        x, error6 = a.process_action(0, "schedule-get", {'--uuid':f[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error6)
         return x, error
 
@@ -359,17 +359,17 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error5)
-        x, error6 = a.process_action(0, "schedule-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        x, error6 = a.process_action(0, "schedule-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error6)
         return x, error
 
@@ -382,7 +382,7 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        x, error1 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error1 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
         cur = m_server.cursor()
         str = "select * from roles where uuid = '"+x[2][1]+"'"
@@ -399,7 +399,7 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        x, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
         cur = m_server.cursor()
         str = "select * from tenants where uuid = '"+x[2][1]+"'"
@@ -411,12 +411,12 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        x, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':c[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':c[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
         cur = m_server.cursor()
         str = "select * from users where uuid = '"+x[7][1]+"'"
@@ -428,9 +428,9 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        x, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
         cur = m_server.cursor()
         str = "select * from systems where uuid = '"+x[9][1]+"'"
@@ -447,9 +447,9 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        x, error2 = a.process_action(0, "register-remote-system", {'--name':'remote-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--port':'80', '--remote_uri':'http://remote.uri/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error2 = a.process_action(0, "register-remote-system", {'--name':'remote-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--port':'80', '--remote_uri':'http://remote.uri/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
         cur = m_server.cursor()
         str = "select * from systems where uuid = '"+x[10][1]+"'"
@@ -466,15 +466,15 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "role-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "role-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "role-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "role-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "role-create", {'--name':'role2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "role-create", {'--name':'role2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        x, error5 = a.process_action(0, "role-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error5 = a.process_action(0, "role-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
         # !! TODO fix what is returned
         return x, error
@@ -488,15 +488,15 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "tenant-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "tenant-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        x, error5 = a.process_action(0, "tenant-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error5 = a.process_action(0, "tenant-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
         # !! TODO fix what is returned
         return x, error
@@ -510,25 +510,25 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "user-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "user-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        e, error4 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':d[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':d[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "user-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        f, error5 = a.process_action(0, "user-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
-        g, error6 = a.process_action(0, "role-create", {'--name':'role2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        g, error6 = a.process_action(0, "role-create", {'--name':'role2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error6)
-        h, error7 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        h, error7 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error7)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        i, error8 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':g[2][1], '--tenant_id':h[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        i, error8 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':g[2][1], '--tenant_id':h[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error8)
-        x, error9 = a.process_action(0, "user-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error9 = a.process_action(0, "user-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error9)
         # !! TODO fix what is returned
         return x, error
@@ -542,19 +542,19 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "system-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "system-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "system-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "system-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        f, error5 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
-        g, error6 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':f[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        g, error6 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':f[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error6)
-        x, error7 = a.process_action(0, "system-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error7 = a.process_action(0, "system-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error7)
         # !! TODO fix what is returned
         return x, error
@@ -568,18 +568,18 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "list-all", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "list-all", {}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        e, error4 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':d[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':d[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        f, error5 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
-        x, error6 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':f[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error6 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':f[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error6)
         # !! TODO fix what is returned
         return x, error
@@ -593,23 +593,23 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "role-users-list", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "role-users-list", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        e, error4 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':d[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':d[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "role-users-list", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        f, error5 = a.process_action(0, "role-users-list", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
-        g, error6 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        g, error6 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error6)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        h, error7 = a.process_action(0, "user-create", {'--name':'user2', '--username':'username2', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':g[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        h, error7 = a.process_action(0, "user-create", {'--name':'user2', '--username':'username2', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':g[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error7)
-        x, error8 = a.process_action(0, "role-users-list", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error8 = a.process_action(0, "role-users-list", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error8)
         # !! TODO fix what is returned
         return x, error
@@ -623,17 +623,17 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "system-tenants-list", {'--uuid':c[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "system-tenants-list", {'--uuid':c[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "system-add-tenant", {'--uuid':c[9][1], '--tenant_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        f, error5 = a.process_action(0, "system-add-tenant", {'--uuid':c[9][1], '--tenant_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
-        x, error6 = a.process_action(0, "system-tenants-list", {'--uuid':c[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error6 = a.process_action(0, "system-tenants-list", {'--uuid':c[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error6)
         # !! TODO fix what is returned
         return x, error
@@ -647,17 +647,17 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "tenant-systems-list", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "tenant-systems-list", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "tenant-systems-list", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "tenant-systems-list", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "register-local-system", {'--name':'local-system2', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        f, error5 = a.process_action(0, "register-local-system", {'--name':'local-system2', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
-        x, error6 = a.process_action(0, "tenant-systems-list", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error6 = a.process_action(0, "tenant-systems-list", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error6)
         # !! TODO fix what is returned
         return x, error
@@ -671,23 +671,23 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "tenant-users-list", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "tenant-users-list", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        e, error4 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':d[2][1], '--tenant_id':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':d[2][1], '--tenant_id':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "tenant-users-list", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        f, error5 = a.process_action(0, "tenant-users-list", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
-        g, error6 = a.process_action(0, "role-create", {'--name':'role2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        g, error6 = a.process_action(0, "role-create", {'--name':'role2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error6)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        h, error7 = a.process_action(0, "user-create", {'--name':'user2', '--username':'username2', '--email':'email@dot.com', '--role_id':g[2][1], '--tenant_id':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        h, error7 = a.process_action(0, "user-create", {'--name':'user2', '--username':'username2', '--email':'email@dot.com', '--role_id':g[2][1], '--tenant_id':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error7)
-        x, error8 = a.process_action(0, "tenant-users-list", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error8 = a.process_action(0, "tenant-users-list", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error8)
         # !! TODO fix what is returned
         return x, error
@@ -701,20 +701,20 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "user-roles-list", {'--uuid':d[7][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "user-roles-list", {'--uuid':d[7][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "role-create", {'--name':'role2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        f, error5 = a.process_action(0, "role-create", {'--name':'role2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
-        g, error6 = a.process_action(0, "user-add-role", {'--uuid':d[7][1], '--role_id':f[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        g, error6 = a.process_action(0, "user-add-role", {'--uuid':d[7][1], '--role_id':f[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error6)
-        x, error7 = a.process_action(0, "user-roles-list", {'--uuid':d[7][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error7 = a.process_action(0, "user-roles-list", {'--uuid':d[7][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error7)
         # !! TODO fix what is returned
         return x, error
@@ -728,20 +728,20 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "user-tenants-list", {'--uuid':d[7][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "user-tenants-list", {'--uuid':d[7][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        f, error5 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
-        g, error6 = a.process_action(0, "user-add-tenant", {'--uuid':d[7][1], '--tenant_id':f[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        g, error6 = a.process_action(0, "user-add-tenant", {'--uuid':d[7][1], '--tenant_id':f[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error6)
-        x, error7 = a.process_action(0, "user-tenants-list", {'--uuid':d[7][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error7 = a.process_action(0, "user-tenants-list", {'--uuid':d[7][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error7)
         # !! TODO fix what is returned
         return x, error
@@ -755,11 +755,11 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        x, error3 = a.process_action(0, "deregister-local-system", {'--uuid':c[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error3 = a.process_action(0, "deregister-local-system", {'--uuid':c[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
         # !! TODO fix what is returned
         return x, error
@@ -773,11 +773,11 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        x, error3 = a.process_action(0, "deregister-remote-system", {'--uuid':c[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error3 = a.process_action(0, "deregister-remote-system", {'--uuid':c[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
         # !! TODO fix what is returned
         return x, error
@@ -791,9 +791,9 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        x, error2 = a.process_action(0, "role-delete", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error2 = a.process_action(0, "role-delete", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
         # !! TODO fix what is returned
         return x, error
@@ -807,13 +807,13 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        x, error4 = a.process_action(0, "system-add-tenant", {'--uuid':c[9][1], '--tenant_id':d[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error4 = a.process_action(0, "system-add-tenant", {'--uuid':c[9][1], '--tenant_id':d[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
         # !! TODO fix what is returned
         return x, error
@@ -827,11 +827,11 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        x, error3 = a.process_action(0, "system-get", {'--uuid':c[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error3 = a.process_action(0, "system-get", {'--uuid':c[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
         # !! TODO fix what is returned
         return x, error
@@ -845,17 +845,17 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
         #d, error3 = a.process_action(0, "system-remove-tenant", {'--uuid':c[9][1], '--tenant_id':b[2][1]}, m_server)
         #error.append(error3)
-        e, error4 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "system-add-tenant", {'--uuid':c[9][1], '--tenant_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        f, error5 = a.process_action(0, "system-add-tenant", {'--uuid':c[9][1], '--tenant_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
-        x, error6 = a.process_action(0, "system-remove-tenant", {'--uuid':c[9][1], '--tenant_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error6 = a.process_action(0, "system-remove-tenant", {'--uuid':c[9][1], '--tenant_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error6)
         # !! TODO fix what is returned
         return x, error
@@ -869,9 +869,9 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        x, error2 = a.process_action(0, "tenant-delete", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error2 = a.process_action(0, "tenant-delete", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
         # !! TODO fix what is returned
         return x, error
@@ -885,9 +885,9 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        x, error2 = a.process_action(0, "tenant-get", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error2 = a.process_action(0, "tenant-get", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
         # !! TODO fix what is returned
         return x, error
@@ -901,16 +901,16 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "role-create", {'--name':'role2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "role-create", {'--name':'role2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        x, error5 = a.process_action(0, "user-add-role", {'--uuid':d[7][1], '--role_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error5 = a.process_action(0, "user-add-role", {'--uuid':d[7][1], '--role_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
         # !! TODO fix what is returned
         return x, error
@@ -924,16 +924,16 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':c[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':c[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        x, error5 = a.process_action(0, "user-add-tenant", {'--uuid':d[7][1], '--tenant_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error5 = a.process_action(0, "user-add-tenant", {'--uuid':d[7][1], '--tenant_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
         # !! TODO fix what is returned
         return x, error
@@ -947,14 +947,14 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        x, error4 = a.process_action(0, "user-delete", {'--uuid':d[7][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error4 = a.process_action(0, "user-delete", {'--uuid':d[7][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
         # !! TODO fix what is returned
         return x, error
@@ -968,14 +968,14 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        x, error4 = a.process_action(0, "user-get", {'--uuid':d[7][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error4 = a.process_action(0, "user-get", {'--uuid':d[7][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
         # !! TODO fix what is returned
         return x, error
@@ -989,20 +989,20 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':c[2][1], '--tenant_id':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
         #e, error4 = a.process_action(0, "user-remove-role", {'--uuid':d[7][1], '--role_id':c[2][1]}, m_server)
         #error.append(error4)
-        f, error5 = a.process_action(0, "role-create", {'--name':'role2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        f, error5 = a.process_action(0, "role-create", {'--name':'role2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
-        g, error6 = a.process_action(0, "user-add-role", {'--uuid':d[7][1], '--role_id':f[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        g, error6 = a.process_action(0, "user-add-role", {'--uuid':d[7][1], '--role_id':f[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error6)
-        x, error7 = a.process_action(0, "user-remove-role", {'--uuid':d[7][1], '--role_id':f[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error7 = a.process_action(0, "user-remove-role", {'--uuid':d[7][1], '--role_id':f[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error7)
         # !! TODO fix what is returned
         return x, error
@@ -1016,20 +1016,20 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':c[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':c[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
         #e, error4 = a.process_action(0, "user-remove-tenant", {'--uuid':d[7][1], '--tenant_id':c[2][1]}, m_server)
         #error.append(error4)
-        f, error5 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        f, error5 = a.process_action(0, "tenant-create", {'--name':'tenant2'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
-        g, error6 = a.process_action(0, "user-add-tenant", {'--uuid':d[7][1], '--tenant_id':f[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        g, error6 = a.process_action(0, "user-add-tenant", {'--uuid':d[7][1], '--tenant_id':f[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error6)
-        x, error7 = a.process_action(0, "user-remove-tenant", {'--uuid':d[7][1], '--tenant_id':f[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error7 = a.process_action(0, "user-remove-tenant", {'--uuid':d[7][1], '--tenant_id':f[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error7)
         # !! TODO fix what is returned
         return x, error
@@ -1054,17 +1054,17 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':c[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':c[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        #x, error5 = a.process_action(0, "query-data", {'--user':d[7][1], '--query':'foo'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        #x, error5 = a.process_action(0, "query-data", {'--user':d[7][1], '--query':'foo'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         #error.append(error5)
         x = ""
         return x, error
@@ -1078,17 +1078,17 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "role-create", {'--name':'role1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':c[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "user-create", {'--name':'user1', '--username':'username1', '--email':'email@dot.com', '--role_id':b[2][1], '--tenant_id':c[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':c[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
         hemlock.getpass.getpass = lambda _: 'boguspw'
-        x, error5 = a.process_action(0, "query-data", {'--user':d[7][1], '--query':'foo'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        x, error5 = a.process_action(0, "query-data", {'--user':d[7][1], '--query':'foo'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error5)
         return x, error
 
@@ -1101,19 +1101,19 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error5)
-        g, error6 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        g, error6 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error6)
-        x, error7 = a.process_action(0, "schedule-change-server", {'--uuid':f[9][1], '--schedule_server_id':g[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        x, error7 = a.process_action(0, "schedule-change-server", {'--uuid':f[9][1], '--schedule_server_id':g[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error7)
         return x, error
 
@@ -1126,7 +1126,7 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        x, error1 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        x, error1 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error1)
         return x, error
 
@@ -1139,9 +1139,9 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        b, error1 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error1)
-        x, error2 = a.process_action(0, "schedule-server-delete", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        x, error2 = a.process_action(0, "schedule-server-delete", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error2)
         return x, error
 
@@ -1154,9 +1154,9 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        b, error1 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error1)
-        x, error2 = a.process_action(0, "schedule-server-get", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        x, error2 = a.process_action(0, "schedule-server-get", {'--uuid':b[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error2)
         return x, error
 
@@ -1169,9 +1169,9 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        b, error1 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error1)
-        x, error2 = a.process_action(0, "schedule-server-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        x, error2 = a.process_action(0, "schedule-server-list", {}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error2)
         return x, error
 
@@ -1184,19 +1184,19 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error5)
-        g, error6 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        g, error6 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error6)
-        x, error7 = a.process_action(0, "schedule-add-client", {'--uuid':f[9][1], '--client_id':g[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error7 = a.process_action(0, "schedule-add-client", {'--uuid':f[9][1], '--client_id':g[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error7)
         return x, error
 
@@ -1209,21 +1209,21 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error5)
-        g, error6 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        g, error6 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error6)
-        h, error7 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':g[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        h, error7 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':g[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error7)
-        x, error8 = a.process_action(0, "client-add-schedule", {'--uuid':d[5][1], '--schedule_id':h[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error8 = a.process_action(0, "client-add-schedule", {'--uuid':d[5][1], '--schedule_id':h[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error8)
         return x, error
 
@@ -1236,21 +1236,21 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error5)
-        g, error6 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        g, error6 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error6)
-        h, error7 = a.process_action(0, "schedule-add-client", {'--uuid':f[9][1], '--client_id':g[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        h, error7 = a.process_action(0, "schedule-add-client", {'--uuid':f[9][1], '--client_id':g[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error7)
-        x, error8 = a.process_action(0, "schedule-remove-client", {'--uuid':f[9][1], '--client_id':g[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error8 = a.process_action(0, "schedule-remove-client", {'--uuid':f[9][1], '--client_id':g[5][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error8)
         return x, error
 
@@ -1263,23 +1263,23 @@ class TestClass:
         error = []
         a = hemlock.Hemlock()
         m_server = self.connect_mysql(0, "localhost", "travis", "password", "hemlock_test")
-        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        b, error1 = a.process_action(0, "tenant-create", {'--name':'tenant1'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error1)
-        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        c, error2 = a.process_action(0, "register-local-system", {'--name':'local-system1', '--data_type':'data-type1', '--description': 'description1', '--tenant_id':b[2][1], '--hostname':'hostname1', '--endpoint':'http://endpoint.com/', '--poc_name':'poc-name1', '--poc_email':'poc-email@dot.com'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error2)
-        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        d, error3 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error3)
-        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        e, error4 = a.process_action(0, "schedule-server-create", {'--name':'asdf'}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error4)
-        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "localhost")
+        f, error5 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':d[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 1, "http://127.0.0.1:9200")
         error.append(error5)
-        g, error6 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        g, error6 = a.process_action(0, "client-store", {'--name':'client1', '--type':'mysql', '--system_id':c[9][1], '--credential_file':'hemlock/clients/mysql_creds_sample'}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error6)
-        h, error7 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':g[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        h, error7 = a.process_action(0, "client-schedule", {'--name':'asdf', '--minute':'1', '--hour':'1', '--day_of_month':'1', '--month':'1', '--day_of_week':'1', '--client_id':g[5][1], '--schedule_server_id':e[2][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error7)
-        i, error8 = a.process_action(0, "client-add-schedule", {'--uuid':d[5][1], '--schedule_id':h[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        i, error8 = a.process_action(0, "client-add-schedule", {'--uuid':d[5][1], '--schedule_id':h[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error8)
-        x, error9 = a.process_action(0, "client-remove-schedule", {'--uuid':d[5][1], '--schedule_id':h[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "localhost")
+        x, error9 = a.process_action(0, "client-remove-schedule", {'--uuid':d[5][1], '--schedule_id':h[9][1]}, m_server, "localhost", "hemlock", "hemlock", "password", 0, "http://127.0.0.1:9200")
         error.append(error9)
         return x, error
 
