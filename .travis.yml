@@ -24,7 +24,7 @@ install:
   - pip install pytest --use-mirrors
   - pip install pytest-cov --use-mirrors
   - pip install python-coveralls --use-mirrors
-  - pip install pdfminer==20131022 --use-mirrors
+  - pip install pdfminer==20110515 --use-mirrors
   - pip install python-magic --use-mirrors
   - pip install xlrd --use-mirrors
   - pip install xmltodict --use-mirrors
