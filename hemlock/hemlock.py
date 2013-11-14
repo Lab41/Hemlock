@@ -1478,10 +1478,14 @@ class Hemlock():
                 try:
                     options.es = os.environ['HEMLOCK_ELASTICSEARCH_ENDPOINT']
                 except:
-                    options.es = getpass.getpass("ElasticSearch Endpoint:")
+                    options.es = raw_input("ElasticSearch Endpoint (default is http://127.0.0.1:9200):")
+                    if options.es == "":
+                        options.es = "http://127.0.0.1:9200"
                     self.log.debug(options.debug, "HEMLOCK_ELASTICSEARCH_ENDPOINT = "+str(options.es))
             else:
-                options.es = getpass.getpass("ElasticSearch Endpoint:")
+                options.es = raw_input("ElasticSearch Endpoint (default is http://127.0.0.1:9200):")
+                if options.es == "":
+                    options.es = "http://127.0.0.1:9200"
                 self.log.debug(options.debug, "HEMLOCK_ELASTICSEARCH_ENDPOINT = "+str(options.es))
 
         return args_leftover, options.user, options.pw, options.db, options.server, options.c_server, options.c_user, options.bucket, options.c_pw, options.es, options.debug, options.no_couchbase
