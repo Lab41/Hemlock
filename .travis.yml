@@ -24,7 +24,7 @@ install:
   - pip install pytest
   - pip install pytest-cov
   - pip install python-coveralls
-  - pip install pdfminer
+  - pip install pdfminer==20131113
   - pip install python-magic
   - pip install xlrd
   - pip install xmltodict
