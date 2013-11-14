@@ -1518,7 +1518,7 @@ class Hemlock():
         :param c_user: couchbase username
         :param c_bucket: couchbase bucket
         :param c_pw: couchbase password
-        :param es: elasticsearch server ip address
+        :param es: elasticsearch server endpoint
         :param no_couchbase: flag of whether or not to use a couchbase
             connection or an elasticsearch connection
         :return: returns an instance of the couchbase or elasticsearch
@@ -1529,7 +1529,7 @@ class Hemlock():
             import pyes
             # connect to the elasticsearch server
             try:
-                h_server = pyes.ES(("http", es, "9200"))
+                h_server = pyes.ES(es)
                 self.log.debug(debug, "ElasticSearch connection handle: "+str(h_server))
             except: # pragma: no cover
                 print "Failure connecting to the Hemlock server"
