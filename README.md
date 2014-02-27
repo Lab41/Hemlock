@@ -130,7 +130,7 @@ Getting started
    hemlock user-create --name User1 \
                         --username Username1 \
                         --email user1@email.com \
-                        --rold_id 42ba73f9-0ab6-4a50-908c-1585955754f4 \
+                        --role_id 42ba73f9-0ab6-4a50-908c-1585955754f4 \
                         --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
    
    hemlock user-list
@@ -314,7 +314,7 @@ Usage examples
     hemlock user-create --name User1 \
                         --username Username1 \
                         --email user1@email.com \
-                        --rold_id 42ba73f9-0ab6-4a50-908c-1585955754f4 \
+                        --role_id 42ba73f9-0ab6-4a50-908c-1585955754f4 \
                         --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
     ```
 - Register a local system
