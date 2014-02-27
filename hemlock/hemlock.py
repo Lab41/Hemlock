@@ -1545,7 +1545,6 @@ class Hemlock():
             try:
                 h_server = couchbase.Couchbase.connect(host=c_server,
                                      bucket=c_bucket,
-                                     username=c_user,
                                      password=c_pw)
                 self.log.debug(debug, "Couchbase connection handle: "+str(h_server))
             except:
