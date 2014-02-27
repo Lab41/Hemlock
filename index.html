@@ -161,7 +161,7 @@ hemlock role-list
 hemlock user-create --name User1 <span class="se">\</span>
                     --username Username1 <span class="se">\</span>
                     --email user1@email.com <span class="se">\</span>
-                    --rold_id 42ba73f9-0ab6-4a50-908c-1585955754f4 <span class="se">\</span>
+                    --role_id 42ba73f9-0ab6-4a50-908c-1585955754f4 <span class="se">\</span>
                     --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
 
 hemlock user-list
@@ -178,15 +178,14 @@ hemlock register-local-system --name System1 <span class="se">\</span>
 hemlock system-list
 </pre></div>
 </li>
-<li>
-<p>Add credentials for data source system, for example: mysql_creds</p>
-
-<div class="highlight highlight-bash"><pre><span class="nv">MYSQL_SERVER</span><span class="o">=</span>192.168.1.30
-<span class="nv">MYSQL_DB</span><span class="o">=</span>db1
-<span class="c">#MYSQL_TABLE=table1</span>
-<span class="nv">MYSQL_USERNAME</span><span class="o">=</span>user
-<span class="nv">MYSQL_PW</span><span class="o">=</span>pass
-</pre></div>
+<li>Add credentials for data source system, for example: mysql_creds
+<code>bash
+MYSQL_SERVER=192.168.1.30
+MYSQL_DB=db1
+#MYSQL_TABLE=table1
+MYSQL_USERNAME=user
+MYSQL_PW=pass
+</code>
 </li>
 <li>
 <p>Store a client</p>
@@ -196,11 +195,10 @@ hemlock system-list
 hemlock client-list
 </pre></div>
 </li>
-<li>
-<p>Add credentials for hemlock</p>
-
-<div class="highlight highlight-bash"><pre>hemlock hemlock-server-store --credential_file /path/to/hemlock_creds
-</pre></div>
+<li>Add credentials for hemlock
+<code>bash
+hemlock hemlock-server-store --credential_file /path/to/hemlock_creds
+</code>
 </li>
 <li>
 <p>Create a schedule server (optional)</p>
@@ -225,11 +223,10 @@ hemlock schedule-server-list
 hemlock schedule-list
 </pre></div>
 </li>
-<li>
-<p>Perform a test run for pulling data from the data source system</p>
-
-<div class="highlight highlight-bash"><pre>hemlock client-run --uuid 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
-</pre></div>
+<li>Perform a test run for pulling data from the data source system
+<code>bash
+hemlock client-run --uuid 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
+</code>
 </li>
 <li>
 <p>Search for data that has been loaded into Hemlock</p>
@@ -389,7 +386,7 @@ classes will need two methods defined: <code>connect_client</code> and <code>get
 <div class="highlight highlight-bash"><pre>hemlock user-create --name User1 <span class="se">\</span>
                     --username Username1 <span class="se">\</span>
                     --email user1@email.com <span class="se">\</span>
-                    --rold_id 42ba73f9-0ab6-4a50-908c-1585955754f4 <span class="se">\</span>
+                    --role_id 42ba73f9-0ab6-4a50-908c-1585955754f4 <span class="se">\</span>
                     --tenant_id 7d0f6b0d-334a-4d89-bd1a-70e8e1c04aa6
 </pre></div>
 </li>
@@ -424,8 +421,8 @@ classes will need two methods defined: <code>connect_client</code> and <code>get
 <div class="highlight highlight-bash"><pre>hemlock tenant-list
 </pre></div>
 </li>
-<li><p><a href="https://github.com/Lab41/Hemlock/tree/master/hemlock/clients/">Connecting to a client</a></p></li>
-<li><p><a href="https://github.com/Lab41/Hemlock/blob/master/docs/CLI.md">Full CLI API list</a></p></li>
+<li><a href="https://github.com/Lab41/Hemlock/tree/master/hemlock/clients/">Connecting to a client</a></li>
+<li><a href="https://github.com/Lab41/Hemlock/blob/master/docs/CLI.md">Full CLI API list</a></li>
 </ul><h1>
 <a name="related-repositories" class="anchor" href="#related-repositories"><span class="octicon octicon-link"></span></a>Related repositories</h1>
 
