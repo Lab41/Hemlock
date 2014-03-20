@@ -19,7 +19,7 @@ from .. import hfs
 import json
 
 class Htext:
-    def process_files(self, debug, file, file_mime, h_server, client_uuid):
+    def process_files(self, debug, file, file_mime, h_server, client_uuid, no_couchbase):
         j_list = []
         # !! TODO try/catch
         f = open(file, 'rb')
@@ -28,5 +28,5 @@ class Htext:
         if "text" in file_mime:
             j_str = json.dumps( { "payload": repr(f.read()) } )
             j_list.append(j_str)
-            h_inst.format_lists(debug, j_list, h_server, client_uuid)
+            h_inst.format_lists(debug, j_list, h_server, client_uuid, no_couchbase)
             j_list = []
