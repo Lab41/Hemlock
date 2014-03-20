@@ -20,7 +20,7 @@ import csv
 import json
 
 class Hcsv:
-    def process_files(self, debug, file, file_mime, h_server, client_uuid):
+    def process_files(self, debug, file, file_mime, h_server, client_uuid, no_couchbase):
         j_list = []
         # !! TODO try/catch
         h_inst = hfs.HFs()
@@ -41,7 +41,7 @@ class Hcsv:
                     if j_str != "}":
                         j_str = json.dumps(repr(j_str))
                         j_list.append(j_str)
-                        h_inst.format_lists(debug, j_list, h_server, client_uuid)
+                        h_inst.format_lists(debug, j_list, h_server, client_uuid, no_couchbase)
                         j_list = []
                         i += 1
         except:
@@ -50,6 +50,6 @@ class Hcsv:
             f.close()
             j_list.append(j_str)
             # !! TODO
-            h_inst.format_lists(debug, j_list, h_server, client_uuid)
+            h_inst.format_lists(debug, j_list, h_server, client_uuid, no_couchbase)
             j_list = []
             i += 1
