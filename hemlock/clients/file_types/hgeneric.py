@@ -21,6 +21,7 @@ import json
 
 class Hgeneric:
     def process_files(self, debug, file, file_mime, h_server, client_uuid):
+        j_list = []
         # !! TODO try/catch
         f = open(file, 'rb')
         h_inst = hfs.HFs()
