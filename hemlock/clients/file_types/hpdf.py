@@ -25,7 +25,7 @@ import base64
 import json
 
 class Hpdf:
-    def process_files(self, debug, file, file_mime, h_server, client_uuid):
+    def process_files(self, debug, file, file_mime, h_server, client_uuid, no_couchbase):
         j_list = []
         # !! TODO try/catch
         f = open(file, 'rb')
@@ -40,7 +40,7 @@ class Hpdf:
                 b64_text = base64.b64encode(f.read())
                 j_str = json.dumps( { "payload": b64_text } )
             j_list.append(j_str)
-            h_inst.format_lists(debug, j_list, h_server, client_uuid)
+            h_inst.format_lists(debug, j_list, h_server, client_uuid, no_couchbase)
             j_list = []
 
     def convert_pdf(self, debug, input):
