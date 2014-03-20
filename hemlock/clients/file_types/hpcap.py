@@ -20,7 +20,7 @@ import base64
 import json
 
 class Hpcap:
-    def process_files(self, debug, file, file_mime, h_server, client_uuid):
+    def process_files(self, debug, file, file_mime, h_server, client_uuid, no_couchbase):
         j_list = []
         # !! TODO try/catch
         f = open(file, 'rb')
@@ -50,7 +50,7 @@ class Hpcap:
                         a = []
                         b = {}
                         j_list.append(j_str)
-                        h_inst.format_lists(debug, j_list, h_server, client_uuid)
+                        h_inst.format_lists(debug, j_list, h_server, client_uuid, no_couchbase)
                         j_list = []
                     a.append(line)
                 g.close()
