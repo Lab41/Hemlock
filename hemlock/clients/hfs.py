@@ -100,20 +100,20 @@ class HFs:
                         if mod[1:] in file:
                             flag = 0
                             print file, mod
-                            file_type_list[mod].process_files(debug, file, file_mime, h_server, client_uuid)
+                            file_type_list[mod].process_files(debug, file, file_mime, h_server, client_uuid, no_couchbase)
                         # if no extensions match, try mimetype
                         if file_mime and flag:
                             if mod[1:] in file_mime:
                                 flag = 0
                                 print file, mod
-                                file_type_list[mod].process_files(debug, file, file_mime, h_server, client_uuid)
+                                file_type_list[mod].process_files(debug, file, file_mime, h_server, client_uuid, no_couchbase)
                     except:
                         print sys.exc_info()[0]
                         print file + " failed."
             if flag == 1:
                 # if no mimetypes match, use generic
                 junk = 1
-                file_type_list["hgeneric"].process_files(debug, file, file_mime, h_server, client_uuid)
+                file_type_list["hgeneric"].process_files(debug, file, file_mime, h_server, client_uuid, no_couchbase)
 
             i += 1
         print i
