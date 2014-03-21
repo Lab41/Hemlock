@@ -260,7 +260,7 @@ class Hemlock_Base():
                             h_server.set_multi(t_dict, format=couchbase.FMT_JSON)
                         except:
                             e += 1
-                            print "Failure."
+                            #print "Failure."
                         t_dict = {}
                 i += 1
             if no_couchbase:
@@ -269,7 +269,7 @@ class Hemlock_Base():
                         h_server.refresh()
                     except: # pragma: no cover
                         e += 1
-                        print "Failure."
+                        #print "Failure."
             else:
                 # requires couchbase 1.0 client
                 if t_dict:
@@ -277,7 +277,7 @@ class Hemlock_Base():
                         h_server.set_multi(t_dict, format=couchbase.FMT_JSON)
                     except: # pragma: no cover
                         e += 1
-                        print "Failure."
+                        #print "Failure."
             j += 1
         # DEBUG
         #print i,"records"
