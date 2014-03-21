@@ -34,4 +34,3 @@ class Hgeneric:
         j_list.append(j_str)
         h_inst.format_lists(debug, j_list, h_server, client_uuid, no_couchbase)
         j_list = []
-        i += 1
