@@ -280,8 +280,8 @@ class Hemlock_Base():
                         print "Failure."
             j += 1
         # DEBUG
-        print i,"records"
-        print e,"errors"
+        #print i,"records"
+        #print e,"errors"
         return
 
     def update_hemlock(self, debug, client_uuid, server_dict):
