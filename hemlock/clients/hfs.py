@@ -116,4 +116,4 @@ class HFs:
                 file_type_list["hgeneric"].process_files(debug, file, file_mime, h_server, client_uuid, no_couchbase)
 
             i += 1
-        print i
+        print i, "documents loaded"
