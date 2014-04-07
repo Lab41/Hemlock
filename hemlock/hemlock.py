@@ -1666,8 +1666,8 @@ class Hemlock():
         if "query" in action_a and "data" in action_a:
             pw = getpass.getpass("User Password:")
             # verify the user password
-            decrypt_action = "SELECT AES_DECRYPT(password, '"+aes_key+"') from users where uuid = '"+var_d['--user']+"'"
-            cur.execute(decrypt_action)
+            #decrypt_action = "SELECT AES_DECRYPT(password, '"+aes_key+"') from users where uuid = '"+var_d['--user']+"'"
+            cur.execute("""SELECT AES_DECRYPT(password, %s) from users where uuid = %s)""", (aes_key, var_d['--user'],))
             results = cur.fetchall()
             try:
                 if pw != results[0][0]:
@@ -1715,14 +1715,14 @@ class Hemlock():
             payload = "{\"size\":100,\"query\":{\"bool\":{\"must\":[{\"match\":{\"doc.hemlock-system\":{\"query\":\""
 
             # get the list of tenants this user belongs to
-            data_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--user']+"'"
-            cur.execute(data_action)
+            #data_action = "SELECT * FROM users_tenants WHERE user_id = '"+var_d['--user']+"'"
+            cur.execute("""SELECT * FROM users_tenants WHERE user_id = %s""", (var_d['--user'],))
             results = cur.fetchall()
             system_flag = 0
             for tenant in results:
                 # get the list of systems that the user has access to via tenants
-                data_action = "SELECT * FROM systems_tenants WHERE tenant_id = '"+tenant[1]+"'"
-                cur.execute(data_action)
+                #data_action = "SELECT * FROM systems_tenants WHERE tenant_id = '"+tenant[1]+"'"
+                cur.execute("""SELECT * FROM systems_tenants WHERE tenant_id = %s""", (tenant[1],))
                 systems = cur.fetchall()
                 for system in systems:
                     payload += system[0]+" "
@@ -1820,7 +1820,7 @@ class Hemlock():
                 if "tenant" in action_a:
                     remove_action = "SELECT * FROM systems_tenants WHERE system_id = '"+var_d['--uuid']+"'"
                     self.log.debug(debug, "Getting ready to perform the following SQL query: "+remove_action)
-                    cur.execute(remove_action)
+                    cur.execute("""SELECT * FROM systems_tenants WHERE system_id = %s""", (var_d['--uuid'], ))
                     self.log.debug(debug, "Successfully executed the following SQL query: "+remove_action)
                     remove_results = cur.fetchall()
                     self.log.debug(debug, "Results: "+str(remove_results))
@@ -1843,9 +1843,11 @@ class Hemlock():
                     if "get" in action_a:
                         data_action += " WHERE uuid = '"+var_d['--uuid']+"'"
                     self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
+            # !! TODO might need to be reworked
             cur.execute(data_action)
             self.log.debug(debug, "Successfully executed the following SQL query: "+data_action)
             if data_action2:
+                # !! TODO might need to be reworked
                 cur.execute(data_action2)
                 self.log.debug(debug, "Successfully executed the following SQL query: "+data_action2)
 
@@ -1884,6 +1886,7 @@ class Hemlock():
                 else: # roles
                     remove_action = "SELECT * FROM users_roles WHERE user_id = '"+var_d['--uuid']+"'"
                     self.log.debug(debug, "Getting ready to perform the following SQL query: "+remove_action)
+                # !! TODO might need to be reworked
                 cur.execute(remove_action)
                 remove_results = cur.fetchall()
                 self.log.debug(debug, "Successfully executed the following SQL query: "+remove_action)
@@ -1977,8 +1980,8 @@ class Hemlock():
             # start scheduler
             elif "start" in action_a:
                 # validate that the schedule_server_id provided exists
-                data_action = "SELECT uuid FROM schedule_servers WHERE uuid = '"+var_d['--schedule_server_id']+"'"
-                cur.execute(data_action)
+                #data_action = "SELECT uuid FROM schedule_servers WHERE uuid = '"+var_d['--schedule_server_id']+"'"
+                cur.execute("""SELECT uuid FROM schedule_servers WHERE uuid = %s""", (var_d['--schedule_server_id'],))
                 results = cur.fetchall()
                 if results:
                     # check if there is already a hemlock_scheduler running
@@ -2122,7 +2125,7 @@ class Hemlock():
                         # client type using the client_uuid
                         data_action = "SELECT type FROM clients WHERE uuid = '"+var_d['--uuid']+"'"
                         self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
-                        cur.execute(data_action)
+                        cur.execute("""SELECT type FROM clients WHERE uuid = %s""", (var_d['--uuid'],))
                         results = cur.fetchall()
                         self.log.debug(debug, "Successfully executed the following SQL query: "+data_action)
                         self.log.debug(debug, "Results: "+str(results))
@@ -2139,7 +2142,7 @@ class Hemlock():
                         # using the client_uuid get the system_id
                         data_action = "SELECT * from systems_clients where client_id = '"+client_uuid+"'"
                         self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
-                        cur.execute(data_action)
+                        cur.execute("""SELECT * from systems_clients where client_id = %s""", (client_uuid,))
                         results = cur.fetchall()
                         self.log.debug(debug, "Successfully executed the following SQL query: "+data_action)
                         self.log.debug(debug, "Results: "+str(results))
@@ -2370,14 +2373,14 @@ class Hemlock():
                         # get field names of each table
                         data_action = "DESC "+table
                         self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
-                        cur.execute(data_action)
+                        cur.execute("""DESC %s""", (table,))
                         results = cur.fetchall()
                         self.log.debug(debug, "Successfully executed the following SQL query: "+data_action)
                         self.log.debug(debug, "Results: "+str(results))
                         # get data from each table
                         data_action = "SELECT * FROM "+table
                         self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
-                        cur.execute(data_action)
+                        cur.execute("""SELECT * FROM %s""", (table,))
                         results2 = cur.fetchall()
                         self.log.debug(debug, "Successfully executed the following SQL query: "+data_action)
                         self.log.debug(debug, "Results: "+str(results2))
@@ -2401,12 +2404,15 @@ class Hemlock():
                     self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
             try:
                 if data_action:
+                    # !! TODO might need to be reworked
                     cur.execute(data_action)
                     self.log.debug(debug, "Successfully executed the following SQL query: "+data_action)
                 if data_action2:
+                    # !! TODO might need to be reworked
                     cur.execute(data_action2)
                     self.log.debug(debug, "Successfully executed the following SQL query: "+data_action2)
                 if data_action3:
+                    # !! TODO might need to be reworked
                     cur.execute(data_action3)
                     self.log.debug(debug, "Successfully executed the following SQL query: "+data_action3)
             except: # pragma: no cover
@@ -2467,6 +2473,7 @@ class Hemlock():
                 else:
                     data_action = "desc "+action_a[0]+"s"
                     self.log.debug(debug, "Getting ready to perform the following SQL query: "+data_action)
+                # !! TODO might need to be reworked
                 cur.execute(data_action)
                 desc_results = cur.fetchall()
                 self.log.debug(debug, "Successfully executed the following SQL query: "+data_action)

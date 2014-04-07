@@ -44,6 +44,7 @@ def process_csv(input, m_server, table):
                 create_table += "`"+hrow[i]+"` VARCHAR(200), "
                 i += 1
             create_table = create_table[:-2]+")"
+            # !! TODO might need to be reworked
             cur.execute(create_table)
             for row in reader:
                 data = "INSERT INTO `"+table+"`("
@@ -57,6 +58,7 @@ def process_csv(input, m_server, table):
                     data += "\""+row[i]+"\", "
                     i += 1
                 data = data[:-2]+")"
+                # !! TODO might need to be reworked
                 cur.execute(data)
                 j += 1
     m_server.commit()

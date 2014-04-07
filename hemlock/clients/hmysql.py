@@ -76,8 +76,9 @@ class HMysql:
         # DEBUG
         for query in query_list:
             table = query.split("FROM ")
-            cur.execute("DESC "+table[1])
+            cur.execute("""DESC %s""", (table[1],))
             desc_list.append(cur.fetchall())
+            # !! TODO this might need to be reworked
             cur.execute(query)
             result = 1
             while result:

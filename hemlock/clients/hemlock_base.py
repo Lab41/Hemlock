@@ -149,7 +149,7 @@ class Hemlock_Base():
             self.log.debug(debug, "MySQL cursor handle: "+str(cur))
             query = "SELECT * from systems WHERE uuid='"+client_uuid+"'"
             self.log.debug(debug, "Executing mysql query: "+query)
-            a = cur.execute(query)
+            a = cur.execute("""SELECT * from systems WHERE uuid= %s""", (client_uuid,))
             if a == 0:
                 print client_uuid,"is not a valid system."
                 sys.exit(0)
@@ -303,8 +303,8 @@ class Hemlock_Base():
                                    server_dict['HEMLOCK_MYSQL_PW'],
                                    server_dict["HEMLOCK_MYSQL_DB"])
             cur = h_server.cursor()
-            query = "UPDATE systems SET updated_data='"+time.strftime('%Y-%m-%d %H:%M:%S')+"' WHERE uuid='"+client_uuid+"'"
-            cur.execute(query)
+            #query = "UPDATE systems SET updated_data='"+time.strftime('%Y-%m-%d %H:%M:%S')+"' WHERE uuid='"+client_uuid+"'"
+            cur.execute("""UPDATE systems SET updated_data= %s WHERE uuid= %s""", (time.strftime('%Y-%m-%d %H:%M:%S'), client_uuid,))
             h_server.commit()
             h_server.close()
         except: # pragma: no cover

@@ -115,8 +115,8 @@ class Hemlock_Scheduler():
         # limit this to just the jobs for the server that is running this
         # scheduler
         try:
-            query = "SELECT * FROM schedules WHERE schedule_server_id = '"+self.server+"'"
-            cur.execute(query)
+            #query = "SELECT * FROM schedules WHERE schedule_server_id = '"+self.server+"'"
+            cur.execute("""SELECT * FROM schedules WHERE schedule_server_id = %s""", (self.server,))
             results = cur.fetchall()
             self.log.debug(self.debug, str(results))
             m_server.commit()
@@ -162,7 +162,7 @@ class Hemlock_Scheduler():
         results = []
 
         try:
-            cur.execute("SELECT * FROM schedules_clients WHERE schedule_id = '"+name+"'")
+            cur.execute("""SELECT * FROM schedules_clients WHERE schedule_id = %s""", (name,))
             results = cur.fetchall()
             self.log.debug(self.debug, str(results))
         except:
@@ -182,7 +182,7 @@ class Hemlock_Scheduler():
             result = os.popen(cmd).read()
             if result[0] <= "1":
                 # only run the client if there isn't already one running
-                cur.execute("SELECT * FROM clients WHERE uuid = '"+results[0][1]+"'")
+                cur.execute("""SELECT * FROM clients WHERE uuid = %s""", (results[0][1],))
                 client_results = cur.fetchall()
                 self.log.debug(self.debug, str(client_results))
 
