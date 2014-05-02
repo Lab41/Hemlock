@@ -369,7 +369,3 @@ Contributing to Hemlock
 =======================
 
 What to contribute?  Awesome!  Issue a pull request or see more details [here](https://github.com/Lab41/Hemlock/blob/master/CONTRIBUTING.md).
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Lab41/hemlock/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
